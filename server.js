@@ -13,6 +13,7 @@ require('dotenv').config();
 const bookingRoutes = require('./routes/bookingRoutes');
 const newsletterRoutes = require('./routes/NewsletterRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const adminRoutes = require('./routes/admin');
 
 dotenv.config();
 connectDB();
@@ -31,6 +32,9 @@ app.use('/api/booking', bookingRoutes);
 app.use('/api/newsletter', newsletterRoutes);
 app.use('/admin', adminRoutes);
 app.use('/api/users', userRoutes);
+
+// Admin routes
+app.use('/admin', adminRoutes);
 
 // Serve the main HTML file for all routes except API routes
 app.get('*', (req, res) => {
