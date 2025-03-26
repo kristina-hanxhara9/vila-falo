@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vila Falo Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-styles.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Vila Falo <span>Admin</span></h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="sidebar-menu-item active" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" class="sidebar-menu-item" data-page="bookings">
+                    <i class="fas fa-book"></i> Bookings
+                </a>
+                <a href="#" class="sidebar-menu-item" data-page="calendar">
+                    <i class="fas fa-calendar-alt"></i> Calendar
+                </a>
+                <a href="#" class="sidebar-menu-item" data-page="reports">
+                    <i class="fas fa-chart-bar"></i> Reports
+                </a>
+                <a href="#" class="sidebar-menu-item" data-page="settings" id="settingsLink" style="display: none;">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="sidebar-menu-item" id="logoutLink">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <div class="header-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="user-profile" id="userProfile">
+                        <span class="user-name" id="username">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                        <div class="user-dropdown" id="userDropdown">
+                            <a href="#" id="logoutDropdown">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="content">
+                <div class="flash-messages" id="flashMessages"></div>
+                
+                <!-- Dashboard Page -->
+                <div class="page" id="dashboardPage">
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="todaysCheckins">0</div>
+                                <div class="stat-label">Today's Check-ins</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-calendar-minus"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="todaysCheckouts">0</div>
+                                <div class="stat-label">Today's Check-outs</div>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-value" id="currentOccupancy">0%</div>
+                                <div class="stat-label">Current Occupancy</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Recent Bookings</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-primary" data-page="bookings">View All</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer</th>
+                                            <th>Room</th>
+                                            <th>Check-in</th>
+                                            <th>Check-out</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentBookingsTable">
+                                        <tr>
+                                            <td colspan="7" class="text-center">Loading bookings...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bookings Page -->
+                <div class="page" id="bookingsPage" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Booking Management</h2>
+                        </div>
+                        <div class="card-body">
+                            <form id="bookingFilterForm" class="filter-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="statusFilter">Status</label>
+                                        <select id="statusFilter" name="status">
+                                            <option value="all">All Statuses</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="checked_in">Checked In</option>
+                                            <option value="checked_out">Checked Out</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="startDateFilter">Start Date</label>
+                                        <input type="date" id="startDateFilter" name="startDate">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="endDateFilter">End Date</label>
+                                        <input type="date" id="endDateFilter" name="endDate">
+                                    </div>
+                                    <div class="form-group" style="align-self: flex-end;">
+                                        <button type="submit" class="btn btn-primary">Filter</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Customer</th>
+                                            <th>Room</th>
+                                            <th>Check-in</th>
+                                            <th>Check-out</th>
+                                            <th>Guests</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bookingsTable">
+                                        <tr>
+                                            <td colspan="8" class="text-center">Loading bookings...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Booking Detail Page -->
+                <div class="page" id="bookingDetailPage" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Booking #<span id="bookingIdDisplay"></span></h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-primary back-button" data-page="bookings">
+                                    <i class="fas fa-arrow-left"></i> Back to Bookings
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="booking-status">
+                                <span class="status-badge" id="bookingStatusBadge"></span>
+                            </div>
+                            
+                            <div class="booking-sections">
+                                <div class="booking-section">
+                                    <h3>Customer Information</h3>
+                                    <div class="booking-info">
+                                        <div class="info-item">
+                                            <span class="info-label">Name:</span>
+                                            <span class="info-value" id="customerName"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Email:</span>
+                                            <span class="info-value" id="customerEmail"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Phone:</span>
+                                            <span class="info-value" id="customerPhone"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="booking-section">
+                                    <h3>Reservation Details</h3>
+                                    <div class="booking-info">
+                                        <div class="info-item">
+                                            <span class="info-label">Room Type:</span>
+                                            <span class="info-value" id="roomType"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Check-in:</span>
+                                            <span class="info-value" id="checkInDate"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Check-out:</span>
+                                            <span class="info-value" id="checkOutDate"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Length of Stay:</span>
+                                            <span class="info-value" id="lengthOfStay"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Guests:</span>
+                                            <span class="info-value" id="guestCount"></span>
+                                        </div>
+                                        <div class="info-item" id="specialRequestsContainer" style="display: none;">
+                                            <span class="info-label">Special Requests:</span>
+                                            <span class="info-value" id="specialRequests"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="booking-section">
+                                    <h3>Add-ons & Billing</h3>
+                                    <div class="booking-info">
+                                        <div class="info-item">
+                                            <span class="info-label">Room Rate:</span>
+                                            <span class="info-value" id="roomRate"></span>
+                                        </div>
+                                        <div class="info-item">
+                                            <span class="info-label">Room Total:</span>
+                                            <span class="info-value" id="roomTotal"></span>
+                                        </div>
+                                        
+                                        <div class="info-item" id="addonsContainer" style="display: none;">
+                                            <span class="info-label">Add-ons:</span>
+                                            <div class="addons-list" id="addonsList"></div>
+                                        </div>
+                                        <div class="info-item" id="addonsTotalContainer" style="display: none;">
+                                            <span class="info-label">Add-ons Total:</span>
+                                            <span class="info-value" id="addonsTotal"></span>
+                                        </div>
+                                        
+                                        <div class="info-item total">
+                                            <span class="info-label">Grand Total:</span>
+                                            <span class="info-value" id="grandTotal"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="booking-actions">
+                                <form id="bookingStatusForm">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="bookingStatus">Update Status</label>
+                                            <select id="bookingStatus" name="status">
+                                                <option value="pending">Pending</option>
+                                                <option value="confirmed">Confirmed</option>
+                                                <option value="checked_in">Checked In</option>
+                                                <option value="checked_out">Checked Out</option>
+                                                <option value="cancelled">Cancelled</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group" style="align-self: flex-end;">
+                                            <button type="submit" class="btn btn-primary">Update Status</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calendar Page -->
+                <div class="page" id="calendarPage" style="display: none;">
+                    <div class="calendar-controls">
+                        <form id="calendarFilterForm" class="filter-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="calendarMonth">Month</label>
+                                    <select id="calendarMonth" name="month">
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="calendarYear">Year</label>
+                                    <select id="calendarYear" name="year"></select>
+                                </div>
+                                <div class="form-group" style="align-self: flex-end;">
+                                    <button type="submit" class="btn btn-primary">View</button>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <button class="btn btn-primary" data-modal="blockDatesModal">
+                            <i class="fas fa-calendar-times"></i> Block Dates
+                        </button>
+                    </div>
+
+                    <div class="calendar-legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-pending"></div>
+                            <span>Pending</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-confirmed"></div>
+                            <span>Confirmed</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-checked-in"></div>
+                            <span>Checked In</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-checked-out"></div>
+                            <span>Checked Out</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-cancelled"></div>
+                            <span>Cancelled</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-unavailable"></div>
+                            <span>Unavailable</span>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="calendar"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Reports Page -->
+                <div class="page" id="reportsPage" style="display: none;">
+                    <div class="report-filters">
+                        <form id="reportFilterForm" class="filter-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reportType">Report Type</label>
+                                    <select id="reportType" name="type">
+                                        <option value="occupancy">Occupancy Report</option>
+                                        <option value="revenue">Revenue Report</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportStartDate">Start Date</label>
+                                    <input type="date" id="reportStartDate" name="startDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reportEndDate">End Date</label>
+                                    <input type="date" id="reportEndDate" name="endDate">
+                                </div>
+                                <div class="form-group" style="align-self: flex-end;">
+                                    <button type="submit" class="btn btn-primary">Generate Report</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title" id="reportTitle">Occupancy Report</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-primary" id="printReport">
+                                    <i class="fas fa-print"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="occupancyReportContainer">
+                                <div class="chart-container">
+                                    <canvas id="occupancyChart"></canvas>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Occupancy Rate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="occupancyTable"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div id="revenueReportContainer" style="display: none;">
+                                <div class="chart-container">
+                                    <canvas id="revenueChart"></canvas>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Room Revenue</th>
+                                                <th>Add-on Revenue</th>
+                                                <th>Total Revenue</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="revenueTable"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Page -->
+                <div class="page" id="settingsPage" style="display: none;">
+                    <div class="tabs">
+                        <div class="tab-header">
+                            <button class="tab-btn active" data-tab="rooms">Rooms</button>
+                            <button class="tab-btn" data-tab="addons">Add-ons</button>
+                            <button class="tab-btn" data-tab="users">Users</button>
+                        </div>
+                        
+                        <div class="tab-content">
+                            <!-- Rooms Tab -->
+                            <div class="tab-pane active" id="roomsTab">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="card-title">Room Management</h2>
+                                        <div class="card-actions">
+                                            <button class="btn btn-primary" data-modal="addRoomModal">
+                                                <i class="fas fa-plus"></i> Add Room
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Room Type</th>
+                                                        <th>Capacity</th>
+                                                        <th>Price</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="roomsTable"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Add-ons Tab -->
+                            <div class="tab-pane" id="addonsTab" style="display: none;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="card-title">Add-on Management</h2>
+                                        <div class="card-actions">
+                                            <button class="btn btn-primary" data-modal="addAddonModal">
+                                                <i class="fas fa-plus"></i> Add Add-on
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Name</th>
+                                                        <th>Category</th>
+                                                        <th>Price</th>
+                                                        <th>Status</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="addonsTable"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Users Tab -->
+                            <div class="tab-pane" id="usersTab" style="display: none;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2 class="card-title">User Management</h2>
+                                        <div class="card-actions">
+                                            <button class="btn btn-primary" data-modal="addUserModal">
+                                                <i class="fas fa-plus"></i> Add User
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Username</th>
+                                                        <th>Email</th>
+                                                        <th>Role</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="usersTable"></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Modals -->
+    <!-- Block Dates Modal -->
+    <div class="modal-overlay" id="blockDatesModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Block Dates</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="blockDatesForm">
+                    <div class="form-group">
+                        <label for="blockRoomId">Select Room</label>
+                        <select id="blockRoomId" name="roomId" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockStartDate">Start Date</label>
+                        <input type="date" id="blockStartDate" name="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockEndDate">End Date</label>
+                        <input type="date" id="blockEndDate" name="endDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="blockReason">Reason</label>
+                        <textarea id="blockReason" name="reason" rows="3" required></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Block Dates</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Room Modal -->
+    <div class="modal-overlay" id="addRoomModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Room</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addRoomForm">
+                    <div class="form-group">
+                        <label for="roomType">Room Type</label>
+                        <input type="text" id="roomType" name="roomType" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="roomDescription">Description</label>
+                        <textarea id="roomDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="capacityAdults">Adult Capacity</label>
+                            <input type="number" id="capacityAdults" name="capacityAdults" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="capacityChildren">Children Capacity</label>
+                            <input type="number" id="capacityChildren" name="capacityChildren" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricePerNight">Price Per Night (€)</label>
+                        <input type="number" id="pricePerNight" name="pricePerNight" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="features">Features</label>
+                        <textarea id="features" name="features" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Room</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Room Modal -->
+    <div class="modal-overlay" id="editRoomModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Room</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editRoomForm">
+                    <input type="hidden" id="editRoomId" name="roomId">
+                    
+                    <div class="form-group">
+                        <label for="editRoomType">Room Type</label>
+                        <input type="text" id="editRoomType" name="roomType" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editRoomDescription">Description</label>
+                        <textarea id="editRoomDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editCapacityAdults">Adult Capacity</label>
+                            <input type="number" id="editCapacityAdults" name="capacityAdults" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCapacityChildren">Children Capacity</label>
+                            <input type="number" id="editCapacityChildren" name="capacityChildren" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPricePerNight">Price Per Night (€)</label>
+                        <input type="number" id="editPricePerNight" name="pricePerNight" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editFeatures">Features</label>
+                        <textarea id="editFeatures" name="features" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editRoomActive" name="active">
+                            Active
+                        </label>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Room</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Addon Modal -->
+    <div class="modal-overlay" id="addAddonModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Add-on</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addAddonForm">
+                    <div class="form-group">
+                        <label for="addonName">Name</label>
+                        <input type="text" id="addonName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addonDescription">Description</label>
+                        <textarea id="addonDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="addonPrice">Price (€)</label>
+                        <input type="number" id="addonPrice" name="price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addonCategory">Category</label>
+                        <select id="addonCategory" name="category" required>
+                            <option value="food">Food</option>
+                            <option value="beverage">Beverage</option>
+                            <option value="service">Service</option>
+                            <option value="activity">Activity</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Add-on</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit Addon Modal -->
+    <div class="modal-overlay" id="editAddonModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit Add-on</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editAddonForm">
+                    <input type="hidden" id="editAddonId" name="addonId">
+                    
+                    <div class="form-group">
+                        <label for="editAddonName">Name</label>
+                        <input type="text" id="editAddonName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddonDescription">Description</label>
+                        <textarea id="editAddonDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddonPrice">Price (€)</label>
+                        <input type="number" id="editAddonPrice" name="price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editAddonCategory">Category</label>
+                        <select id="editAddonCategory" name="category" required>
+                            <option value="food">Food</option>
+                            <option value="beverage">Beverage</option>
+                            <option value="service">Service</option>
+                            <option value="activity">Activity</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="editAddonActive" name="active">
+                            Active
+                        </label>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Add-on</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add User Modal -->
+    <div class="modal-overlay" id="addUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="staff" selected>Staff</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Edit User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId" name="userId">
+                    
+                    <div class="form-group">
+                        <label for="editUsername">Username</label>
+                        <input type="text" id="editUsername" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password (leave empty to keep current)</label>
+                        <input type="password" id="editPassword" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="editRole">Role</label>
+                        <select id="editRole" name="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="staff">Staff</option>
+                        </select>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete User Modal -->
+    <div class="modal-overlay" id="deleteUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Delete User</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="deleteUserForm">
+                    <input type="hidden" id="deleteUserId" name="userId">
+                    
+                    <p>Are you sure you want to delete the user "<span id="deleteUserName"></span>"?</p>
+                    <p>This action cannot be undone.</p>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary modal-close">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

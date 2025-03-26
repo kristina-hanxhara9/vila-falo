@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vila Falo - Mountain Adventure Retreat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <!-- Mountain Loader -->
+    <div class="loader">
+        <div class="mountain-loader">
+            <div class="mountain">
+                <div class="mountain-left"></div>
+                <div class="mountain-middle"></div>
+                <div class="mountain-right"></div>
+                <div class="sun"></div>
+                <div class="snow"></div>
+                <div class="snow"></div>
+                <div class="snow"></div>
+            </div>
+            <div class="loader-text" id="loader-text">Vila Falo</div>
+        </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <i class="fas fa-globe"></i>
+        <div class="language-options">
+            <div class="language-option active" data-lang="en">EN</div>
+            <div class="language-option" data-lang="al">AL</div>
+        </div>
+    </div>
+
+    <!-- Book Now Button -->
+    <div class="book-now-btn">
+        <i class="fas fa-calendar-alt"></i>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container nav-container">
+            <div class="logo">Vila <span>Falo</span></div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active" data-en="Home" data-al="Shtëpi">Home</a></li>
+                    <li><a href="#about" class="nav-link" data-en="About" data-al="Rreth Nesh">About</a></li>
+                    <li><a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat">Rooms</a></li>
+                    <li><a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti">Restaurant</a></li>
+                    <li><a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria">Gallery</a></li>
+                    <li><a href="#services" class="nav-link" data-en="Services" data-al="Shërbimet">Services</a></li>
+                    <li><a href="#booking" class="nav-link" data-en="Book Now" data-al="Rezervo Tani">Book Now</a></li>
+                    <li><a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja">Location</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <a href="#home" class="nav-link" data-en="Home" data-al="Shtëpi">Home</a>
+            <a href="#about" class="nav-link" data-en="About" data-al="Rreth Nesh">About</a>
+            <a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat">Rooms</a>
+            <a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti">Restaurant</a>
+            <a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria">Gallery</a>
+            <a href="#services" class="nav-link" data-en="Services" data-al="Shërbimet">Services</a>
+            <a href="#booking" class="nav-link" data-en="Book Now" data-al="Rezervo Tani">Book Now</a>
+            <a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja">Location</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <!-- Snow Effect -->
+        <div class="snow-container" id="snowContainer"></div>
+        
+        <div class="container hero-content">
+            <h1 data-aos="fade-up" data-aos-delay="200" class="hero-title">
+                <span data-en="Discover Your Mountain" data-al="Zbulo Aventurën Tënde">Discover Your Mountain</span> 
+                <span data-en="Adventure" data-al="Malore">Adventure</span> 
+                <span data-en="in Voskopoje" data-al="në Voskopojë">in Voskopoje</span>
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="400" data-en="Experience the perfect blend of luxury and nature at Vila Falo. Nestled in the breathtaking mountains of Voskopoje, our resort offers an unforgettable escape from everyday life." data-al="Përjetoni përzierjen perfekte të luksit dhe natyrës në Vila Falo. E vendosur në malet magjepsëse të Voskopojës, resorti ynë ofron një arratisje të paharrueshme nga jeta e përditshme.">
+                Experience the perfect blend of luxury and nature at Vila Falo. Nestled in the breathtaking mountains of Voskopoje, our resort offers an unforgettable escape from everyday life.
+            </p>
+            <div class="hero-btns" data-aos="fade-up" data-aos-delay="600">
+                <a href="#booking" class="btn" data-en="Book Your Stay" data-al="Rezervo Qëndrimin">Book Your Stay</a>
+                <a href="#about" class="btn btn-outline" data-en="Explore More" data-al="Eksploro Më Shumë">Explore More</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        
+        <!-- Mountain Background Layers -->
+        <div class="mountain-bg">
+            <div class="mountain-layer mountain-layer-1 mountain-parallax" data-speed="0.1"></div>
+            <div class="mountain-layer mountain-layer-2 mountain-parallax" data-speed="0.05"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="About Vila Falo" data-al="Rreth Vila Falo">About Vila Falo</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="A luxurious mountain retreat that combines traditional charm with modern comfort" data-al="Një strehë luksoze malore që kombinon sharmin tradicional me komoditetin modern">A luxurious mountain retreat that combines traditional charm with modern comfort</p>
+            </div>
+            <div class="about-content">
+                <div class="about-img slide-in-left" data-aos="fade-right">
+                    <img src="images/about.jpg" alt="Vila Falo Resort">
+                </div>
+                <div class="about-text slide-in-right" data-aos="fade-left">
+                    <h3 data-en="Your Perfect Mountain Getaway" data-al="Destinacioni Juaj Malor i Përkryer">Your Perfect Mountain Getaway</h3>
+                    <p data-en="Nestled in the picturesque mountains of Voskopoje, Vila Falo offers a unique blend of traditional Albanian hospitality and modern luxury. Our resort is designed to provide you with an unforgettable mountain experience throughout the year." data-al="E vendosur në malet piktoreske të Voskopojës, Vila Falo ofron një përzierje unike të mikpritjes tradicionale shqiptare dhe luksit modern. Resorti ynë është projektuar për t'ju ofruar një përvojë të paharrueshme malore gjatë gjithë vitit.">
+                        Nestled in the picturesque mountains of Voskopoje, Vila Falo offers a unique blend of traditional Albanian hospitality and modern luxury. Our resort is designed to provide you with an unforgettable mountain experience throughout the year.
+                    </p>
+                    <p data-en="Whether you're seeking adventure in the great outdoors or simply looking to unwind in a peaceful natural setting, Vila Falo is your ideal destination. Our dedicated staff is committed to making your stay as comfortable and memorable as possible." data-al="Nëse kërkoni aventurë në natyrë ose thjesht dëshironi të çlodheni në një mjedis të qetë natyror, Vila Falo është destinacioni juaj ideal. Stafi ynë i përkushtuar është i angazhuar për ta bërë qëndrimin tuaj sa më të rehatshëm dhe të paharrueshëm.">
+                        Whether you're seeking adventure in the great outdoors or simply looking to unwind in a peaceful natural setting, Vila Falo is your ideal destination. Our dedicated staff is committed to making your stay as comfortable and memorable as possible.
+                    </p>
+                    <div class="about-features">
+                        <div class="feature-item zoom-in">
+                            <div class="feature-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Mountain Views" data-al="Pamje Malore">Mountain Views</h4>
+                                <p data-en="Breathtaking panoramas" data-al="Panorama mahnitëse">Breathtaking panoramas</p>
+                            </div>
+                        </div>
+                        <div class="feature-item zoom-in delayed-1">
+                            <div class="feature-icon">
+                                <i class="fas fa-snowflake"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Winter Activities" data-al="Aktivitete Dimërore">Winter Activities</h4>
+                                <p data-en="Skiing and snowboarding" data-al="Ski dhe snowboard">Skiing and snowboarding</p>
+                            </div>
+                        </div>
+                        <div class="feature-item zoom-in delayed-2">
+                            <div class="feature-icon">
+                                <i class="fas fa-hiking"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Hiking Trails" data-al="Shtigje Për Hiking">Hiking Trails</h4>
+                                <p data-en="Explore nature paths" data-al="Eksploroni shtigjet natyrore">Explore nature paths</p>
+                            </div>
+                        </div>
+                        <div class="feature-item zoom-in delayed-3">
+                            <div class="feature-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Traditional Cuisine" data-al="Kuzhinë Tradicionale">Traditional Cuisine</h4>
+                                <p data-en="Authentic local flavors" data-al="Shije autentike lokale">Authentic local flavors</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mountain Background Layers -->
+        <div class="mountain-bg">
+            <div class="mountain-layer mountain-layer-1 mountain-parallax" data-speed="0.1"></div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="rooms" class="rooms">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Our Rooms" data-al="Dhomat Tona">Our Rooms</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Comfortable accommodations with stunning mountain views" data-al="Akomodime komode me pamje mahnitëse nga malet">Comfortable accommodations with stunning mountain views</p>
+            </div>
+            <div class="rooms-grid">
+                <!-- Room 1 -->
+                <div class="room-card" data-aos="fade-up">
+                    <div class="room-img">
+                        <img src="images/room1.jpg" alt="Standard Room">
+                        <div class="room-price" data-en="From €70/night" data-al="Nga €70/natë">From €70/night</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore">Standard Mountain Room</h3>
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i>
+                                <span data-en="2 Guests" data-al="2 Vizitorë">2 Guests</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i>
+                                <span data-en="1 Double Bed" data-al="1 Krevat Dopio">1 Double Bed</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-mountain"></i>
+                                <span data-en="Mountain View" data-al="Pamje Nga Mali">Mountain View</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-wifi"></i>
+                                <span data-en="Free WiFi" data-al="WiFi Falas">Free WiFi</span>
+                            </div>
+                        </div>
+                        <p data-en="Our cozy standard room offers comfortable accommodation with essential amenities and spectacular mountain views." data-al="Dhoma jonë standard e rehatshme ofron akomodim komod me pajisje thelbësore dhe pamje spektakolare të maleve.">
+                            Our cozy standard room offers comfortable accommodation with essential amenities and spectacular mountain views.
+                        </p>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Details</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Book Now" data-al="Rezervo Tani">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="room-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="room-img">
+                        <img src="images/room2.jpg" alt="Deluxe Room">
+                        <div class="room-price" data-en="From €95/night" data-al="Nga €95/natë">From €95/night</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe">Deluxe Family Suite</h3>
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-users"></i>
+                                <span data-en="4 Guests" data-al="4 Vizitorë">4 Guests</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i>
+                                <span data-en="2 Beds" data-al="2 Krevate">2 Beds</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-couch"></i>
+                                <span data-en="Seating Area" data-al="Zonë Ndenjeje">Seating Area</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bath"></i>
+                                <span data-en="Private Bathroom" data-al="Banjo Private">Private Bathroom</span>
+                            </div>
+                        </div>
+                        <p data-en="Spacious suite perfect for families, featuring separate sleeping areas, a comfortable seating area, and premium amenities." data-al="Suitë e gjerë perfekte për familjet, me zona të ndara gjumi, një zonë të rehatshme ndenjeje dhe pajisje premium.">
+                            Spacious suite perfect for families, featuring separate sleeping areas, a comfortable seating area, and premium amenities.
+                        </p>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Details</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Book Now" data-al="Rezervo Tani">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room 3 -->
+                <div class="room-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="room-img">
+                        <img src="images/room3.jpg" alt="Premium Suite">
+                        <div class="room-price" data-en="From €120/night" data-al="Nga €120/natë">From €120/night</div>
+                    </div>
+                    <div class="room-content">
+                        <h3 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike">Premium Panorama Suite</h3>
+                        <div class="room-features">
+                            <div class="room-feature">
+                                <i class="fas fa-user"></i>
+                                <span data-en="2 Guests" data-al="2 Vizitorë">2 Guests</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-bed"></i>
+                                <span data-en="King Size Bed" data-al="Krevat King Size">King Size Bed</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-hot-tub"></i>
+                                <span data-en="Jacuzzi" data-al="Jakuzi">Jacuzzi</span>
+                            </div>
+                            <div class="room-feature">
+                                <i class="fas fa-glass-cheers"></i>
+                                <span data-en="Private Balcony" data-al="Ballkon Privat">Private Balcony</span>
+                            </div>
+                        </div>
+                        <p data-en="Our most luxurious accommodation featuring a private balcony with panoramic views, a jacuzzi, and exclusive amenities." data-al="Akomodimi ynë më luksoz me një ballkon privat me pamje panoramike, një jakuzi dhe pajisje ekskluzive.">
+                            Our most luxurious accommodation featuring a private balcony with panoramic views, a jacuzzi, and exclusive amenities.
+                        </p>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Details</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Book Now" data-al="Rezervo Tani">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Restaurant Section -->
+    <section id="restaurant" class="restaurant">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Traditional Restaurant" data-al="Restorant Tradicional">Traditional Restaurant</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Experience authentic Albanian cuisine in our mountain view restaurant" data-al="Përjetoni kuzhinën autentike shqiptare në restorantin tonë me pamje nga mali">Experience authentic Albanian cuisine in our mountain view restaurant</p>
+            </div>
+            <div class="restaurant-container">
+                <div class="restaurant-content" data-aos="fade-right">
+                    <h3 data-en="A Taste of Albanian Heritage" data-al="Një Shije e Trashëgimisë Shqiptare">A Taste of Albanian Heritage</h3>
+                    <p data-en="Our restaurant at Vila Falo celebrates the rich culinary traditions of Albania, offering a menu filled with authentic dishes prepared using locally-sourced ingredients and time-honored recipes passed down through generations." data-al="Restoranti ynë në Vila Falo kremton traditat e pasura kulinare të Shqipërisë, duke ofruar një menu të mbushur me gatime autentike të përgatitura duke përdorur përbërës vendas dhe receta të nderuara ndër breza.">
+                        Our restaurant at Vila Falo celebrates the rich culinary traditions of Albania, offering a menu filled with authentic dishes prepared using locally-sourced ingredients and time-honored recipes passed down through generations.
+                    </p>
+                    <p data-en="Each meal is carefully crafted by our expert chefs who blend traditional techniques with modern presentations, creating a dining experience that honors our heritage while delighting contemporary palates." data-al="Çdo vakt është i përgatitur me kujdes nga kuzhinierët tanë ekspertë që kombinojnë teknikat tradicionale me prezantimet moderne, duke krijuar një përvojë gatimi që nderon trashëgiminë tonë ndërsa kënaq shijen bashkëkohore.">
+                        Each meal is carefully crafted by our expert chefs who blend traditional techniques with modern presentations, creating a dining experience that honors our heritage while delighting contemporary palates.
+                    </p>
+                    
+                    <!-- Chef's Special Section -->
+                    <div class="chefs-special" data-aos="fade-up">
+                        <div class="special-badge" data-en="Chef's Special" data-al="Specialiteti i Shefit">Chef's Special</div>
+                        <div class="special-content">
+                            <h4 data-en="This Month's Featured Dish" data-al="Gatimi i Veçantë i Këtij Muaji">This Month's Featured Dish</h4>
+                            <div class="special-dish">
+                                <div class="special-dish-img">
+                                    <img src="images/special-dish.jpg" alt="Lakror Traditional Pie">
+                                </div>
+                                <div class="special-dish-info">
+                                    <h5 data-en="Lakror - Traditional Albanian Pie" data-al="Lakror - Pite Tradicionale Shqiptare">Lakror - Traditional Albanian Pie</h5>
+                                    <p data-en="A delicious layered pie filled with wild mountain herbs, local cheese, and seasonal vegetables, baked to perfection in our traditional wood-fired oven." data-al="Një pite e shijshme me shtresa e mbushur me bimë mali, djathë vendor dhe perime sezonale, e pjekur në perfeksion në furrën tonë tradicionale me dru.">
+                                        A delicious layered pie filled with wild mountain herbs, local cheese, and seasonal vegetables, baked to perfection in our traditional wood-fired oven.
+                                    </p>
+                                    <div class="special-price" data-en="€15" data-al="€15">€15</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-highlights">
+                        <h4 data-en="Menu Highlights" data-al="Pikat Kryesore të Menusë">Menu Highlights</h4>
+                        <div class="menu-grid">
+                            <div class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h5 data-en="Tavë Kosi" data-al="Tavë Kosi">Tavë Kosi</h5>
+                                    <p data-en="Traditional baked lamb with rice and yogurt sauce" data-al="Qengj tradicional i pjekur me oriz dhe salcë kosi">Traditional baked lamb with rice and yogurt sauce</p>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h5 data-en="Fërgesë" data-al="Fërgesë">Fërgesë</h5>
+                                    <p data-en="Slow-cooked peppers with cheese and herbs" data-al="Speca të gatuar ngadalë me djathë dhe erëza">Slow-cooked peppers with cheese and herbs</p>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h5 data-en="Byrek" data-al="Byrek">Byrek</h5>
+                                    <p data-en="Flaky pastry filled with cheese, spinach or meat" data-al="Brumë i hollë i mbushur me djathë, spinaq ose mish">Flaky pastry filled with cheese, spinach or meat</p>
+                                </div>
+                            </div>
+                            <div class="menu-item">
+                                <div class="menu-icon">
+                                    <i class="fas fa-utensils"></i>
+                                </div>
+                                <div>
+                                    <h5 data-en="Qofte të Fërguara" data-al="Qofte të Fërguara">Qofte të Fërguara</h5>
+                                    <p data-en="Grilled meatballs with mountain herbs" data-al="Qofte të skarës me erëza mali">Grilled meatballs with mountain herbs</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Restaurant Testimonial -->
+                    <div class="restaurant-testimonial" data-aos="fade-up">
+                        <div class="testimonial-restaurant-text" data-en="The dining experience at Vila Falo was truly unforgettable. The mountain view from our table was breathtaking, but the authentic Albanian cuisine stole the show. The Tavë Kosi was the best I've ever tasted, and the chef's special Lakror pie was divine. A perfect blend of tradition and sophistication!" data-al="Përvoja e ngrënies në Vila Falo ishte vërtet e paharrueshme. Pamja malore nga tavolina jonë ishte mahnitëse, por kuzhina autentike shqiptare vodhi shfaqjen. Tava e Kosit ishte më e mira që kam provuar ndonjëherë, dhe pita speciale e kuzhinierit Lakror ishte hyjnore. Një përzierje e përkryer e traditës dhe sofistikimit!">
+                            "The dining experience at Vila Falo was truly unforgettable. The mountain view from our table was breathtaking, but the authentic Albanian cuisine stole the show. The Tavë Kosi was the best I've ever tasted, and the chef's special Lakror pie was divine. A perfect blend of tradition and sophistication!"
+                        </div>
+                        <div class="restaurant-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="restaurant-testimonial-author">
+                            <div class="restaurant-author-img">
+                                <img src="images/testimonial-author.jpg" alt="Elena">
+                            </div>
+                            <div class="restaurant-author-info">
+                                <h5>Elena M.</h5>
+                                <span data-en="Food & Travel Blogger" data-al="Blogere Ushqimi & Udhëtimi">Food & Travel Blogger</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="restaurant-cta">
+                        <a href="#" class="btn btn-outline view-menu-btn" data-en="View Full Menu" data-al="Shiko Menunë e Plotë">View Full Menu</a>
+                        <a href="#booking" class="btn reserve-table-btn" data-en="Reserve a Table" data-al="Rezervo një Tavolinë">Reserve a Table</a>
+                    </div>
+                </div>
+                <div class="restaurant-image" data-aos="fade-left">
+                    <img src="images/restaurant.jpg" alt="Vila Falo Restaurant" class="main-image">
+                    <div class="image-grid">
+                        <img src="images/food1.jpg" alt="Traditional Food" class="food-image">
+                        <img src="images/dining.jpg" alt="Dining Area" class="dining-image">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Food Gallery -->
+            <h3 class="text-center mt-5" data-aos="fade-up" data-en="From Our Kitchen" data-al="Nga Kuzhina Jonë">From Our Kitchen</h3>
+            <div class="food-gallery" data-aos="fade-up">
+                <div class="food-gallery-item">
+                    <img src="images/food1.jpg" alt="Traditional Dish 1">
+                    <div class="food-gallery-overlay">
+                        <div class="food-gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-gallery-item">
+                    <img src="images/food2.jpg" alt="Traditional Dish 2">
+                    <div class="food-gallery-overlay">
+                        <div class="food-gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-gallery-item">
+                    <img src="images/food3.jpg" alt="Traditional Dish 3">
+                    <div class="food-gallery-overlay">
+                        <div class="food-gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="food-gallery-item">
+                    <img src="images/food4.jpg" alt="Traditional Dish 4">
+                    <div class="food-gallery-overlay">
+                        <div class="food-gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Our Gallery" data-al="Galeria Jonë">Our Gallery</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Explore the beauty of Vila Falo and its surroundings" data-al="Eksploroni bukurinë e Vila Falo dhe rrethinat e saj">Explore the beauty of Vila Falo and its surroundings</p>
+            </div>
+            <div class="gallery-grid">
+                <!-- Gallery Item 1 -->
+                <div class="gallery-item large" data-aos="fade-up">
+                    <img src="images/gallery1.jpg" alt="Mountain View" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 2 -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="images/gallery2.jpg" alt="Hotel Exterior" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 3 -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="images/gallery3.jpg" alt="Dining Area" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 4 -->
+                <div class="gallery-item wide" data-aos="fade-up" data-aos-delay="300">
+                    <img src="images/gallery4.jpg" alt="Panoramic View" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- Gallery Item 5 -->
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="400">
+                    <img src="images/gallery5.jpg" alt="Winter Scene" class="gallery-img">
+                    <div class="gallery-overlay">
+                        <div class="gallery-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Our Services" data-al="Shërbimet Tona">Our Services</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Enjoy a range of amenities and activities during your stay" data-al="Shijoni një gamë shërbimesh dhe aktivitetesh gjatë qëndrimit tuaj">Enjoy a range of amenities and activities during your stay</p>
+            </div>
+            <div class="services-grid">
+                <!-- Service 1 -->
+                <div class="service-card" data-aos="fade-up">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3 data-en="Restaurant & Bar" data-al="Restorant & Bar">Restaurant & Bar</h3>
+                    <p data-en="Savor authentic Albanian cuisine and international dishes at our restaurant, complemented by a selection of local wines and beverages." data-al="Shijoni kuzhinën autentike shqiptare dhe gatimet ndërkombëtare në restorantin tonë, të shoqëruara me një përzgjedhje të verërave dhe pijeve vendase.">
+                        Savor authentic Albanian cuisine and international dishes at our restaurant, complemented by a selection of local wines and beverages.
+                    </p>
+                </div>
+                <!-- Service 2 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-icon">
+                        <i class="fas fa-skiing"></i>
+                    </div>
+                    <h3 data-en="Winter Activities" data-al="Aktivitete Dimërore">Winter Activities</h3>
+                    <p data-en="Enjoy skiing, snowboarding, and other winter sports with equipment rental and lessons available for all skill levels." data-al="Shijoni ski, snowboard dhe sporte të tjera dimërore me qira të pajisjeve dhe mësime të disponueshme për të gjitha nivelet e aftësive.">
+                        Enjoy skiing, snowboarding, and other winter sports with equipment rental and lessons available for all skill levels.
+                    </p>
+                </div>
+                <!-- Service 3 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-icon">
+                        <i class="fas fa-hiking"></i>
+                    </div>
+                    <h3 data-en="Hiking & Trekking" data-al="Hiking & Trekking">Hiking & Trekking</h3>
+                    <p data-en="Explore the beautiful surroundings with guided hiking and trekking tours, suitable for beginners and experienced hikers." data-al="Eksploroni rrethinat e bukura me turne të udhëhequra hiking dhe trekking, të përshtatshme për fillestarët dhe hikerat me përvojë.">
+                        Explore the beautiful surroundings with guided hiking and trekking tours, suitable for beginners and experienced hikers.
+                    </p>
+                </div>
+                <!-- Service 4 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 data-en="Wellness Services" data-al="Shërbime Wellness">Wellness Services</h3>
+                    <p data-en="Relax and rejuvenate with our range of wellness services, including massage therapy and aromatherapy treatments." data-al="Relaksohuni dhe rigjenerohuni me gamën tonë të shërbimeve wellness, përfshirë terapi masazhi dhe trajtime aromaterapie.">
+                        Relax and rejuvenate with our range of wellness services, including massage therapy and aromatherapy treatments.
+                    </p>
+                </div>
+                <!-- Service 5 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="800">
+                    <div class="service-icon">
+                        <i class="fas fa-shuttle-van"></i>
+                    </div>
+                    <h3 data-en="Airport Transfers" data-al="Transferta nga Aeroporti">Airport Transfers</h3>
+                    <p data-en="Convenient airport transfer services are available to ensure a smooth start and end to your mountain getaway." data-al="Shërbime të përshtatshme transferimi nga aeroporti janë të disponueshme për të siguruar një fillim dhe fund të qetë të pushimeve tuaja malore.">
+                        Convenient airport transfer services are available to ensure a smooth start and end to your mountain getaway.
+                    </p>
+                </div>
+                <!-- Service 6 -->
+                <div class="service-card" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="service-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 data-en="Free Wi-Fi" data-al="Wi-Fi Falas">Free Wi-Fi</h3>
+                    <p data-en="Stay connected with complimentary high-speed Wi-Fi available throughout the resort for all our guests." data-al="Qëndroni të lidhur me Wi-Fi falas me shpejtësi të lartë të disponueshëm në të gjithë resortin për të gjithë mysafirët tanë.">
+                        Stay connected with complimentary high-speed Wi-Fi available throughout the resort for all our guests.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Guest Reviews" data-al="Vlerësimet e Klientëve">Guest Reviews</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="What our guests say about their stay at Vila Falo" data-al="Çfarë thonë klientët tanë për qëndrimin e tyre në Vila Falo">What our guests say about their stay at Vila Falo</p>
+            </div>
+            <div class="testimonials-slider" data-aos="fade-up" data-aos-delay="400">
+                <div class="testimonials-track">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial">
+                        <div class="testimonial-card">
+                            <p class="testimonial-text" data-en="Our stay at Vila Falo was absolutely amazing! The views from our room were breathtaking, and the staff was incredibly attentive and friendly. The hiking trails around the property offered the perfect adventure for our family. We can't wait to return!" data-al="Qëndrimi ynë në Vila Falo ishte absolutisht i mrekullueshëm! Pamjet nga dhoma jonë ishin mahnitëse dhe stafi ishte jashtëzakonisht i vëmendshëm dhe miqësor. Shtigjet e ecjes rreth pronës ofronin aventurën perfekte për familjen tonë. Nuk mund të presim të kthehemi!">
+                                "Our stay at Vila Falo was absolutely amazing! The views from our room were breathtaking, and the staff was incredibly attentive and friendly. The hiking trails around the property offered the perfect adventure for our family. We can't wait to return!"
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-img">
+                                    <img src="images/testimonial1.jpg" alt="Maria">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Maria K.</h4>
+                                    <span data-en="from Italy" data-al="nga Italia">from Italy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial">
+                        <div class="testimonial-card">
+                            <p class="testimonial-text" data-en="I came to Vila Falo for a winter getaway and was blown away by the beauty of the snow-covered mountains. The skiing facilities were excellent, and returning to a warm, cozy room each evening was perfect. The traditional food in the restaurant was delicious!" data-al="Erdha në Vila Falo për një pushim dimëror dhe mbeta i mahnitur nga bukuria e maleve të mbuluara me borë. Ambientet e skive ishin të shkëlqyera dhe kthimi në një dhomë të ngrohtë dhe të rehatshme çdo mbrëmje ishte perfekt. Ushqimi tradicional në restorant ishte i shijshëm!">
+                                "I came to Vila Falo for a winter getaway and was blown away by the beauty of the snow-covered mountains. The skiing facilities were excellent, and returning to a warm, cozy room each evening was perfect. The traditional food in the restaurant was delicious!"
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-img">
+                                    <img src="images/testimonial2.jpg" alt="Thomas">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Thomas L.</h4>
+                                    <span data-en="from Germany" data-al="nga Gjermania">from Germany</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial">
+                        <div class="testimonial-card">
+                            <p class="testimonial-text" data-en="As a couple looking for a peaceful retreat, Vila Falo exceeded our expectations. The Premium Panorama Suite was worth every penny - soaking in the jacuzzi while enjoying the mountain view was magical. The staff arranged a special dinner for our anniversary." data-al="Si një çift që kërkonte një qëndrim të qetë, Vila Falo tejkaloi pritshmëritë tona. Suite Premium Panorama ishte e vlefshme për çdo qindarkë - zhytja në jacuzzi ndërsa shijonim pamjen e malit ishte magjike. Stafi organizoi një darkë të veçantë për përvjetorin tonë.">
+                                "As a couple looking for a peaceful retreat, Vila Falo exceeded our expectations. The Premium Panorama Suite was worth every penny - soaking in the jacuzzi while enjoying the mountain view was magical. The staff arranged a special dinner for our anniversary."
+                            </p>
+                            <div class="testimonial-author">
+                                <div class="author-img">
+                                    <img src="images/testimonial3.jpg" alt="Sarah">
+                                </div>
+                                <div class="author-info">
+                                    <h4>Sarah & James</h4>
+                                    <span data-en="from UK" data-al="nga Britania e Madhe">from UK</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="booking">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Book Your Stay" data-al="Rezervo Qëndrimin Tënd">Book Your Stay</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Reserve your mountain getaway with our simple booking process" data-al="Rezervo aventurën tënde malore me procesin tonë të thjeshtë të rezervimit">Reserve your mountain getaway with our simple booking process</p>
+            </div>
+            <div class="booking-container">
+                <div class="booking-info" data-aos="fade-right">
+                    <h3 data-en="Your Perfect Mountain Escape Awaits" data-al="Arratisja Jote Perfekte Malore Ju Pret">Your Perfect Mountain Escape Awaits</h3>
+                    <p data-en="At Vila Falo, we offer a seamless booking experience to ensure your vacation planning is as relaxing as your stay. Choose from our selection of comfortable rooms and suites, each designed to provide the perfect balance of luxury and mountain charm." data-al="Në Vila Falo, ne ofrojmë një përvojë të qetë rezervimi për të siguruar që planifikimi i pushimeve tuaja të jetë po aq relaksues sa qëndrimi juaj. Zgjidhni nga përzgjedhja jonë e dhomave dhe suitave komode, secila e projektuar për të ofruar ekuilibrin perfekt të luksit dhe sharmin malor.">
+                        At Vila Falo, we offer a seamless booking experience to ensure your vacation planning is as relaxing as your stay. Choose from our selection of comfortable rooms and suites, each designed to provide the perfect balance of luxury and mountain charm.
+                    </p>
+                    <p data-en="Our flexible booking options allow you to customize your stay with additional services and activities to create your ideal mountain adventure." data-al="Opsionet tona fleksibël të rezervimit ju lejojnë të personalizoni qëndrimin tuaj me shërbime dhe aktivitete shtesë për të krijuar aventurën tuaj ideale malore.">
+                        Our flexible booking options allow you to customize your stay with additional services and activities to create your ideal mountain adventure.
+                    </p>
+                    <div class="booking-steps">
+                        <div class="booking-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4 data-en="Select Your Dates" data-al="Zgjidhni Datat Tuaja">Select Your Dates</h4>
+                                <p data-en="Choose your check-in and check-out dates to see available rooms." data-al="Zgjidhni datat tuaja të check-in dhe check-out për të parë dhomat e disponueshme.">Choose your check-in and check-out dates to see available rooms.</p>
+                            </div>
+                        </div>
+                        <div class="booking-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4 data-en="Choose Your Room" data-al="Zgjidhni Dhomën Tuaj">Choose Your Room</h4>
+                                <p data-en="Select the perfect accommodation for your needs and preferences." data-al="Zgjidhni akomodimin perfekt për nevojat dhe preferencat tuaja.">Select the perfect accommodation for your needs and preferences.</p>
+                            </div>
+                        </div>
+                        <div class="booking-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4 data-en="Confirm Your Details" data-al="Konfirmoni Detajet Tuaja">Confirm Your Details</h4>
+                                <p data-en="Provide your information and any special requests." data-al="Jepni informacionin tuaj dhe çdo kërkesë të veçantë.">Provide your information and any special requests.</p>
+                            </div>
+                        </div>
+                        <div class="booking-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4 data-en="Secure Your Reservation" data-al="Siguroni Rezervimin Tuaj">Secure Your Reservation</h4>
+                                <p data-en="Receive instant confirmation of your booking." data-al="Merrni konfirmim të menjëhershëm të rezervimit tuaj.">Receive instant confirmation of your booking.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Availability Calendar -->
+                    <div class="availability-calendar" data-aos="fade-up">
+                        <div class="availability-header">
+                            <h5 data-en="Check Availability" data-al="Kontrollo Disponueshmërinë">Check Availability</h5>
+                            <div class="calendar-controls">
+                                <div class="calendar-control" id="prevMonth"><i class="fas fa-chevron-left"></i></div>
+                                <div class="calendar-control" id="nextMonth"><i class="fas fa-chevron-right"></i></div>
+                            </div>
+                        </div>
+                        <div class="calendar-month" id="currentMonth">March 2025</div>
+                        <div class="calendar-grid" id="calendarGrid">
+                            <!-- Calendar will be populated with JS -->
+                        </div>
+                        <div class="availability-note" data-en="Green dates are available for booking" data-al="Datat e gjelbra janë të disponueshme për rezervim">Green dates are available for booking</div>
+                    </div>
+                </div>
+                <div class="booking-form" data-aos="fade-left">
+                    <form id="bookingForm" action="/api/booking" method="POST">
+                        <div class="form-group">
+                            <label for="roomType" data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës">Select Room Type</label>
+                            <select id="roomType" name="roomType" required>
+                                <option value="" data-en="-- Select Room --" data-al="-- Zgjidhni Dhomën --">-- Select Room --</option>
+                                <option value="Standard Mountain Room" data-en="Standard Mountain Room" data-al="Dhomë Standard Malore">Standard Mountain Room</option>
+                                <option value="Deluxe Family Suite" data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe">Deluxe Family Suite</option>
+                                <option value="Premium Panorama Suite" data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike">Premium Panorama Suite</option>
+                            </select>
+                            <div class="error-message" data-en="Please select a room type" data-al="Ju lutemi zgjidhni një lloj dhome">Please select a room type</div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="checkIn" data-en="Check-in Date" data-al="Data e Check-in">Check-in Date</label>
+                                <input type="date" id="checkIn" name="checkIn" required>
+                                <div class="error-message" data-en="Please select a check-in date" data-al="Ju lutemi zgjidhni një datë check-in">Please select a check-in date</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOut" data-en="Check-out Date" data-al="Data e Check-out">Check-out Date</label>
+                                <input type="date" id="checkOut" name="checkOut" required>
+                                <div class="error-message" data-en="Please select a check-out date" data-al="Ju lutemi zgjidhni një datë check-out">Please select a check-out date</div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="adults" data-en="Adults" data-al="Të Rritur">Adults</label>
+                                <select id="adults" name="adults" required>
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="children" data-en="Children" data-al="Fëmijë">Children</label>
+                                <select id="children" name="children">
+                                    <option value="0" selected>0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" data-en="Full Name" data-al="Emri i Plotë">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                            <div class="error-message" data-en="Please enter your name" data-al="Ju lutemi shkruani emrin tuaj">Please enter your name</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" data-en="Email Address" data-al="Adresa e Emailit">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Your email" required>
+                            <div class="error-message" data-en="Please enter a valid email address" data-al="Ju lutemi shkruani një adresë emaili të vlefshme">Please enter a valid email address</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone" data-en="Phone Number" data-al="Numri i Telefonit">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Your phone number" required>
+                            <div class="error-message" data-en="Please enter your phone number" data-al="Ju lutemi shkruani numrin tuaj të telefonit">Please enter your phone number</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="special" data-en="Special Requests (Optional)" data-al="Kërkesa të Veçanta (Opsionale)">Special Requests (Optional)</label>
+                            <textarea id="special" name="special" rows="3" placeholder="Any special requests?"></textarea>
+                        </div>
+                        
+                        <!-- Food & Beverage Add-ons -->
+                        <div class="form-group">
+                            <label data-en="Food & Beverage Packages" data-al="Paketat e Ushqimit & Pijes">Food & Beverage Packages</label>
+                            <div class="addon-options">
+                                <div class="addon-option">
+                                    <input type="checkbox" id="breakfast" name="addons" value="breakfast">
+                                    <label for="breakfast" class="addon-label">
+                                        <div class="addon-icon"><i class="fas fa-coffee"></i></div>
+                                        <div class="addon-info">
+                                            <div class="addon-title" data-en="Daily Breakfast" data-al="Mëngjes i Përditshëm">Daily Breakfast</div>
+                                            <div class="addon-price">€10 <span data-en="per person/day" data-al="për person/ditë">per person/day</span></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="addon-option">
+                                    <input type="checkbox" id="dinner" name="addons" value="dinner">
+                                    <label for="dinner" class="addon-label">
+                                        <div class="addon-icon"><i class="fas fa-utensils"></i></div>
+                                        <div class="addon-info">
+                                            <div class="addon-title" data-en="Traditional Dinner" data-al="Darkë Tradicionale">Traditional Dinner</div>
+                                            <div class="addon-price">€25 <span data-en="per person/day" data-al="për person/ditë">per person/day</span></div>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="addon-option">
+                                    <input type="checkbox" id="wine" name="addons" value="wine">
+                                    <label for="wine" class="addon-label">
+                                        <div class="addon-icon"><i class="fas fa-wine-glass-alt"></i></div>
+                                        <div class="addon-info">
+                                            <div class="addon-title" data-en="Local Wine Package" data-al="Paketë Vere Vendase">Local Wine Package</div>
+                                            <div class="addon-price">€30 <span data-en="per package" data-al="për paketë">per package</span></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" data-en="Book Your Mountain Escape" data-al="Rezervo Aventurën Tënde Malore">Book Your Mountain Escape</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="location">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="Our Location" data-al="Vendndodhja Jonë">Our Location</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Find us in the beautiful mountains of Voskopoje, Albania" data-al="Na gjeni në malet e bukura të Voskopojës, Shqipëri">Find us in the beautiful mountains of Voskopoje, Albania</p>
+            </div>
+            <div class="location-container">
+                <div class="location-info" data-aos="fade-right">
+                    <h3 data-en="How to Reach Us" data-al="Si të Na Gjeni">How to Reach Us</h3>
+                    <p data-en="Vila Falo is nestled in the picturesque mountains of Voskopoje, a historic village known for its natural beauty, fresh air, and cultural heritage. Located approximately 21 km from the city of Korçë in southeastern Albania, our resort offers the perfect blend of accessibility and seclusion." data-al="Vila Falo ndodhet në malet piktoreske të Voskopojës, një fshat historik i njohur për bukurinë e tij natyrore, ajrin e pastër dhe trashëgiminë kulturore. E vendosur rreth 21 km nga qyteti i Korçës në Shqipërinë juglindore, resorti ynë ofron përzierjen perfekte të aksesueshmërisë dhe izolimit.">
+                        Vila Falo is nestled in the picturesque mountains of Voskopoje, a historic village known for its natural beauty, fresh air, and cultural heritage. Located approximately 21 km from the city of Korçë in southeastern Albania, our resort offers the perfect blend of accessibility and seclusion.
+                    </p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Address" data-al="Adresa">Address</h4>
+                                <p>Vila Falo, Voskopoje Village, Korçë, Albania</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Phone" data-al="Telefon">Phone</h4>
+                                <p>+355 XX XXX XXXX</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 data-en="Email" data-al="Email">Email</h4>
+                                <p>info@vilafalo.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="location-map" data-aos="fade-left">
+                    <img src="images/map.jpg" alt="Vila Falo Location Map">
+                    <div class="location-pin">
+                        <i class="fas fa-map-pin"></i>
+                    </div>
+                    
+                    <!-- Interactive Map Elements -->
+                    <div class="map-directions">
+                        <div class="direction-point" style="top: 25%; left: 20%;" data-place="Korçë" data-time="25 min"></div>
+                        <div class="direction-point" style="top: 40%; left: 60%;" data-place="Voskopoje Center" data-time="5 min"></div>
+                        <div class="direction-point" style="top: 70%; left: 80%;" data-place="Skiing Area" data-time="10 min"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seasonal Weather Information -->
+            <div class="weather-seasons" data-aos="fade-up">
+                <h4 class="text-center mb-4" data-en="Seasonal Weather" data-al="Moti Sipas Stinëve">Seasonal Weather</h4>
+                <div class="seasons-grid">
+                    <div class="season-card">
+                        <div class="season-icon"><i class="fas fa-snowflake"></i></div>
+                        <h5 data-en="Winter (Dec-Feb)" data-al="Dimër (Dhj-Shk)">Winter (Dec-Feb)</h5>
+                        <p data-en="Average: -5°C to 5°C" data-al="Mesatare: -5°C deri 5°C">Average: -5°C to 5°C</p>
+                        <div class="season-highlight" data-en="Perfect for skiing!" data-al="Perfekt për ski!">Perfect for skiing!</div>
+                    </div>
+                    <div class="season-card">
+                        <div class="season-icon"><i class="fas fa-leaf"></i></div>
+                        <h5 data-en="Spring (Mar-May)" data-al="Pranverë (Mar-Maj)">Spring (Mar-May)</h5>
+                        <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Average: 5°C to 15°C</p>
+                        <div class="season-highlight" data-en="Wildflower blooms" data-al="Lulëzim i luleve të egra">Wildflower blooms</div>
+                    </div>
+                    <div class="season-card">
+                        <div class="season-icon"><i class="fas fa-sun"></i></div>
+                        <h5 data-en="Summer (Jun-Aug)" data-al="Verë (Qer-Gus)">Summer (Jun-Aug)</h5>
+                        <p data-en="Average: 15°C to 25°C" data-al="Mesatare: 15°C deri 25°C">Average: 15°C to 25°C</p>
+                        <div class="season-highlight" data-en="Ideal hiking weather" data-al="Mot ideal për hiking">Ideal hiking weather</div>
+                    </div>
+                    <div class="season-card">
+                        <div class="season-icon"><i class="fas fa-tree"></i></div>
+                        <h5 data-en="Autumn (Sep-Nov)" data-al="Vjeshtë (Sht-Nën)">Autumn (Sep-Nov)</h5>
+                        <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Average: 5°C to 15°C</p>
+                        <div class="season-highlight" data-en="Beautiful foliage" data-al="Gjethe të bukura">Beautiful foliage</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2 data-aos="fade-up" data-en="Ready for Your Mountain Adventure?" data-al="Gati për Aventurën Tuaj Malore?">Ready for Your Mountain Adventure?</h2>
+            <p data-aos="fade-up" data-aos-delay="200" data-en="Book your stay now and experience the magic of Vila Falo in Voskopoje. Special seasonal discounts available for early bookings." data-al="Rezervoni qëndrimin tuaj tani dhe përjetoni magjinë e Vila Falo në Voskopojë. Zbritje të veçanta sezonale të disponueshme për rezervimet e hershme.">
+                Book your stay now and experience the magic of Vila Falo in Voskopoje. Special seasonal discounts available for early bookings.
+            </p>
+            <a href="#booking" class="btn" data-aos="fade-up" data-aos-delay="400" data-en="Reserve Your Room" data-al="Rezervo Dhomën Tënde">Reserve Your Room</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <h3>Vila Falo</h3>
+                <p data-en="A luxurious mountain retreat nestled in the beautiful Voskopoje village, offering comfortable accommodations, exceptional service, and unforgettable experiences." data-al="Një strehë luksoze malore e vendosur në fshatin e bukur të Voskopojës, që ofron akomodime komode, shërbim të jashtëzakonshëm dhe përvoja të paharrueshme.">
+                    A luxurious mountain retreat nestled in the beautiful Voskopoje village, offering comfortable accommodations, exceptional service, and unforgettable experiences.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-tripadvisor"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3 data-en="Quick Links" data-al="Lidhje të Shpejta">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home" data-en="Home" data-al="Shtëpi">Home</a></li>
+                    <li><a href="#about" data-en="About Us" data-al="Rreth Nesh">About Us</a></li>
+                    <li><a href="#rooms" data-en="Rooms & Suites" data-al="Dhoma & Suita">Rooms & Suites</a></li>
+                    <li><a href="#restaurant" data-en="Restaurant" data-al="Restoranti">Restaurant</a></li>
+                    <li><a href="#services" data-en="Services" data-al="Shërbimet">Services</a></li>
+                    <li><a href="#gallery" data-en="Gallery" data-al="Galeria">Gallery</a></li>
+                    <li><a href="#booking" data-en="Book Now" data-al="Rezervo Tani">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 data-en="Contact Us" data-al="Na Kontaktoni">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> Voskopoje Village, Korçë, Albania</li>
+                    <li><i class="fas fa-phone-alt"></i> +355 XX XXX XXXX</li>
+                    <li><i class="fas fa-envelope"></i> info@vilafalo.com</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3 data-en="Newsletter" data-al="Buletini">Newsletter</h3>
+                <p data-en="Subscribe to our newsletter for special offers and updates." data-al="Abonohu në buletinin tonë për oferta dhe përditësime të veçanta.">
+                    Subscribe to our newsletter for special offers and updates.
+                </p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="Your Email Address" required>
+                    <button type="submit" class="btn btn-primary" data-en="Subscribe" data-al="Abonohu">Subscribe</button>
+                </form>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Vila Falo. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Booking Confirmation Modal -->
+    <div class="modal" id="bookingModal">
+        <div class="modal-content">
+            <div class="modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="confirmation-message">
+                <i class="fas fa-check-circle"></i>
+                <h3 data-en="Booking Confirmed!" data-al="Rezervimi u Konfirmua!">Booking Confirmed!</h3>
+                <p data-en="Thank you for choosing Vila Falo. Your booking has been successfully submitted. You will receive a confirmation email shortly." data-al="Faleminderit që zgjodhët Vila Falo. Rezervimi juaj u dorëzua me sukses. Do të merrni një email konfirmimi së shpejti.">
+                    Thank you for choosing Vila Falo. Your booking has been successfully submitted. You will receive a confirmation email shortly.
+                </p>
+                <div id="bookingSummary"></div>
+                <button class="btn" data-en="Close" data-al="Mbyll">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Weather Widget -->
+    <div class="weather-widget">
+        <div class="weather-toggle">
+            <i class="fas fa-cloud-sun"></i>
+        </div>
+        <div class="weather-icon">
+            <i class="fas fa-snowflake"></i>
+        </div>
+        <div class="weather-temp">-2°C</div>
+        <div class="weather-location">Voskopoje, AL</div>
+    </div>
+
+    <!-- Virtual Tour Button -->
+    <div class="virtual-tour-btn">
+        <i class="fas fa-vr-cardboard"></i>
+        <span data-en="Virtual Tour" data-al="Tur Virtual">Virtual Tour</span>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
