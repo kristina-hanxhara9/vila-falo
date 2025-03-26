@@ -1,6 +1,7 @@
 const express = require('express');
 const Booking = require('../models/Booking'); // Assuming you have a Booking model
 const Newsletter = require('../models/Newsletter'); // Assuming you have a Newsletter model
+const { adminLogin, getAdminDashboard } = require('../controllers/adminController');
 const router = express.Router();
 
 // Middleware for admin authentication (optional)
@@ -11,6 +12,12 @@ router.use((req, res, next) => {
     }
     next();
 });
+
+// Admin login route
+router.post('/login', adminLogin);
+
+// Admin dashboard route
+router.get('/dashboard', getAdminDashboard);
 
 // Get all bookings
 router.get('/bookings', async (req, res) => {
@@ -58,4 +65,4 @@ router.delete('/newsletters/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = router; // Ensure this is exporting the router

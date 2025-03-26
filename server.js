@@ -5,15 +5,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const userRoutes = require('./routes/users');
+const userRoutes = require('./routes/users'); // Ensure this is correct
 const errorHandler = require('./middleware/errorHandler');
 require('dotenv').config();
 
 // Import routes
 const bookingRoutes = require('./routes/bookingRoutes');
 const newsletterRoutes = require('./routes/NewsletterRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const adminRoutes = require('./routes/admin');
+const adminRoutes = require('./routes/adminRoutes'); // Ensure this is correct
 
 dotenv.config();
 connectDB();
@@ -30,11 +29,8 @@ app.use(express.json());
 // Routes
 app.use('/api/booking', bookingRoutes);
 app.use('/api/newsletter', newsletterRoutes);
-app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes); // Use adminRoutes only once
 app.use('/api/users', userRoutes);
-
-// Admin routes
-app.use('/admin', adminRoutes);
 
 // Serve the main HTML file for all routes except API routes
 app.get('*', (req, res) => {

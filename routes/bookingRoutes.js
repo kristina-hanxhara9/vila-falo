@@ -293,4 +293,9 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-module.exports = router;
+// Define booking routes
+router.post('/create', (req, res) => {
+    res.status(200).json({ message: 'Booking created successfully' });
+});
+
+module.exports = router; // Ensure this is exporting the router

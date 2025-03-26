@@ -8,4 +8,4 @@ router.post('/register', registerUser);
 // Route for user login
 router.post('/login', loginUser);
 
-module.exports = router;
+module.exports = router; // Ensure this is exporting the router
