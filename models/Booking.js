@@ -3,11 +3,23 @@ const mongoose = require('mongoose');
 const bookingSchema = new mongoose.Schema({
   checkInDate: {
     type: Date,
-    required: true
+    required: true,
+    validate: {
+      validator: function(value) {
+        return this.checkOutDate > value;
+      },
+      message: 'Check-in date must be before check-out date.'
+    }
   },
   checkOutDate: {
     type: Date,
-    required: true
+    required: true,
+    validate: {
+      validator: function(value) {
+        return value > this.checkInDate;
+      },
+      message: 'Check-out date must be after check-in date.'
+    }
   },
   guestName: {
     type: String,
@@ -15,7 +27,8 @@ const bookingSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address.']
   },
   status: {
     type: String,
@@ -28,7 +41,8 @@ const bookingSchema = new mongoose.Schema({
   },
   numberOfGuests: {
     type: Number,
-    required: true
+    required: true,
+    min: [1, 'At least one guest is required.']
   },
   createdAt: {
     type: Date,
@@ -44,8 +58,8 @@ bookingSchema.statics.checkAvailability = async function(checkIn, checkOut, room
     $or: [
       // Check if new booking overlaps with existing ones
       {
-        checkInDate: { $lte: checkOut },
-        checkOutDate: { $gte: checkIn }
+        checkInDate: { $lt: checkOut },
+        checkOutDate: { $gt: checkIn }
       }
     ]
   });

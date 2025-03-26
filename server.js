@@ -22,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/vilafalo', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
@@ -48,4 +49,5 @@ app.use((err, req, res, next) => {
     });
 });
 
+module.exports = app; // Export the app for testing or other purposes
 
