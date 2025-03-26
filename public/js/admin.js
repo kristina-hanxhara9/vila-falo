@@ -7,28 +7,25 @@ let revenueChart = null;
 let calendar = null;
 
 // Check if user is authenticated on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize current date for forms
+document.addEventListener('DOMContentLoaded', function () {
+    initializePage();
+    checkAuth();
+    setupEventListeners();
+});
+
+// Initialize page defaults
+function initializePage() {
     const today = new Date();
-    
-    // Set default dates for filter forms
-    const defaultEndDate = new Date().toISOString().split('T')[0];
-    
-    // Set default start date (30 days ago)
-    const defaultStartDate = new Date();
-    defaultStartDate.setDate(defaultStartDate.getDate() - 30);
-    
-    document.getElementById('startDateFilter').value = defaultStartDate.toISOString().split('T')[0];
+    const defaultEndDate = today.toISOString().split('T')[0];
+    const defaultStartDate = new Date(today.setDate(today.getDate() - 30)).toISOString().split('T')[0];
+
+    document.getElementById('startDateFilter').value = defaultStartDate;
     document.getElementById('endDateFilter').value = defaultEndDate;
-    document.getElementById('reportStartDate').value = defaultStartDate.toISOString().split('T')[0];
+    document.getElementById('reportStartDate').value = defaultStartDate;
     document.getElementById('reportEndDate').value = defaultEndDate;
-    
-    // Set calendar month/year to current month/year
-    document.getElementById('calendarMonth').value = today.getMonth() + 1;
+
     const yearSelect = document.getElementById('calendarYear');
-    
-    // Populate year dropdown (current year - 1 to current year + 5)
-    const currentYear = today.getFullYear();
+    const currentYear = new Date().getFullYear();
     for (let year = currentYear - 1; year <= currentYear + 5; year++) {
         const option = document.createElement('option');
         option.value = year;
@@ -36,13 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
         yearSelect.appendChild(option);
     }
     yearSelect.value = currentYear;
-    
-    // Check authentication
-    checkAuth();
-    
-    // Add event listeners
-    setupEventListeners();
-});
+    document.getElementById('calendarMonth').value = new Date().getMonth() + 1;
+}
 
 // Check if user is authenticated
 function checkAuth() {
@@ -50,19 +42,15 @@ function checkAuth() {
         .then(response => response.json())
         .then(data => {
             if (data.isAuthenticated) {
-                // User is authenticated
                 currentUser = data.user;
                 document.getElementById('username').textContent = currentUser.username;
-                
-                // Show/hide admin settings based on role
+
                 if (currentUser.role === 'admin') {
                     document.getElementById('settingsLink').style.display = 'flex';
                 }
-                
-                // Load dashboard data
+
                 loadDashboard();
             } else {
-                // User is not authenticated, redirect to login page
                 window.location.href = 'login.html';
             }
         })
@@ -74,16 +62,13 @@ function checkAuth() {
 
 // Setup all event listeners
 function setupEventListeners() {
-    // Sidebar navigation
-    const menuItems = document.querySelectorAll('.sidebar-menu-item');
-    menuItems.forEach(item => {
-        item.addEventListener('click', function(e) {
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
+        item.addEventListener('click', function (e) {
             if (this.id === 'logoutLink') {
                 e.preventDefault();
                 logout();
                 return;
             }
-            
             const page = this.dataset.page;
             if (page) {
                 e.preventDefault();
@@ -91,198 +76,125 @@ function setupEventListeners() {
             }
         });
     });
-    
-    // User dropdown
-    const userProfile = document.getElementById('userProfile');
-    const userDropdown = document.getElementById('userDropdown');
-    
-    userProfile.addEventListener('click', function(e) {
-        e.stopPropagation();
-        userDropdown.classList.toggle('active');
-    });
-    
-    document.addEventListener('click', function(e) {
-        if (!userProfile.contains(e.target)) {
-            userDropdown.classList.remove('active');
-        }
-    });
-    
-    // Logout from dropdown
-    document.getElementById('logoutDropdown').addEventListener('click', function(e) {
+
+    document.getElementById('logoutDropdown').addEventListener('click', function (e) {
         e.preventDefault();
         logout();
     });
-    
-    // Toggle sidebar on mobile
-    document.getElementById('toggleSidebar').addEventListener('click', function() {
+
+    document.getElementById('toggleSidebar').addEventListener('click', function () {
         document.getElementById('sidebar').classList.toggle('active');
     });
-    
-    // Modal functionality
+
     setupModalListeners();
-    
-    // Form submissions
-    document.getElementById('bookingFilterForm').addEventListener('submit', function(e) {
+
+    document.getElementById('bookingFilterForm').addEventListener('submit', function (e) {
         e.preventDefault();
         loadBookings();
     });
-    
-    document.getElementById('calendarFilterForm').addEventListener('submit', function(e) {
+
+    document.getElementById('calendarFilterForm').addEventListener('submit', function (e) {
         e.preventDefault();
         loadCalendar();
     });
-    
-    document.getElementById('reportFilterForm').addEventListener('submit', function(e) {
+
+    document.getElementById('reportFilterForm').addEventListener('submit', function (e) {
         e.preventDefault();
         loadReport();
     });
-    
-    document.getElementById('bookingStatusForm').addEventListener('submit', function(e) {
+
+    document.getElementById('bookingStatusForm').addEventListener('submit', function (e) {
         e.preventDefault();
         updateBookingStatus();
     });
-    
-    document.getElementById('blockDatesForm').addEventListener('submit', function(e) {
+
+    document.getElementById('blockDatesForm').addEventListener('submit', function (e) {
         e.preventDefault();
         blockDates();
     });
-    
-    document.getElementById('addRoomForm').addEventListener('submit', function(e) {
+
+    document.getElementById('addRoomForm').addEventListener('submit', function (e) {
         e.preventDefault();
         addRoom();
     });
-    
-    document.getElementById('editRoomForm').addEventListener('submit', function(e) {
+
+    document.getElementById('editRoomForm').addEventListener('submit', function (e) {
         e.preventDefault();
         updateRoom();
     });
-    
-    document.getElementById('addAddonForm').addEventListener('submit', function(e) {
+
+    document.getElementById('addAddonForm').addEventListener('submit', function (e) {
         e.preventDefault();
         addAddon();
     });
-    
-    document.getElementById('editAddonForm').addEventListener('submit', function(e) {
+
+    document.getElementById('editAddonForm').addEventListener('submit', function (e) {
         e.preventDefault();
         updateAddon();
     });
-    
-    document.getElementById('addUserForm').addEventListener('submit', function(e) {
+
+    document.getElementById('addUserForm').addEventListener('submit', function (e) {
         e.preventDefault();
         addUser();
     });
-    
-    document.getElementById('editUserForm').addEventListener('submit', function(e) {
+
+    document.getElementById('editUserForm').addEventListener('submit', function (e) {
         e.preventDefault();
         updateUser();
     });
-    
-    document.getElementById('deleteUserForm').addEventListener('submit', function(e) {
+
+    document.getElementById('deleteUserForm').addEventListener('submit', function (e) {
         e.preventDefault();
         deleteUser();
     });
-    
-    // Settings tabs
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
             const tabId = this.dataset.tab;
-            
-            // Remove active class from all buttons and panes
-            tabBtns.forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
-            
-            // Add active class to clicked button and show corresponding pane
             this.classList.add('active');
             document.getElementById(tabId + 'Tab').style.display = 'block';
         });
     });
-    
-    // Print report
-    document.getElementById('printReport').addEventListener('click', function() {
+
+    document.getElementById('printReport').addEventListener('click', function () {
         window.print();
-    });
-    
-    // Report type change
-    document.getElementById('reportType').addEventListener('change', function() {
-        const reportType = this.value;
-        
-        if (reportType === 'occupancy') {
-            document.getElementById('reportTitle').textContent = 'Occupancy Report';
-            document.getElementById('occupancyReportContainer').style.display = 'block';
-            document.getElementById('revenueReportContainer').style.display = 'none';
-        } else if (reportType === 'revenue') {
-            document.getElementById('reportTitle').textContent = 'Revenue Report';
-            document.getElementById('occupancyReportContainer').style.display = 'none';
-            document.getElementById('revenueReportContainer').style.display = 'block';
-        }
     });
 }
 
-// Setup modal listeners
-function setupModalListeners() {
-    const modalTriggers = document.querySelectorAll('[data-modal]');
-    
-    modalTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function() {
-            const modalId = this.dataset.modal;
-            const modal = document.getElementById(modalId);
-            
-            if (modal) {
-                modal.classList.add('active');
-                
-                // If opening block dates modal, load rooms for dropdown
-                if (modalId === 'blockDatesModal') {
-                    loadRoomsForDropdown();
-                }
-            }
+// Show flash message
+function showFlashMessage(message, type) {
+    const flashMessages = document.getElementById('flashMessages');
+    const flash = document.createElement('div');
+    flash.className = `flash ${type}`;
+    flash.textContent = message;
+    flashMessages.appendChild(flash);
+    setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 300);
+    }, 5000);
+}
+
+// Logout
+function logout() {
+    fetch('/api/auth/logout')
+        .then(() => {
+            window.location.href = 'login.html';
+        })
+        .catch(error => {
+            console.error('Logout error:', error);
+            showFlashMessage('Error logging out', 'error');
         });
-    });
-    
-    const modalCloses = document.querySelectorAll('.modal-close');
-    
-    modalCloses.forEach(close => {
-        close.addEventListener('click', function() {
-            const modal = this.closest('.modal-overlay');
-            
-            if (modal) {
-                modal.classList.remove('active');
-            }
-        });
-    });
-    
-    // Close modals when clicking outside
-    const modals = document.querySelectorAll('.modal-overlay');
-    
-    modals.forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-            }
-        });
-    });
 }
 
 // Show page and update navigation
 function showPage(page) {
-    // Hide all pages
-    document.querySelectorAll('.page').forEach(p => {
-        p.style.display = 'none';
-    });
-    
-    // Show selected page
+    document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
     document.getElementById(page + 'Page').style.display = 'block';
-    
-    // Update page title
     document.getElementById('pageTitle').textContent = page.charAt(0).toUpperCase() + page.slice(1);
-    
-    // Update active menu item
-    document.querySelectorAll('.sidebar-menu-item').forEach(item => {
-        item.classList.remove('active');
-    });
+    document.querySelectorAll('.sidebar-menu-item').forEach(item => item.classList.remove('active'));
     document.querySelector(`.sidebar-menu-item[data-page="${page}"]`).classList.add('active');
-    
-    // Load page-specific data
     switch (page) {
         case 'dashboard':
             loadDashboard();
@@ -300,13 +212,10 @@ function showPage(page) {
             loadSettings();
             break;
     }
-    
-    // Close sidebar on mobile after navigation
     if (window.innerWidth < 992) {
         document.getElementById('sidebar').classList.remove('active');
     }
 }
-
 // Load dashboard data
 function loadDashboard() {
     // Load dashboard statistics
@@ -315,6 +224,8 @@ function loadDashboard() {
     // Load recent bookings
     loadRecentBookings();
 }
+
+
 
 // Load dashboard statistics
 function loadDashboardStats() {
