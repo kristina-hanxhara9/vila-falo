@@ -3,117 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vila Falo Admin - Login</title>
+    <title>Vila Falo Admin Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/admin-styles.css">
     <style>
         body {
-            background-color: var(--bg-color);
+            background-image: url('/images/mountain-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            background-image: url('images/mountain-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            position: relative;
-        }
-        
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 0;
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         .login-container {
-            position: relative;
-            z-index: 1;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             width: 100%;
             max-width: 400px;
-            padding: 2.5rem;
+            padding: 30px;
         }
         
-        .login-error {
-            background-color: rgba(231, 76, 60, 0.2);
-            border: 1px solid var(--danger-color);
-            color: var(--danger-color);
-            padding: 0.75rem;
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+        
+        .login-header p {
+            margin: 10px 0 0;
+            color: #7f8c8d;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .login-form .input-group {
+            position: relative;
+        }
+        
+        .login-form .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .login-form input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        
+        .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-form button:hover {
+            background-color: #2980b9;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
             display: none;
         }
         
-        .login-error.active {
-            display: block;
+        .back-to-site {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-to-site a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .back-to-site a:hover {
+            text-decoration: underline;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        .shake {
+            animation: shake 0.5s;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <div class="logo">
-            <h1>Vila Falo <span>Admin</span></h1>
+        <div class="login-header">
+            <h1>Vila Falo Admin</h1>
+            <p>Enter your credentials to log in</p>
         </div>
         
-        <div class="login-error" id="loginError"></div>
+        <div class="error-message" id="errorMessage"></div>
         
-        <form id="loginForm">
+        <form class="login-form" id="loginForm">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autofocus>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
             </div>
+            
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            
+            <button type="submit">Log In</button>
         </form>
         
-        <div class="login-footer">
-            &copy; 2025 Vila Falo. All rights reserved.
+        <div class="back-to-site">
+            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
         </div>
     </div>
     
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Inline login script for development
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('loginForm');
+            const errorMessage = document.getElementById('errorMessage');
             
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Clear previous error message
+                    if (errorMessage) {
+                        errorMessage.textContent = '';
+                        errorMessage.style.display = 'none';
+                    }
+                    
+                    // Get form data
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // Simple validation
+                    if (!username || !password) {
+                        showError('Username and password are required');
+                        return;
+                    }
+                    
+                    // DEVELOPMENT MODE - hardcoded credentials
+                    if (username === 'admin' && password === 'admin123') {
+                        // Successful login - redirect to admin dashboard
+                        window.location.href = 'admin.html';
+                        return;
+                    }
+                    
+                    showError('Invalid username or password');
+                });
+            }
             
-            fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    // Show error message
-                    const errorElement = document.getElementById('loginError');
-                    errorElement.textContent = data.error;
-                    errorElement.classList.add('active');
-                } else {
-                    // Redirect to dashboard
-                    window.location.href = 'index.html';
-                }
-            })
-            .catch(error => {
-                console.error('Login error:', error);
-                // Show generic error message
-                const errorElement = document.getElementById('loginError');
-                errorElement.textContent = 'An error occurred during login. Please try again.';
-                errorElement.classList.add('active');
-            });
+            // Function to show error message
+            function showError(message) {
+                if (!errorMessage) return;
+                
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                
+                // Add animation
+                errorMessage.classList.add('shake');
+                setTimeout(() => {
+                    errorMessage.classList.remove('shake');
+                }, 500);
+            }
         });
     </script>
 </body>
