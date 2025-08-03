@@ -58,8 +58,8 @@ const adminLogin = async (req, res) => {
 
 const getAdminDashboard = (req, res) => {
     try {
-        // Serve the new admin panel
-        const filePath = path.join(process.cwd(), 'public', 'admin-panel.html');
+        // Serve the admin panel HTML file from the correct path
+        const filePath = path.join(__dirname, '..', 'public', 'admin-panel.html');
         console.log('Serving admin dashboard from:', filePath);
         res.sendFile(filePath);
     } catch (error) {

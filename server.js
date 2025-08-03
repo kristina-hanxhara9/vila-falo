@@ -84,8 +84,22 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-// Static files middleware - serve all files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+// Static files middleware - serve all files from public directory with proper MIME types
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.css')) {
+            res.setHeader('Content-Type', 'text/css');
+        } else if (path.endsWith('.js')) {
+            res.setHeader('Content-Type', 'application/javascript');
+        } else if (path.endsWith('.jpg') || path.endsWith('.jpeg')) {
+            res.setHeader('Content-Type', 'image/jpeg');
+        } else if (path.endsWith('.png')) {
+            res.setHeader('Content-Type', 'image/png');
+        } else if (path.endsWith('.svg')) {
+            res.setHeader('Content-Type', 'image/svg+xml');
+        }
+    }
+}));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -131,7 +145,11 @@ app.get('*', (req, res, next) => {
     if (req.path.startsWith('/api') || 
         req.path.startsWith('/admin') || 
         req.path.startsWith('/health') ||
-        req.path.includes('.')) {
+        req.path.includes('.') ||
+        req.path.startsWith('/css') ||
+        req.path.startsWith('/js') ||
+        req.path.startsWith('/images') ||
+        req.path.startsWith('/favicon')) {
         return next();
     }
     
@@ -161,8 +179,18 @@ app.use((err, req, res, next) => {
 // Error handling middleware
 app.use(errorHandler);
 
-// 404 handler for anything else
+// 404 handler for anything else - but not for static files
 app.use((req, res) => {
+    // For static file requests, just return normal 404
+    if (req.path.includes('.') || 
+        req.path.startsWith('/css') ||
+        req.path.startsWith('/js') ||
+        req.path.startsWith('/images') ||
+        req.path.startsWith('/favicon')) {
+        return res.status(404).end();
+    }
+    
+    // For other routes, return JSON error
     res.status(404).json({
         success: false,
         message: 'Page not found'
@@ -187,9 +215,12 @@ process.on('SIGTERM', () => {
     console.log('🛑 SIGTERM received. Shutting down gracefully...');
     server.close(() => {
         console.log('📴 Server closed');
-        mongoose.connection.close(false, () => {
+        mongoose.connection.close().then(() => {
             console.log('🗄️  Database connection closed');
             process.exit(0);
+        }).catch((err) => {
+            console.error('Error closing database:', err);
+            process.exit(1);
         });
     });
 });
