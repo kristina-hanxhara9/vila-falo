@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vila Falo - Email Test Page</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #4361ee, #560bad);
+            color: white;
+            border-radius: 10px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #495057;
+        }
+        input[type="email"], input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        .btn {
+            background: linear-gradient(135deg, #4361ee, #560bad);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .config-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .status-indicator.online {
+            background-color: #28a745;
+        }
+        .status-indicator.offline {
+            background-color: #dc3545;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏔️ Vila Falo</h1>
+            <h2>Email Service Test Page</h2>
+            <p>Test your email configuration and send sample emails</p>
+        </div>
+
+        <!-- Configuration Status -->
+        <div class="test-section">
+            <h3>📧 Email Service Status</h3>
+            <div class="config-status">
+                <div class="status-indicator" id="statusIndicator"></div>
+                <span id="statusText">Checking configuration...</span>
+            </div>
+            <button class="btn" onclick="checkEmailStatus()">🔄 Refresh Status</button>
+            <div id="configStatus"></div>
+        </div>
+
+        <!-- Test Booking Confirmation -->
+        <div class="test-section">
+            <h3>📬 Test Booking Confirmation Email</h3>
+            <p>Send a test booking confirmation email to verify your setup.</p>
+            <div class="form-group">
+                <label for="testEmail">Your Email Address:</label>
+                <input type="email" id="testEmail" placeholder="your-email@example.com" required>
+            </div>
+            <button class="btn" onclick="sendTestBookingEmail()" id="testBookingBtn">
+                📬 Send Test Booking Email
+            </button>
+            <div id="testBookingStatus"></div>
+        </div>
+
+        <!-- Test Admin Notification -->
+        <div class="test-section">
+            <h3>🚨 Test Admin Notification</h3>
+            <p>Send a test admin notification email (goes to ADMIN_EMAIL in .env).</p>
+            <button class="btn" onclick="sendTestAdminEmail()" id="testAdminBtn">
+                🚨 Send Test Admin Notification
+            </button>
+            <div id="testAdminStatus"></div>
+        </div>
+
+        <!-- Custom Test Email -->
+        <div class="test-section">
+            <h3>✉️ Send Custom Test Email</h3>
+            <p>Send a custom test email to any address.</p>
+            <div class="form-group">
+                <label for="customTo">To Email:</label>
+                <input type="email" id="customTo" placeholder="recipient@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="customSubject">Subject:</label>
+                <input type="text" id="customSubject" placeholder="Test Email Subject" value="Vila Falo Test Email">
+            </div>
+            <div class="form-group">
+                <label for="customMessage">Message:</label>
+                <textarea id="customMessage" placeholder="Your test message...">Hello! This is a test email from Vila Falo booking system. If you receive this, the email service is working correctly!</textarea>
+            </div>
+            <button class="btn" onclick="sendCustomTestEmail()" id="customEmailBtn">
+                ✉️ Send Custom Email
+            </button>
+            <div id="customEmailStatus"></div>
+        </div>
+
+        <!-- Setup Instructions -->
+        <div class="test-section">
+            <h3>⚙️ Setup Instructions</h3>
+            <p>If emails are not working, check your <code>.env</code> file configuration:</p>
+            <pre>
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_FROM=Vila Falo &lt;noreply@vilafalo.com&gt;
+ADMIN_EMAIL=admin@vilafalo.com
+            </pre>
+            <p><strong>For Gmail users:</strong></p>
+            <ol>
+                <li>Enable 2-Factor Authentication</li>
+                <li>Generate an App Password at <a href="https://myaccount.google.com/apppasswords" target="_blank">Google App Passwords</a></li>
+                <li>Use the App Password (not your regular password) in EMAIL_PASS</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Check email service status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkEmailStatus();
+        });
+
+        async function checkEmailStatus() {
+            try {
+                const response = await fetch('/api/email/test');
+                const data = await response.json();
+                
+                const indicator = document.getElementById('statusIndicator');
+                const statusText = document.getElementById('statusText');
+                const configStatus = document.getElementById('configStatus');
+                
+                if (data.emailService.configured) {
+                    indicator.className = 'status-indicator online';
+                    statusText.textContent = 'Email service is configured and ready';
+                    configStatus.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Configuration Details:</strong><br>
+                            Host: ${data.emailService.host}<br>
+                            User: ${data.emailService.user}<br>
+                            From: ${data.emailService.from}
+                        </div>
+                    `;
+                } else {
+                    indicator.className = 'status-indicator offline';
+                    statusText.textContent = 'Email service is not configured';
+                    configStatus.innerHTML = `
+                        <div class="status error">
+                            <strong>❌ Email service not configured</strong><br>
+                            Please check your .env file and add EMAIL_HOST, EMAIL_USER, and EMAIL_PASS
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error checking email status:', error);
+                document.getElementById('statusIndicator').className = 'status-indicator offline';
+                document.getElementById('statusText').textContent = 'Error checking status';
+                document.getElementById('configStatus').innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Error:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        async function sendTestBookingEmail() {
+            const email = document.getElementById('testEmail').value;
+            const btn = document.getElementById('testBookingBtn');
+            const status = document.getElementById('testBookingStatus');
+            
+            if (!email) {
+                status.innerHTML = '<div class="status error">Please enter your email address</div>';
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = '📬 Sending...';
+            
+            try {
+                const response = await fetch('/api/email/test-booking-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Success!</strong> Test booking confirmation sent to ${email}
+                        </div>
+                    `;
+                } else {
+                    status.innerHTML = `
+                        <div class="status error">
+                            <strong>❌ Error:</strong> ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error sending test email:', error);
+                status.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Network Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '📬 Send Test Booking Email';
+            }
+        }
+
+        async function sendTestAdminEmail() {
+            const btn = document.getElementById('testAdminBtn');
+            const status = document.getElementById('testAdminStatus');
+            
+            btn.disabled = true;
+            btn.textContent = '🚨 Sending...';
+            
+            try {
+                const response = await fetch('/api/email/test-admin-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Success!</strong> Test admin notification sent to admin email
+                        </div>
+                    `;
+                } else {
+                    status.innerHTML = `
+                        <div class="status error">
+                            <strong>❌ Error:</strong> ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error sending admin email:', error);
+                status.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Network Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚨 Send Test Admin Notification';
+            }
+        }
+
+        async function sendCustomTestEmail() {
+            const to = document.getElementById('customTo').value;
+            const subject = document.getElementById('customSubject').value;
+            const message = document.getElementById('customMessage').value;
+            const btn = document.getElementById('customEmailBtn');
+            const status = document.getElementById('customEmailStatus');
+            
+            if (!to || !subject || !message) {
+                status.innerHTML = '<div class="status error">Please fill in all fields</div>';
+                return;
+            }
+            
+            btn.disabled = true;
+            btn.textContent = '✉️ Sending...';
+            
+            try {
+                const response = await fetch('/api/email/test-custom-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ to, subject, message })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    status.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Success!</strong> Custom email sent to ${to}
+                        </div>
+                    `;
+                } else {
+                    status.innerHTML = `
+                        <div class="status error">
+                            <strong>❌ Error:</strong> ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error sending custom email:', error);
+                status.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Network Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✉️ Send Custom Email';
+            }
+        }
+    </script>
+</body>
+</html>
