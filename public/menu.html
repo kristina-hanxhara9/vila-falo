@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu - Vila Falo Restaurant</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .menu-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 100px 0 50px;
+        }
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .menu-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+        .menu-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .menu-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        .menu-section:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+        .menu-section:nth-child(odd) {
+            animation-delay: 0.4s;
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .menu-section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            position: relative;
+        }
+        .menu-section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #764ba2;
+        }
+        .menu-grid {
+            display: grid;
+            gap: 20px;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px dotted #ddd;
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 -15px;
+        }
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        .menu-item-info {
+            flex: 1;
+        }
+        .menu-item-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        .menu-item-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        .menu-item-price {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+            margin-left: 20px;
+            white-space: nowrap;
+        }
+        .back-to-home {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #2c3e50;
+            padding: 10px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .back-to-home:hover {
+            background: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .language-toggle-menu {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 25px;
+            padding: 10px;
+            z-index: 1000;
+        }
+        .special-note {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #555;
+        }
+        @media (max-width: 768px) {
+            .menu-header h1 {
+                font-size: 2rem;
+            }
+            .menu-section {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            .menu-section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home -->
+    <a href="/" class="back-to-home">
+        <i class="fas fa-arrow-left"></i>
+        <span data-en="Back to Home" data-al="Kthehu në Kryefaqe">Kthehu në Kryefaqe</span>
+    </a>
+
+    <!-- Language Toggle -->
+    <div class="language-toggle-menu">
+        <div class="language-options">
+            <div class="language-option" data-lang="en">EN</div>
+            <div class="language-option active" data-lang="al">AL</div>
+        </div>
+    </div>
+
+    <div class="menu-page">
+        <div class="menu-container">
+            <div class="menu-header">
+                <h1 data-en="Vila Falo Restaurant Menu" data-al="Menuja e Restorantit Vila Falo">Menuja e Restorantit Vila Falo</h1>
+                <p data-en="Traditional Albanian cuisine with modern mountain flair" data-al="Kuzhinë tradicionale shqiptare me stil modern malor">Kuzhinë tradicionale shqiptare me stil modern malor</p>
+            </div>
+
+            <!-- Main Courses -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Main Courses" data-al="Pjate Kryesore">Pjate Kryesore</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Qingji i Pjekur në Furrë</div>
+                            <div class="menu-item-description" data-en="Oven-roasted lamb" data-al="Qengj i pjekur në furrë">Qengj i pjekur në furrë</div>
+                        </div>
+                        <div class="menu-item-price">2800 LEK/KG</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Qingji i Mbyllur në Bidon</div>
+                            <div class="menu-item-description" data-en="Lamb cooked in traditional container" data-al="Qengj i gatuar në bidon tradicional">Qengj i gatuar në bidon tradicional</div>
+                        </div>
+                        <div class="menu-item-price">2800 LEK/KG</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Paidhaqe Qingji në Zgarë</div>
+                            <div class="menu-item-description" data-en="Grilled lamb chops" data-al="Paidhaqe qengji të grilla">Paidhaqe qengji të grilla</div>
+                        </div>
+                        <div class="menu-item-price">2400 LEK/KG</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Paidhaqe Gici në Zgarë</div>
+                            <div class="menu-item-description" data-en="Grilled kid goat chops" data-al="Paidhaqe keci të grilla">Paidhaqe keci të grilla</div>
+                        </div>
+                        <div class="menu-item-price">1700 LEK/KG</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Berxolle Derri në Zgarë</div>
+                            <div class="menu-item-description" data-en="Grilled pork steaks" data-al="Berxolle derri të grilla">Berxolle derri të grilla</div>
+                        </div>
+                        <div class="menu-item-price">900 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Mish Vici i Mbyllur me Salce Limoni</div>
+                            <div class="menu-item-description" data-en="Veal with lemon sauce" data-al="Mish viçi me salcë limoni">Mish viçi me salcë limoni</div>
+                        </div>
+                        <div class="menu-item-price">1200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Tigania (Mish Derri i Shuaj me Verë)</div>
+                            <div class="menu-item-description" data-en="Pan-fried pork with wine" data-al="Derri i gatuar në tiganj me verë">Derri i gatuar në tiganj me verë</div>
+                        </div>
+                        <div class="menu-item-price">800 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Fileto Pule në Zgarë</div>
+                            <div class="menu-item-description" data-en="Grilled chicken fillet" data-al="Fileto pule të grilla">Fileto pule të grilla</div>
+                        </div>
+                        <div class="menu-item-price">800 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kokë Qingji në Furrë</div>
+                            <div class="menu-item-description" data-en="Oven-roasted lamb head" data-al="Kokë qengji e pjekur në furrë">Kokë qengji e pjekur në furrë</div>
+                        </div>
+                        <div class="menu-item-price">600 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Biftek Vici me Hudhra dhe Verë të Bardhë</div>
+                            <div class="menu-item-description" data-en="Veal steak with garlic and white wine" data-al="Biftek viçi me hudhra dhe verë të bardhë">Biftek viçi me hudhra dhe verë të bardhë</div>
+                        </div>
+                        <div class="menu-item-price">1200 LEK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specialties -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Special Orders" data-al="Specialitete me Porosi">Specialitete me Porosi</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Lakror në Sac (40 min)</div>
+                            <div class="menu-item-description" data-en="Traditional pie cooked in sac (wild herbs, fresh cheese, spinach, leeks)" data-al="Pite tradicionale e gatuar në sac (gjethe-omate, presh e gjizë, hithra, spinaq, kos-vezë)">Pite tradicionale e gatuar në sac</div>
+                        </div>
+                        <div class="menu-item-price">1500 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Petulla të Fshira</div>
+                            <div class="menu-item-description" data-en="Traditional fried pastries rubbed with garlic and cheese" data-al="Petulla të fërhuara me hudhra, djathë dhe gjalpë">Petulla të fërhuara me hudhra</div>
+                        </div>
+                        <div class="menu-item-price">800 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Pispili me Miell Misri (1 orë)</div>
+                            <div class="menu-item-description" data-en="Cornmeal bread (requires 1 hour)" data-al="Bukë me miell misri (kërkon 1 orë)">Bukë me miell misri</div>
+                        </div>
+                        <div class="menu-item-price">1700 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Pule Fshati (1 orë)</div>
+                            <div class="menu-item-description" data-en="Village chicken (with eggs, potatoes, pickle, onions)" data-al="Pulë fshati (me vezë, patate, turshi, qepë)">Pulë fshati (vezë me jufka, petka, pilaf, qulli)</div>
+                        </div>
+                        <div class="menu-item-price">3500 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kukurec</div>
+                            <div class="menu-item-description" data-en="Traditional grilled lamb intestines" data-al="Kukurec tradicional i grilluar">Kukurec tradicional</div>
+                        </div>
+                        <div class="menu-item-price">800 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Të Brendshme Qingji</div>
+                            <div class="menu-item-description" data-en="Lamb innards" data-al="Të brendshme qengji">Të brendshme qengji</div>
+                        </div>
+                        <div class="menu-item-price">800 LEK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Salads & Antipasti -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Salads & Antipasti" data-al="Sallata-Antipasta">Sallata-Antipasta</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Sallate "Falo"</div>
+                            <div class="menu-item-description" data-en="Vila Falo special salad (fresh herbs, wild greens, walnuts, mayonnaise)" data-al="Sallatë jeshile, miser, fileto pule, bukë e thekur, majonezë">Sallatë speciale Vila Falo</div>
+                        </div>
+                        <div class="menu-item-price">650 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Sallate Fshati</div>
+                            <div class="menu-item-description" data-en="Village salad" data-al="Sallatë fshati">Sallatë fshati</div>
+                        </div>
+                        <div class="menu-item-price">450 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Sallate Jeshile</div>
+                            <div class="menu-item-description" data-en="Green salad" data-al="Sallatë jeshile">Sallatë jeshile</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Sallate Mikse</div>
+                            <div class="menu-item-description" data-en="Mixed salad (vegetables, lake cheese, olives)" data-al="Sallatë fshati, laker e kugë e bardhë">Sallatë mikse</div>
+                        </div>
+                        <div class="menu-item-price">650 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Sallate Laker</div>
+                            <div class="menu-item-description" data-en="Lake cheese salad" data-al="Sallatë me djathë laker">Sallatë laker</div>
+                        </div>
+                        <div class="menu-item-price">400 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Turshi të Stinës</div>
+                            <div class="menu-item-description" data-en="Seasonal pickles" data-al="Turshi sezonalë">Turshi sezonalë</div>
+                        </div>
+                        <div class="menu-item-price">500 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Perime të Pjekura</div>
+                            <div class="menu-item-description" data-en="Roasted vegetables" data-al="Perime të pjekura">Perime të pjekura</div>
+                        </div>
+                        <div class="menu-item-price">650 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Miks Salcash</div>
+                            <div class="menu-item-description" data-en="Mixed sauces" data-al="Përzierje salcash">Përzierje salcash</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Patate të Skuqura</div>
+                            <div class="menu-item-description" data-en="French fries" data-al="Patate të skuqura">Patate të skuqura</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Salce Kosi/Xaxiki/Kafteri</div>
+                            <div class="menu-item-description" data-en="Yogurt/Tzatziki/Spicy sauce" data-al="Salcë kosi/Xaxiki/Kafteri">Salcë kosi/Xaxiki/Kafteri</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Djathe Dele/Lope/Dhe/Nape</div>
+                            <div class="menu-item-description" data-en="Cheese platter (sheep/cow/local varieties)" data-al="Pjatë me djathë (dele/lopë/vendas)">Pjatë me djathë</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Djathe Miks</div>
+                            <div class="menu-item-description" data-en="Mixed cheese" data-al="Djathë i përzier">Djathë i përzier</div>
+                        </div>
+                        <div class="menu-item-price">600 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Djathe në Furrë</div>
+                            <div class="menu-item-description" data-en="Baked cheese" data-al="Djathë i pjekur">Djathë i pjekur</div>
+                        </div>
+                        <div class="menu-item-price">450 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kackavalli Pjekur (Saganaki)</div>
+                            <div class="menu-item-description" data-en="Grilled kackavall cheese" data-al="Kackavall i pjekur në zjarr">Kackavall i pjekur</div>
+                        </div>
+                        <div class="menu-item-price">400 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Fasule Pllaqi</div>
+                            <div class="menu-item-description" data-en="Baked beans" data-al="Fasule pllaqi">Fasule pllaqi</div>
+                        </div>
+                        <div class="menu-item-price">500 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Fërgesë me Speca dhe Gjizë</div>
+                            <div class="menu-item-description" data-en="Peppers with cottage cheese" data-al="Speca me gjizë">Speca me gjizë</div>
+                        </div>
+                        <div class="menu-item-price">500 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kos Dele/Lope</div>
+                            <div class="menu-item-description" data-en="Sheep/cow yogurt" data-al="Kos dele/lopë">Kos dele/lopë</div>
+                        </div>
+                        <div class="menu-item-price">250 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Dhallë Bio</div>
+                            <div class="menu-item-description" data-en="Organic buttermilk" data-al="Dhallë organike">Dhallë organike</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK/L</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Makarona me Gjalpë</div>
+                            <div class="menu-item-description" data-en="Pasta with butter" data-al="Makarona me gjalpë">Makarona me gjalpë</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Makarona me Salce Domate</div>
+                            <div class="menu-item-description" data-en="Pasta with tomato sauce" data-al="Makarona me salcë domate">Makarona me salcë domate</div>
+                        </div>
+                        <div class="menu-item-price">400 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Supë e Ditës</div>
+                            <div class="menu-item-description" data-en="Soup of the day" data-al="Supë e ditës">Supë e ditës</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Speca të Pjekur me Salce Nardeni</div>
+                            <div class="menu-item-description" data-en="Roasted peppers with herb sauce" data-al="Speca të pjekur me salcë nardeni">Speca të pjekur me salcë nardeni</div>
+                        </div>
+                        <div class="menu-item-price">500 LEK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breakfast -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Breakfast" data-al="Mëngjesi">Mëngjesi</h2>
+                <div class="special-note">
+                    <strong data-en="Available for hotel guests only (750 LEK per person)" data-al="Përsa klientet jashte hotelit (750 LEK/person)">Për klientët jashtë hotelit (750 LEK/person)</strong>
+                </div>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Qumësht Lope</div>
+                            <div class="menu-item-description" data-en="Fresh cow milk" data-al="Qumësht i freskët lopë">Qumësht i freskët lopë</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Çaj Mali</div>
+                            <div class="menu-item-description" data-en="Mountain tea" data-al="Çaj mali">Çaj mali</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Petulla Fshati</div>
+                            <div class="menu-item-description" data-en="Village-style fried dough" data-al="Petulla tradicionale fshati">Petulla tradicionale fshati</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Gjalpë/Reçel/Mjaltë</div>
+                            <div class="menu-item-description" data-en="Butter/Jam/Honey" data-al="Gjalpë/Reçel/Mjaltë">Gjalpë/Reçel/Mjaltë</div>
+                        </div>
+                        <div class="menu-item-price">150 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Djathë</div>
+                            <div class="menu-item-description" data-en="Fresh cheese" data-al="Djathë i freskët">Djathë i freskët</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Vezë Sy</div>
+                            <div class="menu-item-description" data-en="Fried eggs" data-al="Vezë të skuqura">Vezë të skuqura</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Omelete e Thjeshtë</div>
+                            <div class="menu-item-description" data-en="Simple omelet" data-al="Omelete e thjeshtë">Omelete e thjeshtë</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Omelete me Djathë</div>
+                            <div class="menu-item-description" data-en="Cheese omelet" data-al="Omelete me djathë">Omelete me djathë</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Trahana/Petka</div>
+                            <div class="menu-item-description" data-en="Traditional fermented soup" data-al="Supë tradicionale e fermentuar">Supë tradicionale e fermentuar</div>
+                        </div>
+                        <div class="menu-item-price">400 LEK</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coffee & Desserts -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Coffee & Desserts" data-al="Kafe-Embëlsira">Kafe-Embëlsira</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kafe Turke/Espresso</div>
+                            <div class="menu-item-description" data-en="Turkish coffee/Espresso" data-al="Kafe turke/Espresso">Kafe turke/Espresso</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Çaj i Ngrohtë</div>
+                            <div class="menu-item-description" data-en="Hot tea" data-al="Çaj i ngrohtë">Çaj i ngrohtë</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Çaj Mali Bio</div>
+                            <div class="menu-item-description" data-en="Organic mountain tea" data-al="Çaj mali organik">Çaj mali organik</div>
+                        </div>
+                        <div class="menu-item-price">150 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Çaj Mali Bio me Mjaltë</div>
+                            <div class="menu-item-description" data-en="Organic mountain tea with honey" data-al="Çaj mali organik me mjaltë">Çaj mali organik me mjaltë</div>
+                        </div>
+                        <div class="menu-item-price">250 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Çokollat/Kakao</div>
+                            <div class="menu-item-description" data-en="Hot chocolate/Cocoa" data-al="Çokollat e ngrohtë/Kakao">Çokollat e ngrohtë/Kakao</div>
+                        </div>
+                        <div class="menu-item-price">150 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Salep/Cappuccino</div>
+                            <div class="menu-item-description" data-en="Traditional warm drink/Cappuccino" data-al="Pije e ngrohtë tradicionale/Cappuccino">Salep/Cappuccino</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kos me Mjaltë dhe Arra</div>
+                            <div class="menu-item-description" data-en="Yogurt with honey and walnuts" data-al="Kos me mjaltë dhe arra">Kos me mjaltë dhe arra</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Kos me Fruta dhe Mjaltë</div>
+                            <div class="menu-item-description" data-en="Yogurt with fruit and honey" data-al="Kos me fruta dhe mjaltë">Kos me fruta dhe mjaltë</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Shendetelie</div>
+                            <div class="menu-item-description" data-en="Traditional dessert" data-al="Embëlsirë tradicionale">Embëlsirë tradicionale</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                </div>
+                <div class="special-note">
+                    <strong data-en="Please ask our waiter about seasonal desserts made with our pure mountain honey!" data-al="Ju lutemi pyesni kamarierin për embëlsirat sezonale të përgatitura me mjaltin tonë të pastër malor!">Ju lutemi pyesni kamarierin për embëlsirat sezonale të përgatitura me mjaltin tonë të pastër malor!</strong>
+                </div>
+            </div>
+
+            <!-- Drinks -->
+            <div class="menu-section">
+                <h2 class="menu-section-title" data-en="Drinks" data-al="Pije-Drinks">Pije-Drinks</h2>
+                <div class="menu-grid">
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Pije Freskuese</div>
+                            <div class="menu-item-description" data-en="Soft drinks" data-al="Pije freskuese">Pije freskuese</div>
+                        </div>
+                        <div class="menu-item-price">150 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Red Bull</div>
+                            <div class="menu-item-description" data-en="Energy drink" data-al="Pije energjike">Pije energjike</div>
+                        </div>
+                        <div class="menu-item-price">300 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Birre Tirana, Kuqalashe</div>
+                            <div class="menu-item-description" data-en="Local Albanian beer" data-al="Birre shqiptare vendase">Birre shqiptare vendase</div>
+                        </div>
+                        <div class="menu-item-price">150 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Birre Korça</div>
+                            <div class="menu-item-description" data-en="Korça beer" data-al="Birre Korça">Birre Korça</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Amstel/Heineken (0,33ML)</div>
+                            <div class="menu-item-description" data-en="International beer" data-al="Birre ndërkombëtare">Birre ndërkombëtare</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Pils (Greke)</div>
+                            <div class="menu-item-description" data-en="Greek beer" data-al="Birre greke">Birre greke</div>
+                        </div>
+                        <div class="menu-item-price">250 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Birre pa Alkool</div>
+                            <div class="menu-item-description" data-en="Non-alcoholic beer" data-al="Birre pa alkool">Birre pa alkool</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Komposto Bio</div>
+                            <div class="menu-item-description" data-en="Organic fruit compote" data-al="Komposto organik frutash">Komposto organik frutash</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Ujë i Vogël</div>
+                            <div class="menu-item-description" data-en="Small water bottle" data-al="Ujë shishe e vogël">Ujë shishe e vogël</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Ujë i Madh</div>
+                            <div class="menu-item-description" data-en="Large water bottle" data-al="Ujë shishe e madhe">Ujë shishe e madhe</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Verë e Hapur</div>
+                            <div class="menu-item-description" data-en="House wine (per liter)" data-al="Verë e hapur (për liter)">Verë e hapur (për liter)</div>
+                        </div>
+                        <div class="menu-item-price">900 LEK/L</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Verë Gote</div>
+                            <div class="menu-item-description" data-en="Wine by the glass" data-al="Verë me gotë">Verë me gotë</div>
+                        </div>
+                        <div class="menu-item-price">250 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Verë Shishe</div>
+                            <div class="menu-item-description" data-en="Bottled wine" data-al="Verë shishe">Verë shishe</div>
+                        </div>
+                        <div class="menu-item-price">1500-7000 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Raki Kumbulle/Rrushi</div>
+                            <div class="menu-item-description" data-en="Plum/Grape raki" data-al="Raki kumbulle/rrushi">Raki kumbulle/rrushi</div>
+                        </div>
+                        <div class="menu-item-price">100 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Raki Muskat/Thane/Mani</div>
+                            <div class="menu-item-description" data-en="Muscat/Thane/Mani raki" data-al="Raki muskat/thanë/mani">Raki muskat/thanë/mani</div>
+                        </div>
+                        <div class="menu-item-price">200 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Dellinje/Perla</div>
+                            <div class="menu-item-description" data-en="Premium spirits" data-al="Pije alkoolike premium">Pije alkoolike premium</div>
+                        </div>
+                        <div class="menu-item-price">350 LEK</div>
+                    </div>
+                    <div class="menu-item">
+                        <div class="menu-item-info">
+                            <div class="menu-item-name">Pije Alkoolike</div>
+                            <div class="menu-item-description" data-en="Alcoholic beverages" data-al="Pije alkoolike të ndryshme">Pije alkoolike të ndryshme</div>
+                        </div>
+                        <div class="menu-item-price"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Language switcher
+        const langOptions = document.querySelectorAll('.language-option');
+        const langElements = document.querySelectorAll('[data-en]');
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const lang = option.dataset.lang;
+                
+                // Update active state
+                langOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                
+                // Update text content
+                langElements.forEach(element => {
+                    if (element.dataset[lang]) {
+                        element.textContent = element.dataset[lang];
+                    }
+                });
+                
+                // Store language preference
+                localStorage.setItem('preferredLanguage', lang);
+            });
+        });
+
+        // Load saved language preference
+        const savedLang = localStorage.getItem('preferredLanguage');
+        if (savedLang) {
+            const savedOption = document.querySelector(`[data-lang="${savedLang}"]`);
+            if (savedOption) {
+                savedOption.click();
+            }
+        }
+
+        // Smooth scrolling for back to home
+        document.querySelector('.back-to-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>

@@ -333,17 +333,92 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (!bookingForm) return;
 
-        bookingForm.addEventListener('submit', function(e) {
+        bookingForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            console.log('Form submitted');
+            
             if (validateBookingForm()) {
-                showBookingConfirmation();
+                console.log('Form validation passed');
+                
+                // Show loading state
+                const submitBtn = bookingForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = currentLang === 'al' ? 'Duke dërguar...' : 'Submitting...';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Collect form data and map to backend format
+                    const formData = new FormData(bookingForm);
+                    const adults = parseInt(formData.get('adults')) || 1;
+                    const children = parseInt(formData.get('children')) || 0;
+                    
+                    const bookingData = {
+                        roomType: formData.get('roomType'),
+                        checkInDate: formData.get('checkIn'),
+                        checkOutDate: formData.get('checkOut'),
+                        guestName: formData.get('name'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        numberOfGuests: adults + children,
+                        adults: adults,
+                        children: children,
+                        specialRequests: formData.get('special') || '',
+                        addons: formData.getAll('addons') || []
+                    };
+                    
+                    console.log('Sending booking data:', bookingData);
+                    
+                    // Send booking request
+                    const response = await fetch('/api/booking', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(bookingData)
+                    });
+                    
+                    const result = await response.json();
+                    console.log('Booking response:', result);
+                    
+                    if (response.ok && result.success) {
+                        // Success - show confirmation modal
+                        showBookingConfirmation(result.data);
+                        bookingForm.reset();
+                    } else {
+                        // Error - show error message
+                        const errorMessage = result.message || (currentLang === 'al' ? 
+                            'Ka ndodhur një gabim. Ju lutemi provoni përsëri.' : 
+                            'An error occurred. Please try again.');
+                        alert(errorMessage);
+                        console.error('Booking error:', result);
+                    }
+                    
+                } catch (error) {
+                    console.error('Network error:', error);
+                    const errorMessage = currentLang === 'al' ? 
+                        'Gabim në lidhje. Ju lutemi kontrolloni internetin dhe provoni përsëri.' : 
+                        'Connection error. Please check your internet and try again.';
+                    alert(errorMessage);
+                } finally {
+                    // Reset button state
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            } else {
+                console.log('Form validation failed');
             }
         });
 
         // Modal close events
         if (modalClose) {
             modalClose.addEventListener('click', function() {
-                if (modal) modal.style.display = 'none';
+                if (modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
             });
         }
 
@@ -351,10 +426,23 @@ document.addEventListener('DOMContentLoaded', function() {
         if (modal) {
             modal.addEventListener('click', function(e) {
                 if (e.target === modal) {
-                    modal.style.display = 'none';
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
                 }
             });
         }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
+                modal.classList.remove('active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
+        });
     }
 
     function validateBookingForm() {
@@ -409,10 +497,41 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
     }
 
-    function showBookingConfirmation() {
+    function showBookingConfirmation(bookingData) {
         const modal = document.getElementById('bookingModal');
+        const bookingSummary = document.getElementById('bookingSummary');
+        
         if (modal) {
+            // Display booking summary if we have booking data
+            if (bookingData && bookingSummary) {
+                const checkinDate = new Date(bookingData.checkInDate).toLocaleDateString(currentLang === 'al' ? 'sq-AL' : 'en-US');
+                const checkoutDate = new Date(bookingData.checkOutDate).toLocaleDateString(currentLang === 'al' ? 'sq-AL' : 'en-US');
+                
+                const summaryHTML = `
+                    <div class="booking-summary">
+                        <h4>${currentLang === 'al' ? 'Përmbajthja e Rezervimit' : 'Booking Summary'}</h4>
+                        <div class="summary-details">
+                            <p><strong>${currentLang === 'al' ? 'Dhoma:' : 'Room:'}</strong> ${bookingData.roomType}</p>
+                            <p><strong>${currentLang === 'al' ? 'Check-in:' : 'Check-in:'}</strong> ${checkinDate}</p>
+                            <p><strong>${currentLang === 'al' ? 'Check-out:' : 'Check-out:'}</strong> ${checkoutDate}</p>
+                            <p><strong>${currentLang === 'al' ? 'Vizitorët:' : 'Guests:'}</strong> ${bookingData.numberOfGuests} (${bookingData.adults} ${currentLang === 'al' ? 'të rritur' : 'adults'}${bookingData.children > 0 ? `, ${bookingData.children} ${currentLang === 'al' ? 'fëmijë' : 'children'}` : ''})</p>
+                            <p><strong>${currentLang === 'al' ? 'Email:' : 'Email:'}</strong> ${bookingData.email}</p>
+                            ${bookingData.phone ? `<p><strong>${currentLang === 'al' ? 'Telefon:' : 'Phone:'}</strong> ${bookingData.phone}</p>` : ''}
+                            ${bookingData.specialRequests ? `<p><strong>${currentLang === 'al' ? 'Kërkesa të veçanta:' : 'Special Requests:'}</strong> ${bookingData.specialRequests}</p>` : ''}
+                            ${bookingData.addons && bookingData.addons.length > 0 ? `<p><strong>${currentLang === 'al' ? 'Shtesat:' : 'Add-ons:'}</strong> ${bookingData.addons.join(', ')}</p>` : ''}
+                        </div>
+                        <div class="booking-id">
+                            <p><strong>${currentLang === 'al' ? 'ID e Rezervimit:' : 'Booking ID:'}</strong> ${bookingData._id || 'N/A'}</p>
+                        </div>
+                    </div>
+                `;
+                bookingSummary.innerHTML = summaryHTML;
+            }
+            
             modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 10);
         }
     }
 

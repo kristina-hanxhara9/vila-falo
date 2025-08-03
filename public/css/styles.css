@@ -3091,7 +3091,7 @@ button[type="submit"]:hover::before {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: var(--transition);
+    transition: all 0.3s ease;
 }
 
 .modal.active {
@@ -3103,15 +3103,16 @@ button[type="submit"]:hover::before {
     max-width: 800px;
     width: 90%;
     background: var(--white);
-    border-radius: 10px;
+    border-radius: 15px;
     position: relative;
     overflow: hidden;
-    transform: scale(0.9);
+    transform: scale(0.9) translateY(-50px);
     transition: transform 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .modal.active .modal-content {
-    transform: scale(1);
+    transform: scale(1) translateY(0);
 }
 
 .modal-close {
@@ -3172,14 +3173,82 @@ button[type="submit"]:hover::before {
 
 .confirmation-message p {
     margin-bottom: 2rem;
+    color: var(--text);
+    font-size: 1.1rem;
 }
 
 .booking-summary {
     background: rgba(42, 109, 78, 0.05);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    padding: 25px;
+    border-radius: 12px;
+    margin: 20px 0;
     text-align: left;
+    border: 2px solid rgba(42, 109, 78, 0.1);
+}
+
+.booking-summary h4 {
+    color: var(--primary);
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(42, 109, 78, 0.2);
+}
+
+.summary-details {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.summary-details p {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-details p:last-child {
+    border-bottom: none;
+}
+
+.summary-details strong {
+    color: var(--primary);
+    font-weight: 600;
+    min-width: 120px;
+}
+
+.booking-id {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.booking-id p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.booking-id strong {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Loading state for submit button */
+button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+button[type="submit"]:disabled:hover {
+    transform: none !important;
+    box-shadow: 0 5px 15px rgba(42, 109, 78, 0.3) !important;
 }
 
 /* Back to Top Button */
@@ -4100,11 +4169,62 @@ button[type="submit"]:hover::before {
     line-height: 1.6;
 }
 
+/* Honey Content and Image Alignment Fixes */
+.honey-container {
+    align-items: flex-start;
+    max-width: 100%;
+}
+
+.honey-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding-right: 20px;
+}
+
+.honey-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 100%;
+    padding-left: 20px;
+}
+
+.honey-cta {
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    max-width: 100%;
+}
+
+.honey-contact-buttons {
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.honey-contact-buttons .btn {
+    min-width: 200px;
+    justify-content: center;
+}
+
 /* Honey Responsive Design */
 @media (max-width: 1024px) {
     .honey-container {
         grid-template-columns: 1fr;
         gap: 40px;
+        align-items: stretch;
+    }
+    
+    .honey-content {
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .honey-image {
+        padding-left: 0;
     }
     
     .honey-features {
