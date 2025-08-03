@@ -4,11 +4,12 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 // Load environment variables first
 dotenv.config();
 
-// Create Express app - MOVED THIS UP
+// Create Express app
 const app = express();
 
 const connectDB = require('./config/db');
@@ -19,42 +20,178 @@ const errorHandler = require('./middleware/errorHandler');
 const bookingRoutes = require('./routes/bookingRoutes');
 const newsletterRoutes = require('./routes/NewsletterRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const chatbotRoutes = require('./chatbot/chatbotRoutes');
+const emailRoutes = require('./routes/emailRoutes');
 
 // Connect to database
 connectDB();
 
-// Middleware
-app.use(cors());
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json());
+// CORS configuration
+const corsOptions = {
+    origin: function(origin, callback) {
+        // Allow requests with no origin (like mobile apps or Postman)
+        if (!origin) return callback(null, true);
+        
+        // Define allowed origins
+        const allowedOrigins = [
+            'http://localhost:5000',
+            'http://localhost:3000',
+            process.env.CORS_ORIGIN,
+            process.env.BASE_URL
+        ].filter(Boolean);
+        
+        // In production, allow all origins for now
+        if (process.env.NODE_ENV === 'production') {
+            return callback(null, true);
+        }
+        
+        if (allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(null, true); // Allow all origins for development
+        }
+    },
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+    optionsSuccessStatus: 200
+};
 
-// Routes
-app.use('/api/booking', bookingRoutes);
-app.use('/api/newsletter', newsletterRoutes);
-app.use('/admin', adminRoutes);
-app.use('/api/admin', adminRoutes); // Added this line for admin API
-app.use('/api/users', userRoutes);
+app.use(cors(corsOptions));
 
-// Serve the main HTML file for all routes except API routes
-app.get('*', (req, res) => {
-    if (!req.path.startsWith('/api') && !req.path.startsWith('/admin')) {
-        res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    }
+// Body parsing middleware
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Cookie parser middleware
+app.use(cookieParser());
+
+// Security headers
+app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
 });
 
-// Error handling middleware
-app.use(errorHandler);
+// Request logging in development
+if (process.env.NODE_ENV !== 'production') {
+    app.use((req, res, next) => {
+        console.log(`${req.method} ${req.path}`);
+        next();
+    });
+}
+
+// Static files middleware - serve all files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({
+        status: 'OK',
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development',
+        database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected'
+    });
+});
+
+// API Routes
+app.use('/api/booking', bookingRoutes);
+app.use('/api/newsletter', newsletterRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/chatbot', chatbotRoutes);
+app.use('/api/email', emailRoutes);
+
+// Admin routes
+app.use('/admin', adminRoutes);
+
+// Root route - serve main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Serve specific HTML pages
+app.get('/admin-panel', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin-panel.html'));
+});
+
+app.get('/admin.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+app.get('/login.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+// Catch-all route for SPA routing - serve index.html for non-API routes
+app.get('*', (req, res, next) => {
+    // Don't handle API routes, admin routes, or static files
+    if (req.path.startsWith('/api') || 
+        req.path.startsWith('/admin') || 
+        req.path.startsWith('/health') ||
+        req.path.includes('.')) {
+        return next();
+    }
+    
+    // Serve the main page for all other routes
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+// Handle 404 for API routes
+app.use('/api/*', (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'API endpoint not found'
+    });
+});
+
+// Global error handler
 app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({
+    console.error(`Error ${req.method} ${req.path}:`, err.stack);
+    
+    res.status(err.status || 500).json({
         success: false,
         message: 'Server error',
         error: process.env.NODE_ENV === 'development' ? err.message : 'An error occurred'
     });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Error handling middleware
+app.use(errorHandler);
 
-module.exports = app; // Export the app for testing or other purposes
+// 404 handler for anything else
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Page not found'
+    });
+});
+
+const PORT = process.env.PORT || 5000;
+
+const server = app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`🗄️  Database: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Connecting...'}`);
+    console.log(`🌐 Local URL: http://localhost:${PORT}`);
+    console.log(`👤 Client Site: http://localhost:${PORT}`);
+    console.log(`👨‍💼 Admin Panel: http://localhost:${PORT}/admin`);
+    console.log(`🔑 Admin Login: http://localhost:${PORT}/admin/login`);
+    console.log(`📊 Health Check: http://localhost:${PORT}/health`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('🛑 SIGTERM received. Shutting down gracefully...');
+    server.close(() => {
+        console.log('📴 Server closed');
+        mongoose.connection.close(false, () => {
+            console.log('🗄️  Database connection closed');
+            process.exit(0);
+        });
+    });
+});
+
+module.exports = app;

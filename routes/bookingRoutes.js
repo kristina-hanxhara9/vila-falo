@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
+const emailService = require('../services/emailService');
 
 // GET all bookings (for admin)
 router.get('/', async (req, res) => {
@@ -38,6 +39,16 @@ router.post('/', async (req, res) => {
     
     // Save to database
     await booking.save();
+    
+    // Send confirmation emails
+    try {
+      await emailService.sendBookingConfirmation(booking);
+      await emailService.sendAdminNotification(booking);
+      console.log('✅ Confirmation emails sent for booking:', booking._id);
+    } catch (emailError) {
+      console.error('❌ Error sending emails for booking:', emailError);
+      // Don't fail the booking if email fails
+    }
     
     res.status(201).json({ 
       success: true, 
@@ -85,21 +96,20 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// PUT update booking status
+// PUT update booking status and data
 router.put('/:id', async (req, res) => {
   try {
-    const { status } = req.body;
+    const bookingId = req.params.id;
+    const updateData = req.body;
     
-    if (!['pending', 'confirmed', 'cancelled'].includes(status)) {
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Invalid status value' 
-      });
-    }
+    // Remove any fields that shouldn't be updated directly
+    delete updateData._id;
+    delete updateData.__v;
+    delete updateData.createdAt;
     
     const booking = await Booking.findByIdAndUpdate(
-      req.params.id, 
-      { status }, 
+      bookingId, 
+      updateData, 
       { new: true, runValidators: true }
     );
     
@@ -107,9 +117,30 @@ router.put('/:id', async (req, res) => {
       return res.status(404).json({ success: false, message: 'Booking not found' });
     }
     
+    // Send update confirmation email if status changed
+    if (updateData.status && updateData.status !== booking.status) {
+      try {
+        await emailService.sendBookingConfirmation(booking, true);
+        console.log('✅ Update confirmation email sent for booking:', booking._id);
+      } catch (emailError) {
+        console.error('❌ Error sending update email for booking:', emailError);
+        // Don't fail the update if email fails
+      }
+    }
+    
     res.json({ success: true, data: booking });
   } catch (error) {
     console.error('Error updating booking:', error);
+    
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map(val => val.message);
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Validation Error', 
+        errors: messages 
+      });
+    }
+    
     res.status(500).json({ 
       success: false, 
       message: 'Server error', 

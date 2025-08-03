@@ -1,817 +1,738 @@
+// Vila Falo - Fixed JavaScript File
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize AOS
-    AOS.init({
-        duration: 800,
-        easing: 'ease-in-out',
-        once: true,
-        mirror: false
-    });
+    console.log('DOM loaded');
+    
+    // Set Albanian as default language
+    let currentLang = 'al';
 
-    // Elements
-    const header = document.querySelector('.header');
-    const hamburger = document.querySelector('.hamburger');
-    const mobileNav = document.querySelector('.mobile-nav');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const bookRoomBtns = document.querySelectorAll('.book-room-btn');
-    const bookNowBtn = document.querySelector('.book-now-btn');
-    const scrollProgress = document.querySelector('.scroll-progress');
-    const bookingForm = document.getElementById('bookingForm');
-    const roomTypeSelect = document.getElementById('roomType');
-    const modal = document.getElementById('bookingModal');
-    const modalClose = document.querySelector('.modal-close');
-    const modalBtn = document.querySelector('.confirmation-message .btn');
+    // Hide loader after 3 seconds - FIXED SELECTOR
     const loader = document.querySelector('.loader');
-    const testimonialDots = document.querySelectorAll('.testimonial-dots .dot');
-    const testimonialsTrack = document.querySelector('.testimonials-track');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    const mountainParallax = document.querySelectorAll('.mountain-parallax');
-    const languageOptions = document.querySelectorAll('.language-option');
-    const heroTitle = document.querySelector('.hero-title');
-    const snowContainer = document.getElementById('snowContainer');
-    const loaderText = document.getElementById('loader-text');
-    const backToTop = document.querySelector('.back-to-top');
-    const weatherWidget = document.querySelector('.weather-widget');
-    const weatherToggle = document.querySelector('.weather-toggle');
-    const virtualTourBtn = document.querySelector('.virtual-tour-btn');
-    const newsletterForm = document.getElementById('newsletterForm');
-    const calendarGrid = document.getElementById('calendarGrid');
-    const prevMonthBtn = document.getElementById('prevMonth');
-    const nextMonthBtn = document.getElementById('nextMonth');
-    const currentMonthDisplay = document.getElementById('currentMonth');
-
-    // Show/hide loader with mountain animation
-    window.addEventListener('load', function() {
+    if (loader) {
+        console.log('Loader found');
         setTimeout(function() {
             loader.classList.add('hidden');
-            // Add animation class to hero title after loader is hidden
-            setTimeout(() => {
-                heroTitle.classList.add('active');
-            }, 500);
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+            loader.style.pointerEvents = 'none';
+            loader.style.zIndex = '-1';
+            console.log('Loader hidden');
+            
+            // Force show all sections after loader is hidden
+            const allSections = document.querySelectorAll('section');
+            allSections.forEach(section => {
+                section.style.opacity = '1';
+                section.style.visibility = 'visible';
+                section.style.display = 'block';
+            });
+            console.log('All sections made visible');
         }, 3000);
-    });
+    } else {
+        console.log('Loader not found');
+        // Ensure sections are visible even without loader
+        const allSections = document.querySelectorAll('section');
+        allSections.forEach(section => {
+            section.style.opacity = '1';
+            section.style.visibility = 'visible';
+            section.style.display = 'block';
+        });
+    }
 
-    // Loader text animation
-    let currentLang = 'en';
-    const loaderTexts = {
-        en: ["Loading...", "Welcome to Vila Falo", "Your Mountain Adventure Awaits"],
-        al: ["Duke ngarkuar...", "Mirë se vini në Vila Falo", "Aventura Juaj Malore Ju Pret"]
-    };
+    // Initialize functionality
+    initNavigation();
+    initLanguageSwitcher();
+    initScrollEffects();
+    initSnowEffect();
+    initBookingForm();
+    initTestimonialSlider();
+    initCalendar();
+    initAOS();
     
-    let textIndex = 0;
-    const loaderTextInterval = setInterval(() => {
-        loaderText.style.opacity = 0;
-        setTimeout(() => {
-            textIndex = (textIndex + 1) % loaderTexts[currentLang].length;
-            loaderText.textContent = loaderTexts[currentLang][textIndex];
-            loaderText.style.opacity = 1;
-        }, 500);
-    }, 2000);
-
-    // Clear interval when loader is hidden
+    // Set initial language to Albanian
+    updateLanguage('al');
+    
+    // Ensure all sections are visible immediately
     setTimeout(() => {
-        clearInterval(loaderTextInterval);
-    }, 3000);
-
-    // Generate snowflakes
-    function createSnowflakes() {
-        snowContainer.innerHTML = '';
-        const numberOfSnowflakes = 50;
-        
-        for (let i = 0; i < numberOfSnowflakes; i++) {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            
-            // Random properties
-            const size = Math.random() * 5 + 3;
-            const left = Math.random() * 100;
-            const animationDuration = Math.random() * 10 + 10;
-            const delay = Math.random() * 10;
-            const opacity = Math.random() * 0.6 + 0.3;
-            
-            // Apply styles
-            snowflake.style.width = `${size}px`;
-            snowflake.style.height = `${size}px`;
-            snowflake.style.left = `${left}%`;
-            snowflake.style.animationDuration = `${animationDuration}s`;
-            snowflake.style.animationDelay = `${delay}s`;
-            snowflake.style.opacity = opacity;
-            
-            snowContainer.appendChild(snowflake);
-        }
-    }
-    
-    createSnowflakes();
-
-    // Language toggle
-    function translatePage(lang) {
-        currentLang = lang;
-        
-        languageOptions.forEach(option => {
-            if (option.getAttribute('data-lang') === lang) {
-                option.classList.add('active');
-            } else {
-                option.classList.remove('active');
-            }
+        const hiddenElements = document.querySelectorAll('[data-aos], .fade-in, .slide-in-left, .slide-in-right, .zoom-in');
+        hiddenElements.forEach(el => {
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            el.style.visibility = 'visible';
         });
-        
-        // Translate all elements with data-en and data-al attributes
-        const translatableElements = document.querySelectorAll('[data-en][data-al]');
-        translatableElements.forEach(el => {
-            el.textContent = el.getAttribute(`data-${lang}`);
-        });
-        
-        // Translate placeholder attributes
-        const inputElements = document.querySelectorAll('input[placeholder], textarea[placeholder]');
-        inputElements.forEach(input => {
-            if (lang === 'en') {
-                if (input.hasAttribute('data-original-placeholder')) {
-                    input.placeholder = input.getAttribute('data-original-placeholder');
-                }
-            } else if (lang === 'al') {
-                if (!input.hasAttribute('data-original-placeholder')) {
-                    input.setAttribute('data-original-placeholder', input.placeholder);
-                }
-                if (input.placeholder.includes('Your')) {
-                    input.placeholder = input.placeholder.replace('Your', 'Juaji');
-                }
-                if (input.placeholder.includes('Any special requests?')) {
-                    input.placeholder = 'Ndonjë kërkesë e veçantë?';
-                }
-            }
-        });
-        
-        // Update availability calendar
-        if (typeof generateCalendar === 'function') {
-            generateCalendar();
-        }
-    }
-    
-    languageOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            const lang = this.getAttribute('data-lang');
-            translatePage(lang);
-        });
-    });
+        console.log('All animated elements made visible');
+    }, 100);
 
-    // Scroll progress bar
-    window.addEventListener('scroll', function() {
-        const windowScroll = document.documentElement.scrollTop;
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercentage = (windowScroll / windowHeight) * 100;
-        
-        if (scrollProgress) {
-            scrollProgress.style.width = scrollPercentage + '%';
-        }
+    function initNavigation() {
+        const hamburger = document.querySelector('.hamburger');
+        const mobileNav = document.querySelector('.mobile-nav');
+        const navLinks = document.querySelectorAll('.nav-link');
 
-        // Header scroll effect
-        if (window.scrollY > 50) {
-            if (header) header.classList.add('scrolled');
-        } else {
-            if (header) header.classList.remove('scrolled');
-        }
-
-        // Show/hide back to top button
-        if (window.scrollY > 500) {
-            if (backToTop) backToTop.classList.add('visible');
-        } else {
-            if (backToTop) backToTop.classList.remove('visible');
-        }
-
-        // Parallax effect for mountain layers
-        if (mountainParallax) {
-            mountainParallax.forEach(layer => {
-                const speed = layer.getAttribute('data-speed');
-                layer.style.transform = `translateY(${windowScroll * speed}px)`;
+        // Mobile menu toggle
+        if (hamburger && mobileNav) {
+            hamburger.addEventListener('click', function() {
+                mobileNav.classList.toggle('active');
+                hamburger.classList.toggle('active');
             });
         }
 
-        // Check for elements to animate on scroll
-        const fadeElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .zoom-in');
-        fadeElements.forEach(el => {
-            const elementTop = el.getBoundingClientRect().top;
-            const elementVisible = 150;
-            if (elementTop < window.innerHeight - elementVisible) {
-                el.classList.add('active');
-            }
-        });
-    });
-
-    // Mobile navigation toggle with animation
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            if (mobileNav) mobileNav.classList.toggle('active');
-            document.body.classList.toggle('no-scroll');
-
-            // Animate hamburger
-            const bars = hamburger.querySelectorAll('.bar');
-            if (hamburger.classList.contains('active')) {
-                bars[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
-                bars[1].style.opacity = '0';
-                bars[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
-            } else {
-                bars[0].style.transform = 'none';
-                bars[1].style.opacity = '1';
-                bars[2].style.transform = 'none';
-            }
-        });
-    }
-
-    // Close mobile nav when link is clicked
-    if (navLinks) {
+        // Close mobile menu when clicking on a link
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
-                if (hamburger) hamburger.classList.remove('active');
                 if (mobileNav) mobileNav.classList.remove('active');
-                document.body.classList.remove('no-scroll');
+                if (hamburger) hamburger.classList.remove('active');
                 
-                // Reset hamburger icon
-                if (hamburger) {
-                    const bars = hamburger.querySelectorAll('.bar');
-                    bars[0].style.transform = 'none';
-                    bars[1].style.opacity = '1';
-                    bars[2].style.transform = 'none';
-                }
-                
-                // Active nav link
+                // Update active nav link
                 navLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
             });
         });
-    }
 
-    // Smooth scroll with offset for header
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
-            
-            if (targetSection) {
-                window.scrollTo({
-                    top: targetSection.offsetTop - 70,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // Book room buttons
-    if (bookRoomBtns) {
-        bookRoomBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
                 e.preventDefault();
-                const roomType = this.getAttribute('data-room');
-                if (roomTypeSelect) roomTypeSelect.value = roomType;
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
                 
-                // Scroll to booking section with animation
-                const bookingSection = document.getElementById('booking');
-                if (bookingSection) {
-                    window.scrollTo({
-                        top: bookingSection.offsetTop - 70,
-                        behavior: 'smooth'
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
                     });
                 }
             });
         });
     }
 
-    // Fixed book now button with animation
-    if (bookNowBtn) {
-        bookNowBtn.addEventListener('click', function() {
-            const bookingSection = document.getElementById('booking');
-            if (bookingSection) {
-                window.scrollTo({
-                    top: bookingSection.offsetTop - 70,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    }
-
-    // Scroll indicator
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', function() {
-            const aboutSection = document.getElementById('about');
-            if (aboutSection) {
-                window.scrollTo({
-                    top: aboutSection.offsetTop - 70,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    }
-
-    // Back to top button click
-    if (backToTop) {
-        backToTop.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
-
-    // Weather widget toggle
-    if (weatherToggle && weatherWidget) {
-        weatherToggle.addEventListener('click', function() {
-            weatherWidget.classList.toggle('visible');
-        });
-    }
-
-    // Virtual tour button
-    if (virtualTourBtn) {
-        virtualTourBtn.addEventListener('click', function() {
-            // Create virtual tour modal
-            const virtualTourModal = document.createElement('div');
-            virtualTourModal.classList.add('modal');
-            virtualTourModal.classList.add('active');
-            
-            const virtualTourContent = document.createElement('div');
-            virtualTourContent.classList.add('modal-content');
-            virtualTourContent.style.width = '90%';
-            virtualTourContent.style.maxWidth = '1000px';
-            
-            const virtualTourClose = document.createElement('div');
-            virtualTourClose.classList.add('modal-close');
-            virtualTourClose.innerHTML = '<i class="fas fa-times"></i>';
-            
-            const virtualTourTitle = document.createElement('h3');
-            virtualTourTitle.textContent = currentLang === 'en' ? 'Vila Falo Virtual Tour' : 'Tur Virtual i Vila Falo';
-            virtualTourTitle.style.textAlign = 'center';
-            virtualTourTitle.style.margin = '1.5rem 0';
-            
-            const virtualTourFrame = document.createElement('div');
-            virtualTourFrame.style.position = 'relative';
-            virtualTourFrame.style.width = '100%';
-            virtualTourFrame.style.height = '500px';
-            virtualTourFrame.style.borderRadius = '10px';
-            virtualTourFrame.style.overflow = 'hidden';
-            virtualTourFrame.style.background = 'url(\'images/virtual-tour.jpg\') center/cover no-repeat';
-            
-            const tourMessage = document.createElement('div');
-            tourMessage.textContent = currentLang === 'en' ? 'Virtual Tour Experience - Coming Soon!' : 'Përvoja e Turit Virtual - Së Shpejti!';
-            tourMessage.style.position = 'absolute';
-            tourMessage.style.top = '50%';
-            tourMessage.style.left = '50%';
-            tourMessage.style.transform = 'translate(-50%, -50%)';
-            tourMessage.style.background = 'rgba(0,0,0,0.7)';
-            tourMessage.style.color = 'white';
-            tourMessage.style.padding = '1rem 2rem';
-            tourMessage.style.borderRadius = '5px';
-            tourMessage.style.fontWeight = '600';
-            
-            virtualTourFrame.appendChild(tourMessage);
-            virtualTourContent.appendChild(virtualTourClose);
-            virtualTourContent.appendChild(virtualTourTitle);
-            virtualTourContent.appendChild(virtualTourFrame);
-            virtualTourModal.appendChild(virtualTourContent);
-            document.body.appendChild(virtualTourModal);
-            
-            // Close virtual tour modal
-            virtualTourClose.addEventListener('click', function() {
-                virtualTourModal.classList.remove('active');
-                setTimeout(() => {
-                    document.body.removeChild(virtualTourModal);
-                }, 300);
-            });
-        });
-    }
-
-    // Generate and handle availability calendar
-    let currentDate = new Date();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-
-    function generateCalendar() {
-        if (!calendarGrid || !currentMonthDisplay) return;
+    function initCalendar() {
+        const calendarGrid = document.getElementById('calendarGrid');
+        const currentMonthEl = document.getElementById('currentMonth');
+        const prevBtn = document.getElementById('prevMonth');
+        const nextBtn = document.getElementById('nextMonth');
         
-        const monthNames = {
-            en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            al: ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor']
+        if (!calendarGrid || !currentMonthEl) return;
+        
+        let currentDate = new Date();
+        const months = {
+            'en': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            'al': ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor']
         };
         
-        // Update month display
-        currentMonthDisplay.textContent = `${monthNames[currentLang][currentMonth]} ${currentYear}`;
-        
-        // Clear previous calendar
-        calendarGrid.innerHTML = '';
-        
-        // Add day headers
-        const dayNames = {
-            en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            al: ['Dje', 'Hën', 'Mar', 'Mër', 'Enj', 'Pre', 'Sht']
-        };
-        
-        dayNames[currentLang].forEach(day => {
-            const dayHeader = document.createElement('div');
-            dayHeader.classList.add('calendar-day', 'day-header');
-            dayHeader.textContent = day;
-            calendarGrid.appendChild(dayHeader);
-        });
-        
-        // Get first day of month and number of days
-        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
-        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-        
-        // Add empty cells for days before first day of month
-        for (let i = 0; i < firstDay; i++) {
-            const emptyDay = document.createElement('div');
-            emptyDay.classList.add('calendar-day', 'empty');
-            calendarGrid.appendChild(emptyDay);
-        }
-        
-        // Add days with availability status
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dayCell = document.createElement('div');
-            dayCell.classList.add('calendar-day');
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
             
-            const dateObj = new Date(currentYear, currentMonth, day);
-            dateObj.setHours(0, 0, 0, 0);
+            // Update month display
+            const monthName = months[currentLang] ? months[currentLang][month] : months['en'][month];
+            currentMonthEl.textContent = `${monthName} ${year}`;
             
-            // Check if date is in the past
-            if (dateObj < today) {
-                dayCell.classList.add('unavailable');
-                dayCell.innerHTML = `<span>${day}</span><small>${currentLang === 'en' ? 'Past' : 'Kaluar'}</small>`;
-            } else {
-                // Random availability (for demo)
-                const randomAvailability = Math.random();
+            // Clear calendar grid
+            calendarGrid.innerHTML = '';
+            
+            // Add day headers
+            const dayHeaders = currentLang === 'al' ? ['D', 'H', 'M', 'M', 'E', 'P', 'S'] : ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            dayHeaders.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day-header';
+                dayEl.textContent = day;
+                calendarGrid.appendChild(dayEl);
+            });
+            
+            // Get first day of month and number of days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            
+            // Add empty cells for days before month starts
+            for (let i = 0; i < firstDay; i++) {
+                const emptyEl = document.createElement('div');
+                emptyEl.className = 'calendar-day empty';
+                calendarGrid.appendChild(emptyEl);
+            }
+            
+            // Add days of the month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayEl = document.createElement('div');
+                dayEl.className = 'calendar-day';
+                dayEl.textContent = day;
                 
-                if (randomAvailability < 0.2) {
-                    dayCell.classList.add('unavailable');
-                    dayCell.innerHTML = `<span>${day}</span><small>${currentLang === 'en' ? 'Booked' : 'Zënë'}</small>`;
-                } else if (randomAvailability < 0.5) {
-                    dayCell.classList.add('limited');
-                    dayCell.innerHTML = `<span>${day}</span><small>${currentLang === 'en' ? 'Limited' : 'Limituar'}</small>`;
+                const dayDate = new Date(year, month, day);
+                
+                // Mark past days as unavailable
+                if (dayDate < today) {
+                    dayEl.classList.add('past');
                 } else {
-                    dayCell.classList.add('available');
-                    dayCell.innerHTML = `<span>${day}</span><small>${currentLang === 'en' ? 'Available' : 'Disponueshëm'}</small>`;
+                    // Mark most future days as available (random for demo)
+                    if (Math.random() > 0.3) {
+                        dayEl.classList.add('available');
+                        dayEl.addEventListener('click', function() {
+                            // Remove previous selection
+                            calendarGrid.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+                            // Add selection to clicked day
+                            this.classList.add('selected');
+                            
+                            // Update form check-in date if available
+                            const checkInInput = document.getElementById('checkIn');
+                            if (checkInInput) {
+                                const selectedDate = new Date(year, month, day);
+                                checkInInput.value = selectedDate.toISOString().split('T')[0];
+                            }
+                        });
+                    } else {
+                        dayEl.classList.add('booked');
+                    }
                 }
                 
-                // Add click event to available days
-                if (!dayCell.classList.contains('unavailable')) {
-                    dayCell.addEventListener('click', function() {
-                        const checkInInput = document.getElementById('checkIn');
-                        if (checkInInput) {
-                            const formattedDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                            checkInInput.value = formattedDate;
-                            
-                            // Calculate default checkout date (2 days later)
-                            const checkOutInput = document.getElementById('checkOut');
-                            if (checkOutInput) {
-                                const checkoutDate = new Date(dateObj);
-                                checkoutDate.setDate(checkoutDate.getDate() + 2);
-                                const formattedCheckout = `${checkoutDate.getFullYear()}-${String(checkoutDate.getMonth() + 1).padStart(2, '0')}-${String(checkoutDate.getDate()).padStart(2, '0')}`;
-                                checkOutInput.value = formattedCheckout;
-                            }
-                            
-                            // Scroll to booking form
-                            const bookingForm = document.getElementById('bookingForm');
-                            if (bookingForm) {
-                                bookingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            }
-                        }
-                    });
-                }
+                calendarGrid.appendChild(dayEl);
             }
-            
-            calendarGrid.appendChild(dayCell);
         }
-    }
-    
-    // Generate initial calendar
-    if (calendarGrid && currentMonthDisplay) {
-        generateCalendar();
         
-        // Month navigation
-        if (prevMonthBtn) {
-            prevMonthBtn.addEventListener('click', function() {
-                currentMonth--;
-                if (currentMonth < 0) {
-                    currentMonth = 11;
-                    currentYear--;
-                }
-                generateCalendar();
+        // Navigation event listeners
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+                renderCalendar();
             });
         }
         
-        if (nextMonthBtn) {
-            nextMonthBtn.addEventListener('click', function() {
-                currentMonth++;
-                if (currentMonth > 11) {
-                    currentMonth = 0;
-                    currentYear++;
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+                renderCalendar();
+            });
+        }
+        
+        // Initial render
+        renderCalendar();
+    }
+
+    function initLanguageSwitcher() {
+        const languageOptions = document.querySelectorAll('.language-option');
+        
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                languageOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                this.classList.add('active');
+                
+                // Update language
+                const selectedLang = this.getAttribute('data-lang');
+                currentLang = selectedLang;
+                updateLanguage(currentLang);
+            });
+        });
+    }
+
+    // FIXED TRANSLATION FUNCTION - works with data-en and data-al
+    function updateLanguage(lang) {
+        const elements = document.querySelectorAll('[data-en][data-al]');
+        elements.forEach(element => {
+            const text = element.getAttribute(`data-${lang}`);
+            if (text) {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = text;
+                } else {
+                    element.innerHTML = text;
                 }
-                generateCalendar();
+            }
+        });
+        
+        // Update language toggle active state
+        document.querySelectorAll('.language-option').forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+        });
+    }
+
+    function initScrollEffects() {
+        const header = document.querySelector('.header');
+        const backToTop = document.querySelector('.back-to-top');
+        const scrollProgress = document.querySelector('.scroll-progress');
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+
+            // Header scroll effect
+            if (header) {
+                if (scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+
+            // Back to top button
+            if (backToTop) {
+                if (scrollY > 500) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            }
+
+            // Scroll progress bar
+            if (scrollProgress) {
+                const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrollPercentage = (scrollY / windowHeight) * 100;
+                scrollProgress.style.width = scrollPercentage + '%';
+            }
+        });
+
+        // Back to top button click
+        if (backToTop) {
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
             });
         }
     }
 
-    // Enhanced Form validation with animations
-    if (bookingForm) {
+    function initSnowEffect() {
+        const snowContainer = document.getElementById('snowContainer');
+        if (!snowContainer) return;
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.innerHTML = '❄';
+            
+            // Random properties
+            const size = Math.random() * 15 + 10;
+            const startPositionX = Math.random() * window.innerWidth;
+            const animationDuration = Math.random() * 10 + 5;
+            const opacity = Math.random() * 0.8 + 0.2;
+            
+            snowflake.style.position = 'absolute';
+            snowflake.style.left = startPositionX + 'px';
+            snowflake.style.top = '-20px';
+            snowflake.style.fontSize = size + 'px';
+            snowflake.style.color = 'white';
+            snowflake.style.opacity = opacity;
+            snowflake.style.pointerEvents = 'none';
+            snowflake.style.animation = `snowfall ${animationDuration}s linear forwards`;
+            
+            snowContainer.appendChild(snowflake);
+            
+            // Remove snowflake after animation
+            setTimeout(() => {
+                if (snowflake.parentNode) {
+                    snowflake.parentNode.removeChild(snowflake);
+                }
+            }, animationDuration * 1000);
+        }
+
+        // Create snowflakes periodically
+        setInterval(createSnowflake, 300);
+    }
+
+    function initBookingForm() {
+        const bookingForm = document.getElementById('bookingForm');
+        const modal = document.getElementById('bookingModal');
+        const modalClose = document.querySelector('.modal-close');
+
+        if (!bookingForm) return;
+
         bookingForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            let isValid = true;
-            const formElements = bookingForm.elements;
-            
-            // Basic validation with animations
-            for (let i = 0; i < formElements.length; i++) {
-                const element = formElements[i];
-                
-                if (element.hasAttribute('required') && !element.value) {
-                    element.classList.add('error');
-                    element.parentNode.classList.add('shake');
-                    setTimeout(() => {
-                        element.parentNode.classList.remove('shake');
-                    }, 500);
-                    isValid = false;
-                } else {
-                    element.classList.remove('error');
-                }
-                
-                // Email validation
-                if (element.type === 'email' && element.value) {
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(element.value)) {
-                        element.classList.add('error');
-                        isValid = false;
-                    }
-                }
-            }
-            
-            // Check date validity
-            const checkIn = new Date(document.getElementById('checkIn').value);
-            const checkOut = new Date(document.getElementById('checkOut').value);
-            
-            if (checkIn >= checkOut) {
-                document.getElementById('checkOut').classList.add('error');
-                isValid = false;
-            }
-            
-            if (isValid) {
-                // Collect form data
-                const formData = new FormData(bookingForm);
-                
-                // Convert adults and children to total number of guests
-                const adults = parseInt(formData.get('adults') || 0);
-                const children = parseInt(formData.get('children') || 0);
-                
-                // Format the data to match the Mongoose schema
-                const bookingData = {
-                    roomType: formData.get('roomType'),
-                    checkInDate: formData.get('checkIn'),
-                    checkOutDate: formData.get('checkOut'),
-                    numberOfGuests: adults + children,
-                    guestName: formData.get('name'),
-                    email: formData.get('email'),
-                    status: 'pending',
-                    // Additional fields not in schema but might be useful
-                    phone: formData.get('phone'),
-                    special: formData.get('special'),
-                    addons: formData.getAll('addons')
-                };
-                
-                // Send data to server via fetch API
-                fetch('/api/booking', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(bookingData)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Booking success:', data);
-                    
-                    // Create booking summary based on current language
-                    const roomTypeLabel = currentLang === 'en' ? 'Room' : 'Dhoma';
-                    const checkInLabel = currentLang === 'en' ? 'Check-in' : 'Check-in';
-                    const checkOutLabel = currentLang === 'en' ? 'Check-out' : 'Check-out';
-                    const guestsLabel = currentLang === 'en' ? 'Guests' : 'Vizitorë';
-                    const adultsLabel = currentLang === 'en' ? 'Adults' : 'Të Rritur';
-                    const childrenLabel = currentLang === 'en' ? 'Children' : 'Fëmijë';
-                    const nameLabel = currentLang === 'en' ? 'Name' : 'Emri';
-                    
-                    // Format dates
-                    const checkInDate = new Date(bookingData.checkInDate).toLocaleDateString();
-                    const checkOutDate = new Date(bookingData.checkOutDate).toLocaleDateString();
-                    
-                    // Get the original adults and children values for display
-                    const adults = formData.get('adults');
-                    const children = formData.get('children');
-                    
-                    const summaryHTML = `
-                        <div class="booking-summary">
-                            <p><strong>${roomTypeLabel}:</strong> ${bookingData.roomType}</p>
-                            <p><strong>${checkInLabel}:</strong> ${checkInDate}</p>
-                            <p><strong>${checkOutLabel}:</strong> ${checkOutDate}</p>
-                            <p><strong>${guestsLabel}:</strong> ${adults} ${adultsLabel}, ${children} ${childrenLabel}</p>
-                            <p><strong>${nameLabel}:</strong> ${bookingData.guestName}</p>
-                        </div>
-                    `;
-                    
-                    // Add summary to modal
-                    const bookingSummary = document.getElementById('bookingSummary');
-                    if (bookingSummary) {
-                        bookingSummary.innerHTML = summaryHTML;
-                    }
-                    
-                    // Show confirmation modal
-                    if (modal) {
-                        modal.classList.add('active');
-                        document.body.classList.add('no-scroll');
-                    }
-                    
-                    // Reset form
-                    bookingForm.reset();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    
-                    // Show error message
-                    const errorMsg = document.createElement('div');
-                    errorMsg.classList.add('error-message');
-                    errorMsg.textContent = currentLang === 'en' ? 
-                        'There was an error processing your booking. Please try again.' : 
-                        'Kishte një gabim në përpunimin e rezervimit tuaj. Ju lutemi provoni përsëri.';
-                    
-                    bookingForm.appendChild(errorMsg);
-                    
-                    // Remove error message after 3 seconds
-                    setTimeout(() => {
-                        errorMsg.remove();
-                    }, 3000);
-                });
+            if (validateBookingForm()) {
+                showBookingConfirmation();
             }
         });
-    }
-    
-    // Modal close button
-    if (modalClose && modal) {
-        modalClose.addEventListener('click', function() {
-            modal.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-        });
-    }
-    
-    // Confirmation button in modal
-    if (modalBtn && modal) {
-        modalBtn.addEventListener('click', function() {
-            modal.classList.remove('active');
-            document.body.classList.remove('no-scroll');
-            
-            // Scroll to top after booking
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+
+        // Modal close events
+        if (modalClose) {
+            modalClose.addEventListener('click', function() {
+                if (modal) modal.style.display = 'none';
             });
-        });
+        }
+
+        // Close modal when clicking outside
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     }
-    
-    // Newsletter form submission
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic validation
-            const emailInput = newsletterForm.querySelector('input[type="email"]');
-            if (!emailInput || !emailInput.value) return;
-            
+
+    function validateBookingForm() {
+        const form = document.getElementById('bookingForm');
+        const inputs = form.querySelectorAll('input[required], select[required]');
+        let isValid = true;
+
+        inputs.forEach(input => {
+            const errorMsg = input.parentNode.querySelector('.error-message');
+            if (!input.value.trim()) {
+                input.classList.add('error');
+                if (errorMsg) errorMsg.style.display = 'block';
+                isValid = false;
+            } else {
+                input.classList.remove('error');
+                if (errorMsg) errorMsg.style.display = 'none';
+            }
+        });
+
+        // Email validation
+        const emailInput = document.getElementById('email');
+        if (emailInput && emailInput.value) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(emailInput.value)) {
                 emailInput.classList.add('error');
-                emailInput.parentNode.classList.add('shake');
-                setTimeout(() => {
-                    emailInput.parentNode.classList.remove('shake');
-                }, 500);
-                return;
+                const errorMsg = emailInput.parentNode.querySelector('.error-message');
+                if (errorMsg) errorMsg.style.display = 'block';
+                isValid = false;
+            }
+        }
+
+        // Date validation
+        const checkinInput = document.getElementById('checkIn');
+        const checkoutInput = document.getElementById('checkOut');
+        
+        if (checkinInput && checkoutInput) {
+            const checkinDate = new Date(checkinInput.value);
+            const checkoutDate = new Date(checkoutInput.value);
+            const today = new Date();
+            
+            if (checkinDate <= today) {
+                checkinInput.classList.add('error');
+                isValid = false;
             }
             
-            // Collect form data
-            const formData = new FormData(newsletterForm);
-            const newsletterData = {
-                email: formData.get('email')
-            };
+            if (checkoutDate <= checkinDate) {
+                checkoutInput.classList.add('error');
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    function showBookingConfirmation() {
+        const modal = document.getElementById('bookingModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    function initTestimonialSlider() {
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.testimonial');
+        const dots = document.querySelectorAll('.dot');
+        const track = document.querySelector('.testimonials-track');
+
+        if (!slides.length || !track) return;
+
+        function showSlide(index) {
+            const translateX = -index * 100;
+            track.style.transform = `translateX(${translateX}%)`;
             
-            // Send data to server via fetch API
-            fetch('/api/newsletter', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newsletterData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Auto-play slider
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+
+        // Manual dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+    }
+
+    function initAOS() {
+        // Initialize AOS (Animate On Scroll) if available
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 1000,
+                easing: 'ease-in-out',
+                once: true,
+                disable: false
+            });
+            console.log('AOS initialized');
+        } else {
+            console.log('AOS not found - sections should still be visible');
+            // Ensure all sections are visible even without AOS
+            const sections = document.querySelectorAll('section[data-aos]');
+            sections.forEach(section => {
+                section.style.opacity = '1';
+                section.style.transform = 'none';
+            });
+        }
+    }
+
+    // Newsletter form
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            if (email) {
+                alert(currentLang === 'al' ? 'Faleminderit për abonimin!' : 'Thank you for subscribing!');
+                this.reset();
+            }
+        });
+    }
+
+    // Gallery lightbox functionality
+    const galleryItems = document.querySelectorAll('.gallery-item, .food-gallery-item');
+    galleryItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            if (!img) return;
+            
+            const lightbox = document.createElement('div');
+            lightbox.className = 'lightbox-modal';
+            lightbox.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+                cursor: pointer;
+            `;
+            
+            const lightboxImg = document.createElement('img');
+            lightboxImg.src = img.src;
+            lightboxImg.style.cssText = `
+                max-width: 90%;
+                max-height: 90%;
+                border-radius: 10px;
+                box-shadow: 0 0 30px rgba(255,255,255,0.3);
+            `;
+            
+            lightbox.appendChild(lightboxImg);
+            document.body.appendChild(lightbox);
+            
+            // Close lightbox on click
+            lightbox.addEventListener('click', () => {
+                document.body.removeChild(lightbox);
+            });
+            
+            // Close on escape key
+            const escapeHandler = (e) => {
+                if (e.key === 'Escape') {
+                    document.body.removeChild(lightbox);
+                    document.removeEventListener('keydown', escapeHandler);
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Newsletter success:', data);
-                
-                // Show success message
-                const successMsg = document.createElement('div');
-                successMsg.classList.add('success-message');
-                successMsg.textContent = currentLang === 'en' ? 
-                    'Thank you for subscribing to our newsletter!' : 
-                    'Faleminderit që u abonuat në buletinin tonë!';
-                
-                newsletterForm.innerHTML = '';
-                newsletterForm.appendChild(successMsg);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                
-                // Show error message
-                const errorMsg = document.createElement('div');
-                errorMsg.classList.add('error-message');
-                errorMsg.textContent = currentLang === 'en' ? 
-                    'There was an error processing your request. Please try again.' : 
-                    'Kishte një gabim në përpunimin e kërkesës tuaj. Ju lutemi provoni përsëri.';
-                
-                newsletterForm.appendChild(errorMsg);
-                
-                // Remove error message after 3 seconds
-                setTimeout(() => {
-                    errorMsg.remove();
-                }, 3000);
+            };
+            document.addEventListener('keydown', escapeHandler);
+        });
+    });
+
+    // Book now floating button
+    const bookNowBtn = document.querySelector('.book-now-btn');
+    if (bookNowBtn) {
+        bookNowBtn.addEventListener('click', function() {
+            document.getElementById('booking').scrollIntoView({
+                behavior: 'smooth'
             });
         });
     }
-    
-    // Initialize gallery lightbox
-    if (galleryItems) {
-        galleryItems.forEach(item => {
-            item.addEventListener('click', function() {
-                const imageUrl = this.querySelector('img').src;
-                
-                // Create lightbox
-                const lightbox = document.createElement('div');
-                lightbox.classList.add('lightbox');
-                
-                const lightboxContent = document.createElement('div');
-                lightboxContent.classList.add('lightbox-content');
-                
-                const lightboxClose = document.createElement('div');
-                lightboxClose.classList.add('lightbox-close');
-                lightboxClose.innerHTML = '<i class="fas fa-times"></i>';
-                
-                const lightboxImage = document.createElement('img');
-                lightboxImage.src = imageUrl;
-                
-                lightboxContent.appendChild(lightboxClose);
-                lightboxContent.appendChild(lightboxImage);
-                lightbox.appendChild(lightboxContent);
-                document.body.appendChild(lightbox);
-                
-                // Add active class after a short delay to trigger animation
-                setTimeout(() => {
-                    lightbox.classList.add('active');
-                }, 10);
-                
-                // Close lightbox
-                lightboxClose.addEventListener('click', function() {
-                    lightbox.classList.remove('active');
-                    setTimeout(() => {
-                        document.body.removeChild(lightbox);
-                    }, 300);
-                });
-                
-                // Close on click outside
-                lightbox.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        lightbox.classList.remove('active');
-                        setTimeout(() => {
-                            document.body.removeChild(lightbox);
-                        }, 300);
-                    }
-                });
-            });
-        });
-    }
-    
-    // Testimonial slider
-    if (testimonialDots && testimonialsTrack) {
-        testimonialDots.forEach((dot, index) => {
-            dot.addEventListener('click', function() {
-                // Update active dot
-                testimonialDots.forEach(d => d.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Move testimonials track
-                testimonialsTrack.style.transform = `translateX(-${index * 100}%)`;
-            });
-        });
-    }
+
+    console.log('All JavaScript initialized successfully');
 });
+
+// Add CSS for snowfall animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes snowfall {
+        0% {
+            transform: translateY(0) rotate(0deg);
+        }
+        100% {
+            transform: translateY(100vh) rotate(360deg);
+        }
+    }
+    
+    .snowflake {
+        user-select: none;
+        animation-fill-mode: forwards;
+    }
+    
+    .header.scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .error {
+        border-color: #e74c3c !important;
+        box-shadow: 0 0 5px rgba(231, 76, 60, 0.3) !important;
+    }
+    
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.85em;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    /* Calendar Styles */
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+        margin-top: 15px;
+    }
+    
+    .calendar-day-header {
+        text-align: center;
+        font-weight: bold;
+        color: #2c3e50;
+        padding: 8px;
+        font-size: 0.9em;
+    }
+    
+    .calendar-day {
+        text-align: center;
+        padding: 12px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        border: 2px solid transparent;
+    }
+    
+    .calendar-day:not(.empty):not(.past) {
+        background: #f8f9fa;
+        border-color: #e9ecef;
+    }
+    
+    .calendar-day.available {
+        background: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+    
+    .calendar-day.available:hover {
+        background: #c3e6cb;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .calendar-day.selected {
+        background: #007bff;
+        border-color: #0056b3;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+    }
+    
+    .calendar-day.booked {
+        background: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        cursor: not-allowed;
+    }
+    
+    .calendar-day.past {
+        background: #f8f9fa;
+        color: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+    
+    .calendar-day.empty {
+        background: transparent;
+        cursor: default;
+    }
+    
+    .availability-calendar {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        margin-top: 20px;
+    }
+    
+    .availability-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    
+    .calendar-controls {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .calendar-control {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #007bff;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .calendar-control:hover {
+        background: #0056b3;
+        transform: scale(1.1);
+    }
+    
+    .calendar-month {
+        text-align: center;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+    
+    .availability-note {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 0.9em;
+        color: #6c757d;
+    }
+`;
+document.head.appendChild(style);
+
+// Add calendar-specific styles
+const calendarStyle = document.createElement('style');
+calendarStyle.textContent = `
+    @media (max-width: 768px) {
+        .calendar-day {
+            padding: 8px 4px;
+            font-size: 0.9em;
+        }
+        
+        .availability-calendar {
+            padding: 15px;
+        }
+        
+        .calendar-controls {
+            gap: 5px;
+        }
+        
+        .calendar-control {
+            width: 32px;
+            height: 32px;
+        }
+    }
+`;
+document.head.appendChild(calendarStyle);

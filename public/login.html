@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vila Falo Admin Login</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/admin-styles.css">
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vila Falo Admin Login</title>
+        
+        <!-- Font Awesome CSS from CDN -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <!-- Link to admin-styles.css -->
+        <link rel="stylesheet" href="/admin-styles.css"> 
+        
+        <style> 
         body {
             background-image: url('/images/mountain-bg.jpg');
             background-size: cover;
@@ -159,22 +164,22 @@
                 </div>
             </div>
             
-            <button type="submit">Log In</button>
+            <button type="submit" id="loginBtn">Log In</button>
         </form>
         
         <div class="back-to-site">
-            <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Website</a>
+            <a href="/"><i class="fas fa-arrow-left"></i> Back to Website</a>
         </div>
     </div>
     
     <script>
-        // Inline login script for development
         document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('loginForm');
             const errorMessage = document.getElementById('errorMessage');
+            const loginBtn = document.getElementById('loginBtn');
             
             if (form) {
-                form.addEventListener('submit', function(e) {
+                form.addEventListener('submit', async function(e) {
                     e.preventDefault();
                     
                     // Clear previous error message
@@ -193,14 +198,37 @@
                         return;
                     }
                     
-                    // DEVELOPMENT MODE - hardcoded credentials
-                    if (username === 'admin' && password === 'admin123') {
-                        // Successful login - redirect to admin dashboard
-                        window.location.href = 'admin.html';
-                        return;
-                    }
+                    // Disable button during login
+                    loginBtn.disabled = true;
+                    loginBtn.textContent = 'Logging in...';
                     
-                    showError('Invalid username or password');
+                    try {
+                        // Send login request to server API
+                        const response = await fetch('/admin/login', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ username, password }),
+                            credentials: 'include' // Important for cookies
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            // Successful login - redirect to dashboard
+                            window.location.href = '/admin/dashboard';
+                        } else {
+                            showError(data.message || 'Login failed');
+                        }
+                    } catch (error) {
+                        console.error('Login error:', error);
+                        showError('Network error. Please try again.');
+                    } finally {
+                        // Re-enable button
+                        loginBtn.disabled = false;
+                        loginBtn.textContent = 'Log In';
+                    }
                 });
             }
             

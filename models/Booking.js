@@ -49,6 +49,11 @@ const bookingSchema = new mongoose.Schema({
   totalPrice: {
     type: Number
   },
+  source: {
+    type: String,
+    enum: ['Website', 'Chatbot', 'Phone', 'Admin', 'Other'],
+    default: 'Website'
+  },
   createdAt: {
     type: Date,
     default: Date.now

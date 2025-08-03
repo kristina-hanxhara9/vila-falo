@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vila Falo Admin Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/admin-styles.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vila Falo Admin Dashboard</title>
+        
+        <!-- Font Awesome CSS from CDN (cdnjs) -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <!-- FullCalendar CSS from CDN (jsDelivr) -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+        
+        <!-- Your Local Admin Stylesheet -->
+        <link rel="stylesheet" href="/css/admin-styles.css"> 
+    </head>
 <body>
     <div class="container">
         <aside class="sidebar" id="sidebar">
@@ -880,8 +887,13 @@
         </div>
     </div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.11.3/main.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-    <script src="js/admin.js"></script>
+   <!-- FullCalendar JS from CDN (jsDelivr) - verify correct filename with curl -->
+   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/index.global.min.js"></script> 
+    
+   <!-- Chart.js (check if this cdnjs link works, or switch to jsDelivr/self-host) -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+   
+   <!-- Your Local Admin JavaScript -->
+   <script src="/js/admin.js"></script>
 </body>
 </html>

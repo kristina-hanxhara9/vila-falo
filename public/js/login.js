@@ -48,12 +48,13 @@ router.post('/login', async (req, res) => {
             process.env.JWT_SECRET || 'your_jwt_secret',
             { expiresIn: '1d' }
         );
-        
-        // Set cookie
-        res.cookie('jwt', token, {
-            httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        });
+       // Set cookie with proper settings
+res.cookie('jwt', token, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+    secure: process.env.NODE_ENV === 'production', // Only use HTTPS in production
+    sameSite: 'lax'  // Changed from 'strict' to 'lax' for development
+});
         
         res.json({
             success: true,
