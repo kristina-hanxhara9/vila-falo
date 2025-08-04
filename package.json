@@ -13,8 +13,7 @@
         "generate-jwt": "node generate-jwt-secret.js",
         "test-server": "node test-server.js",
         "test-gemini": "node test-gemini-api.js",
-        "smart-start": "node smart-start.js",
-        "postinstall": "npm rebuild"
+        "smart-start": "node smart-start.js"
     },
     "keywords": [
         "booking",
@@ -39,7 +38,6 @@
         "helmet": "^7.0.0",
         "jsonwebtoken": "^9.0.2",
         "mongoose": "^7.5.0",
-        "mongodb": "^5.7.0",
         "morgan": "^1.10.0",
         "nodemailer": "^6.9.13"
     },
