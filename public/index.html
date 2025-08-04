@@ -1084,7 +1084,22 @@
             document.body.style.opacity = '1';
             document.body.style.visibility = 'visible';
             
-            console.log('Ultimate fallback completed - content should be visible');
+            // CRITICAL: Set Albanian language immediately
+            var elements = document.querySelectorAll('[data-en][data-al]');
+            for (var j = 0; j < elements.length; j++) {
+                var alText = elements[j].getAttribute('data-al');
+                if (alText) {
+                    elements[j].textContent = alText;
+                }
+            }
+            
+            // Set Albanian language toggle as active
+            var alOption = document.querySelector('.language-option[data-lang="al"]');
+            var enOption = document.querySelector('.language-option[data-lang="en"]');
+            if (alOption) alOption.classList.add('active');
+            if (enOption) enOption.classList.remove('active');
+            
+            console.log('Ultimate fallback completed - content should be visible in Albanian');
         } catch (e) {
             console.error('Ultimate fallback error:', e);
         }

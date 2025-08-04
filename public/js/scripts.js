@@ -80,8 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initAOS();
     initVirtualTourModal();
     
-    // Set initial language to Albanian
-    updateLanguage('al');
+    // CRITICAL: Set initial language to Albanian immediately
+    setTimeout(function() {
+        updateLanguage('al');
+        console.log('Language set to Albanian');
+    }, 100);
     
     // Ensure all sections are visible immediately
     setTimeout(() => {
@@ -134,6 +137,127 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
+    }
+
+    // Language Switching Functionality
+    function initLanguageSwitcher() {
+        console.log('Initializing language switcher...');
+        const languageToggle = document.querySelector('.language-toggle');
+        const languageOptions = document.querySelectorAll('.language-option');
+        
+        if (languageOptions.length > 0) {
+            languageOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const selectedLang = this.getAttribute('data-lang');
+                    console.log('Language clicked:', selectedLang);
+                    
+                    // Remove active class from all options
+                    languageOptions.forEach(opt => opt.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Update current language
+                    currentLang = selectedLang;
+                    
+                    // Update page content
+                    updateLanguage(selectedLang);
+                });
+            });
+        }
+    }
+
+    function updateLanguage(lang) {
+        console.log('Updating language to:', lang);
+        currentLang = lang;
+        
+        // Get all elements with language attributes
+        const elements = document.querySelectorAll('[data-en][data-al]');
+        
+        elements.forEach(element => {
+            const enText = element.getAttribute('data-en');
+            const alText = element.getAttribute('data-al');
+            
+            if (lang === 'en' && enText) {
+                element.textContent = enText;
+            } else if (lang === 'al' && alText) {
+                element.textContent = alText;
+            }
+        });
+        
+        // Update language toggle active state
+        const languageOptions = document.querySelectorAll('.language-option');
+        languageOptions.forEach(option => {
+            option.classList.remove('active');
+            if (option.getAttribute('data-lang') === lang) {
+                option.classList.add('active');
+            }
+        });
+        
+        // Update form placeholders if needed
+        const placeholderElements = document.querySelectorAll('[data-placeholder-en][data-placeholder-al]');
+        placeholderElements.forEach(element => {
+            const enPlaceholder = element.getAttribute('data-placeholder-en');
+            const alPlaceholder = element.getAttribute('data-placeholder-al');
+            
+            if (lang === 'en' && enPlaceholder) {
+                element.placeholder = enPlaceholder;
+            } else if (lang === 'al' && alPlaceholder) {
+                element.placeholder = alPlaceholder;
+            }
+        });
+        
+        console.log('Language updated successfully to:', lang);
+    }
+
+    // Placeholder functions to prevent errors
+    function initScrollEffects() {
+        console.log('Scroll effects initialized');
+        // Add scroll-based animations here if needed
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (header) {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+        });
+    }
+
+    function initSnowEffect() {
+        console.log('Snow effect initialized');
+        // Snow effect is already in CSS
+    }
+
+    function initBookingForm() {
+        console.log('Booking form initialized');
+        const bookingForm = document.getElementById('bookingForm');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('Booking form submitted');
+                // Form handling logic here
+            });
+        }
+    }
+
+    function initTestimonialSlider() {
+        console.log('Testimonial slider initialized');
+        // Testimonial slider logic here
+    }
+
+    function initAOS() {
+        console.log('AOS initialized');
+        // AOS animation library initialization
+        if (typeof AOS !== 'undefined') {
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100
+            });
+        }
     }
 
     function initCalendar() {
