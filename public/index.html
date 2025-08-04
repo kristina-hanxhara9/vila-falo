@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/modal-fixes.css">
 </head>
 <body>
     <!-- Mountain Loader -->
@@ -510,33 +511,10 @@
                             </div>
                         </div>
                     </div>
+
                     
-                    <!-- Honey Testimonial -->
-                    <div class="honey-testimonial" data-aos="fade-up">
-                        <div class="testimonial-honey-text" data-en="The honey from Vila Falo is absolutely incredible! Pure, natural taste of the mountains in every spoonful. We bought a 1kg jar and it was the best honey we've ever tasted. Perfect souvenir from our stay in Voskopoje!" data-al="Mjalti nga Vila Falo është absolutisht i pabesuëshëm! Shije e pastër dhe natyrore e maleve në çdo lugë. Blemë një kavanoz 1kg dhe ishte mjalti më i mirë që kemi provuar ndonjëherë. Kujtim perfekt nga qëndrimi ynë në Voskopojë!">
-                            "Mjalti nga Vila Falo është absolutisht i pabesuëshëm! Shije e pastër dhe natyrore e maleve në çdo lugë. Blemë një kavanoz 1kg dhe ishte mjalti më i mirë që kemi provuar ndonjëherë. Kujtim perfekt nga qëndrimi ynë në Voskopojë!"
-                        </div>
-                        <div class="honey-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="honey-testimonial-author">
-                            <div class="honey-author-img">
-                                <img src="/images/heart.jpg" alt="Klaus">
-                            </div>
-                            <div class="honey-author-info">
-                                <h5>Klaus W.</h5>
-                                <span data-en="Honey Enthusiast from Germany" data-al="Entuziastë Mjalti nga Gjermania">Entuziastë Mjalti nga Gjermania</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Honey CTA -->
-                    <div class="honey-cta">
-                        <h4 data-en="Order Your Mountain Honey Today" data-al="Porosisni Mjaltin Tuaj Malor Sot">Porosisni Mjaltin Tuaj Malor Sot</h4>
+
+
                         <p data-en="Contact us directly to place your order. We can arrange delivery or pickup during your stay." data-al="Na kontaktoni direkt për të bërë porosinën tuaj. Mund të organizojmë dorëzim ose marrje gjatë qëndrimit tuaj.">
                             Na kontaktoni direkt për të bërë porosinën tuaj. Mund të organizojmë dorëzim ose marrje gjatë qëndrimit tuaj.
                         </p>
@@ -589,6 +567,34 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Honey Testimonial (moved to right side) -->
+                    <div class="honey-testimonial" data-aos="fade-up" style="margin-top: 30px;">
+                        <div class="testimonial-honey-text" data-en="The honey from Vila Falo is absolutely incredible! Pure, natural taste of the mountains in every spoonful. We bought a 1kg jar and it was the best honey we've ever tasted. Perfect souvenir from our stay in Voskopoje!" data-al="Mjalti nga Vila Falo është absolutisht i pabesuëshëm! Shije e pastër dhe natyrore e maleve në çdo lugë. Blemë një kavanoz 1kg dhe ishte mjalti më i mirë që kemi provuar ndonjëherë. Kujtim perfekt nga qëndrimi ynë në Voskopojë!">
+                            "Mjalti nga Vila Falo është absolutisht i pabesuëshëm! Shije e pastër dhe natyrore e maleve në çdo lugë. Blemë një kavanoz 1kg dhe ishte mjalti më i mirë që kemi provuar ndonjëherë. Kujtim perfekt nga qëndrimi ynë në Voskopojë!"
+                        </div>
+                        <div class="honey-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="honey-testimonial-author">
+                            <div class="honey-author-img">
+                                <img src="/images/heart.jpg" alt="Klaus">
+                            </div>
+                            <div class="honey-author-info">
+                                <h5>Klaus W.</h5>
+                                <span data-en="Honey Enthusiast from Germany" data-al="Entuziastë Mjalti nga Gjermania">Entuziastë Mjalti nga Gjermania</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Honey CTA (moved to right side) -->
+                    <div class="honey-cta" style="margin-top: 30px;">
+                        <h4 data-en="Order Your Mountain Honey Today" data-al="Porosisni Mjaltin Tuaj Malor Sot">Porosisni Mjaltin Tuaj Malor Sot</h4>
+
                 </div>
             </div>
             
@@ -1159,6 +1165,60 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="/js/scripts.js"></script>
+    
+    <!-- Modal close functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('bookingModal');
+            const modalCloseBtn = document.getElementById('modalCloseBtn');
+            const modalCloseButton = document.getElementById('modalCloseButton');
+            
+            // Function to show modal
+            function showModal() {
+                if (modal) {
+                    modal.style.display = 'flex';
+                    modal.classList.add('show');
+                }
+            }
+            
+            // Function to hide modal
+            function hideModal() {
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('show');
+                }
+            }
+            
+            // Close modal when clicking X button
+            if (modalCloseBtn) {
+                modalCloseBtn.addEventListener('click', hideModal);
+            }
+            
+            // Close modal when clicking Close button
+            if (modalCloseButton) {
+                modalCloseButton.addEventListener('click', hideModal);
+            }
+            
+            // Close modal when clicking outside
+            if (modal) {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        hideModal();
+                    }
+                });
+            }
+            
+            // Escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal && modal.classList.contains('show')) {
+                    hideModal();
+                }
+            });
+            
+            // Make the showModal function available globally for the booking form
+            window.showBookingModal = showModal;
+        });
+    </script>
     
     <!-- Chatbot Widget -->
     <link rel="stylesheet" href="/css/chatbot.css">
