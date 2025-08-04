@@ -3622,14 +3622,17 @@ button[type="submit"]:disabled:hover {
     }
 }
 
-/* ===== HONEY SECTION STYLES ===== */
+/* ===== HONEY SECTION STYLES (removed to match restaurant styling) ===== */
+/*
 .honey {
     padding: 80px 0;
     background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
     position: relative;
     overflow: hidden;
 }
+*/
 
+/*
 .honey::before {
     content: '';
     position: absolute;
@@ -3640,6 +3643,7 @@ button[type="submit"]:disabled:hover {
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="%23ffc107" opacity="0.3"/><circle cx="80" cy="40" r="1" fill="%23ffb300" opacity="0.2"/><circle cx="40" cy="80" r="1" fill="%23ff8f00" opacity="0.3"/></svg>');
     pointer-events: none;
 }
+*/
 
 .honey-container {
     display: grid;
@@ -4314,4 +4318,24 @@ button[type="submit"]:disabled:hover {
 
 .zoom-in.delayed-3 {
     animation-delay: 0.6s;
+}
+
+/* Override honey styles to match restaurant section */
+#honey {
+    background: var(--white) !important;
+    padding: 7rem 0 !important;
+}
+
+#honey .honey-container,
+#honey .honey-content,
+#honey .honey-image,
+#honey .honey-cta,
+#honey .honey-contact-buttons,
+#honey .honey-note {
+    /* Reset all honey-specific styling */
+    background: inherit !important;
+    color: inherit !important;
+    border: none !important;
+    padding: inherit !important;
+    margin: inherit !important;
 }
