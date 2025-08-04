@@ -13,6 +13,9 @@ const morgan = require('morgan');
 // Load environment variables first
 dotenv.config();
 
+// Configure mongoose to suppress deprecation warnings
+mongoose.set('strictQuery', false);
+
 // Create Express app
 const app = express();
 

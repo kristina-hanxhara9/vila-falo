@@ -2,12 +2,8 @@ const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
-        // Production-ready connection options
+        // Production-ready connection options for mongoose 7.x
         const options = {
-            // Basic connection options
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            
             // Connection pool settings
             maxPoolSize: process.env.NODE_ENV === 'production' ? 10 : 5,
             minPoolSize: 1,
@@ -21,10 +17,6 @@ const connectDB = async () => {
             // Heartbeat settings
             heartbeatFrequencyMS: 10000,
             
-            // Buffer settings
-            bufferMaxEntries: 0,
-            bufferCommands: false,
-            
             // Retry settings
             retryWrites: true,
             retryReads: true,
@@ -33,7 +25,10 @@ const connectDB = async () => {
             readPreference: 'primary',
             
             // Application name for monitoring
-            appName: 'vila-falo-resort'
+            appName: 'vila-falo-resort',
+            
+            // Family 4 forces IPv4 (helps with some hosting issues)
+            family: 4
         };
 
         // Enhanced connection with error handling
