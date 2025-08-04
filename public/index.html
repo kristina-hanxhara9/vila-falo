@@ -1058,6 +1058,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="/js/scripts.js"></script>
     
+    <!-- Ultimate Fallback Script -->
+    <script>
+    // Ultimate fallback - show content immediately if other scripts fail
+    setTimeout(function() {
+        console.log('Ultimate fallback executing...');
+        try {
+            // Hide loader
+            var loader = document.querySelector('.loader');
+            if (loader) {
+                loader.style.display = 'none';
+                loader.style.opacity = '0';
+                loader.style.zIndex = '-1';
+            }
+            
+            // Show all content
+            var sections = document.querySelectorAll('section');
+            for (var i = 0; i < sections.length; i++) {
+                sections[i].style.opacity = '1';
+                sections[i].style.visibility = 'visible';
+                sections[i].style.display = 'block';
+            }
+            
+            // Show body
+            document.body.style.opacity = '1';
+            document.body.style.visibility = 'visible';
+            
+            console.log('Ultimate fallback completed - content should be visible');
+        } catch (e) {
+            console.error('Ultimate fallback error:', e);
+        }
+    }, 500);
+    </script>
+    
     <!-- Modal close functionality -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {

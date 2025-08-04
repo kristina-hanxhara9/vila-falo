@@ -1,33 +1,63 @@
 // Vila Falo - Fixed JavaScript File
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM loaded');
+    console.log('DOM loaded - Vila Falo starting...');
     
     // Set Albanian as default language
     let currentLang = 'al';
 
-    // Hide loader after 3 seconds - FIXED SELECTOR
+    // IMMEDIATE FALLBACK - Show content after 1 second regardless
+    setTimeout(function() {
+        const allSections = document.querySelectorAll('section');
+        const body = document.body;
+        
+        allSections.forEach(section => {
+            section.style.opacity = '1';
+            section.style.visibility = 'visible';
+            section.style.display = 'block';
+        });
+        
+        // Ensure body is visible
+        body.style.visibility = 'visible';
+        body.style.opacity = '1';
+        
+        console.log('FALLBACK: All content made visible');
+    }, 1000);
+
+    // Hide loader after 2.5 seconds - FIXED SELECTOR
     const loader = document.querySelector('.loader');
     if (loader) {
         console.log('Loader found');
         setTimeout(function() {
-            loader.classList.add('hidden');
-            loader.style.opacity = '0';
-            loader.style.visibility = 'hidden';
-            loader.style.pointerEvents = 'none';
-            loader.style.zIndex = '-1';
-            console.log('Loader hidden');
-            
-            // Force show all sections after loader is hidden
-            const allSections = document.querySelectorAll('section');
-            allSections.forEach(section => {
-                section.style.opacity = '1';
-                section.style.visibility = 'visible';
-                section.style.display = 'block';
-            });
-            console.log('All sections made visible');
-        }, 3000);
+            try {
+                loader.style.opacity = '0';
+                loader.style.visibility = 'hidden';
+                loader.style.pointerEvents = 'none';
+                loader.style.zIndex = '-1';
+                loader.style.display = 'none';
+                console.log('Loader hidden successfully');
+                
+                // Force show all sections after loader is hidden
+                const allSections = document.querySelectorAll('section');
+                allSections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.visibility = 'visible';
+                    section.style.display = 'block';
+                });
+                
+                // Show body
+                document.body.style.visibility = 'visible';
+                document.body.style.opacity = '1';
+                
+                console.log('All sections made visible after loader');
+            } catch (error) {
+                console.error('Error hiding loader:', error);
+                // Force show everything anyway
+                document.body.style.visibility = 'visible';
+                document.body.style.opacity = '1';
+            }
+        }, 2500);
     } else {
-        console.log('Loader not found');
+        console.log('Loader not found - showing content immediately');
         // Ensure sections are visible even without loader
         const allSections = document.querySelectorAll('section');
         allSections.forEach(section => {
@@ -35,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
             section.style.visibility = 'visible';
             section.style.display = 'block';
         });
+        document.body.style.visibility = 'visible';
+        document.body.style.opacity = '1';
     }
 
     // Initialize functionality

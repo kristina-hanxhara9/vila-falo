@@ -17,19 +17,7 @@ app.set('trust proxy', 1);
 
 // Security and performance middleware
 app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdnjs.cloudflare.com", "https://weatherwidget.io"],
-            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-            imgSrc: ["'self'", "data:", "https:"],
-            connectSrc: ["'self'", "https:"],
-            fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-            objectSrc: ["'none'"],
-            mediaSrc: ["'self'", "https:"],
-            frameSrc: ["'self'", "https://www.google.com", "https://www.youtube.com", "https://www.googleapis.com"]
-        }
-    },
+    contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false
 }));
 app.use(compression());
