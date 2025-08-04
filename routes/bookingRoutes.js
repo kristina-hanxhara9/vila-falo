@@ -21,46 +21,79 @@ router.get('/', async (req, res) => {
 // POST create new booking
 router.post('/', async (req, res) => {
   try {
-    console.log('Received booking data:', req.body);
+    console.log('🏨 New booking request received');
+    console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
+    console.log('🔍 Request headers:', req.headers);
     
     // Validate required fields
     const requiredFields = ['checkInDate', 'checkOutDate', 'guestName', 'email', 'roomType', 'numberOfGuests'];
+    const missingFields = [];
+    
     for (const field of requiredFields) {
       if (!req.body[field]) {
-        return res.status(400).json({ 
-          success: false, 
-          message: `Missing required field: ${field}` 
-        });
+        missingFields.push(field);
       }
     }
     
+    if (missingFields.length > 0) {
+      console.log('❌ Missing required fields:', missingFields);
+      return res.status(400).json({ 
+        success: false, 
+        message: `Missing required fields: ${missingFields.join(', ')}`,
+        missingFields: missingFields
+      });
+    }
+    
+    console.log('✅ All required fields present');
+    
     // Create new booking
+    console.log('💾 Creating booking object...');
     const booking = new Booking(req.body);
     
     // Save to database
+    console.log('💾 Saving booking to database...');
     await booking.save();
+    console.log('✅ Booking saved successfully with ID:', booking._id);
     
     // Send confirmation emails
+    console.log('📧 Attempting to send confirmation emails...');
+    let emailResults = {
+      confirmation: false,
+      adminNotification: false
+    };
+    
     try {
-      await emailService.sendBookingConfirmation(booking);
-      await emailService.sendAdminNotification(booking);
-      console.log('✅ Confirmation emails sent for booking:', booking._id);
+      console.log('📧 Sending customer confirmation email...');
+      emailResults.confirmation = await emailService.sendBookingConfirmation(booking);
+      console.log('Customer confirmation result:', emailResults.confirmation ? '✅ Sent' : '❌ Failed');
     } catch (emailError) {
-      console.error('❌ Error sending emails for booking:', emailError);
-      // Don't fail the booking if email fails
+      console.error('❌ Error sending customer confirmation:', emailError.message);
     }
+    
+    try {
+      console.log('📧 Sending admin notification email...');
+      emailResults.adminNotification = await emailService.sendAdminNotification(booking);
+      console.log('Admin notification result:', emailResults.adminNotification ? '✅ Sent' : '❌ Failed');
+    } catch (emailError) {
+      console.error('❌ Error sending admin notification:', emailError.message);
+    }
+    
+    console.log('✅ Booking creation process completed');
     
     res.status(201).json({ 
       success: true, 
       message: 'Booking created successfully', 
-      data: booking 
+      data: booking,
+      emailResults: emailResults
     });
   } catch (error) {
-    console.error('Error creating booking:', error);
+    console.error('❌ Error creating booking:', error.message);
+    console.error('Full error:', error);
     
     // Handle validation errors
     if (error.name === 'ValidationError') {
       const messages = Object.values(error.errors).map(val => val.message);
+      console.log('❌ Validation errors:', messages);
       return res.status(400).json({ 
         success: false, 
         message: 'Validation Error', 

@@ -479,17 +479,27 @@ class ChatbotService {
     
     async createBooking(bookingInfo) {
         try {
+            console.log('🏨 Creating booking via chatbot with info:', bookingInfo.extractedInfo);
+            
             const bookingData = {
                 ...bookingInfo.extractedInfo,
                 status: 'pending',
                 source: 'Chatbot'
             };
             
+            console.log('📋 Final booking data:', bookingData);
+            
             // Validate dates
             const checkIn = new Date(bookingData.checkInDate);
             const checkOut = new Date(bookingData.checkOutDate);
             const today = new Date();
             today.setHours(0, 0, 0, 0);
+            
+            console.log('📅 Date validation:', {
+                checkIn: checkIn.toISOString(),
+                checkOut: checkOut.toISOString(),
+                today: today.toISOString()
+            });
             
             if (checkIn < today) {
                 throw new Error('Check-in date cannot be in the past');
@@ -500,45 +510,65 @@ class ChatbotService {
             }
             
             // Check availability
+            console.log('🔍 Checking room availability...');
             const availability = await this.checkRoomAvailability(
                 bookingData.checkInDate,
                 bookingData.checkOutDate,
                 bookingData.roomType
             );
             
+            console.log('📊 Availability result:', availability);
+            
             if (!availability.available) {
                 throw new Error('No rooms available for the selected dates');
             }
             
             // Create the booking
+            console.log('💾 Saving booking to database...');
             const booking = new Booking(bookingData);
             await booking.save();
             
-            console.log('✅ Booking created via chatbot:', booking._id);
+            console.log('✅ Booking created successfully via chatbot:', {
+                id: booking._id,
+                guest: booking.guestName,
+                email: booking.email,
+                room: booking.roomType,
+                checkIn: booking.checkInDate,
+                checkOut: booking.checkOutDate
+            });
             
             // Send confirmation emails with enhanced error handling
+            console.log('📧 Attempting to send booking confirmation email...');
             try {
-                console.log('📧 Attempting to send booking confirmation email...');
-                await emailService.sendBookingConfirmation(booking);
-                console.log('✅ Confirmation email sent successfully');
+                const confirmationSent = await emailService.sendBookingConfirmation(booking);
+                if (confirmationSent) {
+                    console.log('✅ Confirmation email sent successfully to:', booking.email);
+                } else {
+                    console.log('⚠️ Confirmation email not sent (email service not configured)');
+                }
             } catch (emailError) {
-                console.error('❌ Error sending confirmation email:', emailError);
+                console.error('❌ Error sending confirmation email:', emailError.message);
                 // Continue - don't fail booking if email fails
             }
             
+            console.log('📧 Attempting to send admin notification email...');
             try {
-                console.log('📧 Attempting to send admin notification email...');
-                await emailService.sendAdminNotification(booking);
-                console.log('✅ Admin notification sent successfully');
+                const adminNotificationSent = await emailService.sendAdminNotification(booking);
+                if (adminNotificationSent) {
+                    console.log('✅ Admin notification sent successfully to:', process.env.ADMIN_EMAIL);
+                } else {
+                    console.log('⚠️ Admin notification not sent (email service not configured)');
+                }
             } catch (emailError) {
-                console.error('❌ Error sending admin notification:', emailError);
+                console.error('❌ Error sending admin notification:', emailError.message);
                 // Continue - don't fail booking if email fails
             }
             
             return booking;
             
         } catch (error) {
-            console.error('Error creating booking via chatbot:', error);
+            console.error('❌ Error creating booking via chatbot:', error.message);
+            console.error('Full error:', error);
             throw error;
         }
     }

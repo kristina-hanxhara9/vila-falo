@@ -6,6 +6,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const validateServerConfiguration = require('./validate-config');
 
 const app = express();
 
@@ -123,10 +124,36 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, '0.0.0.0', () => {
+// Start server with configuration validation
+app.listen(PORT, '0.0.0.0', async () => {
     console.log(`🚀 Vila Falo Resort running on port ${PORT}`);
     console.log(`🌐 Environment: ${process.env.NODE_ENV}`);
     console.log(`🗄️ Database: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Connecting...'}`);
+    console.log('');
+    
+    // Run configuration validation
+    try {
+        const validationResult = await validateServerConfiguration();
+        
+        if (validationResult.hasErrors) {
+            console.log('⚠️ Server started with configuration errors - some features may not work properly!');
+        } else if (validationResult.hasWarnings) {
+            console.log('✅ Server started successfully with minor warnings');
+        } else {
+            console.log('✅ Server started successfully - all systems operational!');
+        }
+    } catch (validationError) {
+        console.error('❌ Configuration validation failed:', validationError.message);
+    }
+    
+    console.log('');
+    console.log('🔗 Server endpoints:');
+    console.log('   📱 Website: http://localhost:' + PORT);
+    console.log('   🛠️ Admin Panel: http://localhost:' + PORT + '/admin');
+    console.log('   🤖 Chatbot API: http://localhost:' + PORT + '/api/chatbot/message');
+    console.log('   📋 Booking API: http://localhost:' + PORT + '/api/booking');
+    console.log('   ❤️ Health Check: http://localhost:' + PORT + '/health');
+    console.log('');
 });
 
 module.exports = app;

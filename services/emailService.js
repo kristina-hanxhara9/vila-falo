@@ -3,47 +3,93 @@ const nodemailer = require('nodemailer');
 class EmailService {
     constructor() {
         this.transporter = null;
+        this.isConfigured = false;
         this.initializeTransporter();
     }
 
     async initializeTransporter() {
         try {
+            const emailPassword = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
+            const isProduction = process.env.NODE_ENV === 'production';
+            
+            if (!isProduction) {
+                console.log('🔧 Initializing email service...');
+                console.log('📧 Email User:', process.env.EMAIL_USER);
+                console.log('🔐 Password configured:', emailPassword ? 'Yes' : 'No');
+                console.log('📮 Admin Email:', process.env.ADMIN_EMAIL);
+            }
+            
             // Configure email transporter
-            this.transporter = nodemailer.createTransport({
+            this.transporter = nodemailer.createTransporter({
                 host: process.env.EMAIL_HOST || 'smtp.gmail.com',
                 port: parseInt(process.env.EMAIL_PORT) || 587,
                 secure: process.env.EMAIL_SECURE === 'true', // false for 587, true for 465
                 auth: {
                     user: process.env.EMAIL_USER || 'vilafalo@gmail.com',
-                    pass: process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD
+                    pass: emailPassword
                 },
                 tls: {
                     rejectUnauthorized: false
-                }
+                },
+                debug: !isProduction // Only debug in development
             });
 
             // Verify connection
-            if (process.env.EMAIL_USER && (process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD)) {
+            if (process.env.EMAIL_USER && emailPassword) {
                 try {
                     await this.transporter.verify();
-                    console.log('✅ Email service initialized successfully');
+                    this.isConfigured = true;
+                    console.log('✅ Email service initialized and verified successfully');
+                    if (!isProduction) {
+                        console.log('📬 Ready to send booking confirmations and admin notifications');
+                    }
                 } catch (verifyError) {
                     console.error('❌ Email verification failed:', verifyError.message);
+                    if (!isProduction) {
+                        console.error('📧 SMTP Error Details:', {
+                            code: verifyError.code,
+                            command: verifyError.command,
+                            response: verifyError.response,
+                            responseCode: verifyError.responseCode
+                        });
+                    }
                     console.log('⚠️ Will attempt to send emails without verification');
+                    this.isConfigured = false;
                 }
             } else {
                 console.log('⚠️ Email credentials not configured properly');
-                console.log('Required: EMAIL_USER and EMAIL_PASS (or GMAIL_APP_PASSWORD)');
+                if (!isProduction) {
+                    console.log('Required: EMAIL_USER and EMAIL_PASS (or GMAIL_APP_PASSWORD)');
+                    console.log('EMAIL_USER:', process.env.EMAIL_USER ? 'Set' : 'Missing');
+                    console.log('EMAIL_PASS:', emailPassword ? 'Set' : 'Missing');
+                }
+                this.isConfigured = false;
             }
         } catch (error) {
             console.error('❌ Email service initialization failed:', error.message);
+            if (process.env.NODE_ENV !== 'production') {
+                console.error('Full error:', error);
+            }
+            this.isConfigured = false;
         }
     }
 
     async sendBookingConfirmation(booking) {
-        if (!this.transporter || !process.env.EMAIL_USER) {
-            console.log('📧 Email not configured - skipping confirmation email');
-            return;
+        const emailPassword = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
+        const isProduction = process.env.NODE_ENV === 'production';
+        
+        if (!this.transporter || !process.env.EMAIL_USER || !emailPassword) {
+            if (!isProduction) {
+                console.log('📧 Email not configured - skipping confirmation email');
+                console.log('Transporter:', !!this.transporter);
+                console.log('Email User:', !!process.env.EMAIL_USER);
+                console.log('Email Password:', !!emailPassword);
+            }
+            return false;
+        }
+        
+        if (!isProduction) {
+            console.log('📧 Attempting to send booking confirmation to:', booking.email);
         }
 
         try {
@@ -85,6 +131,11 @@ class EmailService {
                         
                         <div class="booking-details">
                             <h3 style="color: #4361ee; margin-top: 0;">📋 Detajet e Rezervimit / Booking Details</h3>
+                            
+                            <div class="detail-row">
+                                <span class="label">Booking ID:</span>
+                                <span class="value">#${booking._id.toString().slice(-8).toUpperCase()}</span>
+                            </div>
                             
                             <div class="detail-row">
                                 <span class="label">Emri / Name:</span>
@@ -159,23 +210,44 @@ class EmailService {
             `;
 
             const mailOptions = {
-                from: process.env.EMAIL_FROM || 'Vila Falo <noreply@vilafalo.com>',
+                from: process.env.EMAIL_FROM || '"Vila Falo Resort" <vilafalo@gmail.com>',
                 to: booking.email,
-                subject: `🏔️ Konfirmim Rezervimi - Vila Falo | Booking Confirmation`,
+                subject: `🏔️ Konfirmim Rezervimi #${booking._id.toString().slice(-8).toUpperCase()} - Vila Falo`,
                 html: emailHtml
             };
 
-            await this.transporter.sendMail(mailOptions);
-            console.log(`✅ Confirmation email sent to: ${booking.email}`);
+            const result = await this.transporter.sendMail(mailOptions);
+            if (!isProduction) {
+                console.log(`✅ Confirmation email sent successfully to: ${booking.email}`);
+                console.log('Message ID:', result.messageId);
+            }
+            return true;
         } catch (error) {
-            console.error('❌ Error sending confirmation email:', error);
+            console.error('❌ Error sending confirmation email:', error.message);
+            if (!isProduction) {
+                console.error('Email details:', error.response || error.message);
+            }
+            return false;
         }
     }
 
     async sendAdminNotification(booking) {
-        if (!this.transporter || !process.env.EMAIL_USER || !process.env.ADMIN_EMAIL) {
-            console.log('📧 Admin email not configured - skipping notification');
-            return;
+        const emailPassword = process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD;
+        const isProduction = process.env.NODE_ENV === 'production';
+        
+        if (!this.transporter || !process.env.EMAIL_USER || !emailPassword || !process.env.ADMIN_EMAIL) {
+            if (!isProduction) {
+                console.log('📧 Admin email not configured - skipping notification');
+                console.log('Transporter:', !!this.transporter);
+                console.log('Email User:', !!process.env.EMAIL_USER);
+                console.log('Email Password:', !!emailPassword);
+                console.log('Admin Email:', !!process.env.ADMIN_EMAIL);
+            }
+            return false;
+        }
+        
+        if (!isProduction) {
+            console.log('📧 Attempting to send admin notification to:', process.env.ADMIN_EMAIL);
         }
 
         try {
@@ -184,6 +256,7 @@ class EmailService {
             const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
             const source = booking.source || 'Website';
             const sourceIcon = source === 'Chatbot' ? '🤖' : '🌐';
+            const bookingId = booking._id.toString().slice(-8).toUpperCase();
             
             const emailHtml = `
             <!DOCTYPE html>
@@ -207,17 +280,22 @@ class EmailService {
                     <div class="header">
                         <h1>🚨 Rezervim i Ri!</h1>
                         <p>New Booking Alert - Vila Falo</p>
-                        <p>${sourceIcon} ${source}</p>
+                        <p>${sourceIcon} ${source} | ID: #${bookingId}</p>
                     </div>
                     
                     <div class="content">
                         <div class="urgent">
-                            <strong>⚡ URGENT: Reservation requires your attention!</strong><br>
-                            A new booking has been submitted and needs confirmation.
+                            <strong>⚡ URGENT: New ${source} booking requires attention!</strong><br>
+                            A booking has been submitted and needs confirmation.
                         </div>
                         
                         <div class="booking-details">
                             <h3 style="color: #ef476f; margin-top: 0;">📋 Booking Details</h3>
+                            
+                            <div class="detail-row">
+                                <span class="label">Booking ID:</span>
+                                <span class="value">#${bookingId}</span>
+                            </div>
                             
                             <div class="detail-row">
                                 <span class="label">Guest Name:</span>
@@ -277,11 +355,6 @@ class EmailService {
                             </div>
                             
                             <div class="detail-row">
-                                <span class="label">Booking ID:</span>
-                                <span class="value">${booking._id}</span>
-                            </div>
-                            
-                            <div class="detail-row">
                                 <span class="label">Created:</span>
                                 <span class="value">${new Date().toLocaleString()}</span>
                             </div>
@@ -308,23 +381,31 @@ class EmailService {
             `;
 
             const mailOptions = {
-                from: process.env.EMAIL_FROM || 'Vila Falo <noreply@vilafalo.com>',
+                from: process.env.EMAIL_FROM || '"Vila Falo Resort" <vilafalo@gmail.com>',
                 to: process.env.ADMIN_EMAIL,
-                subject: `🚨 NEW BOOKING ALERT - ${booking.roomType} | ${sourceIcon} ${source}`,
+                subject: `🚨 NEW BOOKING ALERT #${bookingId} - ${booking.roomType} | ${sourceIcon} ${source}`,
                 html: emailHtml
             };
 
-            await this.transporter.sendMail(mailOptions);
-            console.log(`✅ Admin notification sent to: ${process.env.ADMIN_EMAIL}`);
+            const result = await this.transporter.sendMail(mailOptions);
+            if (!isProduction) {
+                console.log(`✅ Admin notification sent successfully to: ${process.env.ADMIN_EMAIL}`);
+                console.log('Message ID:', result.messageId);
+            }
+            return true;
         } catch (error) {
-            console.error('❌ Error sending admin notification:', error);
+            console.error('❌ Error sending admin notification:', error.message);
+            if (!isProduction) {
+                console.error('Email details:', error.response || error.message);
+            }
+            return false;
         }
     }
 
     async sendNewsletterConfirmation(email) {
         if (!this.transporter || !process.env.EMAIL_USER) {
             console.log('📧 Email not configured - skipping newsletter confirmation');
-            return;
+            return false;
         }
 
         try {
@@ -363,16 +444,37 @@ class EmailService {
             `;
 
             const mailOptions = {
-                from: process.env.EMAIL_FROM || 'Vila Falo <noreply@vilafalo.com>',
+                from: process.env.EMAIL_FROM || '"Vila Falo Resort" <vilafalo@gmail.com>',
                 to: email,
                 subject: '🏔️ Welcome to Vila Falo Newsletter!',
                 html: emailHtml
             };
 
-            await this.transporter.sendMail(mailOptions);
+            const result = await this.transporter.sendMail(mailOptions);
             console.log(`✅ Newsletter confirmation sent to: ${email}`);
+            return true;
         } catch (error) {
             console.error('❌ Error sending newsletter confirmation:', error);
+            return false;
+        }
+    }
+
+    // Method to test email configuration
+    async testEmailConfig() {
+        console.log('🧪 Testing email configuration...');
+        
+        if (!this.isConfigured) {
+            console.log('❌ Email service not properly configured');
+            return false;
+        }
+
+        try {
+            await this.transporter.verify();
+            console.log('✅ Email configuration test passed');
+            return true;
+        } catch (error) {
+            console.error('❌ Email configuration test failed:', error);
+            return false;
         }
     }
 }
