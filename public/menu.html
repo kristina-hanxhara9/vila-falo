@@ -10,14 +10,28 @@
     <link rel="stylesheet" href="/css/styles.css">
     <style>
         .menu-page {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 50%, #1a1a1a 100%);
             min-height: 100vh;
             padding: 100px 0 50px;
+            position: relative;
+        }
+        .menu-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/images/mountain-bg.jpg') center/cover;
+            opacity: 0.1;
+            z-index: 0;
         }
         .menu-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
         .menu-header {
             text-align: center;
@@ -57,7 +71,7 @@
             color: #2c3e50;
             margin-bottom: 30px;
             padding-bottom: 15px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #3498db;
             position: relative;
         }
         .menu-section-title::after {
@@ -68,7 +82,7 @@
             transform: translateX(-50%);
             width: 50px;
             height: 3px;
-            background: #764ba2;
+            background: #2980b9;
         }
         .menu-grid {
             display: grid;
@@ -107,7 +121,7 @@
         }
         .menu-item-price {
             font-weight: 700;
-            color: #667eea;
+            color: #3498db;
             font-size: 1.1rem;
             margin-left: 20px;
             white-space: nowrap;
@@ -141,7 +155,7 @@
         }
         .special-note {
             background: #f8f9fa;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #3498db;
             padding: 15px;
             margin-top: 20px;
             border-radius: 0 8px 8px 0;

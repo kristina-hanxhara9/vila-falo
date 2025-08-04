@@ -216,8 +216,8 @@
                         const data = await response.json();
                         
                         if (data.success) {
-                            // Successful login - redirect to dashboard
-                            window.location.href = '/admin/dashboard';
+                            // Successful login - redirect to admin panel
+                            window.location.href = '/admin-panel.html';
                         } else {
                             showError(data.message || 'Login failed');
                         }

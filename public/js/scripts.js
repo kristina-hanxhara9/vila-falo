@@ -421,6 +421,32 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+        
+        // Additional close button functionality
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const modalCloseButton = document.getElementById('modalCloseButton');
+        
+        if (modalCloseBtn) {
+            modalCloseBtn.addEventListener('click', function() {
+                if (modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+        
+        if (modalCloseButton) {
+            modalCloseButton.addEventListener('click', function() {
+                if (modal) {
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
 
         // Close modal when clicking outside
         if (modal) {
