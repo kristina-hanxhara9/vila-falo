@@ -1020,6 +1020,151 @@ body.scrolled .language-toggle:hover {
     padding: 7rem 0;
 }
 
+/* Honey Section - Special Yellow Styling */
+#honey {
+    background: linear-gradient(135deg, #fff7d6 0%, #fffbe6 50%, #fef7cd 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 7rem 0;
+}
+
+#honey::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    z-index: 0;
+}
+
+#honey::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffb300' fill-opacity='0.03'%3E%3Cpath d='M30 0l15 8.66v17.32L30 34.64 15 25.98V8.66L30 0zm0 5.77L18.45 12.3v13.86L30 32.64l11.55-6.48V12.3L30 5.77z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+    opacity: 0.6;
+    z-index: 0;
+}
+
+#honey .container {
+    position: relative;
+    z-index: 1;
+}
+
+#honey .section-title h2::after {
+    background: linear-gradient(45deg, #ffb300, #ffa000);
+}
+
+#honey .restaurant-content h3 {
+    color: #e65100;
+}
+
+#honey .restaurant-content h3::after {
+    background: linear-gradient(45deg, #ffb300, #ffa000);
+}
+
+#honey .menu-highlights {
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+    border: 2px solid rgba(255, 179, 0, 0.15);
+    box-shadow: 0 8px 32px rgba(255, 179, 0, 0.1);
+}
+
+#honey .menu-highlights::before {
+    background: linear-gradient(135deg, rgba(255, 179, 0, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+}
+
+#honey .menu-highlights h4 {
+    color: #e65100;
+    background: linear-gradient(45deg, #e65100, #ff8f00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#honey .menu-item:hover {
+    background: rgba(255, 248, 225, 0.8);
+    border-left: 4px solid #ffb300;
+    transform: translateY(-5px) translateX(5px);
+    box-shadow: 0 8px 25px rgba(255, 179, 0, 0.15);
+}
+
+#honey .menu-icon {
+    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+}
+
+#honey .menu-item:hover .menu-icon {
+    background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
+    transform: rotateY(180deg) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255, 179, 0, 0.4);
+}
+
+#honey .restaurant-cta .btn {
+    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    border: none;
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+#honey .restaurant-cta .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s ease;
+}
+
+#honey .restaurant-cta .btn:hover::before {
+    left: 100%;
+}
+
+#honey .restaurant-cta .btn:hover {
+    background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 179, 0, 0.4);
+}
+
+#honey .restaurant-cta .btn-outline {
+    background: transparent;
+    border: 2px solid #ffb300;
+    color: #e65100;
+    box-shadow: none;
+}
+
+#honey .restaurant-cta .btn-outline:hover {
+    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    color: white;
+    border-color: #ffa000;
+}
+
+#honey .main-image {
+    border: 3px solid rgba(255, 179, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(255, 179, 0, 0.2);
+}
+
+#honey .food-image, #honey .dining-image {
+    border: 3px solid rgba(255, 179, 0, 0.4);
+    box-shadow: 0 5px 15px rgba(255, 179, 0, 0.2);
+}
+
+#honey .food-image:hover, #honey .dining-image:hover {
+    border-color: #ffb300;
+    box-shadow: 0 8px 25px rgba(255, 179, 0, 0.3);
+}
+
 .restaurant::before {
     content: '';
     position: absolute;
