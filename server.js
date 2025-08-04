@@ -5,6 +5,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -15,9 +16,30 @@ mongoose.set('strictQuery', false);
 app.set('trust proxy', 1);
 
 // Security and performance middleware
-app.use(helmet({ contentSecurityPolicy: false }));
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdnjs.cloudflare.com", "https://weatherwidget.io"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+            imgSrc: ["'self'", "data:", "https:"],
+            connectSrc: ["'self'", "https:"],
+            fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+            objectSrc: ["'none'"],
+            mediaSrc: ["'self'", "https:"],
+            frameSrc: ["'self'", "https://www.google.com", "https://www.youtube.com", "https://www.googleapis.com"]
+        }
+    },
+    crossOriginEmbedderPolicy: false
+}));
 app.use(compression());
-app.use(cors());
+app.use(cors({
+    origin: process.env.NODE_ENV === 'production' 
+        ? ['https://vila-falo-resort-8208afd24e04.herokuapp.com']
+        : ['http://localhost:5000', 'http://127.0.0.1:5000'],
+    credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 

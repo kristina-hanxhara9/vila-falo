@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/modal-fixes.css">
+    <link rel="stylesheet" href="/css/video-modal.css">
+    <link rel="stylesheet" href="/css/mobile-responsive.css">
 </head>
 <body>
     <!-- Mountain Loader -->
@@ -851,26 +853,7 @@
                                         </div>
                                     </label>
                                 </div>
-                                <div class="addon-option">
-                                    <input type="checkbox" id="dinner" name="addons" value="dinner">
-                                    <label for="dinner" class="addon-label">
-                                        <div class="addon-icon"><i class="fas fa-utensils"></i></div>
-                                        <div class="addon-info">
-                                            <div class="addon-title" data-en="Traditional Dinner" data-al="Darkë Tradicionale">Traditional Dinner</div>
-                                            <div class="addon-price">€25 <span data-en="per person/day" data-al="për person/ditë">per person/day</span></div>
-                                        </div>
-                                    </label>
-                                </div>
-                                <div class="addon-option">
-                                    <input type="checkbox" id="wine" name="addons" value="wine">
-                                    <label for="wine" class="addon-label">
-                                        <div class="addon-icon"><i class="fas fa-wine-glass-alt"></i></div>
-                                        <div class="addon-info">
-                                            <div class="addon-title" data-en="Local Wine Package" data-al="Paketë Vere Vendase">Local Wine Package</div>
-                                            <div class="addon-price">€30 <span data-en="per package" data-al="për paketë">per package</span></div>
-                                        </div>
-                                    </label>
-                                </div>
+
                             </div>
                         </div>
                         
@@ -1129,6 +1112,38 @@
         });
     </script>
     
+    <!-- Video Modal for Virtual Tour -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-overlay"></div>
+        <div class="video-modal-content">
+            <div class="video-modal-close" id="videoModalClose">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="video-modal-header">
+                <h3 data-en="Vila Falo Virtual Tour" data-al="Tur Virtual i Vila Falo">Tur Virtual i Vila Falo</h3>
+                <p data-en="Explore our beautiful mountain resort from the comfort of your home" data-al="Eksploroni resortin tonë të bukur malor nga rehatia e shtëpisë suaj">Eksploroni resortin tonë të bukur malor nga rehatia e shtëpisë suaj</p>
+            </div>
+            <div class="video-container">
+                <!-- Replace this YouTube embed with your actual virtual tour video -->
+                <iframe id="virtualTourVideo" 
+                        width="100%" 
+                        height="400" 
+                        src="" 
+                        title="Vila Falo Virtual Tour" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
+            </div>
+            <div class="video-modal-footer">
+                <button class="btn video-modal-book-btn" onclick="closeVideoModal(); document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span data-en="Book Your Stay Now" data-al="Rezervo Qëndrimin Tënd Tani">Rezervo Qëndrimin Tënd Tani</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Chatbot Widget -->
     <link rel="stylesheet" href="/css/chatbot.css">
     <script src="/js/chatbot.js"></script>

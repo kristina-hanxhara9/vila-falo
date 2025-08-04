@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTestimonialSlider();
     initCalendar();
     initAOS();
+    initVirtualTourModal();
     
     // Set initial language to Albanian
     updateLanguage('al');
@@ -689,7 +690,143 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Virtual Tour Button Functionality
+    const virtualTourBtn = document.querySelector('.virtual-tour-btn');
+    if (virtualTourBtn) {
+        virtualTourBtn.addEventListener('click', function() {
+            showVirtualTourModal();
+        });
+    }
+    
+    function showVirtualTourModal() {
+        // Create modal overlay
+        const modalOverlay = document.createElement('div');
+        modalOverlay.className = 'virtual-tour-modal-overlay';
+        modalOverlay.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        
+        // Create modal content
+        const modalContent = document.createElement('div');
+        modalContent.className = 'virtual-tour-modal-content';
+        modalContent.style.cssText = `
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            height: 80%;
+            max-height: 600px;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        `;
+        
+        // Create close button
+        const closeButton = document.createElement('button');
+        closeButton.innerHTML = '&times;';
+        closeButton.style.cssText = `
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 10001;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        `;
+        
+        closeButton.addEventListener('mouseenter', () => {
+            closeButton.style.background = 'rgba(255, 255, 255, 0.4)';
+        });
+        
+        closeButton.addEventListener('mouseleave', () => {
+            closeButton.style.background = 'rgba(255, 255, 255, 0.2)';
+        });
+        
+        // Create video iframe - Replace this URL with your actual video URL
+        const videoIframe = document.createElement('iframe');
+        videoIframe.style.cssText = `
+            width: 100%;
+            height: 100%;
+            border: none;
+        `;
+        
+        // You can replace this with your actual video URL
+        // For YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID
+        // For Vimeo: https://player.vimeo.com/video/YOUR_VIDEO_ID
+        // For direct video file: just use a video element instead
+        videoIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0';
+        videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        videoIframe.allowFullscreen = true;
+        
+        // Assemble modal
+        modalContent.appendChild(closeButton);
+        modalContent.appendChild(videoIframe);
+        modalOverlay.appendChild(modalContent);
+        document.body.appendChild(modalOverlay);
+        
+        // Show modal with animation
+        setTimeout(() => {
+            modalOverlay.style.opacity = '1';
+            modalContent.style.transform = 'scale(1)';
+        }, 10);
+        
+        // Close modal function
+        function closeModal() {
+            modalOverlay.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                if (modalOverlay.parentNode) {
+                    modalOverlay.parentNode.removeChild(modalOverlay);
+                }
+            }, 300);
+        }
+        
+        // Close modal events
+        closeButton.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+        
+        // Close on escape key
+        const escapeHandler = (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escapeHandler);
+            }
+        };
+        document.addEventListener('keydown', escapeHandler);
+    }
+
     console.log('All JavaScript initialized successfully');
+    
+    // Initialize virtual tour on load
+    const virtualTourBtn = document.querySelector('.virtual-tour-btn');
+    if (virtualTourBtn) {
+        console.log('Virtual tour button found and initialized');
+    }
 });
 
 // Add CSS for snowfall animation
@@ -881,3 +1018,63 @@ calendarStyle.textContent = `
     }
 `;
 document.head.appendChild(calendarStyle);
+
+    // Virtual Tour Video Modal Functionality
+    function initVirtualTourModal() {
+        const virtualTourBtn = document.querySelector('.virtual-tour-btn');
+        const videoModal = document.getElementById('videoModal');
+        const videoModalClose = document.getElementById('videoModalClose');
+        const videoModalOverlay = document.querySelector('.video-modal-overlay');
+        const videoIframe = document.getElementById('virtualTourVideo');
+        
+        // Your actual video URL - replace this with your real virtual tour video
+        // Example: 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&rel=0&modestbranding=1'
+        const videoURL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
+        
+        // Open modal function
+        function openVideoModal() {
+            if (videoModal && videoIframe) {
+                videoModal.style.display = 'flex';
+                setTimeout(() => {
+                    videoModal.classList.add('show');
+                    videoIframe.src = videoURL;
+                }, 10);
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Close modal function
+        window.closeVideoModal = function() {
+            if (videoModal && videoIframe) {
+                videoModal.classList.remove('show');
+                setTimeout(() => {
+                    videoModal.style.display = 'none';
+                    videoIframe.src = '';
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+        }
+        
+        // Event listeners
+        if (virtualTourBtn) {
+            virtualTourBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                openVideoModal();
+            });
+        }
+        
+        if (videoModalClose) {
+            videoModalClose.addEventListener('click', closeVideoModal);
+        }
+        
+        if (videoModalOverlay) {
+            videoModalOverlay.addEventListener('click', closeVideoModal);
+        }
+        
+        // Close with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoModal && videoModal.classList.contains('show')) {
+                closeVideoModal();
+            }
+        });
+    }
