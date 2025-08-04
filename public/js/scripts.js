@@ -139,62 +139,130 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Language Switching Functionality
+    // FIXED Language Switching Functionality
     function initLanguageSwitcher() {
-        console.log('Initializing language switcher...');
-        const languageToggle = document.querySelector('.language-toggle');
+        console.log('Initializing FIXED language switcher...');
+        
         const languageOptions = document.querySelectorAll('.language-option');
         
-        if (languageOptions.length > 0) {
-            languageOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    const selectedLang = this.getAttribute('data-lang');
-                    console.log('Language clicked:', selectedLang);
-                    
-                    // Remove active class from all options
-                    languageOptions.forEach(opt => opt.classList.remove('active'));
-                    
-                    // Add active class to clicked option
-                    this.classList.add('active');
-                    
-                    // Update current language
-                    currentLang = selectedLang;
-                    
-                    // Update page content
-                    updateLanguage(selectedLang);
-                });
-            });
+        if (languageOptions.length === 0) {
+            console.error('Language options not found!');
+            return;
         }
+        
+        // Set Albanian as default and make it active
+        let currentLanguage = 'al';
+        
+        // Remove active class from all options first
+        languageOptions.forEach(opt => opt.classList.remove('active'));
+        
+        // Set Albanian as active
+        const alOption = document.querySelector('.language-option[data-lang="al"]');
+        if (alOption) {
+            alOption.classList.add('active');
+        }
+        
+        // Update language immediately
+        updateLanguage(currentLanguage);
+        
+        // Add click event listeners with proper event handling
+        languageOptions.forEach(option => {
+            // Make sure the element is clickable
+            option.style.pointerEvents = 'auto';
+            option.style.cursor = 'pointer';
+            
+            // Remove any existing listeners
+            option.removeEventListener('click', handleLanguageClick);
+            
+            // Add new listener
+            option.addEventListener('click', handleLanguageClick);
+            
+            // Also add keyboard support
+            option.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleLanguageClick.call(this, e);
+                }
+            });
+        });
+        
+        function handleLanguageClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const selectedLang = this.getAttribute('data-lang');
+            console.log('Language clicked:', selectedLang);
+            
+            if (selectedLang && selectedLang !== currentLanguage) {
+                currentLanguage = selectedLang;
+                currentLang = selectedLang; // Update global variable
+                updateLanguage(currentLanguage);
+                
+                // Update active states
+                languageOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                
+                console.log('Language switched to:', currentLanguage);
+            }
+        }
+        
+       console.log('Language switcher initialized successfully with', languageOptions.length, 'options');
     }
 
     function updateLanguage(lang) {
         console.log('Updating language to:', lang);
-        currentLang = lang;
         
-        // Get all elements with language attributes
-        const elements = document.querySelectorAll('[data-en][data-al]');
-        
-        elements.forEach(element => {
-            const enText = element.getAttribute('data-en');
-            const alText = element.getAttribute('data-al');
+        try {
+            currentLang = lang;
             
-            if (lang === 'en' && enText) {
-                element.textContent = enText;
-            } else if (lang === 'al' && alText) {
-                element.textContent = alText;
-            }
-        });
+            // Get all elements with language attributes
+            const elements = document.querySelectorAll('[data-en][data-al]');
+            
+            console.log('Found', elements.length, 'elements to translate');
+            
+            elements.forEach((element, index) => {
+                try {
+                    const text = element.getAttribute('data-' + lang);
+                    if (text && text.trim()) {
+                        element.textContent = text;
+                    }
+                } catch (elementError) {
+                    console.warn('Error updating element', index, ':', elementError);
+                }
+            });
+            
+            // Update placeholders
+            const placeholderElements = document.querySelectorAll('[data-placeholder-en][data-placeholder-al]');
+            placeholderElements.forEach(element => {
+                try {
+                    const placeholder = element.getAttribute('data-placeholder-' + lang);
+                    if (placeholder) {
+                        element.setAttribute('placeholder', placeholder);
+                    }
+                } catch (placeholderError) {
+                    console.warn('Error updating placeholder:', placeholderError);
+                }
+            });
+            
+            // Update document language
+            document.documentElement.lang = lang === 'al' ? 'sq' : 'en';
+            
+            // Update language toggle active state
+            const languageOptions = document.querySelectorAll('.language-option');
+            languageOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-lang') === lang) {
+                    option.classList.add('active');
+                }
+            });
+            
+            console.log('Language update completed for:', lang);
+            
+        } catch (error) {
+            console.error('Error in updateLanguage:', error);
+        }
         
-        // Update language toggle active state
-        const languageOptions = document.querySelectorAll('.language-option');
-        languageOptions.forEach(option => {
-            option.classList.remove('active');
-            if (option.getAttribute('data-lang') === lang) {
-                option.classList.add('active');
-            }
-        });
-        
-        // Update form placeholders if needed
+        // Legacy support for old placeholders
         const placeholderElements = document.querySelectorAll('[data-placeholder-en][data-placeholder-al]');
         placeholderElements.forEach(element => {
             const enPlaceholder = element.getAttribute('data-placeholder-en');

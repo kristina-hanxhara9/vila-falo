@@ -516,13 +516,23 @@ class ChatbotService {
             
             console.log('✅ Booking created via chatbot:', booking._id);
             
-            // Send confirmation emails
+            // Send confirmation emails with enhanced error handling
             try {
+                console.log('📧 Attempting to send booking confirmation email...');
                 await emailService.sendBookingConfirmation(booking);
-                await emailService.sendAdminNotification(booking);
+                console.log('✅ Confirmation email sent successfully');
             } catch (emailError) {
-                console.error('❌ Error sending emails for chatbot booking:', emailError);
-                // Don't fail the booking if email fails
+                console.error('❌ Error sending confirmation email:', emailError);
+                // Continue - don't fail booking if email fails
+            }
+            
+            try {
+                console.log('📧 Attempting to send admin notification email...');
+                await emailService.sendAdminNotification(booking);
+                console.log('✅ Admin notification sent successfully');
+            } catch (emailError) {
+                console.error('❌ Error sending admin notification:', emailError);
+                // Continue - don't fail booking if email fails
             }
             
             return booking;

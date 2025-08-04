@@ -14,8 +14,8 @@ class EmailService {
                 port: parseInt(process.env.EMAIL_PORT) || 587,
                 secure: process.env.EMAIL_SECURE === 'true', // false for 587, true for 465
                 auth: {
-                    user: process.env.EMAIL_USER,
-                    pass: process.env.EMAIL_PASS
+                    user: process.env.EMAIL_USER || 'vilafalo@gmail.com',
+                    pass: process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD
                 },
                 tls: {
                     rejectUnauthorized: false
@@ -23,11 +23,17 @@ class EmailService {
             });
 
             // Verify connection
-            if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-                await this.transporter.verify();
-                console.log('✅ Email service initialized successfully');
+            if (process.env.EMAIL_USER && (process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD)) {
+                try {
+                    await this.transporter.verify();
+                    console.log('✅ Email service initialized successfully');
+                } catch (verifyError) {
+                    console.error('❌ Email verification failed:', verifyError.message);
+                    console.log('⚠️ Will attempt to send emails without verification');
+                }
             } else {
-                console.log('⚠️ Email credentials not configured');
+                console.log('⚠️ Email credentials not configured properly');
+                console.log('Required: EMAIL_USER and EMAIL_PASS (or GMAIL_APP_PASSWORD)');
             }
         } catch (error) {
             console.error('❌ Email service initialization failed:', error.message);
