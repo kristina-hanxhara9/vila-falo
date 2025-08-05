@@ -75,17 +75,19 @@ CONTACT:
 
 BOOKING CAPABILITY:
 You can help customers make bookings directly through the chat. When a customer expresses interest in booking,
-try to collect the following information:
-- Guest name
-- Email address
-- Phone number (optional)
-- Room type preference
-- Check-in date
-- Check-out date
-- Number of guests
-- Special requests (optional)
+try to collect the following information IN THIS ORDER:
+1. Guest name
+2. Email address
+3. Phone number (REQUIRED)
+4. Room type preference
+5. Check-in date
+6. Check-out date
+7. Number of guests
+8. Special requests (optional)
 
-Once you have the required information (name, email, room type, dates, number of guests), 
+Always ask for the phone number - it's required for all bookings.
+
+Once you have the required information (name, email, phone, room type, dates, number of guests), 
 you can create the booking for them.
 
 Always be friendly, helpful, and promote Vila Falo. Guide customers through the booking process naturally.
@@ -93,10 +95,11 @@ Always be friendly, helpful, and promote Vila Falo. Guide customers through the 
 IMPORTANT: When you detect that a customer wants to make a booking, ask for their information step by step:
 1. First ask for their name
 2. Then ask for their email
-3. Ask what type of room they prefer
-4. Ask for check-in and check-out dates
-5. Ask how many guests
-6. Ask if they have any special requests
+3. Then ask for their phone number (REQUIRED)
+4. Ask what type of room they prefer
+5. Ask for check-in and check-out dates
+6. Ask how many guests
+7. Ask if they have any special requests
 
 Be conversational and natural in your responses.
         `;
@@ -135,6 +138,7 @@ Be conversational and natural in your responses.
                     systemPrompt += `Booking ID: #${booking._id.toString().slice(-8).toUpperCase()}\n`;
                     systemPrompt += `Guest: ${booking.guestName}\n`;
                     systemPrompt += `Email: ${booking.email}\n`;
+                    systemPrompt += `Phone: ${booking.phone}\n`;
                     systemPrompt += `Room: ${booking.roomType}\n`;
                     systemPrompt += `Check-in: ${booking.checkInDate}\n`;
                     systemPrompt += `Check-out: ${booking.checkOutDate}\n`;
@@ -147,6 +151,7 @@ Be conversational and natural in your responses.
                         `📋 Detajet e rezervimit:\n` +
                         `• Emri: ${booking.guestName}\n` +
                         `• Email: ${booking.email}\n` +
+                        `• Telefon: ${booking.phone}\n` +
                         `• Dhoma: ${booking.roomType}\n` +
                         `• Check-in: ${booking.checkInDate}\n` +
                         `• Check-out: ${booking.checkOutDate}\n` +
@@ -173,13 +178,14 @@ Be conversational and natural in your responses.
                 
                 if (extractedBookingInfo.name) systemPrompt += `- Name: ${extractedBookingInfo.name}\n`;
                 if (extractedBookingInfo.email) systemPrompt += `- Email: ${extractedBookingInfo.email}\n`;
+                if (extractedBookingInfo.phone) systemPrompt += `- Phone: ${extractedBookingInfo.phone}\n`;
                 if (extractedBookingInfo.roomType) systemPrompt += `- Room: ${extractedBookingInfo.roomType}\n`;
                 if (extractedBookingInfo.checkIn) systemPrompt += `- Check-in: ${extractedBookingInfo.checkIn}\n`;
                 if (extractedBookingInfo.checkOut) systemPrompt += `- Check-out: ${extractedBookingInfo.checkOut}\n`;
                 if (extractedBookingInfo.guests) systemPrompt += `- Guests: ${extractedBookingInfo.guests}\n`;
                 
                 systemPrompt += `\nStill need: ${extractedBookingInfo.missing.join(', ')}\n\n`;
-                systemPrompt += `Please ask for the next missing piece of information in a friendly, natural way. Guide them through the booking process step by step.`;
+                systemPrompt += `Please ask for the next missing piece of information in a friendly, natural way. Follow this order: name → email → phone → room type → dates → guests. The phone number is REQUIRED for all bookings.`;
                 
                 responseData.nextStep = extractedBookingInfo.missing[0];
             }
@@ -287,9 +293,10 @@ Be conversational and natural in your responses.
     }
 
     extractAllBookingInfo(message, conversationHistory = []) {
-        // Combine all recent messages for context
-        const allMessages = conversationHistory.slice(-8).map(m => m.content).join(' ') + ' ' + message;
-        const lowerContext = allMessages.toLowerCase();
+        // Extract from user messages only to avoid AI response contamination
+        const userMessages = conversationHistory.filter(m => m.role === 'user').map(m => m.content);
+        const allUserMessages = userMessages.join(' ') + ' ' + message;
+        const lowerContext = allUserMessages.toLowerCase();
         
         const info = {
             name: null,
@@ -302,115 +309,150 @@ Be conversational and natural in your responses.
             specialRequests: null
         };
         
-        // Extract name (multiple patterns)
+        console.log('🔍 Extracting info from USER messages only:', allUserMessages);
+        
+        // Extract name - prioritize current message, then conversation
         const namePatterns = [
-            /(?:emri im (?:është|eshte)?|quhem|jam)\s+([A-ZËÇÄÖÜ][a-zëçäöü]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü]+)*)/i,
-            /(?:my name is|i am|i'm)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)*)/i,
-            /(?:^|\s)([A-Z][a-z]+\s+[A-Z][a-z]+)(?:\s|$|[.,!?])/m,
-            /unë jam\s+([A-ZËÇÄÖÜ][a-zëçäöü]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü]+)*)/i
+            // Explicit patterns
+            /(?:emri im (?:është|eshte)?|quhem|jam)\s+([A-ZËÇÄÖÜ][a-zëçäöü]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü]+)?)/i,
+            /(?:my name is|i am|i'm)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
+            // Single name in isolated message
+            /^([A-ZËÇÄÖÜ][a-zëçäöü]{2,15})$/,
+            // First and last name in isolated message
+            /^([A-ZËÇÄÖÜ][a-zëçäöü]+)\s+([A-ZËÇÄÖÜ][a-zëçäöü]+)$/
         ];
         
+        // Check current message first
         for (const pattern of namePatterns) {
-            const match = allMessages.match(pattern);
-            if (match && match[1] && match[1].length > 2) {
-                const name = match[1].trim();
-                // Avoid common words that aren't names
-                if (!['Vila Falo', 'Standard', 'Deluxe', 'Premium', 'Suite'].includes(name)) {
+            const match = message.trim().match(pattern);
+            if (match && match[1]) {
+                let name = match[1].trim();
+                if (match[2]) name += ' ' + match[2].trim(); // If there's a second name group
+                
+                const excludeWords = ['Standard', 'Deluxe', 'Premium', 'Suite', 'Vila', 'Falo'];
+                if (!excludeWords.some(word => name.includes(word)) && name.length > 1) {
                     info.name = name;
+                    console.log('✅ Name extracted from current message:', name);
                     break;
                 }
             }
         }
         
         // Extract email
-        const emailPattern = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
-        const emailMatch = allMessages.match(emailPattern);
-        if (emailMatch) {
+        const emailPattern = /\b([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})\b/;
+        const emailMatch = allUserMessages.match(emailPattern);
+        if (emailMatch && emailMatch[1]) {
             info.email = emailMatch[1].toLowerCase();
+            console.log('✅ Email extracted:', info.email);
+        }
+        
+        // Extract phone number (now required)
+        const phonePatterns = [
+            /(\+355[\s-]?\d{8,9})/,
+            /(\+\d{10,15})/,
+            /(069\d{7}|068\d{7}|067\d{7})/,
+            /(?:telefon|phone|nr|numri)[\s:]*([+\d\s-]{8,15})/i,
+            // Simple number that could be a phone
+            /\b(\d{9,15})\b/
+        ];
+        
+        for (const pattern of phonePatterns) {
+            const match = allUserMessages.match(pattern);
+            if (match && match[1]) {
+                const phone = match[1].replace(/\s/g, '');
+                // Validate it looks like a real phone number
+                if (phone.length >= 8 && phone.length <= 15) {
+                    info.phone = phone;
+                    console.log('✅ Phone extracted:', phone);
+                    break;
+                }
+            }
         }
         
         // Extract room type
-        if (lowerContext.includes('standard')) {
-            info.roomType = 'Standard';
-        } else if (lowerContext.includes('deluxe') || lowerContext.includes('familjare')) {
-            info.roomType = 'Deluxe';
-        } else if (lowerContext.includes('suite') || lowerContext.includes('premium') || lowerContext.includes('panorama')) {
-            info.roomType = 'Suite';
+        const roomKeywords = {
+            'Standard': ['standard', 'normale', 'bazik'],
+            'Deluxe': ['deluxe', 'familjare', 'family', 'luksoz'],
+            'Suite': ['suite', 'premium', 'panorama', 'panoramike']
+        };
+        
+        for (const [roomType, keywords] of Object.entries(roomKeywords)) {
+            if (keywords.some(keyword => lowerContext.includes(keyword))) {
+                info.roomType = roomType;
+                console.log('✅ Room type extracted:', roomType);
+                break;
+            }
         }
         
-        // Extract dates (multiple formats)
+        // Extract dates - improved with exact day extraction
         const datePatterns = [
-            /(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/g,
-            /(\d{1,2})\s+(janar|shkurt|mars|prill|maj|qershor|korrik|gusht|shtator|tetor|nëntor|dhjetor)/gi,
-            /(\d{1,2})\s+(january|february|march|april|may|june|july|august|september|october|november|december)/gi
+            // DD/MM/YYYY
+            /(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/g,
+            // DD MM YYYY  
+            /(\d{1,2})\s+(\d{1,2})\s+(\d{4})/g
         ];
         
         const extractedDates = [];
-        datePatterns.forEach(pattern => {
+        for (const pattern of datePatterns) {
             let match;
-            while ((match = pattern.exec(allMessages)) !== null) {
-                if (match[3]) { // DD/MM/YYYY format
+            const patternCopy = new RegExp(pattern.source, pattern.flags);
+            while ((match = patternCopy.exec(allUserMessages)) !== null) {
+                if (match[3]) {
                     const day = parseInt(match[1]);
-                    const month = parseInt(match[2]) - 1;
+                    const month = parseInt(match[2]) - 1; // JS months are 0-indexed
                     const year = parseInt(match[3]);
-                    if (day <= 31 && month <= 11 && year >= 2024) {
-                        extractedDates.push(new Date(year, month, day));
+                    
+                    if (day >= 1 && day <= 31 && month >= 0 && month <= 11 && year >= 2024) {
+                        const date = new Date(year, month, day);
+                        extractedDates.push(date);
+                        console.log('✅ Date extracted:', `${day}/${month + 1}/${year}`);
                     }
                 }
             }
-        });
+        }
 
         // Sort dates and assign check-in/check-out
         if (extractedDates.length >= 2) {
             extractedDates.sort((a, b) => a - b);
             info.checkIn = extractedDates[0].toISOString().split('T')[0];
             info.checkOut = extractedDates[1].toISOString().split('T')[0];
+            console.log('✅ Dates assigned:', info.checkIn, 'to', info.checkOut);
         } else if (extractedDates.length === 1) {
             info.checkIn = extractedDates[0].toISOString().split('T')[0];
             // Default to 2 nights if only one date provided
             const checkOut = new Date(extractedDates[0]);
             checkOut.setDate(checkOut.getDate() + 2);
             info.checkOut = checkOut.toISOString().split('T')[0];
+            console.log('✅ Single date with 2-night default:', info.checkIn, 'to', info.checkOut);
         }
         
         // Extract number of guests
         const guestPatterns = [
-            /(\d+)\s*(?:person|persona|mysafir|guest|people|vetë)/i,
+            /(\d+)\s*(?:person|persona|mysafir|guest|people|vetë|adult|të rritur|njerëz)/i,
             /për\s*(\d+)/i,
             /for\s*(\d+)/i,
-            /(\d+)\s*(?:adult|të rritur)/i
+            // Just a number when talking about guests
+            /\b(\d+)\s*(?=people|persona|mysafir|vetë)/i
         ];
         
         for (const pattern of guestPatterns) {
-            const match = allMessages.match(pattern);
+            const match = allUserMessages.match(pattern);
             if (match && match[1]) {
                 const guests = parseInt(match[1]);
                 if (guests >= 1 && guests <= 10) {
                     info.guests = guests;
+                    console.log('✅ Guests extracted:', guests);
                     break;
                 }
             }
         }
         
-        // Extract phone number
-        const phonePatterns = [
-            /(\+355[\s-]?\d{8,9})/,
-            /(\+\d{10,15})/,
-            /(06\d{8})/,
-            /(?:telefon|phone|nr)[\s:]*([+\d\s-]{8,15})/i
-        ];
-        
-        for (const pattern of phonePatterns) {
-            const match = allMessages.match(pattern);
-            if (match && match[1]) {
-                info.phone = match[1].replace(/\s/g, '');
-                break;
-            }
-        }
-        
-        // Determine what's missing
-        const required = ['name', 'email', 'roomType', 'checkIn', 'checkOut', 'guests'];
+        // Determine what's missing - now includes phone as required
+        const required = ['name', 'email', 'phone', 'roomType', 'checkIn', 'checkOut', 'guests'];
         const missing = required.filter(field => !info[field]);
+        
+        console.log('📋 Final extracted info:', info);
+        console.log('❌ Missing fields:', missing);
         
         return {
             ...info,
@@ -429,6 +471,7 @@ Be conversational and natural in your responses.
                 email: bookingInfo.email,
                 phone: bookingInfo.phone || '',
                 roomType: bookingInfo.roomType,
+                roomsBooked: 1, // ALWAYS 1 room per booking
                 checkInDate: bookingInfo.checkIn,
                 checkOutDate: bookingInfo.checkOut,
                 numberOfGuests: bookingInfo.guests,
@@ -451,6 +494,39 @@ Be conversational and natural in your responses.
             
             if (checkOut <= checkIn) {
                 throw new Error('Check-out date must be after check-in date');
+            }
+            
+            // Check for duplicate bookings (same email, dates, room type)
+            console.log('🔍 Checking for duplicate bookings...');
+            const existingBooking = await Booking.findOne({
+                email: bookingData.email,
+                roomType: bookingData.roomType,
+                checkInDate: bookingData.checkInDate,
+                checkOutDate: bookingData.checkOutDate,
+                status: { $ne: 'cancelled' }
+            });
+            
+            if (existingBooking) {
+                console.log('⚠️ Duplicate booking detected:', existingBooking._id);
+                throw new Error('A booking with the same details already exists');
+            }
+            
+            console.log('✅ No duplicate booking found');
+            
+            // Check actual room availability
+            console.log('🔍 Checking room availability before creating booking...');
+            const availability = await this.checkRoomAvailability(
+                bookingData.checkInDate,
+                bookingData.checkOutDate,
+                bookingData.roomType
+            );
+            
+            console.log('📊 Availability result:', availability);
+            
+            if (!availability.available) {
+                const roomInfo = availability.rooms?.find(r => r.roomType === bookingData.roomType);
+                const availableRooms = roomInfo ? roomInfo.availableRooms : 0;
+                throw new Error(`No ${bookingData.roomType} rooms available for the selected dates. Available: ${availableRooms}`);
             }
             
             // Create and save booking
@@ -569,6 +645,115 @@ Be conversational and natural in your responses.
                 answer: "Ndodhemi në Voskopojë, Korçë, në malet e bukura të Shqipërisë juglindore."
             }
         ];
+    }
+    
+    // Fixed room availability check
+    async checkRoomAvailability(checkInDate, checkOutDate, roomType = null) {
+        try {
+            console.log('🔍=== ROOM AVAILABILITY CHECK ===');
+            console.log('Check-in:', checkInDate);
+            console.log('Check-out:', checkOutDate);
+            console.log('Room type requested:', roomType);
+            
+            const checkIn = new Date(checkInDate);
+            const checkOut = new Date(checkOutDate);
+            
+            if (checkIn >= checkOut) {
+                return { available: false, message: 'Check-out date must be after check-in date.' };
+            }
+
+            if (checkIn < new Date()) {
+                return { available: false, message: 'Check-in date cannot be in the past.' };
+            }
+
+            const roomTypes = {
+                'Standard': { name: 'Standard Mountain Room', total: 5 },
+                'Deluxe': { name: 'Deluxe Family Suite', total: 4 },
+                'Suite': { name: 'Premium Panorama Suite', total: 3 }
+            };
+
+            let availabilityInfo = [];
+            const typesToCheck = roomType ? [roomType] : Object.keys(roomTypes);
+            console.log('Types to check:', typesToCheck);
+
+            for (const type of typesToCheck) {
+                const roomConfig = roomTypes[type];
+                if (!roomConfig) {
+                    console.log('⚠️ Unknown room type:', type);
+                    continue;
+                }
+
+                console.log(`\n🔍 Checking ${type} rooms:`);
+                console.log('Total available:', roomConfig.total);
+                
+                // Find ALL conflicting bookings for this EXACT room type and date range
+                const conflictingBookings = await Booking.find({
+                    roomType: type, // EXACT MATCH - no regex
+                    status: { $ne: 'cancelled' },
+                    $or: [
+                        {
+                            checkInDate: { $lt: checkOut },
+                            checkOutDate: { $gt: checkIn }
+                        }
+                    ]
+                });
+                
+                console.log('Found conflicting bookings:', conflictingBookings.length);
+                
+                // Calculate total rooms booked (sum of roomsBooked field)
+                let totalRoomsBooked = 0;
+                conflictingBookings.forEach(booking => {
+                    const roomsBooked = booking.roomsBooked || 1; // Default to 1 if not set
+                    totalRoomsBooked += roomsBooked;
+                    console.log(`  - Booking ${booking._id}: ${roomsBooked} room(s), Guest: ${booking.guestName}, Email: ${booking.email}`);
+                });
+                
+                console.log('Total rooms booked for', type + ':', totalRoomsBooked);
+                const availableRooms = roomConfig.total - totalRoomsBooked;
+                console.log('Available', type, 'rooms:', availableRooms);
+                
+                availabilityInfo.push({
+                    roomType: type,
+                    roomName: roomConfig.name,
+                    totalRooms: roomConfig.total,
+                    bookedRooms: totalRoomsBooked,
+                    availableRooms: Math.max(0, availableRooms),
+                    available: availableRooms > 0,
+                    conflictingBookings: conflictingBookings.map(b => ({
+                        id: b._id.toString().slice(-8),
+                        guest: b.guestName,
+                        email: b.email,
+                        checkIn: b.checkInDate,
+                        checkOut: b.checkOutDate,
+                        roomsBooked: b.roomsBooked || 1
+                    }))
+                });
+            }
+            
+            const result = {
+                available: availabilityInfo.some(room => room.available),
+                checkInDate: checkInDate,
+                checkOutDate: checkOutDate,
+                nights: Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24)),
+                rooms: availabilityInfo
+            };
+            
+            console.log('📋 Final availability result:', {
+                available: result.available,
+                requestedType: roomType,
+                roomSummary: availabilityInfo.map(r => `${r.roomType}: ${r.availableRooms}/${r.totalRooms} available`)
+            });
+            console.log('=== END AVAILABILITY CHECK ===\n');
+            
+            return result;
+
+        } catch (error) {
+            console.error('❌ Error checking availability:', error);
+            return {
+                available: false,
+                error: 'Error checking room availability.'
+            };
+        }
     }
 }
 

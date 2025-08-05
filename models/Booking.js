@@ -34,6 +34,12 @@ const bookingSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Room type is required']
   },
+  roomsBooked: {
+    type: Number,
+    default: 1,
+    min: [1, 'At least one room must be booked'],
+    max: [3, 'Maximum 3 rooms per booking']
+  },
   numberOfGuests: {
     type: Number,
     required: [true, 'Number of guests is required'],

@@ -48,7 +48,12 @@ router.post('/', async (req, res) => {
     
     // Create new booking
     console.log('💾 Creating booking object...');
-    const booking = new Booking(req.body);
+    const bookingData = {
+      ...req.body,
+      roomsBooked: req.body.roomsBooked || 1 // Default to 1 room
+    };
+    
+    const booking = new Booking(bookingData);
     
     // Save to database
     console.log('💾 Saving booking to database...');
