@@ -12,6 +12,12 @@ router.post('/message', async (req, res) => {
     try {
         const { message, sessionId } = req.body;
         
+        console.log('🤖 Chatbot message received:', {
+            message: message,
+            sessionId: sessionId,
+            timestamp: new Date().toISOString()
+        });
+        
         if (!message || !message.trim()) {
             return res.status(400).json({
                 success: false,
@@ -22,9 +28,29 @@ router.post('/message', async (req, res) => {
         // Get or create conversation session
         const session = sessionId || Date.now().toString();
         let conversationHistory = conversationSessions.get(session) || [];
+        
+        console.log('💬 Conversation history length:', conversationHistory.length);
+        console.log('📝 Current conversation context:', conversationHistory.slice(-2));
 
         // Generate response
+        console.log('🧠 Generating chatbot response...');
         const response = await chatbotService.generateResponse(message, conversationHistory);
+        
+        console.log('✅ Chatbot response generated:', {
+            success: response.success,
+            bookingDetected: response.bookingDetected,
+            bookingCreated: !!response.bookingCreated,
+            extractedInfo: response.extractedInfo
+        });
+        
+        if (response.bookingCreated) {
+            console.log('🎉 BOOKING CREATED SUCCESSFULLY:', {
+                bookingId: response.bookingCreated._id,
+                guest: response.bookingCreated.guestName,
+                email: response.bookingCreated.email,
+                room: response.bookingCreated.roomType
+            });
+        }
 
         // Update conversation history
         conversationHistory.push(
@@ -51,10 +77,14 @@ router.post('/message', async (req, res) => {
             success: true,
             message: response.message,
             sessionId: session,
-            hasAvailabilityCheck: response.hasAvailabilityCheck,
-            availabilityData: response.availabilityData,
-            bookingInfo: response.bookingInfo,
+            bookingDetected: response.bookingDetected,
+            extractedInfo: response.extractedInfo,
             bookingCreated: response.bookingCreated,
+            nextStep: response.nextStep,
+            debug: process.env.NODE_ENV === 'development' ? {
+                conversationLength: conversationHistory.length,
+                lastMessages: conversationHistory.slice(-4)
+            } : undefined,
             timestamp: new Date()
         });
 
@@ -135,6 +165,39 @@ router.delete('/session/:sessionId', (req, res) => {
             success: false,
             message: 'Ka ndodhur një gabim.',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+});
+
+// GET /api/chatbot/debug - Debug conversation and booking extraction
+router.post('/debug', async (req, res) => {
+    try {
+        const { message, sessionId } = req.body;
+        const session = sessionId || 'debug-session';
+        let conversationHistory = conversationSessions.get(session) || [];
+        
+        // Test the extraction logic
+        const bookingDetection = chatbotService.detectBookingIntent(message, conversationHistory);
+        const extractedInfo = chatbotService.extractAllBookingInfo(message, conversationHistory);
+        
+        res.json({
+            success: true,
+            debug: {
+                message: message,
+                conversationHistory: conversationHistory,
+                bookingDetection: bookingDetection,
+                extractedInfo: extractedInfo,
+                missingInfo: extractedInfo.missing,
+                isComplete: extractedInfo.isComplete,
+                hasPartialInfo: extractedInfo.hasPartialInfo
+            }
+        });
+    } catch (error) {
+        console.error('Debug error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Debug error',
+            error: error.message
         });
     }
 });
