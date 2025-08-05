@@ -123,7 +123,7 @@ Be conversational and natural in your responses.
                 nextStep: null
             };
             
-            // If user is trying to book and we have complete information, create booking
+            // Check if we have enough information to create a booking
             if (bookingDetection.isBookingAttempt && extractedBookingInfo.isComplete) {
                 console.log('✅ Complete booking information detected - creating booking...');
                 
@@ -141,6 +141,22 @@ Be conversational and natural in your responses.
                     systemPrompt += `Guests: ${booking.numberOfGuests}\n`;
                     systemPrompt += `Status: Confirmed\n\n`;
                     systemPrompt += `Please inform the customer that their booking has been successfully created and they will receive a confirmation email shortly. Give them the booking reference number and thank them for choosing Vila Falo.`;
+                    
+                    // If Gemini API fails, provide a fallback response
+                    const fallbackResponse = `🎉 Rezervimi juaj u krijua me sukses!\n\n` +
+                        `📋 Detajet e rezervimit:\n` +
+                        `• Emri: ${booking.guestName}\n` +
+                        `• Email: ${booking.email}\n` +
+                        `• Dhoma: ${booking.roomType}\n` +
+                        `• Check-in: ${booking.checkInDate}\n` +
+                        `• Check-out: ${booking.checkOutDate}\n` +
+                        `• Mysafirë: ${booking.numberOfGuests}\n` +
+                        `• Numri i riferimit: #${booking._id.toString().slice(-8).toUpperCase()}\n\n` +
+                        `✅ Do të merrni një email konfirmimi së shpejti.\n` +
+                        `📞 Për çdo pyetje: +355 68 336 9436\n\n` +
+                        `Faleminderit që zgjodhët Vila Falo! 🏔️`;
+                    
+                    responseData.fallbackMessage = fallbackResponse;
                     
                 } catch (error) {
                     console.error('❌ Error creating booking:', error);
@@ -196,6 +212,19 @@ Be conversational and natural in your responses.
                 status: error.status,
                 statusText: error.statusText
             });
+            
+            // If we created a booking but Gemini API failed, use fallback response
+            if (responseData.bookingCreated && responseData.fallbackMessage) {
+                console.log('✅ Using fallback response for successful booking');
+                return {
+                    success: true,
+                    message: responseData.fallbackMessage,
+                    bookingDetected: true,
+                    extractedInfo: extractedBookingInfo,
+                    bookingCreated: responseData.bookingCreated,
+                    apiError: 'Gemini API failed but booking was created successfully'
+                };
+            }
             
             // Handle specific API errors
             let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë.';

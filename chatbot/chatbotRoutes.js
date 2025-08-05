@@ -81,6 +81,7 @@ router.post('/message', async (req, res) => {
             extractedInfo: response.extractedInfo,
             bookingCreated: response.bookingCreated,
             nextStep: response.nextStep,
+            apiError: response.apiError, // Include API error info
             debug: process.env.NODE_ENV === 'development' ? {
                 conversationLength: conversationHistory.length,
                 lastMessages: conversationHistory.slice(-4)
