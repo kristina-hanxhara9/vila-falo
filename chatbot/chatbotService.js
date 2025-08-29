@@ -185,7 +185,7 @@ Be conversational and natural in your responses.
                 if (extractedBookingInfo.guests) systemPrompt += `- Guests: ${extractedBookingInfo.guests}\n`;
                 
                 systemPrompt += `\nStill need: ${extractedBookingInfo.missing.join(', ')}\n\n`;
-                systemPrompt += `Please ask for the next missing piece of information in a friendly, natural way. Follow this order: name → email → phone → room type → dates → guests. The phone number is REQUIRED for all bookings.`;
+                systemPrompt += `Please ask for the next missing piece of information in a friendly, natural way. Follow this order: name → email → phone (REQUIRED) → room type → dates → guests. The phone number is REQUIRED for all bookings.`;
                 
                 responseData.nextStep = extractedBookingInfo.missing[0];
             }
@@ -220,7 +220,7 @@ Be conversational and natural in your responses.
             });
             
             // If we created a booking but Gemini API failed, use fallback response
-            if (responseData.bookingCreated && responseData.fallbackMessage) {
+            if (typeof responseData !== 'undefined' && responseData.bookingCreated && responseData.fallbackMessage) {
                 console.log('✅ Using fallback response for successful booking');
                 return {
                     success: true,
@@ -257,17 +257,19 @@ Be conversational and natural in your responses.
         const fullContext = conversationHistory.slice(-4).map(m => m.content).join(' ') + ' ' + message;
         const lowerContext = fullContext.toLowerCase();
         
-        // Booking intent keywords in Albanian and English
+        // Booking intent keywords in Albanian and English (expanded)
         const bookingKeywords = [
             // Albanian
             'rezervim', 'rezervoj', 'rezervo', 'dua të rezervoj', 'më intereson', 'booking', 
             'reserve', 'dua', 'want', 'interesuar', 'interesuar jam',
             'mund të rezervoj', 'si mund të', 'çmim', 'kosto', 'kushton',
             'dhoma', 'suite', 'standard', 'deluxe', 'disponueshm',
+            'qëndrim', 'pushim', 'për', 'natë', 'net', 'hotel', 'resort',
             
             // English  
             'book', 'booking', 'reserve', 'reservation', 'want to book', 'interested in',
-            'available', 'room', 'stay', 'check in', 'check out', 'price', 'cost'
+            'available', 'room', 'stay', 'check in', 'check out', 'price', 'cost',
+            'vacation', 'holiday', 'trip', 'visit', 'night', 'nights', 'hotel'
         ];
         
         const hasBookingKeyword = bookingKeywords.some(keyword => lowerContext.includes(keyword));
@@ -311,31 +313,44 @@ Be conversational and natural in your responses.
         
         console.log('🔍 Extracting info from USER messages only:', allUserMessages);
         
-        // Extract name - prioritize current message, then conversation
+        // Extract name - prioritize current message, then search all conversations
         const namePatterns = [
-            // Explicit patterns
-            /(?:emri im (?:është|eshte)?|quhem|jam)\s+([A-ZËÇÄÖÜ][a-zëçäöü]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü]+)?)/i,
-            /(?:my name is|i am|i'm)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i,
-            // Single name in isolated message
-            /^([A-ZËÇÄÖÜ][a-zëçäöü]{2,15})$/,
-            // First and last name in isolated message
-            /^([A-ZËÇÄÖÜ][a-zëçäöü]+)\s+([A-ZËÇÄÖÜ][a-zëçäöü]+)$/
+            // Explicit patterns with better Albanian support
+            /(?:emri im (?:është|eshte)?|quhem|jam)\s+([A-ZËÇÄÖÜ][a-zëçäöü\u00e9]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü\u00e9]+)?)/i,
+            /(?:my name is|i am|i'm|name:|emri:)\s+([A-ZËÇÄÖÜ][a-zëçäöü\u00e9]+(?:\s+[A-ZËÇÄÖÜ][a-zëçäöü\u00e9]+)?)/i,
+            // More flexible patterns for names
+            /\b([A-Z][a-zëçäöü\u00e9]{2,})\s+([A-Z][a-zëçäöü\u00e9]{2,})\b/g,
+            // Single name in context
+            /\b([A-Z][a-zëçäöü\u00e9]{2,15})\b/g
         ];
         
-        // Check current message first
+        // Check all user messages for name patterns
         for (const pattern of namePatterns) {
-            const match = message.trim().match(pattern);
-            if (match && match[1]) {
-                let name = match[1].trim();
-                if (match[2]) name += ' ' + match[2].trim(); // If there's a second name group
-                
-                const excludeWords = ['Standard', 'Deluxe', 'Premium', 'Suite', 'Vila', 'Falo'];
-                if (!excludeWords.some(word => name.includes(word)) && name.length > 1) {
-                    info.name = name;
-                    console.log('✅ Name extracted from current message:', name);
-                    break;
+            // Ensure we have global flag for matchAll but don't duplicate flags
+            const flags = pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g';
+            const globalPattern = new RegExp(pattern.source, flags);
+            
+            const matches = [...allUserMessages.matchAll(globalPattern)];
+            for (const match of matches) {
+                if (match[1]) {
+                    let name = match[1].trim();
+                    if (match[2]) name += ' ' + match[2].trim(); // If there's a second name group
+                    
+                    // Enhanced exclusion words to avoid false positives
+                    const excludeWords = ['Standard', 'Deluxe', 'Premium', 'Suite', 'Vila', 'Falo', 'Mountain', 'Room', 'Family', 'Panorama', 'Hotel', 'Resort', 'Check', 'Book', 'Want', 'Email', 'Phone'];
+                    const isValidName = !excludeWords.some(word => name.toLowerCase().includes(word.toLowerCase())) && 
+                                       name.length > 2 && 
+                                       name.length < 50 &&
+                                       /^[A-Za-zëçäöü\u00e9\s]+$/.test(name);
+                    
+                    if (isValidName) {
+                        info.name = name;
+                        console.log('✅ Name extracted:', name, 'from pattern:', pattern.source);
+                        break;
+                    }
                 }
             }
+            if (info.name) break; // Stop once we find a valid name
         }
         
         // Extract email
@@ -346,27 +361,39 @@ Be conversational and natural in your responses.
             console.log('✅ Email extracted:', info.email);
         }
         
-        // Extract phone number (now required)
+        // Extract phone number - REQUIRED for booking
         const phonePatterns = [
-            /(\+355[\s-]?\d{8,9})/,
-            /(\+\d{10,15})/,
-            /(069\d{7}|068\d{7}|067\d{7})/,
-            /(?:telefon|phone|nr|numri)[\s:]*([+\d\s-]{8,15})/i,
-            // Simple number that could be a phone
-            /\b(\d{9,15})\b/
+            // Context-aware patterns (phone mentioned explicitly)
+            /(?:my phone|phone|telefon|nr|numri|number)\s*(?:is|eshte|është|:)?\s*([+]?\d[\d\s-]{7,20})/gi,
+            // Albanian format with flexible spacing
+            /(\+355[\s-]?\d{2,3}[\s-]?\d{3}[\s-]?\d{4})/g,
+            // International format with flexible spacing  
+            /(\+\d{1,4}[\s-]?\d{2,3}[\s-]?\d{3}[\s-]?\d{3,4})/g,
+            // Albanian mobile patterns
+            /(069[\s-]?\d{3}[\s-]?\d{4}|068[\s-]?\d{3}[\s-]?\d{4}|067[\s-]?\d{3}[\s-]?\d{4})/g,
+            // Standalone phone numbers (be careful not to match other numbers)
+            /\b(\d{8,15})\b/g
         ];
         
         for (const pattern of phonePatterns) {
-            const match = allUserMessages.match(pattern);
-            if (match && match[1]) {
-                const phone = match[1].replace(/\s/g, '');
-                // Validate it looks like a real phone number
-                if (phone.length >= 8 && phone.length <= 15) {
-                    info.phone = phone;
-                    console.log('✅ Phone extracted:', phone);
-                    break;
+            // Ensure we have global flag for matchAll but don't duplicate flags
+            const flags = pattern.flags.includes('g') ? pattern.flags : pattern.flags + 'g';
+            const globalPattern = new RegExp(pattern.source, flags);
+            
+            const matches = [...allUserMessages.matchAll(globalPattern)];
+            for (const match of matches) {
+                if (match[1]) {
+                    // Clean the phone number by removing spaces and dashes
+                    const phone = match[1].replace(/[\s-]/g, '');
+                    // Validate it looks like a real phone number
+                    if (phone.length >= 8 && phone.length <= 15 && /^[+]?\d+$/.test(phone)) {
+                        info.phone = phone;
+                        console.log('✅ Phone extracted:', phone, 'from:', match[1]);
+                        break;
+                    }
                 }
             }
+            if (info.phone) break;
         }
         
         // Extract room type
@@ -447,12 +474,12 @@ Be conversational and natural in your responses.
             }
         }
         
-        // Determine what's missing - now includes phone as required
+        // Determine what's missing - phone IS REQUIRED for booking completion
         const required = ['name', 'email', 'phone', 'roomType', 'checkIn', 'checkOut', 'guests'];
         const missing = required.filter(field => !info[field]);
         
         console.log('📋 Final extracted info:', info);
-        console.log('❌ Missing fields:', missing);
+        console.log('❌ Missing required fields:', missing);
         
         return {
             ...info,
@@ -482,14 +509,21 @@ Be conversational and natural in your responses.
             
             console.log('📋 Final booking data:', bookingData);
             
-            // Validate dates
+            // Validate dates - ONLY allow future dates (not today)
             const checkIn = new Date(bookingData.checkInDate);
             const checkOut = new Date(bookingData.checkOutDate);
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            today.setHours(23, 59, 59, 999); // End of today
             
-            if (checkIn < today) {
-                throw new Error('Check-in date cannot be in the past');
+            console.log('📅 Date validation (strict future only):');
+            console.log('   End of today:', today.toISOString().split('T')[0]);
+            console.log('   Check-in:', checkIn.toISOString().split('T')[0]);
+            console.log('   Check-out:', checkOut.toISOString().split('T')[0]);
+            
+            // Only allow bookings starting tomorrow or later
+            if (checkIn <= today) {
+                console.log('❌ Check-in date must be in the future (tomorrow or later)');
+                throw new Error('Check-in date must be in the future. Please select a date from tomorrow onwards.');
             }
             
             if (checkOut <= checkIn) {
@@ -537,17 +571,21 @@ Be conversational and natural in your responses.
             console.log('✅ Booking saved successfully:', booking._id);
             
             // Send emails
+            let emailResults = { confirmation: false, admin: false };
             try {
-                console.log('📧 Sending confirmation emails...');
-                const confirmationSent = await emailService.sendBookingConfirmation(booking);
-                const adminNotificationSent = await emailService.sendAdminNotification(booking);
+                console.log('📧 Attempting to send confirmation emails...');
+                emailResults.confirmation = await emailService.sendBookingConfirmation(booking);
+                emailResults.admin = await emailService.sendAdminNotification(booking);
                 
-                console.log('📧 Email results:', {
-                    confirmation: confirmationSent,
-                    admin: adminNotificationSent
-                });
+                console.log('📧 Email results:', emailResults);
+                if (emailResults.confirmation) {
+                    console.log('✅ Booking confirmation email sent successfully');
+                } else {
+                    console.log('⚠️ Booking confirmation email not sent (but booking was created)');
+                }
             } catch (emailError) {
                 console.error('❌ Email sending error (non-blocking):', emailError.message);
+                emailResults.error = emailError.message;
             }
             
             return booking;
@@ -686,9 +724,10 @@ Be conversational and natural in your responses.
                 console.log(`\n🔍 Checking ${type} rooms:`);
                 console.log('Total available:', roomConfig.total);
                 
-                // Find ALL conflicting bookings for this EXACT room type and date range
+                // Find ALL conflicting bookings for this room type and date range
+                // Use flexible matching for room types
                 const conflictingBookings = await Booking.find({
-                    roomType: type, // EXACT MATCH - no regex
+                    roomType: { $regex: new RegExp(type, 'i') },
                     status: { $ne: 'cancelled' },
                     $or: [
                         {

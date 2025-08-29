@@ -170,7 +170,7 @@ router.delete('/session/:sessionId', (req, res) => {
     }
 });
 
-// GET /api/chatbot/debug - Debug conversation and booking extraction
+// POST /api/chatbot/debug - Debug conversation and booking extraction
 router.post('/debug', async (req, res) => {
     try {
         const { message, sessionId } = req.body;
@@ -198,6 +198,59 @@ router.post('/debug', async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Debug error',
+            error: error.message
+        });
+    }
+});
+
+// POST /api/chatbot/quick-booking - Quick booking test (development only)
+router.post('/quick-booking', async (req, res) => {
+    try {
+        if (process.env.NODE_ENV === 'production') {
+            return res.status(403).json({
+                success: false,
+                message: 'This endpoint is only available in development mode'
+            });
+        }
+
+        const { name, email, phone, roomType, checkIn, checkOut, guests } = req.body;
+        
+        const bookingInfo = {
+            name: name || 'Test User',
+            email: email || 'test@example.com',
+            phone: phone || '+355 69 123 4567',
+            roomType: roomType || 'Standard',
+            checkIn: checkIn || new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            checkOut: checkOut || new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            guests: guests || 2
+        };
+
+        console.log('🧪 Quick booking test with info:', bookingInfo);
+
+        const booking = await chatbotService.createBookingFromInfo(bookingInfo);
+        
+        res.json({
+            success: true,
+            message: 'Quick booking created successfully!',
+            booking: {
+                id: booking._id,
+                reference: '#' + booking._id.toString().slice(-8).toUpperCase(),
+                guestName: booking.guestName,
+                email: booking.email,
+                phone: booking.phone,
+                roomType: booking.roomType,
+                checkInDate: booking.checkInDate,
+                checkOutDate: booking.checkOutDate,
+                numberOfGuests: booking.numberOfGuests,
+                status: booking.status
+            }
+        });
+
+    } catch (error) {
+        console.error('Quick booking error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Quick booking failed',
             error: error.message
         });
     }

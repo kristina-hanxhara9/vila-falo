@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vila Falo Chatbot Booking Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            height: 80vh;
+        }
+        
+        .panel {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        
+        .panel h2 {
+            color: #4361ee;
+            border-bottom: 2px solid #f1f3f4;
+            padding-bottom: 10px;
+        }
+        
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e8e8e8;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        
+        .test-section h3 {
+            color: #560bad;
+            margin-top: 0;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #4361ee, #560bad);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin: 5px 0;
+            box-sizing: border-box;
+        }
+        
+        .result {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+            margin: 10px 0;
+            white-space: pre-wrap;
+        }
+        
+        .error {
+            background: #ffe6e6;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .info {
+            background: #e6f3ff;
+            border-left: 4px solid #007bff;
+        }
+        
+        .debug-info {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .chat-container {
+            border: 1px solid #ddd;
+            height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        
+        .user-message {
+            background: #4361ee;
+            color: white;
+            text-align: right;
+        }
+        
+        .bot-message {
+            background: #e9ecef;
+            color: #333;
+        }
+        
+        .status {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        #chat-input {
+            width: 70%;
+        }
+        
+        #send-btn {
+            width: 25%;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: white; text-align: center; margin-bottom: 30px;">🏔️ Vila Falo Chatbot Booking Test</h1>
+    
+    <div class="container">
+        <!-- Left Panel - Quick Tests -->
+        <div class="panel">
+            <h2>🧪 Quick Tests</h2>
+            
+            <div class="test-section">
+                <h3>1. Quick Booking Test</h3>
+                <p>Test creating a booking directly without chat:</p>
+                <input type="text" id="quick-name" placeholder="Guest Name" value="John Smith">
+                <input type="email" id="quick-email" placeholder="Email" value="john@example.com">
+                <input type="tel" id="quick-phone" placeholder="Phone" value="+355 69 123 4567">
+                <select id="quick-room">
+                    <option value="Standard">Standard Room</option>
+                    <option value="Deluxe">Deluxe Suite</option>
+                    <option value="Suite">Premium Suite</option>
+                </select>
+                <input type="date" id="quick-checkin">
+                <input type="date" id="quick-checkout">
+                <input type="number" id="quick-guests" placeholder="Number of guests" value="2" min="1" max="10">
+                <button onclick="testQuickBooking()">Create Quick Booking</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>2. Room Availability Check</h3>
+                <input type="date" id="avail-checkin">
+                <input type="date" id="avail-checkout">
+                <select id="avail-room">
+                    <option value="">All Room Types</option>
+                    <option value="Standard">Standard Room</option>
+                    <option value="Deluxe">Deluxe Suite</option>
+                    <option value="Suite">Premium Suite</option>
+                </select>
+                <button onclick="checkAvailability()">Check Availability</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>3. Message Debug Test</h3>
+                <textarea id="debug-message" placeholder="Enter a message to test booking detection...">I want to book a Standard room for 2 people from 15/1/2025 to 18/1/2025. My name is John Smith and email is john@example.com</textarea>
+                <button onclick="debugMessage()">Debug Message</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>4. Server Status</h3>
+                <button onclick="checkServerStatus()">Check Server Health</button>
+                <button onclick="getChatbotStats()">Get Chatbot Stats</button>
+            </div>
+            
+            <div id="test-results"></div>
+        </div>
+        
+        <!-- Right Panel - Live Chat Test -->
+        <div class="panel">
+            <h2>💬 Live Chat Test</h2>
+            <p>Test the full chatbot conversation flow:</p>
+            
+            <div class="chat-container" id="chat-container"></div>
+            
+            <div style="display: flex; margin-top: 10px;">
+                <input type="text" id="chat-input" placeholder="Type your message...">
+                <button id="send-btn" onclick="sendChatMessage()">Send</button>
+            </div>
+            
+            <div style="margin-top: 15px;">
+                <button onclick="clearChat()">Clear Chat</button>
+                <button onclick="startBookingFlow()">Start Booking Flow</button>
+                <button onclick="testCompleteFlow()">Auto Test Complete Flow</button>
+            </div>
+            
+            <div class="test-section">
+                <h3>🎯 Suggested Test Messages</h3>
+                <div>
+                    <button onclick="sendPredefined('Hello, I want to book a room')">Initial Interest</button>
+                    <button onclick="sendPredefined('My name is John Smith')">Provide Name</button>
+                    <button onclick="sendPredefined('john@example.com')">Provide Email</button>
+                    <button onclick="sendPredefined('Standard room please')">Room Type</button>
+                    <button onclick="sendPredefined('15/1/2025 to 18/1/2025 for 2 people')">Dates & Guests</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let chatSessionId = null;
+        
+        // Set default dates (tomorrow and day after tomorrow)
+        document.addEventListener('DOMContentLoaded', function() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const dayAfter = new Date();
+            dayAfter.setDate(dayAfter.getDate() + 3);
+            
+            document.getElementById('quick-checkin').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('quick-checkout').value = dayAfter.toISOString().split('T')[0];
+            document.getElementById('avail-checkin').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('avail-checkout').value = dayAfter.toISOString().split('T')[0];
+        });
+        
+        function addResult(content, type = 'result') {
+            const results = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = typeof content === 'object' ? JSON.stringify(content, null, 2) : content;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        async function testQuickBooking() {
+            try {
+                const response = await fetch('/api/chatbot/quick-booking', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: document.getElementById('quick-name').value,
+                        email: document.getElementById('quick-email').value,
+                        phone: document.getElementById('quick-phone').value,
+                        roomType: document.getElementById('quick-room').value,
+                        checkIn: document.getElementById('quick-checkin').value,
+                        checkOut: document.getElementById('quick-checkout').value,
+                        guests: parseInt(document.getElementById('quick-guests').value)
+                    })
+                });
+                
+                const data = await response.json();
+                addResult(`✅ Quick Booking Result:\n${JSON.stringify(data, null, 2)}`, 'result');
+            } catch (error) {
+                addResult(`❌ Quick Booking Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function checkAvailability() {
+            try {
+                const params = new URLSearchParams({
+                    checkIn: document.getElementById('avail-checkin').value,
+                    checkOut: document.getElementById('avail-checkout').value
+                });
+                
+                const roomType = document.getElementById('avail-room').value;
+                if (roomType) params.append('roomType', roomType);
+                
+                const response = await fetch(`/api/chatbot/availability?${params}`);
+                const data = await response.json();
+                addResult(`🏨 Availability Result:\n${JSON.stringify(data, null, 2)}`, 'result');
+            } catch (error) {
+                addResult(`❌ Availability Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function debugMessage() {
+            try {
+                const response = await fetch('/api/chatbot/debug', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: document.getElementById('debug-message').value
+                    })
+                });
+                
+                const data = await response.json();
+                addResult(`🐛 Debug Result:\n${JSON.stringify(data, null, 2)}`, 'debug-info');
+            } catch (error) {
+                addResult(`❌ Debug Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function checkServerStatus() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                addResult(`❤️ Server Health:\n${JSON.stringify(data, null, 2)}`, 'info');
+            } catch (error) {
+                addResult(`❌ Server Error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function getChatbotStats() {
+            try {
+                const response = await fetch('/api/chatbot/stats');
+                const data = await response.json();
+                addResult(`📊 Chatbot Stats:\n${JSON.stringify(data, null, 2)}`, 'info');
+            } catch (error) {
+                addResult(`❌ Stats Error: ${error.message}`, 'error');
+            }
+        }
+        
+        function addChatMessage(content, isUser) {
+            const container = document.getElementById('chat-container');
+            const div = document.createElement('div');
+            div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+            div.innerHTML = `${content}<div class="status">${new Date().toLocaleTimeString()}</div>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        async function sendChatMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            addChatMessage(message, true);
+            input.value = '';
+            
+            try {
+                const response = await fetch('/api/chatbot/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: message,
+                        sessionId: chatSessionId
+                    })
+                });
+                
+                const data = await response.json();
+                chatSessionId = data.sessionId;
+                
+                let botResponse = data.message;
+                if (data.bookingCreated) {
+                    botResponse += `\n\n🎉 BOOKING CREATED!\nID: ${data.bookingCreated._id}`;
+                }
+                
+                addChatMessage(botResponse, false);
+                
+                // Show debug info if available
+                if (data.extractedInfo) {
+                    const debugInfo = `Debug: Missing: [${data.extractedInfo.missing?.join(', ') || 'None'}], Complete: ${data.extractedInfo.isComplete}`;
+                    addResult(debugInfo, 'debug-info');
+                }
+                
+            } catch (error) {
+                addChatMessage(`❌ Error: ${error.message}`, false);
+            }
+        }
+        
+        function sendPredefined(message) {
+            document.getElementById('chat-input').value = message;
+            sendChatMessage();
+        }
+        
+        function clearChat() {
+            document.getElementById('chat-container').innerHTML = '';
+            chatSessionId = null;
+        }
+        
+        function startBookingFlow() {
+            clearChat();
+            sendPredefined('Hello, I want to book a room for next week');
+        }
+        
+        async function testCompleteFlow() {
+            clearChat();
+            const messages = [
+                'Hello, I want to book a room',
+                'My name is Test User',
+                'test.user@example.com',
+                'I want a Standard room',
+                '15/1/2025 to 18/1/2025 for 2 people',
+                '+355 69 123 4567'
+            ];
+            
+            for (let i = 0; i < messages.length; i++) {
+                setTimeout(() => {
+                    sendPredefined(messages[i]);
+                }, i * 2000);
+            }
+        }
+        
+        // Handle Enter key in chat input
+        document.getElementById('chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendChatMessage();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -53,8 +53,8 @@ class EmailService {
                             responseCode: verifyError.responseCode
                         });
                     }
-                    console.log('⚠️ Will attempt to send emails without verification');
-                    this.isConfigured = false;
+                    console.log('⚠️ Continuing without email verification - emails will be attempted anyway');
+                    this.isConfigured = true; // Still try to send emails even if verification fails
                 }
             } else {
                 console.log('⚠️ Email credentials not configured properly');
@@ -80,12 +80,12 @@ class EmailService {
         
         if (!this.transporter || !process.env.EMAIL_USER || !emailPassword) {
             if (!isProduction) {
-                console.log('📧 Email not configured - skipping confirmation email');
+                console.log('📧 Email not fully configured - skipping confirmation email');
                 console.log('Transporter:', !!this.transporter);
                 console.log('Email User:', !!process.env.EMAIL_USER);
                 console.log('Email Password:', !!emailPassword);
             }
-            return false;
+            return false; // Return false but don't throw error
         }
         
         if (!isProduction) {
