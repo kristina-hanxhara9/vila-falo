@@ -27,7 +27,7 @@ const bookingSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'confirmed', 'cancelled'],
+    enum: ['pending', 'confirmed', 'cancelled', 'completed'],
     default: 'pending'
   },
   roomType: {
@@ -53,8 +53,42 @@ const bookingSchema = new mongoose.Schema({
     type: [String]
   },
   totalPrice: {
-    type: Number
+    type: Number,
+    required: true
   },
+  // Payment fields
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'paid_deposit', 'paid_full', 'refunded', 'failed'],
+    default: 'pending'
+  },
+  paymentIntentId: {
+    type: String,
+    trim: true
+  },
+  depositAmount: {
+    type: Number,
+    default: 0
+  },
+  depositPaid: {
+    type: Boolean,
+    default: false
+  },
+  remainingAmount: {
+    type: Number,
+    default: 0
+  },
+  paymentDate: {
+    type: Date
+  },
+  refundAmount: {
+    type: Number,
+    default: 0
+  },
+  refundDate: {
+    type: Date
+  },
+  // Source and metadata
   source: {
     type: String,
     enum: ['Website', 'Chatbot', 'Phone', 'Admin', 'Other'],
@@ -63,11 +97,17 @@ const bookingSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
 });
 
-// Pre-save validation for date comparison
+// Pre-save middleware to update updatedAt
 bookingSchema.pre('save', function(next) {
+  this.updatedAt = new Date();
+  
   // Skip validation if dates aren't changed or set
   if (!this.isModified('checkInDate') && !this.isModified('checkOutDate')) {
     return next();
@@ -78,6 +118,11 @@ bookingSchema.pre('save', function(next) {
     if (this.checkInDate >= this.checkOutDate) {
       return next(new Error('Check-in date must be before check-out date'));
     }
+  }
+  
+  // Calculate remaining amount if deposit paid
+  if (this.depositPaid && this.totalPrice) {
+    this.remainingAmount = this.totalPrice - this.depositAmount;
   }
   
   next();

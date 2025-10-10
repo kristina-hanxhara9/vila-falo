@@ -1,0 +1,62 @@
+/* Booking Form Improvements */
+
+/* Make date inputs larger and more visible */
+#checkIn, #checkOut {
+    min-height: 50px !important;
+    font-size: 16px !important;
+    padding: 12px 16px !important;
+    border: 2px solid #e0e0e0 !important;
+    border-radius: 8px !important;
+}
+
+#checkIn:focus, #checkOut:focus {
+    border-color: #2a6d4e !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.1) !important;
+}
+
+/* Style for date picker icon (calendar icon) */
+#checkIn::-webkit-calendar-picker-indicator,
+#checkOut::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px;
+}
+
+/* Required asterisk styling */
+.required-asterisk {
+    color: #ef476f;
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+/* Make phone number input stand out */
+#phone {
+    min-height: 50px !important;
+    font-size: 16px !important;
+    padding: 12px 16px !important;
+}
+
+/* Improve form labels */
+.booking-form label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+/* Mobile responsiveness for date inputs */
+@media (max-width: 768px) {
+    #checkIn, #checkOut, #phone {
+        min-height: 48px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* Additional styling for addon description */
+.addon-description {
+    font-size: 11px !important;
+    margin-top: 4px !important;
+    color: #666 !important;
+    line-height: 1.4 !important;
+}

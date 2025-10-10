@@ -106,13 +106,13 @@ class VilaFaloChatbot {
         return `
             <div class="chatbot-welcome">
                 <h4>Mirë se erdhët në Vila Falo! 🏔️</h4>
-                <p>Unë jam asistenti juaj virtual. Mund të ju ndihmoj me rezervime, informacione për dhomat, aktivitetet dhe çdo gjë tjetër që ju nevojitet për qëndrimin tuaj në resortin tonë malor.</p>
+                <p>Unë jam asistenti juaj virtual. Mund të ju ndihmoj me informacione për dhomat, aktivitetet, çmimet dhe çdo gjë tjetër që ju nevojitet për qëndrimin tuaj në resortin tonë malor. Për rezervime, ju lutemi përdorni formularin e rezervimit në faqe.</p>
             </div>
             <div class="quick-questions" id="quickQuestions">
                 <div class="quick-question" data-question="Sa kushton një dhomë për natë?">💰 Çmimet</div>
                 <div class="quick-question" data-question="Çfarë aktivitetesh keni?">🎿 Aktivitete</div>
-                <div class="quick-question" data-question="Si mund të rezervoj?">📅 Rezervim</div>
                 <div class="quick-question" data-question="Ku ndodheni?">📍 Vendndodhja</div>
+                <div class="quick-question" data-question="Çfarë ofron mëngjesi?">☕ Mëngjesi</div>
             </div>
         `;
     }
@@ -254,7 +254,7 @@ class VilaFaloChatbot {
             console.error('Chatbot error:', error);
             this.hideTypingIndicator();
             this.addMessage(
-                'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri ose na kontaktoni në info@vilafalo.com',
+                'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri ose na kontaktoni në vilafalo@gmail.com',
                 'bot',
                 { isError: true }
             );

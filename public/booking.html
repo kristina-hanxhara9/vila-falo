@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your Stay - Vila Falo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4361ee;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #560bad;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #4361ee;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4361ee;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .price-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .price-row.total {
+            font-size: 1.3em;
+            font-weight: bold;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+
+        .price-row.deposit {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ffd60a;
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
+            padding-top: 15px;
+        }
+
+        .price-note {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .deposit-notice {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .deposit-notice strong {
+            color: #ffc107;
+        }
+
+        .payment-info {
+            background: #e7f3ff;
+            border: 2px solid #0066cc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #004085;
+        }
+
+        .payment-info h3 {
+            margin-bottom: 10px;
+            color: #0066cc;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .payment-method {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9em;
+            border: 2px solid #0066cc;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #06d6a0, #118ab2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(6, 214, 160, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4361ee;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            display: none;
+            background: #ffd6d6;
+            border: 2px solid #ef476f;
+            color: #721c24;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏔️ Book Your Stay</h1>
+        <p class="subtitle">Vila Falo - Mountain Paradise in Voskopojë</p>
+
+        <form id="booking-form">
+            <!-- Guest Information -->
+            <div class="form-section">
+                <h2>👤 Guest Information</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guestName">Full Name *</label>
+                        <input type="text" id="guestName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" placeholder="+355 XX XXX XXXX" required>
+                </div>
+            </div>
+
+            <!-- Booking Details -->
+            <div class="form-section">
+                <h2>🏨 Booking Details</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="checkInDate">Check-in Date *</label>
+                        <input type="date" id="checkInDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkOutDate">Check-out Date *</label>
+                        <input type="date" id="checkOutDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="roomType">Room Type *</label>
+                        <select id="roomType" required>
+                            <option value="">Select a room</option>
+                            <option value="Standard" data-price="5000">Standard Room (5000 Lek/night)</option>
+                            <option value="Deluxe" data-price="6000">Deluxe Suite (6000 Lek/night)</option>
+                            <option value="Premium" data-price="7000">Premium Suite (7000 Lek/night)</option>
+                            <option value="Suite" data-price="8000">Family Suite (8000 Lek/night)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="numberOfGuests">Number of Guests *</label>
+                        <input type="number" id="numberOfGuests" min="1" max="6" value="2" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests</label>
+                    <textarea id="specialRequests" placeholder="Any special requests or requirements?"></textarea>
+                </div>
+            </div>
+
+            <!-- Price Summary -->
+            <div id="price-summary" class="price-summary" style="display: none;">
+                <h3 style="margin-bottom: 15px;">💰 Price Summary</h3>
+                <div class="price-row">
+                    <span>Room Price per Night:</span>
+                    <span id="room-price">0 Lek</span>
+                </div>
+                <div class="price-row">
+                    <span>Number of Nights:</span>
+                    <span id="nights">0</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total Amount:</span>
+                    <span id="total-price">0 Lek</span>
+                </div>
+                <div class="price-row deposit">
+                    <span>💳 Deposit to Pay (50%):</span>
+                    <span id="deposit-amount">0 Lek</span>
+                </div>
+                <div class="price-row">
+                    <span style="font-size: 0.9em;">Deposit in EUR:</span>
+                    <span id="deposit-eur" style="font-size: 0.9em;">~€0</span>
+                </div>
+                <p class="price-note">* Approximate EUR conversion rate: 1 EUR ≈ 108 ALL</p>
+            </div>
+
+            <div class="deposit-notice">
+                <strong>📌 Payment Information:</strong> You'll pay 50% deposit now via Paysera to secure your booking. 
+                The remaining 50% can be paid upon arrival at Vila Falo.
+            </div>
+
+            <div class="payment-info">
+                <h3>💳 Secure Payment with Paysera</h3>
+                <p>After clicking "Continue to Payment", you'll be redirected to Paysera's secure payment page.</p>
+                <div class="payment-methods">
+                    <div class="payment-method">💳 Cards</div>
+                    <div class="payment-method">🏦 Bank</div>
+                    <div class="payment-method">📱 Mobile</div>
+                    <div class="payment-method">🌐 E-wallet</div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submit-btn">
+                🔒 Continue to Secure Payment
+            </button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 15px;">Creating your booking...</p>
+        </div>
+
+        <div class="error-message" id="error-message"></div>
+    </div>
+
+    <script>
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('checkInDate').setAttribute('min', today);
+        document.getElementById('checkOutDate').setAttribute('min', today);
+
+        // Calculate price when dates or room type changes
+        function calculatePrice() {
+            const checkIn = new Date(document.getElementById('checkInDate').value);
+            const checkOut = new Date(document.getElementById('checkOutDate').value);
+            const roomType = document.getElementById('roomType');
+            const selectedOption = roomType.options[roomType.selectedIndex];
+            
+            if (checkIn && checkOut && checkOut > checkIn && selectedOption.value) {
+                const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+                const pricePerNight = parseInt(selectedOption.getAttribute('data-price'));
+                const totalPrice = nights * pricePerNight;
+                const deposit = Math.ceil(totalPrice * 0.5);
+                const depositEUR = Math.ceil((deposit * 0.0093) * 100) / 100;
+
+                document.getElementById('nights').textContent = nights;
+                document.getElementById('room-price').textContent = pricePerNight.toLocaleString() + ' Lek';
+                document.getElementById('total-price').textContent = totalPrice.toLocaleString() + ' Lek';
+                document.getElementById('deposit-amount').textContent = deposit.toLocaleString() + ' Lek';
+                document.getElementById('deposit-eur').textContent = '~€' + depositEUR.toFixed(2);
+                document.getElementById('price-summary').style.display = 'block';
+
+                return { nights, totalPrice, deposit };
+            }
+            return null;
+        }
+
+        document.getElementById('checkInDate').addEventListener('change', function() {
+            const checkOut = document.getElementById('checkOutDate');
+            checkOut.setAttribute('min', this.value);
+            calculatePrice();
+        });
+
+        document.getElementById('checkOutDate').addEventListener('change', calculatePrice);
+        document.getElementById('roomType').addEventListener('change', calculatePrice);
+
+        // Handle form submission
+        document.getElementById('booking-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const pricing = calculatePrice();
+            if (!pricing) {
+                showError('Please fill in all booking details');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            document.getElementById('loading').classList.add('active');
+
+            try {
+                const bookingData = {
+                    guestName: document.getElementById('guestName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    checkInDate: document.getElementById('checkInDate').value,
+                    checkOutDate: document.getElementById('checkOutDate').value,
+                    roomType: document.getElementById('roomType').value,
+                    numberOfGuests: parseInt(document.getElementById('numberOfGuests').value),
+                    specialRequests: document.getElementById('specialRequests').value
+                };
+
+                const response = await fetch('/api/booking/create-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingData)
+                });
+
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.message || 'Failed to create payment');
+                }
+
+                // Redirect to Paysera payment page
+                console.log('✅ Redirecting to Paysera...');
+                window.location.href = result.paymentUrl;
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                showError(error.message || 'Failed to create booking. Please try again.');
+                submitBtn.disabled = false;
+                document.getElementById('loading').classList.remove('active');
+            }
+        });
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+            setTimeout(() => {
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

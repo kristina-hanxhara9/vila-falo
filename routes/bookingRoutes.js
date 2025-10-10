@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Booking = require('../models/Booking');
 const emailService = require('../services/emailService');
+const paymentService = require('../services/paymentService');
 
 // GET all bookings (for admin)
 router.get('/', async (req, res) => {
@@ -18,94 +19,201 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST create new booking
-router.post('/', async (req, res) => {
+// POST create payment request (step 1 - before redirect to Paysera)
+router.post('/create-payment', async (req, res) => {
   try {
-    console.log('🏨 New booking request received');
-    console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
-    console.log('🔍 Request headers:', req.headers);
+    console.log('💳 Creating Paysera payment request...');
+    
+    const { guestName, email, roomType, checkInDate, checkOutDate, numberOfGuests, phone, specialRequests } = req.body;
     
     // Validate required fields
-    const requiredFields = ['checkInDate', 'checkOutDate', 'guestName', 'email', 'roomType', 'numberOfGuests'];
-    const missingFields = [];
-    
-    for (const field of requiredFields) {
-      if (!req.body[field]) {
-        missingFields.push(field);
-      }
-    }
-    
-    if (missingFields.length > 0) {
-      console.log('❌ Missing required fields:', missingFields);
-      return res.status(400).json({ 
-        success: false, 
-        message: `Missing required fields: ${missingFields.join(', ')}`,
-        missingFields: missingFields
+    if (!email || !roomType || !checkInDate || !checkOutDate || !guestName) {
+      return res.status(400).json({
+        success: false,
+        message: 'Missing required fields for payment'
       });
     }
+
+    // Create temporary booking first
+    const bookingData = {
+      guestName,
+      email,
+      phone: phone || '',
+      roomType,
+      checkInDate,
+      checkOutDate,
+      numberOfGuests: numberOfGuests || 2,
+      specialRequests: specialRequests || '',
+      status: 'pending',
+      paymentStatus: 'pending',
+      source: 'Website'
+    };
+
+    // Calculate pricing
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+    const pricing = paymentService.calculateBookingTotal(roomType, nights, numberOfGuests);
     
-    console.log('✅ All required fields present');
+    bookingData.totalPrice = pricing.total;
+    bookingData.depositAmount = pricing.deposit;
+
+    // Save booking
+    const booking = new Booking(bookingData);
+    await booking.save();
+
+    console.log('✅ Booking created with ID:', booking._id);
+
+    // Create Paysera payment request
+    const paymentData = await paymentService.createPaymentRequest(booking, email);
     
-    // Create new booking
-    console.log('💾 Creating booking object...');
+    console.log('✅ Paysera payment URL created');
+    
+    res.json({
+      success: true,
+      paymentUrl: paymentData.paymentUrl,
+      orderId: paymentData.orderId,
+      bookingId: booking._id,
+      pricing: paymentData.pricing
+    });
+
+  } catch (error) {
+    console.error('❌ Error creating payment:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error creating payment',
+      error: process.env.NODE_ENV === 'development' ? error.message : 'Payment error'
+    });
+  }
+});
+
+// POST Paysera callback (step 2 - after payment on Paysera)
+router.post('/paysera-callback', async (req, res) => {
+  try {
+    console.log('📥 Paysera callback received');
+    
+    const { data, ss1, ss2 } = req.query;
+    
+    if (!data || !ss1) {
+      console.error('❌ Missing callback parameters');
+      return res.status(400).send('Missing parameters');
+    }
+
+    // Verify callback signature
+    const verification = paymentService.verifyCallback(data, ss1);
+    
+    if (!verification.success) {
+      console.error('❌ Invalid callback signature');
+      return res.status(400).send('Invalid signature');
+    }
+
+    const paymentData = verification.data;
+    const orderId = paymentData.orderid;
+    const isPaid = verification.isPaid;
+
+    console.log('✅ Callback verified for order:', orderId);
+    console.log('Payment status:', isPaid ? 'PAID' : 'PENDING');
+
+    // Find and update booking
+    const booking = await Booking.findById(orderId);
+    
+    if (!booking) {
+      console.error('❌ Booking not found:', orderId);
+      return res.status(404).send('Booking not found');
+    }
+
+    // Update booking with payment info
+    if (isPaid) {
+      booking.paymentStatus = 'paid_deposit';
+      booking.depositPaid = true;
+      booking.status = 'confirmed';
+      booking.paymentDate = new Date();
+      booking.paymentIntentId = paymentData.requestid || orderId;
+      
+      await booking.save();
+      
+      console.log('✅ Booking updated: payment confirmed');
+      
+      // Send confirmation emails
+      try {
+        await emailService.sendBookingConfirmation(booking);
+        await emailService.sendAdminNotification(booking);
+        console.log('✅ Confirmation emails sent');
+      } catch (emailError) {
+        console.error('❌ Error sending emails:', emailError);
+      }
+    } else {
+      booking.paymentStatus = 'pending';
+      await booking.save();
+      console.log('⏳ Payment still pending');
+    }
+
+    // Respond with OK to Paysera
+    res.send('OK');
+
+  } catch (error) {
+    console.error('❌ Error processing callback:', error);
+    res.status(500).send('Error');
+  }
+});
+
+// GET payment success page (redirect from Paysera)
+router.get('/payment-success', async (req, res) => {
+  try {
+    const { data } = req.query;
+    
+    if (data) {
+      const decodedData = Buffer.from(data, 'base64').toString('utf-8');
+      const paymentData = JSON.parse(decodedData);
+      const bookingId = paymentData.orderid;
+      
+      res.redirect(`/booking-confirmation.html?bookingId=${bookingId}&status=success`);
+    } else {
+      res.redirect('/booking-confirmation.html?status=success');
+    }
+  } catch (error) {
+    res.redirect('/booking-confirmation.html?status=success');
+  }
+});
+
+// GET payment cancel page (redirect from Paysera)
+router.get('/payment-cancel', async (req, res) => {
+  res.redirect('/booking-confirmation.html?status=cancelled');
+});
+
+// POST create new booking (legacy endpoint, now redirects to payment)
+router.post('/', async (req, res) => {
+  try {
+    console.log('🏨 New booking request received (legacy)');
+    
+    // For chatbot or direct bookings without payment
     const bookingData = {
       ...req.body,
-      roomsBooked: req.body.roomsBooked || 1 // Default to 1 room
+      roomsBooked: req.body.roomsBooked || 1,
+      paymentStatus: 'pending',
+      depositPaid: false
     };
     
     const booking = new Booking(bookingData);
-    
-    // Save to database
-    console.log('💾 Saving booking to database...');
     await booking.save();
-    console.log('✅ Booking saved successfully with ID:', booking._id);
     
-    // Send confirmation emails
-    console.log('📧 Attempting to send confirmation emails...');
-    let emailResults = {
-      confirmation: false,
-      adminNotification: false
-    };
+    console.log('✅ Booking saved:', booking._id);
     
+    // Send emails
     try {
-      console.log('📧 Sending customer confirmation email...');
-      emailResults.confirmation = await emailService.sendBookingConfirmation(booking);
-      console.log('Customer confirmation result:', emailResults.confirmation ? '✅ Sent' : '❌ Failed');
+      await emailService.sendBookingConfirmation(booking);
+      await emailService.sendAdminNotification(booking);
     } catch (emailError) {
-      console.error('❌ Error sending customer confirmation:', emailError.message);
+      console.error('❌ Error sending emails:', emailError);
     }
-    
-    try {
-      console.log('📧 Sending admin notification email...');
-      emailResults.adminNotification = await emailService.sendAdminNotification(booking);
-      console.log('Admin notification result:', emailResults.adminNotification ? '✅ Sent' : '❌ Failed');
-    } catch (emailError) {
-      console.error('❌ Error sending admin notification:', emailError.message);
-    }
-    
-    console.log('✅ Booking creation process completed');
     
     res.status(201).json({ 
       success: true, 
       message: 'Booking created successfully', 
-      data: booking,
-      emailResults: emailResults
+      data: booking
     });
   } catch (error) {
-    console.error('❌ Error creating booking:', error.message);
-    console.error('Full error:', error);
-    
-    // Handle validation errors
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(val => val.message);
-      console.log('❌ Validation errors:', messages);
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Validation Error', 
-        errors: messages 
-      });
-    }
-    
+    console.error('❌ Error creating booking:', error);
     res.status(500).json({ 
       success: false, 
       message: 'Server error', 
@@ -161,24 +269,13 @@ router.put('/:id', async (req, res) => {
         await emailService.sendBookingConfirmation(booking, true);
         console.log('✅ Update confirmation email sent for booking:', booking._id);
       } catch (emailError) {
-        console.error('❌ Error sending update email for booking:', emailError);
-        // Don't fail the update if email fails
+        console.error('❌ Error sending update email:', emailError);
       }
     }
     
     res.json({ success: true, data: booking });
   } catch (error) {
     console.error('Error updating booking:', error);
-    
-    if (error.name === 'ValidationError') {
-      const messages = Object.values(error.errors).map(val => val.message);
-      return res.status(400).json({ 
-        success: false, 
-        message: 'Validation Error', 
-        errors: messages 
-      });
-    }
-    
     res.status(500).json({ 
       success: false, 
       message: 'Server error', 

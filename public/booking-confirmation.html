@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmation - Vila Falo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .success-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: bounce 0.5s;
+        }
+
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #ef476f;
+        }
+
+        .pending-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            color: #ffc107;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            color: #4361ee;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #560bad;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .next-steps {
+            background: #e7f3ff;
+            border: 2px solid #0066cc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .next-steps h3 {
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+
+        .next-steps ul {
+            margin-left: 20px;
+        }
+
+        .next-steps li {
+            margin-bottom: 10px;
+            color: #004085;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #06d6a0, #118ab2);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(6, 214, 160, 0.3);
+        }
+
+        .button.secondary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .contact-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .success-icon, .error-icon, .pending-icon {
+                font-size: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="content">
+        <!-- Content will be loaded by JavaScript -->
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const bookingId = urlParams.get('bookingId');
+
+        const content = document.getElementById('content');
+
+        if (status === 'success') {
+            content.innerHTML = `
+                <div class="success-icon">🎉</div>
+                <h1>Booking Confirmed!</h1>
+                <p class="subtitle">Your payment was successful</p>
+
+                ${bookingId ? `
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Booking ID:</span>
+                        <span class="info-value">#${bookingId.slice(-8).toUpperCase()}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Payment Status:</span>
+                        <span class="info-value">✅ Deposit Paid (50%)</span>
+                    </div>
+                </div>
+                ` : ''}
+
+                <div class="next-steps">
+                    <h3>📋 What happens next?</h3>
+                    <ul>
+                        <li>✅ You'll receive a confirmation email with all booking details</li>
+                        <li>✅ We've sent your information to Vila Falo</li>
+                        <li>💰 The remaining 50% can be paid upon arrival</li>
+                        <li>📞 We'll contact you if we need any additional information</li>
+                        <li>🏔️ Get ready for your mountain adventure!</li>
+                    </ul>
+                </div>
+
+                <a href="/" class="button">🏠 Back to Home</a>
+                <a href="/booking.html" class="button secondary">📅 Make Another Booking</a>
+
+                <div class="contact-info">
+                    <h3>Need Help?</h3>
+                    <p>📧 Email: vilafalo@gmail.com</p>
+                    <p>📞 Phone: +355 68 336 9436</p>
+                </div>
+            `;
+        } else if (status === 'cancelled') {
+            content.innerHTML = `
+                <div class="error-icon">❌</div>
+                <h1>Payment Cancelled</h1>
+                <p class="subtitle">Your booking was not completed</p>
+
+                <div class="next-steps">
+                    <h3>What would you like to do?</h3>
+                    <ul>
+                        <li>Try the payment again with a different method</li>
+                        <li>Contact us directly to complete your booking</li>
+                        <li>Browse our website for more information</li>
+                    </ul>
+                </div>
+
+                <a href="/booking.html" class="button">🔄 Try Again</a>
+                <a href="/" class="button secondary">🏠 Back to Home</a>
+
+                <div class="contact-info">
+                    <h3>Need Help?</h3>
+                    <p>📧 Email: vilafalo@gmail.com</p>
+                    <p>📞 Phone: +355 68 336 9436</p>
+                    <p style="margin-top: 15px;">We're here to help! Contact us to complete your booking.</p>
+                </div>
+            `;
+        } else {
+            // Pending or unknown status
+            content.innerHTML = `
+                <div class="pending-icon">⏳</div>
+                <h1>Processing...</h1>
+                <p class="subtitle">We're confirming your payment</p>
+
+                <div class="next-steps">
+                    <h3>Please wait</h3>
+                    <ul>
+                        <li>Your payment is being processed</li>
+                        <li>You'll receive a confirmation email shortly</li>
+                        <li>This may take a few minutes</li>
+                    </ul>
+                </div>
+
+                <a href="/" class="button">🏠 Back to Home</a>
+
+                <div class="contact-info">
+                    <h3>Questions?</h3>
+                    <p>📧 Email: vilafalo@gmail.com</p>
+                    <p>📞 Phone: +355 68 336 9436</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

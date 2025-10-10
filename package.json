@@ -1,7 +1,7 @@
 {
     "name": "vila-falo",
     "version": "1.0.0",
-    "description": "Vila Falo Resort - Professional Booking System",
+    "description": "Vila Falo Resort - Professional Booking System with Paysera Payments",
     "main": "server.js",
     "scripts": {
         "start": "NODE_ENV=production node server.js",
@@ -25,7 +25,10 @@
         "resort",
         "hospitality",
         "vila-falo",
-        "tourism"
+        "tourism",
+        "paysera",
+        "payments",
+        "albania"
     ],
     "author": "kristina-hanxhara9",
     "license": "MIT",
@@ -37,6 +40,7 @@
         "compression": "^1.7.4",
         "cookie-parser": "^1.4.6",
         "cors": "^2.8.5",
+        "crypto": "^1.0.1",
         "dotenv": "^16.4.5",
         "express": "^4.21.2",
         "express-rate-limit": "^7.1.5",
