@@ -8,7 +8,7 @@ const ROOM_INVENTORY = {
   'Standard': {
     name: 'Dhomë Standart Malore',
     capacity: 3,
-    minGuests: 2,
+    minGuests: 1,
     maxGuests: 3,
     totalRooms: 7,
     price: 5000
@@ -16,7 +16,7 @@ const ROOM_INVENTORY = {
   'Premium': {
     name: 'Dhomë Premium Familjare',
     capacity: 4,
-    minGuests: 4,
+    minGuests: 1,
     maxGuests: 4,
     totalRooms: 4,
     price: 7000
@@ -24,7 +24,7 @@ const ROOM_INVENTORY = {
   'Deluxe': {
     name: 'Suitë Familjare Deluxe',
     capacity: 5,
-    minGuests: 4,
+    minGuests: 1,
     maxGuests: 5,
     totalRooms: 1,
     price: 8000
@@ -269,15 +269,25 @@ router.post('/', async (req, res) => {
       });
     }
     
-    // Validate number of guests
+    // Validate number of guests - Allow ANY number UP TO maximum capacity
     const numberOfGuests = parseInt(data.numberOfGuests);
-    if (isNaN(numberOfGuests) || numberOfGuests < roomConfig.minGuests || numberOfGuests > roomConfig.maxGuests) {
-      console.log('❌ Invalid number of guests');
+    if (isNaN(numberOfGuests) || numberOfGuests < 1) {
+      console.log('❌ Invalid number of guests: must be at least 1');
       return res.status(400).json({
         success: false,
-        message: `${roomConfig.name} accommodates ${roomConfig.minGuests}-${roomConfig.maxGuests} guests. You selected ${numberOfGuests} guests.`
+        message: `Please specify at least 1 guest.`
       });
     }
+    
+    if (numberOfGuests > roomConfig.maxGuests) {
+      console.log('❌ Too many guests for room type');
+      return res.status(400).json({
+        success: false,
+        message: `${roomConfig.name} can accommodate a maximum of ${roomConfig.maxGuests} guests. You selected ${numberOfGuests} guests. Please choose a larger room type or reduce the number of guests.`
+      });
+    }
+    
+    console.log(`✅ Guest count valid: ${numberOfGuests} guests (Room capacity: ${roomConfig.maxGuests})`);
     
     // Validate dates
     const checkIn = new Date(data.checkInDate);
