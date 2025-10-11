@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             border-radius: 20px;
@@ -90,12 +90,59 @@
             min-height: 100px;
         }
 
+        .room-info {
+            background: #f0f7ff;
+            border-left: 4px solid #4361ee;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .room-info.active {
+            display: block;
+        }
+
+        .room-info ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .room-info li {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .availability-check {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .availability-check.available {
+            display: block;
+        }
+
+        .availability-check.unavailable {
+            display: block;
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
         .price-summary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 25px;
             border-radius: 15px;
             margin: 30px 0;
+            display: none;
+        }
+
+        .price-summary.active {
+            display: block;
         }
 
         .price-row {
@@ -106,11 +153,19 @@
         }
 
         .price-row.total {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: bold;
             border-top: 2px solid rgba(255, 255, 255, 0.3);
             padding-top: 15px;
             margin-top: 15px;
+        }
+
+        .price-row.payment-split {
+            font-size: 1.2em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
         }
 
         .info-box {
@@ -122,8 +177,16 @@
             color: #856404;
         }
 
+        .info-box.payment-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
         .info-box strong {
-            color: #ffc107;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1em;
         }
 
         .submit-btn {
@@ -194,6 +257,17 @@
             color: #721c24;
         }
 
+        .highlight-badge {
+            display: inline-block;
+            background: #ff6b6b;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -221,16 +295,16 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="guestName">Full Name *</label>
-                        <input type="text" id="guestName" required>
+                        <input type="text" id="guestName" required placeholder="Enter your full name">
                     </div>
                     <div class="form-group">
                         <label for="email">Email *</label>
-                        <input type="email" id="email" required>
+                        <input type="email" id="email" required placeholder="your@email.com">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" placeholder="+355 XX XXX XXXX">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" required placeholder="+355 XX XXX XXXX">
                 </div>
             </div>
 
@@ -252,54 +326,121 @@
                         <label for="roomType">Room Type *</label>
                         <select id="roomType" required>
                             <option value="">Select a room</option>
-                            <option value="Standard" data-price="5000">Standard Room (5000 Lek/night)</option>
-                            <option value="Deluxe" data-price="6000">Deluxe Suite (6000 Lek/night)</option>
-                            <option value="Premium" data-price="7000">Premium Suite (7000 Lek/night)</option>
-                            <option value="Suite" data-price="8000">Family Suite (8000 Lek/night)</option>
+                            <option value="Standard" data-price="5000" data-capacity="2-3" data-available="7">
+                                Dhomë Standart Malore - 5000 Lek/night (2-3 guests)
+                            </option>
+                            <option value="Premium" data-price="7000" data-capacity="4" data-available="4">
+                                Dhomë Premium Familjare - 7000 Lek/night (4 guests)
+                            </option>
+                            <option value="Deluxe" data-price="8000" data-capacity="4-5" data-available="1">
+                                Suitë Familjare Deluxe - 8000 Lek/night (4-5 guests) <span class="highlight-badge">LIMITED!</span>
+                            </option>
                         </select>
+                        
+                        <!-- Room Info Boxes -->
+                        <div id="room-info-Standard" class="room-info">
+                            <strong>✅ Included:</strong>
+                            <ul>
+                                <li>Traditional Albanian breakfast</li>
+                                <li>Mountain view</li>
+                                <li>Free WiFi</li>
+                                <li>Private bathroom</li>
+                                <li>7 rooms available</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="room-info-Premium" class="room-info">
+                            <strong>✅ Included:</strong>
+                            <ul>
+                                <li>Traditional Albanian breakfast</li>
+                                <li>Spacious family room</li>
+                                <li>Mountain view</li>
+                                <li>Free WiFi & private bathroom</li>
+                                <li>4 rooms available</li>
+                            </ul>
+                        </div>
+                        
+                        <div id="room-info-Deluxe" class="room-info">
+                            <strong>✅ Included:</strong>
+                            <ul>
+                                <li>Traditional Albanian breakfast</li>
+                                <li>Panoramic mountain views</li>
+                                <li>Separate living area</li>
+                                <li>Premium amenities</li>
+                                <li><strong style="color: #f44336;">Only 1 suite - Book early!</strong></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="numberOfGuests">Number of Guests *</label>
-                        <input type="number" id="numberOfGuests" min="1" max="6" required>
+                        <input type="number" id="numberOfGuests" min="1" max="5" required placeholder="Number of guests">
+                        <small id="guest-hint" style="display: none; color: #666; margin-top: 5px;">Select a room type first</small>
                     </div>
                 </div>
+                
+                <!-- Availability Check -->
+                <div id="availability-indicator" class="availability-check"></div>
+                
                 <div class="form-group">
                     <label for="specialRequests">Special Requests</label>
-                    <textarea id="specialRequests" placeholder="Any special requests or requirements?"></textarea>
+                    <textarea id="specialRequests" placeholder="Any special requests or requirements? (optional)"></textarea>
                 </div>
             </div>
 
             <!-- Price Summary -->
-            <div id="price-summary" class="price-summary" style="display: none;">
+            <div id="price-summary" class="price-summary">
                 <h3 style="margin-bottom: 15px;">💰 Price Summary</h3>
                 <div class="price-row">
-                    <span>Room Price per Night:</span>
+                    <span>Room Type:</span>
+                    <span id="selected-room-name">-</span>
+                </div>
+                <div class="price-row">
+                    <span>Price per Night:</span>
                     <span id="room-price">0 Lek</span>
                 </div>
                 <div class="price-row">
                     <span>Number of Nights:</span>
                     <span id="nights">0</span>
                 </div>
+                <div class="price-row">
+                    <span>✅ Breakfast Included:</span>
+                    <span>YES</span>
+                </div>
                 <div class="price-row total">
                     <span>Total Amount:</span>
                     <span id="total-price">0 Lek</span>
                 </div>
+                
+                <div class="price-row payment-split">
+                    <span>💳 Pay Now (50% Deposit):</span>
+                    <span id="deposit-amount" style="font-weight: bold;">0 Lek</span>
+                </div>
+                <div class="price-row payment-split">
+                    <span>🏨 Pay on Arrival (50%):</span>
+                    <span id="arrival-amount" style="font-weight: bold;">0 Lek</span>
+                </div>
+            </div>
+
+            <div class="info-box payment-info">
+                <strong>💳 Payment Policy:</strong>
+                Pay 50% deposit now to secure your booking. The remaining 50% will be paid when you arrive at Vila Falo. 
+                This gives you flexibility while ensuring your reservation is confirmed!
             </div>
 
             <div class="info-box">
-                <strong>📌 Booking Information:</strong> Your booking request will be sent to Vila Falo. 
-                We will confirm your reservation and contact you with payment instructions shortly.
-                You can pay upon arrival or via bank transfer.
+                <strong>📌 What's Included:</strong>
+                All room prices include traditional Albanian breakfast featuring petulla (fried dough), 
+                mountain honey (produced on-site!), homemade jam, local cheese, village eggs, coffee and mountain tea.
             </div>
 
             <button type="submit" class="submit-btn" id="submit-btn">
-                📨 Submit Booking Request
+                💳 Proceed to Payment (50% Deposit)
             </button>
         </form>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top: 15px;">Sending your booking request...</p>
+            <p style="margin-top: 15px;">Processing your booking...</p>
         </div>
 
         <div class="success-message" id="success-message"></div>
@@ -307,29 +448,98 @@
     </div>
 
     <script>
+        // Room configurations
+        const roomConfig = {
+            'Standard': { name: 'Dhomë Standart Malore', minGuests: 2, maxGuests: 3, price: 5000 },
+            'Premium': { name: 'Dhomë Premium Familjare', minGuests: 4, maxGuests: 4, price: 7000 },
+            'Deluxe': { name: 'Suitë Familjare Deluxe', minGuests: 4, maxGuests: 5, price: 8000 }
+        };
+
         // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('checkInDate').setAttribute('min', today);
         document.getElementById('checkOutDate').setAttribute('min', today);
 
+        // Show room info when room type is selected
+        document.getElementById('roomType').addEventListener('change', function() {
+            // Hide all room info boxes
+            document.querySelectorAll('.room-info').forEach(box => box.classList.remove('active'));
+            
+            // Show selected room info
+            if (this.value) {
+                const infoBox = document.getElementById(`room-info-${this.value}`);
+                if (infoBox) infoBox.classList.add('active');
+                
+                // Update guest input constraints
+                const config = roomConfig[this.value];
+                const guestInput = document.getElementById('numberOfGuests');
+                guestInput.min = config.minGuests;
+                guestInput.max = config.maxGuests;
+                guestInput.placeholder = `${config.minGuests}-${config.maxGuests} guests`;
+                
+                const hint = document.getElementById('guest-hint');
+                hint.textContent = `This room accommodates ${config.minGuests}-${config.maxGuests} guests`;
+                hint.style.display = 'block';
+            }
+            
+            calculatePrice();
+            checkAvailability();
+        });
+
+        // Check availability
+        async function checkAvailability() {
+            const checkIn = document.getElementById('checkInDate').value;
+            const checkOut = document.getElementById('checkOutDate').value;
+            const roomType = document.getElementById('roomType').value;
+            
+            if (!checkIn || !checkOut || !roomType) return;
+            
+            const indicator = document.getElementById('availability-indicator');
+            indicator.textContent = 'Checking availability...';
+            indicator.className = 'availability-check';
+            indicator.style.display = 'block';
+            
+            try {
+                const response = await fetch(`/api/booking/availability?checkInDate=${checkIn}&checkOutDate=${checkOut}&roomType=${roomType}`);
+                const result = await response.json();
+                
+                if (result.available) {
+                    indicator.className = 'availability-check available';
+                    indicator.innerHTML = `✅ <strong>Available!</strong> ${result.availableRooms} room(s) available for your dates`;
+                } else {
+                    indicator.className = 'availability-check unavailable';
+                    indicator.innerHTML = `❌ <strong>Sorry!</strong> No rooms available for these dates. Please try different dates.`;
+                    document.getElementById('submit-btn').disabled = true;
+                }
+            } catch (error) {
+                console.error('Error checking availability:', error);
+                indicator.style.display = 'none';
+            }
+        }
+
         // Calculate price when dates or room type changes
         function calculatePrice() {
             const checkIn = new Date(document.getElementById('checkInDate').value);
             const checkOut = new Date(document.getElementById('checkOutDate').value);
-            const roomType = document.getElementById('roomType');
-            const selectedOption = roomType.options[roomType.selectedIndex];
+            const roomType = document.getElementById('roomType').value;
             
-            if (checkIn && checkOut && checkOut > checkIn && selectedOption.value) {
+            if (checkIn && checkOut && checkOut > checkIn && roomType) {
                 const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-                const pricePerNight = parseInt(selectedOption.getAttribute('data-price'));
-                const totalPrice = nights * pricePerNight;
+                const config = roomConfig[roomType];
+                const totalPrice = nights * config.price;
+                const depositAmount = Math.round(totalPrice * 0.5);
+                const arrivalAmount = totalPrice - depositAmount;
 
+                document.getElementById('selected-room-name').textContent = config.name;
                 document.getElementById('nights').textContent = nights;
-                document.getElementById('room-price').textContent = pricePerNight.toLocaleString() + ' Lek';
+                document.getElementById('room-price').textContent = config.price.toLocaleString() + ' Lek';
                 document.getElementById('total-price').textContent = totalPrice.toLocaleString() + ' Lek';
-                document.getElementById('price-summary').style.display = 'block';
+                document.getElementById('deposit-amount').textContent = depositAmount.toLocaleString() + ' Lek';
+                document.getElementById('arrival-amount').textContent = arrivalAmount.toLocaleString() + ' Lek';
+                document.getElementById('price-summary').classList.add('active');
+                document.getElementById('submit-btn').disabled = false;
 
-                return { nights, totalPrice };
+                return { nights, totalPrice, depositAmount, arrivalAmount };
             }
             return null;
         }
@@ -338,10 +548,28 @@
             const checkOut = document.getElementById('checkOutDate');
             checkOut.setAttribute('min', this.value);
             calculatePrice();
+            checkAvailability();
         });
 
-        document.getElementById('checkOutDate').addEventListener('change', calculatePrice);
-        document.getElementById('roomType').addEventListener('change', calculatePrice);
+        document.getElementById('checkOutDate').addEventListener('change', () => {
+            calculatePrice();
+            checkAvailability();
+        });
+
+        // Validate number of guests
+        document.getElementById('numberOfGuests').addEventListener('input', function() {
+            const roomType = document.getElementById('roomType').value;
+            if (roomType) {
+                const config = roomConfig[roomType];
+                const guests = parseInt(this.value);
+                
+                if (guests < config.minGuests || guests > config.maxGuests) {
+                    this.setCustomValidity(`${config.name} accommodates ${config.minGuests}-${config.maxGuests} guests`);
+                } else {
+                    this.setCustomValidity('');
+                }
+            }
+        });
 
         // Handle form submission
         document.getElementById('booking-form').addEventListener('submit', async function(e) {
@@ -385,19 +613,29 @@
 
                 // Success!
                 showSuccess(`
-                    🎉 Booking Request Sent!<br><br>
+                    🎉 Booking Created Successfully!<br><br>
                     <strong>Booking ID:</strong> #${result.data._id.slice(-8).toUpperCase()}<br>
-                    <strong>Total Amount:</strong> ${pricing.totalPrice.toLocaleString()} Lek<br><br>
-                    A confirmation email has been sent to ${bookingData.email}<br>
-                    We will contact you shortly to confirm your booking and provide payment instructions.
+                    <strong>Total Amount:</strong> ${pricing.totalPrice.toLocaleString()} Lek<br>
+                    <strong>Deposit (Pay Now):</strong> ${pricing.depositAmount.toLocaleString()} Lek<br>
+                    <strong>Balance (Pay on Arrival):</strong> ${pricing.arrivalAmount.toLocaleString()} Lek<br><br>
+                    A confirmation email has been sent to ${bookingData.email}<br><br>
+                    ${result.paymentUrl ? 'Redirecting to payment...' : 'We will contact you with payment instructions.'}
                 `);
+
+                // Redirect to payment if URL is provided
+                if (result.paymentUrl) {
+                    setTimeout(() => {
+                        window.location.href = result.paymentUrl;
+                    }, 2000);
+                }
 
                 // Reset form
                 document.getElementById('booking-form').reset();
-                document.getElementById('price-summary').style.display = 'none';
+                document.getElementById('price-summary').classList.remove('active');
+                document.querySelectorAll('.room-info').forEach(box => box.classList.remove('active'));
 
             } catch (error) {
-                showError(error.message || 'Booking failed. Please try again or contact us directly.');
+                showError(error.message || 'Booking failed. Please try again or contact us at +355 68 336 9436');
             } finally {
                 submitBtn.disabled = false;
                 document.getElementById('loading').classList.remove('active');
@@ -412,10 +650,6 @@
             
             // Scroll to message
             successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            setTimeout(() => {
-                successEl.style.display = 'none';
-            }, 15000);
         }
 
         function showError(message) {

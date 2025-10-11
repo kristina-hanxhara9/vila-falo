@@ -4,6 +4,124 @@ const Booking = require('../models/Booking');
 const emailService = require('../services/emailService');
 const payseraService = require('../services/payseraService');
 
+// Room inventory configuration
+const ROOM_INVENTORY = {
+  'Standard': {
+    name: 'Dhomë Standart Malore',
+    capacity: 3,
+    minGuests: 2,
+    maxGuests: 3,
+    totalRooms: 7,
+    price: 5000
+  },
+  'Premium': {
+    name: 'Dhomë Premium Familjare',
+    capacity: 4,
+    minGuests: 4,
+    maxGuests: 4,
+    totalRooms: 4,
+    price: 7000
+  },
+  'Deluxe': {
+    name: 'Suitë Familjare Deluxe',
+    capacity: 5,
+    minGuests: 4,
+    maxGuests: 5,
+    totalRooms: 1,
+    price: 8000
+  }
+};
+
+// Check room availability for specific dates and room type
+async function checkRoomAvailability(checkInDate, checkOutDate, roomType, excludeBookingId = null) {
+  try {
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    
+    // Find all confirmed/pending bookings for this room type that overlap with requested dates
+    const query = {
+      roomType: roomType,
+      status: { $in: ['pending', 'confirmed'] },
+      $or: [
+        {
+          checkInDate: { $lt: checkOut },
+          checkOutDate: { $gt: checkIn }
+        }
+      ]
+    };
+    
+    // Exclude a specific booking (useful for updates)
+    if (excludeBookingId) {
+      query._id = { $ne: excludeBookingId };
+    }
+    
+    const overlappingBookings = await Booking.find(query);
+    
+    // Count total rooms booked for overlapping dates
+    const totalRoomsBooked = overlappingBookings.reduce((sum, booking) => sum + (booking.roomsBooked || 1), 0);
+    
+    const roomConfig = ROOM_INVENTORY[roomType];
+    if (!roomConfig) {
+      return { available: false, message: 'Invalid room type' };
+    }
+    
+    const availableRooms = roomConfig.totalRooms - totalRoomsBooked;
+    
+    return {
+      available: availableRooms > 0,
+      availableRooms: Math.max(0, availableRooms),
+      totalRooms: roomConfig.totalRooms,
+      bookedRooms: totalRoomsBooked,
+      message: availableRooms > 0 
+        ? `${availableRooms} room(s) available` 
+        : 'No rooms available for these dates'
+    };
+  } catch (error) {
+    console.error('Error checking availability:', error);
+    return { available: false, message: 'Error checking availability' };
+  }
+}
+
+// GET room availability for specific dates
+router.get('/availability', async (req, res) => {
+  try {
+    const { checkInDate, checkOutDate, roomType } = req.query;
+    
+    if (!checkInDate || !checkOutDate) {
+      return res.status(400).json({
+        success: false,
+        message: 'Check-in and check-out dates are required'
+      });
+    }
+    
+    if (roomType) {
+      // Check specific room type
+      const availability = await checkRoomAvailability(checkInDate, checkOutDate, roomType);
+      return res.json({
+        success: true,
+        roomType: roomType,
+        ...availability
+      });
+    } else {
+      // Check all room types
+      const availabilityResults = {};
+      for (const [type, config] of Object.entries(ROOM_INVENTORY)) {
+        availabilityResults[type] = await checkRoomAvailability(checkInDate, checkOutDate, type);
+      }
+      return res.json({
+        success: true,
+        availability: availabilityResults
+      });
+    }
+  } catch (error) {
+    console.error('Error checking availability:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error checking availability'
+    });
+  }
+});
+
 // GET all bookings (for admin)
 router.get('/', async (req, res) => {
   try {
@@ -46,30 +164,57 @@ router.post('/', async (req, res) => {
     
     console.log('✅ All required fields present');
     
-    // Calculate total price if not provided
-    let totalPrice = req.body.totalPrice;
-    if (!totalPrice) {
-      const checkIn = new Date(req.body.checkInDate);
-      const checkOut = new Date(req.body.checkOutDate);
-      const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-      
-      const roomPrices = {
-        'Standard': 5000,
-        'Deluxe': 6000,
-        'Suite': 8000,
-        'Premium': 7000
-      };
-      
-      const pricePerNight = roomPrices[req.body.roomType] || 5000;
-      totalPrice = nights * pricePerNight * (req.body.roomsBooked || 1);
+    // Validate room type
+    const roomConfig = ROOM_INVENTORY[req.body.roomType];
+    if (!roomConfig) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid room type selected'
+      });
     }
+    
+    // Validate number of guests
+    const numberOfGuests = parseInt(req.body.numberOfGuests);
+    if (numberOfGuests < roomConfig.minGuests || numberOfGuests > roomConfig.maxGuests) {
+      return res.status(400).json({
+        success: false,
+        message: `${roomConfig.name} accommodates ${roomConfig.minGuests}-${roomConfig.maxGuests} guests. You selected ${numberOfGuests} guests.`
+      });
+    }
+    
+    // Check room availability
+    console.log('🔍 Checking room availability...');
+    const availability = await checkRoomAvailability(
+      req.body.checkInDate, 
+      req.body.checkOutDate, 
+      req.body.roomType
+    );
+    
+    if (!availability.available) {
+      console.log('❌ No rooms available');
+      return res.status(400).json({
+        success: false,
+        message: `Sorry, no ${roomConfig.name} rooms available for these dates. Please try different dates or a different room type.`,
+        availableRooms: 0
+      });
+    }
+    
+    console.log(`✅ Room available: ${availability.availableRooms} rooms`);
+    
+    // Calculate total price
+    const checkIn = new Date(req.body.checkInDate);
+    const checkOut = new Date(req.body.checkOutDate);
+    const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+    
+    const roomsBooked = req.body.roomsBooked || 1;
+    const totalPrice = nights * roomConfig.price * roomsBooked;
     
     // Create new booking
     console.log('💾 Creating booking object...');
     const bookingData = {
       ...req.body,
       totalPrice: totalPrice,
-      roomsBooked: req.body.roomsBooked || 1,
+      roomsBooked: roomsBooked,
       status: 'pending',
       paymentStatus: 'pending'
     };
@@ -109,7 +254,14 @@ router.post('/', async (req, res) => {
       message: 'Booking created successfully', 
       data: booking,
       paymentUrl: paymentUrl,
-      depositAmount: booking.depositAmount
+      depositAmount: booking.depositAmount,
+      remainingAmount: booking.remainingAmount,
+      paymentInfo: {
+        depositPercentage: 50,
+        depositAmount: booking.depositAmount,
+        remainingAmount: booking.remainingAmount,
+        paymentInstructions: 'Pay 50% deposit now, 50% on arrival'
+      }
     });
   } catch (error) {
     console.error('❌ Error creating booking:', error.message);
@@ -164,6 +316,26 @@ router.put('/:id', async (req, res) => {
     delete updateData._id;
     delete updateData.__v;
     delete updateData.createdAt;
+    
+    // If updating room type or dates, check availability
+    if (updateData.roomType || updateData.checkInDate || updateData.checkOutDate) {
+      const currentBooking = await Booking.findById(bookingId);
+      if (!currentBooking) {
+        return res.status(404).json({ success: false, message: 'Booking not found' });
+      }
+      
+      const roomType = updateData.roomType || currentBooking.roomType;
+      const checkInDate = updateData.checkInDate || currentBooking.checkInDate;
+      const checkOutDate = updateData.checkOutDate || currentBooking.checkOutDate;
+      
+      const availability = await checkRoomAvailability(checkInDate, checkOutDate, roomType, bookingId);
+      if (!availability.available) {
+        return res.status(400).json({
+          success: false,
+          message: 'No rooms available for the selected dates and room type'
+        });
+      }
+    }
     
     const booking = await Booking.findByIdAndUpdate(
       bookingId, 

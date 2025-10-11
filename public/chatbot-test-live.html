@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Test - Vila Falo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #06d6a0;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 10px 5px;
+        }
+
+        .status-badge.error {
+            background: #ef476f;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            height: fit-content;
+        }
+
+        .sidebar h2 {
+            color: #4361ee;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .test-questions {
+            list-style: none;
+        }
+
+        .test-questions li {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f0f7ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 4px solid #4361ee;
+        }
+
+        .test-questions li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .test-questions li:active {
+            background: #bbdefb;
+        }
+
+        .info-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+
+        .info-box h3 {
+            margin-bottom: 10px;
+            color: #f57c00;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            height: 700px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            color: #4361ee;
+            margin-bottom: 5px;
+        }
+
+        .chat-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #06d6a0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .message {
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: #4361ee;
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #06d6a0;
+            color: white;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px;
+            border-radius: 15px;
+            line-height: 1.6;
+        }
+
+        .message.bot .message-content {
+            background: #f0f7ff;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-content {
+            background: #e8f5e9;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-time {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .input-area {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        .input-area input:focus {
+            outline: none;
+            border-color: #4361ee;
+        }
+
+        .input-area button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #06d6a0, #118ab2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .input-area button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(6, 214, 160, 0.3);
+        }
+
+        .input-area button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 15px;
+            width: fit-content;
+            margin: 15px 0;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4361ee;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .chat-container {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Vila Falo Chatbot Test</h1>
+            <p>Testing Gemini API Integration & Room Information</p>
+            <div id="api-status">
+                <span class="status-badge">🔄 Checking Connection...</span>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <h2>🧪 Test Questions</h2>
+                <p style="margin-bottom: 15px; color: #666; font-size: 0.9em;">
+                    Click any question to test the chatbot:
+                </p>
+
+                <ul class="test-questions">
+                    <li onclick="sendTestMessage('Sa kushton një dhomë për natë?')">
+                        🇦🇱 Sa kushton një dhomë për natë?
+                    </li>
+                    <li onclick="sendTestMessage('How many rooms do you have?')">
+                        🇬🇧 How many rooms do you have?
+                    </li>
+                    <li onclick="sendTestMessage('Çfarë përfshin mëngjesi?')">
+                        🇦🇱 Çfarë përfshin mëngjesi?
+                    </li>
+                    <li onclick="sendTestMessage('What is your payment policy?')">
+                        🇬🇧 What is your payment policy?
+                    </li>
+                    <li onclick="sendTestMessage('Sa dhoma keni për 4 persona?')">
+                        🇦🇱 Sa dhoma keni për 4 persona?
+                    </li>
+                    <li onclick="sendTestMessage('Tell me about the Deluxe suite')">
+                        🇬🇧 Tell me about the Deluxe suite
+                    </li>
+                    <li onclick="sendTestMessage('A keni vende të lira?')">
+                        🇦🇱 A keni vende të lira?
+                    </li>
+                    <li onclick="sendTestMessage('Can I book through the chatbot?')">
+                        🇬🇧 Can I book through the chatbot?
+                    </li>
+                </ul>
+
+                <div class="info-box">
+                    <h3>✅ Expected Responses:</h3>
+                    <ul>
+                        <li><strong>Standard:</strong> 5000 Lek (7 rooms)</li>
+                        <li><strong>Premium:</strong> 7000 Lek (4 rooms)</li>
+                        <li><strong>Deluxe:</strong> 8000 Lek (1 room)</li>
+                        <li><strong>Breakfast:</strong> Included</li>
+                        <li><strong>Payment:</strong> 50% + 50%</li>
+                        <li><strong>Total:</strong> 12 rooms</li>
+                    </ul>
+                </div>
+
+                <div class="info-box" style="background: #e3f2fd; border-color: #2196f3;">
+                    <h3 style="color: #1565c0;">📡 API Info:</h3>
+                    <p style="color: #0d47a1; margin-top: 10px;">
+                        All responses come directly from <strong>Gemini API</strong> (gemini-2.0-flash model)
+                    </p>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>💬 Live Chat Test</h2>
+                    <div class="chat-status">
+                        <div class="status-dot"></div>
+                        <span>Gemini API Connected</span>
+                    </div>
+                </div>
+
+                <div class="messages" id="messages">
+                    <div class="message bot">
+                        <div class="message-avatar">🏔️</div>
+                        <div class="message-content">
+                            <strong>Vila Falo Chatbot</strong><br><br>
+                            Mirë se vini në Vila Falo! Welcome to Vila Falo!<br><br>
+                            I'm connected to Gemini API and ready to answer your questions about our rooms, pricing, and services.
+                            <br><br>
+                            Try asking me anything! 😊
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typing">
+                    <div class="message-avatar" style="background: #4361ee; color: white;">🏔️</div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">Vila Falo is typing...</div>
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <input type="text" 
+                           id="messageInput" 
+                           placeholder="Type your message in Albanian or English..."
+                           onkeypress="if(event.key==='Enter') sendMessage()">
+                    <button onclick="sendMessage()" id="sendBtn">Send 📤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let conversationHistory = [];
+
+        // Check API status on load
+        window.addEventListener('load', checkAPIStatus);
+
+        async function checkAPIStatus() {
+            const statusEl = document.getElementById('api-status');
+            try {
+                const response = await fetch('/api/chatbot/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: 'test' })
+                });
+                
+                if (response.ok) {
+                    statusEl.innerHTML = '<span class="status-badge">✅ Gemini API Connected</span>';
+                } else {
+                    statusEl.innerHTML = '<span class="status-badge error">❌ API Connection Failed</span>';
+                }
+            } catch (error) {
+                statusEl.innerHTML = '<span class="status-badge error">❌ Server Not Running</span>';
+            }
+        }
+
+        function sendTestMessage(message) {
+            document.getElementById('messageInput').value = message;
+            sendMessage();
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage('user', message);
+            input.value = '';
+
+            // Show typing indicator
+            document.getElementById('typing').classList.add('active');
+            document.getElementById('sendBtn').disabled = true;
+
+            try {
+                const response = await fetch('/api/chatbot/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        message: message,
+                        conversationHistory: conversationHistory 
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Add to conversation history
+                    conversationHistory.push(
+                        { role: 'user', content: message },
+                        { role: 'assistant', content: data.message }
+                    );
+
+                    // Add bot response
+                    addMessage('bot', data.message);
+                } else {
+                    addMessage('bot', '❌ Sorry, I encountered an error. Please try again or contact us at +355 68 336 9436');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('bot', '❌ Connection error. Please make sure the server is running.');
+            } finally {
+                document.getElementById('typing').classList.remove('active');
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+
+        function addMessage(type, content) {
+            const messagesDiv = document.getElementById('messages');
+            const messageEl = document.createElement('div');
+            messageEl.className = `message ${type}`;
+
+            const avatar = type === 'bot' ? '🏔️' : '👤';
+            const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            messageEl.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-content">
+                    ${content.replace(/\n/g, '<br>')}
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+
+            messagesDiv.appendChild(messageEl);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
