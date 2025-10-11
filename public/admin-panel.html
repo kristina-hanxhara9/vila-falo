@@ -1807,6 +1807,96 @@
         function hideLoader() {
             loader.style.display = 'none';
         }
+
+        // ========================================
+        // SOCKET.IO REAL-TIME UPDATES
+        // ========================================
+        
+        // Connect to Socket.io server
+        const socket = io({
+            transports: ['websocket', 'polling']
+        });
+
+        // Connection status
+        socket.on('connect', () => {
+            console.log('✅ Connected to real-time updates');
+            showToast('✅ Real-time updates aktiv', false);
+        });
+
+        socket.on('disconnect', () => {
+            console.log('❌ Disconnected from real-time updates');
+            showToast('⚠️ Real-time updates jo aktiv', true);
+        });
+
+        // Listen for new bookings
+        socket.on('newBooking', (data) => {
+            console.log('🆕 New booking received:', data);
+            showToast(`🆕 Rezervim i ri: ${data.booking.guestName}`, false);
+            
+            // Play notification sound (optional)
+            playNotificationSound();
+            
+            // Reload bookings to show the new one
+            loadBookings();
+        });
+
+        // Listen for booking updates
+        socket.on('bookingUpdated', (data) => {
+            console.log('🔄 Booking updated:', data);
+            showToast(`🔄 Rezervim përditësuar: ${data.booking.guestName}`, false);
+            
+            // Reload bookings to show updates
+            loadBookings();
+        });
+
+        // Listen for payment events
+        socket.on('paymentReceived', (data) => {
+            console.log('💰 Payment received:', data);
+            const paymentLabel = data.paymentType === 'deposit' ? 'Depozitë' : 'Pagesë e plotë';
+            showToast(`💰 ${paymentLabel} e pranuar: ${data.booking.guestName}`, false);
+            
+            // Play success sound
+            playNotificationSound();
+            
+            // Reload bookings
+            loadBookings();
+        });
+
+        // Listen for payment failures
+        socket.on('paymentFailed', (data) => {
+            console.log('❌ Payment failed:', data);
+            showToast(`❌ Pagesa dështoi: ${data.booking.guestName}`, true);
+            
+            // Reload bookings
+            loadBookings();
+        });
+
+        // Optional: Play notification sound
+        function playNotificationSound() {
+            try {
+                // Create a simple beep sound using Web Audio API
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (error) {
+                console.log('Could not play notification sound:', error);
+            }
+        }
     </script>
+
+    <!-- Socket.io Client Library -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js" integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HeMKF5wYVS8HnOOfI8tL9qM0gKl" crossorigin="anonymous"></script>
 </body>
 </html>

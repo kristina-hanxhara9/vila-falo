@@ -106,29 +106,14 @@
         }
 
         .price-row.total {
-            font-size: 1.3em;
+            font-size: 1.5em;
             font-weight: bold;
             border-top: 2px solid rgba(255, 255, 255, 0.3);
             padding-top: 15px;
             margin-top: 15px;
         }
 
-        .price-row.deposit {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #ffd60a;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            padding-top: 15px;
-        }
-
-        .price-note {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-top: 10px;
-            font-style: italic;
-        }
-
-        .deposit-notice {
+        .info-box {
             background: #fff3cd;
             border: 2px solid #ffc107;
             border-radius: 10px;
@@ -137,38 +122,8 @@
             color: #856404;
         }
 
-        .deposit-notice strong {
+        .info-box strong {
             color: #ffc107;
-        }
-
-        .payment-info {
-            background: #e7f3ff;
-            border: 2px solid #0066cc;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #004085;
-        }
-
-        .payment-info h3 {
-            margin-bottom: 10px;
-            color: #0066cc;
-        }
-
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .payment-method {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.9em;
-            border: 2px solid #0066cc;
         }
 
         .submit-btn {
@@ -219,12 +174,21 @@
             100% { transform: rotate(360deg); }
         }
 
-        .error-message {
+        .success-message, .error-message {
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
             text-align: center;
             display: none;
+        }
+
+        .success-message {
+            background: #d8f3dc;
+            border: 2px solid #06d6a0;
+            color: #155724;
+        }
+
+        .error-message {
             background: #ffd6d6;
             border: 2px solid #ef476f;
             color: #721c24;
@@ -241,10 +205,6 @@
 
             h1 {
                 font-size: 2em;
-            }
-
-            .payment-methods {
-                grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
@@ -269,8 +229,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Phone Number *</label>
-                    <input type="tel" id="phone" placeholder="+355 XX XXX XXXX" required>
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" placeholder="+355 XX XXX XXXX">
                 </div>
             </div>
 
@@ -300,7 +260,7 @@
                     </div>
                     <div class="form-group">
                         <label for="numberOfGuests">Number of Guests *</label>
-                        <input type="number" id="numberOfGuests" min="1" max="6" value="2" required>
+                        <input type="number" id="numberOfGuests" min="1" max="6" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -324,43 +284,25 @@
                     <span>Total Amount:</span>
                     <span id="total-price">0 Lek</span>
                 </div>
-                <div class="price-row deposit">
-                    <span>💳 Deposit to Pay (50%):</span>
-                    <span id="deposit-amount">0 Lek</span>
-                </div>
-                <div class="price-row">
-                    <span style="font-size: 0.9em;">Deposit in EUR:</span>
-                    <span id="deposit-eur" style="font-size: 0.9em;">~€0</span>
-                </div>
-                <p class="price-note">* Approximate EUR conversion rate: 1 EUR ≈ 108 ALL</p>
             </div>
 
-            <div class="deposit-notice">
-                <strong>📌 Payment Information:</strong> You'll pay 50% deposit now via Paysera to secure your booking. 
-                The remaining 50% can be paid upon arrival at Vila Falo.
-            </div>
-
-            <div class="payment-info">
-                <h3>💳 Secure Payment with Paysera</h3>
-                <p>After clicking "Continue to Payment", you'll be redirected to Paysera's secure payment page.</p>
-                <div class="payment-methods">
-                    <div class="payment-method">💳 Cards</div>
-                    <div class="payment-method">🏦 Bank</div>
-                    <div class="payment-method">📱 Mobile</div>
-                    <div class="payment-method">🌐 E-wallet</div>
-                </div>
+            <div class="info-box">
+                <strong>📌 Booking Information:</strong> Your booking request will be sent to Vila Falo. 
+                We will confirm your reservation and contact you with payment instructions shortly.
+                You can pay upon arrival or via bank transfer.
             </div>
 
             <button type="submit" class="submit-btn" id="submit-btn">
-                🔒 Continue to Secure Payment
+                📨 Submit Booking Request
             </button>
         </form>
 
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <p style="margin-top: 15px;">Creating your booking...</p>
+            <p style="margin-top: 15px;">Sending your booking request...</p>
         </div>
 
+        <div class="success-message" id="success-message"></div>
         <div class="error-message" id="error-message"></div>
     </div>
 
@@ -381,17 +323,13 @@
                 const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
                 const pricePerNight = parseInt(selectedOption.getAttribute('data-price'));
                 const totalPrice = nights * pricePerNight;
-                const deposit = Math.ceil(totalPrice * 0.5);
-                const depositEUR = Math.ceil((deposit * 0.0093) * 100) / 100;
 
                 document.getElementById('nights').textContent = nights;
                 document.getElementById('room-price').textContent = pricePerNight.toLocaleString() + ' Lek';
                 document.getElementById('total-price').textContent = totalPrice.toLocaleString() + ' Lek';
-                document.getElementById('deposit-amount').textContent = deposit.toLocaleString() + ' Lek';
-                document.getElementById('deposit-eur').textContent = '~€' + depositEUR.toFixed(2);
                 document.getElementById('price-summary').style.display = 'block';
 
-                return { nights, totalPrice, deposit };
+                return { nights, totalPrice };
             }
             return null;
         }
@@ -428,10 +366,12 @@
                     checkOutDate: document.getElementById('checkOutDate').value,
                     roomType: document.getElementById('roomType').value,
                     numberOfGuests: parseInt(document.getElementById('numberOfGuests').value),
-                    specialRequests: document.getElementById('specialRequests').value
+                    specialRequests: document.getElementById('specialRequests').value,
+                    totalPrice: pricing.totalPrice,
+                    source: 'Website'
                 };
 
-                const response = await fetch('/api/booking/create-payment', {
+                const response = await fetch('/api/booking', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookingData)
@@ -440,28 +380,52 @@
                 const result = await response.json();
                 
                 if (!result.success) {
-                    throw new Error(result.message || 'Failed to create payment');
+                    throw new Error(result.message || 'Booking failed');
                 }
 
-                // Redirect to Paysera payment page
-                console.log('✅ Redirecting to Paysera...');
-                window.location.href = result.paymentUrl;
+                // Success!
+                showSuccess(`
+                    🎉 Booking Request Sent!<br><br>
+                    <strong>Booking ID:</strong> #${result.data._id.slice(-8).toUpperCase()}<br>
+                    <strong>Total Amount:</strong> ${pricing.totalPrice.toLocaleString()} Lek<br><br>
+                    A confirmation email has been sent to ${bookingData.email}<br>
+                    We will contact you shortly to confirm your booking and provide payment instructions.
+                `);
+
+                // Reset form
+                document.getElementById('booking-form').reset();
+                document.getElementById('price-summary').style.display = 'none';
 
             } catch (error) {
-                console.error('❌ Error:', error);
-                showError(error.message || 'Failed to create booking. Please try again.');
+                showError(error.message || 'Booking failed. Please try again or contact us directly.');
+            } finally {
                 submitBtn.disabled = false;
                 document.getElementById('loading').classList.remove('active');
             }
         });
 
+        function showSuccess(message) {
+            const successEl = document.getElementById('success-message');
+            successEl.innerHTML = message;
+            successEl.style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+            
+            // Scroll to message
+            successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            setTimeout(() => {
+                successEl.style.display = 'none';
+            }, 15000);
+        }
+
         function showError(message) {
             const errorEl = document.getElementById('error-message');
             errorEl.textContent = message;
             errorEl.style.display = 'block';
-            setTimeout(() => {
-                errorEl.style.display = 'none';
-            }, 5000);
+            document.getElementById('success-message').style.display = 'none';
+            
+            // Scroll to message
+            errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     </script>
 </body>

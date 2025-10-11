@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
@@ -9,6 +11,29 @@ const cookieParser = require('cookie-parser');
 const validateServerConfiguration = require('./validate-config');
 
 const app = express();
+const server = http.createServer(app);
+
+// Initialize Socket.io with CORS
+const io = socketIo(server, {
+    cors: {
+        origin: process.env.NODE_ENV === 'production' 
+            ? ['https://vila-falo-resort-8208afd24e04.herokuapp.com', 'https://vilafalo.com', 'https://www.vilafalo.com']
+            : ['http://localhost:5000', 'http://127.0.0.1:5000'],
+        credentials: true
+    }
+});
+
+// Make io available globally
+global.io = io;
+
+// Socket.io connection handling
+io.on('connection', (socket) => {
+    console.log('👤 New client connected:', socket.id);
+    
+    socket.on('disconnect', () => {
+        console.log('👋 Client disconnected:', socket.id);
+    });
+});
 
 // Configure mongoose
 mongoose.set('strictQuery', false);
@@ -24,7 +49,7 @@ app.use(helmet({
 app.use(compression());
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://vila-falo-resort-8208afd24e04.herokuapp.com']
+        ? ['https://vila-falo-resort-8208afd24e04.herokuapp.com', 'https://vilafalo.com', 'https://www.vilafalo.com']
         : ['http://localhost:5000', 'http://127.0.0.1:5000'],
     credentials: true
 }));
@@ -55,12 +80,17 @@ const connectDB = async () => {
 connectDB();
 
 // Import routes safely
-let bookingRoutes, newsletterRoutes, adminRoutes, emailRoutes, userRoutes, chatbotRoutes;
+let bookingRoutes, paymentRoutes, newsletterRoutes, adminRoutes, emailRoutes, userRoutes, chatbotRoutes;
 
 try {
     bookingRoutes = require('./routes/bookingRoutes');
     app.use('/api/booking', bookingRoutes);
 } catch (e) { console.log('⚠️ Booking routes not available'); }
+
+try {
+    paymentRoutes = require('./routes/paymentRoutes');
+    app.use('/api/payment', paymentRoutes);
+} catch (e) { console.log('⚠️ Payment routes not available'); }
 
 try {
     newsletterRoutes = require('./routes/NewsletterRoutes');
@@ -125,7 +155,7 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 // Start server with configuration validation
-app.listen(PORT, '0.0.0.0', async () => {
+server.listen(PORT, '0.0.0.0', async () => {
     console.log(`🚀 Vila Falo Resort running on port ${PORT}`);
     console.log(`🌐 Environment: ${process.env.NODE_ENV}`);
     console.log(`🗄️ Database: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Connecting...'}`);

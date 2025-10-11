@@ -30,6 +30,11 @@ const bookingSchema = new mongoose.Schema({
     enum: ['pending', 'confirmed', 'cancelled', 'completed'],
     default: 'pending'
   },
+  paymentStatus: {
+    type: String,
+    enum: ['pending', 'deposit_paid', 'fully_paid', 'refunded', 'failed'],
+    default: 'pending'
+  },
   roomType: {
     type: String,
     required: [true, 'Room type is required']
@@ -56,39 +61,21 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  // Payment fields
-  paymentStatus: {
-    type: String,
-    enum: ['pending', 'paid_deposit', 'paid_full', 'refunded', 'failed'],
-    default: 'pending'
-  },
-  paymentIntentId: {
-    type: String,
-    trim: true
-  },
   depositAmount: {
     type: Number,
-    default: 0
-  },
-  depositPaid: {
-    type: Boolean,
-    default: false
+    required: true
   },
   remainingAmount: {
     type: Number,
-    default: 0
+    required: true
   },
-  paymentDate: {
-    type: Date
+  paymentDetails: {
+    payseraOrderId: String,
+    payseraTransactionId: String,
+    paymentMethod: String,
+    depositPaidAt: Date,
+    fullPaymentAt: Date
   },
-  refundAmount: {
-    type: Number,
-    default: 0
-  },
-  refundDate: {
-    type: Date
-  },
-  // Source and metadata
   source: {
     type: String,
     enum: ['Website', 'Chatbot', 'Phone', 'Admin', 'Other'],
@@ -104,9 +91,15 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-// Pre-save middleware to update updatedAt
+// Pre-save middleware
 bookingSchema.pre('save', function(next) {
   this.updatedAt = new Date();
+  
+  // Calculate deposit and remaining amount (50% deposit)
+  if (this.isModified('totalPrice')) {
+    this.depositAmount = Math.round(this.totalPrice * 0.5);
+    this.remainingAmount = this.totalPrice - this.depositAmount;
+  }
   
   // Skip validation if dates aren't changed or set
   if (!this.isModified('checkInDate') && !this.isModified('checkOutDate')) {
@@ -120,11 +113,6 @@ bookingSchema.pre('save', function(next) {
     }
   }
   
-  // Calculate remaining amount if deposit paid
-  if (this.depositPaid && this.totalPrice) {
-    this.remainingAmount = this.totalPrice - this.depositAmount;
-  }
-  
   next();
 });
 
@@ -134,7 +122,6 @@ bookingSchema.statics.checkAvailability = async function(checkInDate, checkOutDa
     roomType: roomType,
     status: { $ne: 'cancelled' },
     $or: [
-      // Check if new booking overlaps with existing ones
       {
         checkInDate: { $lt: checkOutDate },
         checkOutDate: { $gt: checkInDate }
