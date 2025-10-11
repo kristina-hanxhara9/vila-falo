@@ -914,15 +914,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Virtual Tour Button Functionality
-    const virtualTourBtn = document.querySelector('.virtual-tour-btn');
-    if (virtualTourBtn) {
-        virtualTourBtn.addEventListener('click', function() {
-            showVirtualTourModal();
-        });
-    }
-    
-    function showVirtualTourModal() {
+    function showVirtualTourModalLegacy() {
         // Create modal overlay
         const modalOverlay = document.createElement('div');
         modalOverlay.className = 'virtual-tour-modal-overlay';
@@ -1045,12 +1037,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     console.log('All JavaScript initialized successfully');
-    
-    // Initialize virtual tour on load
-    const virtualTourBtn = document.querySelector('.virtual-tour-btn');
-    if (virtualTourBtn) {
-        console.log('Virtual tour button found and initialized');
-    }
 });
 
 // Add CSS for snowfall animation
