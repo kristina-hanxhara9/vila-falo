@@ -1,4 +1,3 @@
-
 /* HERO SECTION MOBILE FIXES - CRITICAL */
 .hero {
     position: relative;
@@ -6,12 +5,8 @@
     display: flex !important;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, 
-        rgba(42, 109, 78, 0.8) 0%, 
-        rgba(58, 142, 106, 0.7) 50%, 
-        rgba(42, 109, 78, 0.8) 100%
-    ),
-    url('/images/outside-main.jpg');
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)),
+                url('/images/very-nice.jpg');
     background-size: cover;
     background-position: center center;
     background-attachment: fixed;
@@ -25,46 +20,64 @@
 .hero::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, 
-        rgba(42, 109, 78, 0.6) 0%, 
-        rgba(58, 142, 106, 0.4) 50%, 
-        rgba(42, 109, 78, 0.6) 100%
-    );
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, rgba(248, 249, 250, 0.3), transparent);
     z-index: 1;
+    pointer-events: none;
 }
 
 .hero-content {
     position: relative;
     z-index: 2;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0 2rem;
+    text-align: center;
 }
 
-.hero-title {
+.hero h1 {
     font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    font-weight: 800;
+    margin-bottom: 2rem;
+    line-height: 1.3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero h1 span {
+    display: block;
     color: white;
+}
+
+.hero h1 span:first-child {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero h1 span:nth-child(2) {
+    font-size: 4rem;
+    color: #d9a566;
+    margin-bottom: 0.5rem;
+}
+
+.hero h1 span:nth-child(3) {
+    font-size: 2.5rem;
 }
 
 .hero-content p {
     font-size: 1.2rem;
-    margin-bottom: 2rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    opacity: 0.95;
+    margin: 0 auto 2.5rem;
+    max-width: 700px;
+    line-height: 1.7;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
     color: white;
 }
 
 .hero-btns {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
@@ -82,18 +95,29 @@
     
     .hero-content {
         padding: 1rem;
-        margin-top: 0;
     }
     
-    .hero-title {
-        font-size: 2.5rem !important;
-        line-height: 1.1;
-        margin-bottom: 1rem;
+    .hero h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero h1 span:first-child {
+        font-size: 1.5rem;
+    }
+    
+    .hero h1 span:nth-child(2) {
+        font-size: 2.5rem;
+    }
+    
+    .hero h1 span:nth-child(3) {
+        font-size: 1.5rem;
     }
     
     .hero-content p {
-        font-size: 1rem !important;
-        margin-bottom: 1.5rem;
+        font-size: 1rem;
+        margin: 0 auto 1.5rem;
     }
     
     .hero-btns {
@@ -115,12 +139,24 @@
         min-height: 70vh;
     }
     
-    .hero-title {
-        font-size: 2rem !important;
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .hero h1 span:first-child {
+        font-size: 1.3rem;
+    }
+    
+    .hero h1 span:nth-child(2) {
+        font-size: 2rem;
+    }
+    
+    .hero h1 span:nth-child(3) {
+        font-size: 1.3rem;
     }
     
     .hero-content p {
-        font-size: 0.9rem !important;
+        font-size: 0.9rem;
     }
 }
 
@@ -131,7 +167,7 @@
         top: 10px !important;
         right: 10px !important;
         z-index: 1002 !important;
-        background: rgba(42, 109, 78, 0.9) !important;
+        background: linear-gradient(135deg, #2a6d4e 0%, #3a8e6a 100%) !important;
         backdrop-filter: blur(10px);
         padding: 5px 10px;
         border-radius: 20px;
@@ -182,13 +218,7 @@
 /* Critical: Force hero and content visibility on all devices */
 .hero,
 .hero-content,
-.hero-title,
 .hero-btns {
     opacity: 1 !important;
     visibility: visible !important;
-    display: flex !important;
-}
-
-.hero-title {
-    display: block !important;
 }

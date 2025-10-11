@@ -246,15 +246,27 @@
         padding: 2rem 0;
     }
     
-    .hero-title {
+    .hero h1 {
         font-size: 2rem;
-        line-height: 1.1;
-        margin-bottom: 1rem;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero h1 span:first-child {
+        font-size: 1.5rem;
+    }
+    
+    .hero h1 span:nth-child(2) {
+        font-size: 2.5rem;
+    }
+    
+    .hero h1 span:nth-child(3) {
+        font-size: 1.5rem;
     }
     
     .hero-content p {
         font-size: 1rem;
-        margin-bottom: 1.5rem;
+        margin: 0 auto 1.5rem;
     }
     
     .btn {
