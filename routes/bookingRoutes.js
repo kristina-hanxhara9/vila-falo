@@ -192,10 +192,76 @@ router.post('/', async (req, res) => {
       });
     }
     
+    // CRITICAL: Normalize room type - handle ALL variations
+    console.log('🔍 Original room type:', data.roomType);
+    
+    // Trim whitespace and normalize
+    let normalizedRoomType = (data.roomType || '').toString().trim();
+    
+    // Room type mapping - COMPREHENSIVE
+    const roomTypeMap = {
+      // Standard variations
+      'Standard': 'Standard',
+      'standard': 'Standard',
+      'Standard Mountain Room': 'Standard',
+      'standard mountain room': 'Standard',
+      'Dhomë Standart Malore': 'Standard',
+      'Dhomë Standard Malore': 'Standard',
+      'dhomë standart malore': 'Standard',
+      'dhomë standard malore': 'Standard',
+      'Dhome Standart Malore': 'Standard',
+      'Dhome Standard Malore': 'Standard',
+      
+      // Premium variations
+      'Premium': 'Premium',
+      'premium': 'Premium',
+      'Premium Panorama Suite': 'Premium',
+      'premium panorama suite': 'Premium',
+      'Premium Family Room': 'Premium',
+      'Dhomë Premium Familjare': 'Premium',
+      'dhomë premium familjare': 'Premium',
+      'Dhome Premium Familjare': 'Premium',
+      'Suitë Premium Panoramike': 'Premium',
+      'suite premium panoramike': 'Premium',
+      
+      // Deluxe variations
+      'Deluxe': 'Deluxe',
+      'deluxe': 'Deluxe',
+      'Deluxe Family Suite': 'Deluxe',
+      'deluxe family suite': 'Deluxe',
+      'Suitë Familjare Deluxe': 'Deluxe',
+      'suitë familjare deluxe': 'Deluxe',
+      'Suite Familjare Deluxe': 'Deluxe',
+      'suite familjare deluxe': 'Deluxe'
+    };
+    
+    // Try direct mapping first
+    if (roomTypeMap[normalizedRoomType]) {
+      normalizedRoomType = roomTypeMap[normalizedRoomType];
+      console.log('✅ Room type mapped to:', normalizedRoomType);
+    } else {
+      // Try case-insensitive search
+      const lowerRoomType = normalizedRoomType.toLowerCase();
+      for (const [key, value] of Object.entries(roomTypeMap)) {
+        if (key.toLowerCase() === lowerRoomType) {
+          normalizedRoomType = value;
+          console.log('✅ Room type mapped (case-insensitive) to:', normalizedRoomType);
+          break;
+        }
+      }
+    }
+    
+    // Update data IMMEDIATELY
+    data.roomType = normalizedRoomType;
+    
+    console.log('🎯 Final normalized room type:', normalizedRoomType);
+    
     // Validate room type
-    const roomConfig = ROOM_INVENTORY[data.roomType];
+    const roomConfig = ROOM_INVENTORY[normalizedRoomType];
+    
     if (!roomConfig) {
-      console.log('❌ Invalid room type:', data.roomType);
+      console.log('❌ Invalid room type after normalization:', normalizedRoomType);
+      console.log('Valid types are:', Object.keys(ROOM_INVENTORY));
       return res.status(400).json({
         success: false,
         message: 'Invalid room type selected',
