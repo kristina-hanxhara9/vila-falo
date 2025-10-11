@@ -12,7 +12,7 @@ class EmailService {
       }
 
       // Create transporter with proper configuration
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         service: 'gmail', // Simplified for Gmail
         auth: {
           user: process.env.EMAIL_USER,
