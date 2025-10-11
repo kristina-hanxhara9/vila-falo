@@ -215,10 +215,27 @@ class EmailService {
   }
 
   /**
-   * Send new booking notification (without payment)
+   * Send new booking notification to BOTH guest and admin
    */
   async sendNewBookingNotification(booking) {
-    return await this.sendAdminNotification(booking, 'New Booking Created');
+    try {
+      // Send confirmation to guest
+      console.log('📧 Sending confirmation email to guest:', booking.email);
+      const guestEmail = await this.sendBookingConfirmation(booking);
+      
+      // Send notification to admin
+      console.log('📧 Sending notification email to admin:', this.adminEmail);
+      const adminEmail = await this.sendAdminNotification(booking, 'New Booking Created');
+      
+      return {
+        success: true,
+        guestEmailSent: guestEmail.success,
+        adminEmailSent: adminEmail.success
+      };
+    } catch (error) {
+      console.error('❌ Error sending booking notifications:', error);
+      return { success: false, error: error.message };
+    }
   }
 
   /**
