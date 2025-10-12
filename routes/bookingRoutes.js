@@ -3,31 +3,34 @@ const router = express.Router();
 const Booking = require('../models/Booking');
 const emailService = require('../services/emailService');
 
-// Room inventory configuration
+// Room inventory configuration - UPDATED to match actual Vila Falo inventory
 const ROOM_INVENTORY = {
   'Standard': {
-    name: 'Dhomë Standart Malore',
-    capacity: 3,
+    name: 'Standard Mountain Room',
+    albanianName: 'Dhomë Standart Malore',
+    capacity: 2,
     minGuests: 1,
-    maxGuests: 3,
-    totalRooms: 7,
+    maxGuests: 2,
+    totalRooms: 7,  // 7 Standard rooms available
     price: 5000
   },
-  'Premium': {
-    name: 'Dhomë Premium Familjare',
+  'Deluxe': {
+    name: 'Deluxe Family Suite',
+    albanianName: 'Suitë Familjare Deluxe',
     capacity: 4,
     minGuests: 1,
     maxGuests: 4,
-    totalRooms: 4,
-    price: 7000
+    totalRooms: 4,  // 4 Deluxe rooms available
+    price: 6000
   },
-  'Deluxe': {
-    name: 'Suitë Familjare Deluxe',
+  'Premium': {
+    name: 'Premium Panorama Suite',
+    albanianName: 'Suitë Premium Panoramike',
     capacity: 5,
     minGuests: 1,
     maxGuests: 5,
-    totalRooms: 1,
-    price: 8000
+    totalRooms: 1,  // 1 Premium suite available, capacity 5 people
+    price: 7000
   }
 };
 
