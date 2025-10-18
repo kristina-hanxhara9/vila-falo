@@ -153,3 +153,7 @@ coverage/
 
 # Heroku specific
 .profile
+
+# Cleanup scripts (temporary)
+cleanup-project.sh
+cleanup-project.bat

@@ -63,8 +63,8 @@ async function validateServerConfiguration() {
         // Give email service time to initialize
         setTimeout(async () => {
             try {
-                const emailTest = await emailService.testEmailConfig();
-                if (emailTest) {
+                const emailTest = await emailService.verify();
+                if (emailTest.success) {
                     console.log('✅ Email service configuration valid');
                 } else {
                     configWarnings.push('Email service configuration may have issues');
