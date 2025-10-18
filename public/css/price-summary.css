@@ -1,0 +1,134 @@
+/* Breakfast Included Notice */
+.breakfast-included-notice {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 2px solid #28a745;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.breakfast-included-notice i {
+    color: #28a745;
+    font-size: 24px;
+    margin-top: 3px;
+}
+
+.breakfast-included-notice strong {
+    display: block;
+    color: #155724;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.breakfast-included-notice p {
+    color: #155724;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.breakfast-included-notice small {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Price Summary */
+.price-summary {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.price-summary h4 {
+    color: #2c3e50;
+    margin: 0 0 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.price-row:last-of-type {
+    border-bottom: none;
+}
+
+.price-row.total {
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 2px solid #2c5f2d;
+    font-size: 18px;
+    font-weight: bold;
+    color: #2c5f2d;
+}
+
+.price-row span:first-child {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.price-row span:last-child {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.price-row.total span {
+    color: #2c5f2d;
+}
+
+.price-note {
+    text-align: center;
+    color: #6c757d;
+    font-size: 13px;
+    margin: 10px 0 0 0;
+    font-style: italic;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .breakfast-included-notice {
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    .breakfast-included-notice i {
+        font-size: 20px;
+    }
+    
+    .breakfast-included-notice strong {
+        font-size: 14px;
+    }
+    
+    .breakfast-included-notice p,
+    .breakfast-included-notice small {
+        font-size: 12px;
+    }
+    
+    .price-summary {
+        padding: 15px;
+    }
+    
+    .price-summary h4 {
+        font-size: 16px;
+    }
+    
+    .price-row {
+        font-size: 14px;
+    }
+    
+    .price-row.total {
+        font-size: 16px;
+    }
+}

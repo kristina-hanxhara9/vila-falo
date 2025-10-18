@@ -382,9 +382,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const dayDate = new Date(year, month, day);
                 
+                // Check if date is in blocked range (Dec 30, 2025 - Jan 4, 2026)
+                const blockedStart = new Date(2025, 11, 30); // December 30, 2025
+                const blockedEnd = new Date(2026, 0, 4); // January 4, 2026
+                const isBlocked = dayDate >= blockedStart && dayDate <= blockedEnd;
+                
                 // Mark past days as unavailable
                 if (dayDate < today) {
                     dayEl.classList.add('past');
+                } else if (isBlocked) {
+                    // Mark blocked dates as booked
+                    dayEl.classList.add('booked');
                 } else {
                     // Mark most future days as available (random for demo)
                     if (Math.random() > 0.3) {
@@ -1015,11 +1023,8 @@ document.addEventListener('DOMContentLoaded', function() {
             border: none;
         `;
         
-        // You can replace this with your actual video URL
-        // For YouTube: https://www.youtube.com/embed/YOUR_VIDEO_ID
-        // For Vimeo: https://player.vimeo.com/video/YOUR_VIDEO_ID
-        // For direct video file: just use a video element instead
-        videoIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0';
+        // Vila Falo Virtual Tour
+        videoIframe.src = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&rel=0';
         videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
         videoIframe.allowFullscreen = true;
         
@@ -1265,9 +1270,8 @@ document.head.appendChild(calendarStyle);
         const videoModalOverlay = document.querySelector('.video-modal-overlay');
         const videoIframe = document.getElementById('virtualTourVideo');
         
-        // Your actual video URL - replace this with your real virtual tour video
-        // Example: 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&rel=0&modestbranding=1'
-        const videoURL = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&rel=0&modestbranding=1';
+        // Vila Falo Virtual Tour Video
+        const videoURL = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&rel=0&modestbranding=1';
         
         // Open modal function
         function openVideoModal() {

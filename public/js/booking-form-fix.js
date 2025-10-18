@@ -1,8 +1,55 @@
-// FIXED Booking Form Handler
+// FIXED Booking Form Handler with Price Calculator
 document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
     
+    // Room prices (includes breakfast)
+    const roomPrices = {
+        'Standard Mountain Room': 5000,
+        'Deluxe Family Suite': 6000,
+        'Premium Panorama Suite': 7000
+    };
+    
+    // Price calculation function
+    function calculatePrice() {
+        const roomType = document.getElementById('roomType').value;
+        const checkIn = document.getElementById('checkIn').value;
+        const checkOut = document.getElementById('checkOut').value;
+        
+        if (!roomType || !checkIn || !checkOut) {
+            document.getElementById('priceSummary').style.display = 'none';
+            return;
+        }
+        
+        // Calculate number of nights
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+        const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+        
+        if (nights < 1) {
+            document.getElementById('priceSummary').style.display = 'none';
+            return;
+        }
+        
+        // Get price per night
+        const pricePerNight = roomPrices[roomType];
+        const totalPrice = pricePerNight * nights;
+        
+        // Update summary display
+        document.getElementById('summaryRoomType').textContent = roomType;
+        document.getElementById('summaryNights').textContent = nights;
+        document.getElementById('summaryPricePerNight').textContent = pricePerNight.toLocaleString() + ' Lek';
+        document.getElementById('summaryTotalPrice').textContent = totalPrice.toLocaleString() + ' Lek';
+        
+        // Show summary
+        document.getElementById('priceSummary').style.display = 'block';
+    }
+    
+    // Add event listeners for price calculation
     if (bookingForm) {
+        document.getElementById('roomType').addEventListener('change', calculatePrice);
+        document.getElementById('checkIn').addEventListener('change', calculatePrice);
+        document.getElementById('checkOut').addEventListener('change', calculatePrice);
+        
         bookingForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -50,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Success!
                     alert('✅ Rezervimi u krijua me sukses!\\n\\nID: ' + result.reference + '\\nEmail: ' + bookingData.email + '\\n\\nJu faleminderit!');
                     bookingForm.reset();
+                    document.getElementById('priceSummary').style.display = 'none';
                     
                     // Show confirmation modal if available
                     const modal = document.getElementById('bookingModal');
@@ -72,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        console.log('✅ Booking form handler installed');
+        console.log('✅ Booking form handler with price calculator installed');
     } else {
         console.log('⚠️ Booking form not found');
     }
