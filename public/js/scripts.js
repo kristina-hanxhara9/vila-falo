@@ -597,7 +597,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         adults: adults,
                         children: children,
                         specialRequests: formData.get('special') || '',
-                        addons: formData.getAll('addons') || []
+                        addons: formData.getAll('addons') || [],
+                        language: currentLang === 'en' ? 'en' : 'al'
                     };
                     
                     console.log('Sending booking data:', bookingData);

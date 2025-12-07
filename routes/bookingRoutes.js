@@ -176,7 +176,8 @@ router.post('/', async (req, res) => {
       numberOfGuests: bodyData.numberOfGuests || bodyData.number_of_guests || bodyData.guests || bodyData.numGuests,
       specialRequests: bodyData.specialRequests || bodyData.special_requests || bodyData.requests || '',
       roomsBooked: bodyData.roomsBooked || bodyData.rooms_booked || bodyData.rooms || 1,
-      source: bodyData.source || 'Website'
+      source: bodyData.source || 'Website',
+      language: bodyData.language === 'en' ? 'en' : 'al'
     };
     
     console.log('Normalized data:', JSON.stringify(data, null, 2));
@@ -355,7 +356,8 @@ router.post('/', async (req, res) => {
       totalNights: nights,
       status: 'pending',
       paymentStatus: 'pending',
-      source: data.source
+      source: data.source,
+      language: data.language
     });
     
     // Save to database
@@ -555,18 +557,20 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// POST test endpoint
-router.post('/test-body-parser', (req, res) => {
-  console.log('🧪 Test endpoint hit');
-  console.log('Body:', req.body);
-  
-  res.json({
-    success: true,
-    message: 'Body received',
-    body: req.body,
-    bodyType: typeof req.body,
-    bodyKeys: Object.keys(req.body || {})
+// POST test endpoint (development only)
+if (process.env.NODE_ENV !== 'production') {
+  router.post('/test-body-parser', (req, res) => {
+    console.log('🧪 Test endpoint hit');
+    console.log('Body:', req.body);
+    
+    res.json({
+      success: true,
+      message: 'Body received',
+      body: req.body,
+      bodyType: typeof req.body,
+      bodyKeys: Object.keys(req.body || {})
+    });
   });
-});
+}
 
 module.exports = router;

@@ -499,7 +499,7 @@
                             <i class="fas fa-phone"></i>
                             <span data-en="Call to Order" data-al="Telefononi për Porosi">Telefononi për Porosi</span>
                         </a>
-                        <a href="mailto:vilafalo@gmail.com?subject=Honey Order&body=Hello, I would like to order 1kg of your mountain honey (€20). Please confirm availability." class="btn">
+                        <a href="mailto:vilafalo@gmail.com?subject=Honey Order&body=Hello,%0D%0A%0D%0AI would like to order 1kg of your mountain honey (€20).%0D%0A%0D%0AName:%0D%0AShipping Address (required to deliver):%0D%0APhone:%0D%0A%0D%0APlease confirm availability." class="btn">
                             <i class="fas fa-envelope"></i>
                             <span data-en="Email to Order" data-al="Email për Porosi">Email për Porosi</span>
                         </a>
@@ -732,28 +732,28 @@
                         Our flexible booking options allow you to customize your stay with additional services and activities to create your ideal mountain adventure.
                     </p>
                     <div class="booking-steps">
-                        <div class="booking-step">
+                        <div class="booking-step" data-aos="fade-up" data-aos-delay="50">
                             <div class="step-number">1</div>
                             <div class="step-content">
                                 <h4 data-en="Select Your Dates" data-al="Zgjidhni Datat Tuaja">Select Your Dates</h4>
                                 <p data-en="Choose your check-in and check-out dates to see available rooms." data-al="Zgjidhni datat tuaja të check-in dhe check-out për të parë dhomat e disponueshme.">Choose your check-in and check-out dates to see available rooms.</p>
                             </div>
                         </div>
-                        <div class="booking-step">
+                        <div class="booking-step" data-aos="fade-up" data-aos-delay="100">
                             <div class="step-number">2</div>
                             <div class="step-content">
                                 <h4 data-en="Choose Your Room" data-al="Zgjidhni Dhomën Tuaj">Choose Your Room</h4>
                                 <p data-en="Select the perfect accommodation for your needs and preferences." data-al="Zgjidhni akomodimin perfekt për nevojat dhe preferencat tuaja.">Select the perfect accommodation for your needs and preferences.</p>
                             </div>
                         </div>
-                        <div class="booking-step">
+                        <div class="booking-step" data-aos="fade-up" data-aos-delay="150">
                             <div class="step-number">3</div>
                             <div class="step-content">
                                 <h4 data-en="Confirm Your Details" data-al="Konfirmoni Detajet Tuaja">Confirm Your Details</h4>
                                 <p data-en="Provide your information and any special requests." data-al="Jepni informacionin tuaj dhe çdo kërkesë të veçantë.">Provide your information and any special requests.</p>
                             </div>
                         </div>
-                        <div class="booking-step">
+                        <div class="booking-step" data-aos="fade-up" data-aos-delay="200">
                             <div class="step-number">4</div>
                             <div class="step-content">
                                 <h4 data-en="Secure Your Reservation" data-al="Siguroni Rezervimin Tuaj">Secure Your Reservation</h4>
@@ -763,7 +763,7 @@
                     </div>
                     
                     <!-- Availability Calendar -->
-                    <div class="availability-calendar" data-aos="fade-up">
+                    <div class="availability-calendar" data-aos="fade-up" data-aos-delay="100">
                         <div class="availability-header">
                             <h5 data-en="Check Availability" data-al="Kontrollo Disponueshmërinë">Check Availability</h5>
                             <div class="calendar-controls">
@@ -778,7 +778,7 @@
                         <div class="availability-note" data-en="Green dates are available for booking" data-al="Datat e gjelbra janë të disponueshme për rezervim">Green dates are available for booking</div>
                     </div>
                 </div>
-                <div class="booking-form" data-aos="fade-left">
+                <div class="booking-form" data-aos="fade-left" data-aos-delay="150">
                     <form id="bookingForm" action="/api/booking" method="POST">
                         <div class="form-group">
                             <label for="roomType" data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës">Select Room Type</label>
@@ -853,15 +853,53 @@
                                         <div class="addon-info">
                                             <div class="addon-title" data-en="Breakfast" data-al="Mengjes">Mengjes</div>
                                           <!--  <div class="addon-price">700 Lek <span data-en="per person" data-al="për person">per person</span></div>-->
-                                            <div class="addon-description" style="font-size: 11px; margin-top: 4px; color: #666;" data-en="Includes: petulla te gjyshes, honey, jam, butter, goat cheese, trahana petka, village eggs, coffee, mountain tea" data-al="Përfshin: petulla te gjyshes, mjalte, recel, gjalpe, djath dhie, trahana petka, veze fshati, kafe, caj mali">Përfshin: petulla te gjyshes, mjalte, recel, gjalpe, djath dhie, trahana petka, veze fshati, kafe, caj mali</div>
+                                    <div class="addon-description" style="font-size: 11px; margin-top: 4px; color: #666;" data-en="Includes: petulla te gjyshes, honey, jam, butter, goat cheese, trahana petka, village eggs, coffee, mountain tea" data-al="Përfshin: petulla te gjyshes, mjalte, recel, gjalpe, djath dhie, trahana petka, veze fshati, kafe, caj mali">Përfshin: petulla te gjyshes, mjalte, recel, gjalpe, djath dhie, trahana petka, veze fshati, kafe, caj mali</div>
                                         </div>
                                     </label>
                                 </div>
 
                             </div>
                         </div>
+
+                        <div class="breakfast-included-notice" data-aos="fade-up">
+                            <i class="fas fa-mug-hot"></i>
+                            <div>
+                                <strong data-en="Breakfast Included in Every Booking" data-al="Mengjesi i përfshirë në çdo rezervim">Breakfast Included in Every Booking</strong>
+                                <p data-en="Petulla të gjyshes, mjaltë mali, reçel shtëpie, djath dhie, vezë fshati, kafe dhe çaj mali." data-al="Petulla të gjyshes, mjaltë mali, reçel shtëpie, djath dhie, vezë fshati, kafe dhe çaj mali.">Petulla të gjyshes, mjaltë mali, reçel shtëpie, djath dhie, vezë fshati, kafe dhe çaj mali.</p>
+                                <small data-en="Included in: 5000/6000/7000 Lek per night" data-al="E përfshirë në: 5000/6000/7000 Lek për natë">Included in: 5000/6000/7000 Lek per night</small>
+                            </div>
+                        </div>
+
+                        <div id="priceSummary" class="price-summary" style="display:none" data-aos="fade-up" data-aos-delay="50">
+                            <h4 data-en="Price Summary" data-al="Përmbledhje Çmimi">Price Summary</h4>
+                            <div class="price-row">
+                                <span data-en="Room" data-al="Dhoma">Room</span>
+                                <span id="summaryRoomType">-</span>
+                            </div>
+                            <div class="price-row">
+                                <span data-en="Nights" data-al="Net">Nights</span>
+                                <span id="summaryNights">-</span>
+                            </div>
+                            <div class="price-row">
+                                <span data-en="Price per Night" data-al="Çmimi për Natë">Price per Night</span>
+                                <span id="summaryPricePerNight">-</span>
+                            </div>
+                            <div class="price-row">
+                                <span data-en="Deposit (50%)" data-al="Depozita (50%)">Deposit (50%)</span>
+                                <span id="summaryDeposit">-</span>
+                            </div>
+                            <div class="price-row">
+                                <span data-en="On Arrival (50%)" data-al="Në Mbërritje (50%)">On Arrival (50%)</span>
+                                <span id="summaryArrival">-</span>
+                            </div>
+                            <div class="price-row total">
+                                <span data-en="Total" data-al="Totali">Total</span>
+                                <span id="summaryTotalPrice">-</span>
+                            </div>
+                            <div class="price-note" data-en="Prices include traditional Albanian breakfast" data-al="Çmimet përfshijnë mengjesin tradicional shqiptar">Prices include traditional Albanian breakfast</div>
+                        </div>
                         
-                        <button type="submit" data-en="Book Your Mountain Escape" data-al="Rezervo Aventurën Tënde Malore">Book Your Mountain Escape</button>
+                        <button class="btn btn-primary full-width" type="submit" data-en="Book Your Mountain Escape" data-al="Rezervo Aventurën Tënde Malore">Book Your Mountain Escape</button>
                     </form>
                 </div>
             </div>

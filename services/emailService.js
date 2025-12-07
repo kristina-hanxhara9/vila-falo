@@ -35,6 +35,10 @@ class EmailService {
     }
   }
 
+  getLanguage(booking) {
+    return booking && booking.language === 'en' ? 'en' : 'al';
+  }
+
   async sendEmail(mailOptions) {
     if (!this.enabled || !this.transporter) {
       console.warn('⚠️ Email service disabled, skipping email send');
@@ -57,37 +61,52 @@ class EmailService {
   async sendBookingConfirmation(booking) {
     if (!this.enabled) return { success: false };
 
-    const checkIn = new Date(booking.checkInDate).toLocaleDateString('en-GB');
-    const checkOut = new Date(booking.checkOutDate).toLocaleDateString('en-GB');
+    const lang = this.getLanguage(booking);
+    const checkIn = new Date(booking.checkInDate).toLocaleDateString(lang === 'en' ? 'en-GB' : 'sq-AL');
+    const checkOut = new Date(booking.checkOutDate).toLocaleDateString(lang === 'en' ? 'en-GB' : 'sq-AL');
+    const subject = lang === 'en' ? 'Booking Confirmation - Vila Falo Resort' : 'Konfirmim Rezervimi - Vila Falo Resort';
+    const greeting = lang === 'en' ? 'Hello' : 'Përshëndetje';
+    const thanks = lang === 'en'
+      ? 'Thank you for your reservation at Vila Falo Resort!'
+      : 'Faleminderit për rezervimin tuaj në Vila Falo Resort!';
+    const detailsLabel = lang === 'en' ? 'Booking Details' : 'Detajet e Rezervimit';
+    const instructions = lang === 'en'
+      ? 'Please make sure these details are correct.'
+      : 'Ju lutemi sigurohuni që këto të dhëna janë të sakta.';
+    const paymentNote = lang === 'en'
+      ? 'Deposit required (50%) and remaining on arrival.'
+      : 'Depozita kërkohet (50%) dhe pjesa tjetër në mbërritje.';
+    const contact = lang === 'en' ? 'For any questions, contact us:' : 'Për çdo pyetje, na kontaktoni:';
     
     const mailOptions = {
       from: this.fromEmail,
       to: booking.email,
-      subject: 'Konfirmim Rezervimi - Vila Falo Resort',
+      subject,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #2c5f2d;">Përshëndetje ${booking.guestName},</h2>
-          <p>Faleminderit për rezervimin tuaj në Vila Falo Resort!</p>
+          <h2 style="color: #2c5f2d;">${greeting} ${booking.guestName},</h2>
+          <p>${thanks}</p>
           
           <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <h3 style="color: #2c5f2d; margin-top: 0;">Detajet e Rezervimit</h3>
-            <p><strong>Nr. Rezervimi:</strong> ${booking._id}</p>
-            <p><strong>Check-in:</strong> ${checkIn}</p>
-            <p><strong>Check-out:</strong> ${checkOut}</p>
-            <p><strong>Lloji i Dhomës:</strong> ${booking.roomType}</p>
-            <p><strong>Numri i Dhomave:</strong> ${booking.roomsBooked}</p>
-            <p><strong>Numri i Mysafirëve:</strong> ${booking.numberOfGuests}</p>
+            <h3 style="color: #2c5f2d; margin-top: 0;">${detailsLabel}</h3>
+            <p><strong>${lang === 'en' ? 'Booking ID' : 'Nr. Rezervimi'}:</strong> ${booking._id}</p>
+            <p><strong>${lang === 'en' ? 'Check-in' : 'Check-in'}:</strong> ${checkIn}</p>
+            <p><strong>${lang === 'en' ? 'Check-out' : 'Check-out'}:</strong> ${checkOut}</p>
+            <p><strong>${lang === 'en' ? 'Room Type' : 'Lloji i Dhomës'}:</strong> ${booking.roomType}</p>
+            <p><strong>${lang === 'en' ? 'Rooms' : 'Numri i Dhomave'}:</strong> ${booking.roomsBooked}</p>
+            <p><strong>${lang === 'en' ? 'Guests' : 'Numri i Mysafirëve'}:</strong> ${booking.numberOfGuests}</p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
-            <p><strong>Çmimi Total:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
-            <p><strong>Depozitë (50%):</strong> ${booking.depositAmount.toLocaleString()} ALL</p>
-            <p><strong>Mbetet për tu Paguar (50%):</strong> ${booking.remainingAmount.toLocaleString()} ALL</p>
+            <p><strong>${lang === 'en' ? 'Total Price' : 'Çmimi Total'}:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
+            <p><strong>${lang === 'en' ? 'Deposit (50%)' : 'Depozitë (50%)'}:</strong> ${booking.depositAmount.toLocaleString()} ALL</p>
+            <p><strong>${lang === 'en' ? 'Remaining (50%)' : 'Mbetet për tu Paguar (50%)'}:</strong> ${booking.remainingAmount.toLocaleString()} ALL</p>
           </div>
           
-          <p style="color: #666;">Depozita juaj është pranuar me sukses. Ju lutemi kryeni pagesën e mbetur gjatë check-in.</p>
+          <p style="color: #666;">${instructions}</p>
+          <p style="color: #666;">${paymentNote}</p>
           
           <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
             <p style="color: #666; font-size: 14px;">
-              Për çdo pyetje, na kontaktoni:<br>
+              ${contact}<br>
               Email: ${this.adminEmail}<br>
               Tel: ${process.env.VILLA_PHONE || '+355 68 336 9436'}
             </p>
@@ -107,6 +126,7 @@ class EmailService {
 
     const checkIn = new Date(booking.checkInDate).toLocaleDateString('en-GB');
     const checkOut = new Date(booking.checkOutDate).toLocaleDateString('en-GB');
+    const language = booking.language === 'en' ? 'English' : 'Albanian';
     
     const mailOptions = {
       from: this.fromEmail,
@@ -127,6 +147,7 @@ class EmailService {
             <p><strong>Room Type:</strong> ${booking.roomType}</p>
             <p><strong>Rooms:</strong> ${booking.roomsBooked}</p>
             <p><strong>Guests:</strong> ${booking.numberOfGuests}</p>
+            <p><strong>Language:</strong> ${language}</p>
             ${booking.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.specialRequests}</p>` : ''}
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
             <p><strong>Total Price:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>

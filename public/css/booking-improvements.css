@@ -60,3 +60,53 @@
     color: #666 !important;
     line-height: 1.4 !important;
 }
+
+/* Subtle hover states to add depth */
+.booking-step {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.booking-step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.addon-option {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.addon-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+/* Booking CTA */
+.booking-form button,
+.booking-form .btn {
+    width: 100%;
+    background: linear-gradient(135deg, #2a6d4e, #3a8e6a);
+    color: #fff !important;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 10px 24px rgba(42, 109, 78, 0.25);
+}
+
+.booking-form button:hover,
+.booking-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(42, 109, 78, 0.35);
+}
+
+/* Mobile spacing */
+@media (max-width: 768px) {
+    .booking-grid {
+        gap: 1.25rem;
+    }
+    
+    #priceSummary {
+        margin-top: 1rem;
+    }
+}

@@ -1,6 +1,16 @@
 // FIXED Booking Form Handler with Price Calculator
 document.addEventListener('DOMContentLoaded', function() {
     const bookingForm = document.getElementById('bookingForm');
+    const lang = window.currentLang === 'en' ? 'en' : 'al';
+    const summaryEl = {
+        wrapper: document.getElementById('priceSummary'),
+        roomType: document.getElementById('summaryRoomType'),
+        nights: document.getElementById('summaryNights'),
+        pricePerNight: document.getElementById('summaryPricePerNight'),
+        total: document.getElementById('summaryTotalPrice'),
+        deposit: document.getElementById('summaryDeposit'),
+        arrival: document.getElementById('summaryArrival'),
+    };
     
     // Room prices (includes breakfast)
     const roomPrices = {
@@ -11,12 +21,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Price calculation function
     function calculatePrice() {
+        if (!summaryEl.wrapper) return;
+
         const roomType = document.getElementById('roomType').value;
         const checkIn = document.getElementById('checkIn').value;
         const checkOut = document.getElementById('checkOut').value;
         
         if (!roomType || !checkIn || !checkOut) {
-            document.getElementById('priceSummary').style.display = 'none';
+            summaryEl.wrapper.style.display = 'none';
             return;
         }
         
@@ -26,22 +38,28 @@ document.addEventListener('DOMContentLoaded', function() {
         const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
         
         if (nights < 1) {
-            document.getElementById('priceSummary').style.display = 'none';
+            summaryEl.wrapper.style.display = 'none';
             return;
         }
         
         // Get price per night
         const pricePerNight = roomPrices[roomType];
         const totalPrice = pricePerNight * nights;
+        const deposit = Math.round(totalPrice * 0.5);
+        const arrival = totalPrice - deposit;
         
         // Update summary display
-        document.getElementById('summaryRoomType').textContent = roomType;
-        document.getElementById('summaryNights').textContent = nights;
-        document.getElementById('summaryPricePerNight').textContent = pricePerNight.toLocaleString() + ' Lek';
-        document.getElementById('summaryTotalPrice').textContent = totalPrice.toLocaleString() + ' Lek';
+        summaryEl.roomType.textContent = roomType;
+        summaryEl.nights.textContent = nights;
+        summaryEl.pricePerNight.textContent = pricePerNight.toLocaleString() + ' Lek';
+        summaryEl.total.textContent = totalPrice.toLocaleString() + ' Lek';
+        if (summaryEl.deposit && summaryEl.arrival) {
+            summaryEl.deposit.textContent = deposit.toLocaleString() + ' Lek';
+            summaryEl.arrival.textContent = arrival.toLocaleString() + ' Lek';
+        }
         
         // Show summary
-        document.getElementById('priceSummary').style.display = 'block';
+        summaryEl.wrapper.style.display = 'block';
     }
     
     // Add event listeners for price calculation
@@ -70,7 +88,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 roomType: formData.get('roomType'),
                 numberOfGuests: adults + children,  // adults + children → numberOfGuests
                 specialRequests: formData.get('special') || '',
-                source: 'Website'
+                source: 'Website',
+                language: lang
             };
             
             console.log('📤 Sending booking data:', bookingData);
@@ -97,7 +116,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Success!
                     alert('✅ Rezervimi u krijua me sukses!\\n\\nID: ' + result.reference + '\\nEmail: ' + bookingData.email + '\\n\\nJu faleminderit!');
                     bookingForm.reset();
-                    document.getElementById('priceSummary').style.display = 'none';
+                    if (summaryEl.wrapper) {
+                        summaryEl.wrapper.style.display = 'none';
+                    }
                     
                     // Show confirmation modal if available
                     const modal = document.getElementById('bookingModal');

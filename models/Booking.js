@@ -81,6 +81,11 @@ const bookingSchema = new mongoose.Schema({
     enum: ['Website', 'Chatbot', 'Phone', 'Admin', 'Other'],
     default: 'Website'
   },
+  language: {
+    type: String,
+    enum: ['al', 'en'],
+    default: 'al'
+  },
   createdAt: {
     type: Date,
     default: Date.now

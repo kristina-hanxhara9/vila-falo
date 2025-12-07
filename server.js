@@ -204,23 +204,25 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Test endpoint for body parsing
-app.post('/api/test-body', express.json(), express.urlencoded({ extended: true }), (req, res) => {
-    console.log('🧪 Test Body Endpoint Hit');
-    console.log('Content-Type:', req.get('Content-Type'));
-    console.log('Body:', req.body);
-    console.log('Body Type:', typeof req.body);
-    console.log('Body Keys:', Object.keys(req.body || {}));
-    
-    res.json({
-        success: true,
-        message: 'Body received successfully',
-        contentType: req.get('Content-Type'),
-        bodyType: typeof req.body,
-        bodyKeys: Object.keys(req.body || {}),
-        body: req.body
+// Test endpoint for body parsing (development only to avoid leaking PII)
+if (process.env.NODE_ENV !== 'production') {
+    app.post('/api/test-body', express.json(), express.urlencoded({ extended: true }), (req, res) => {
+        console.log('🧪 Test Body Endpoint Hit');
+        console.log('Content-Type:', req.get('Content-Type'));
+        console.log('Body:', req.body);
+        console.log('Body Type:', typeof req.body);
+        console.log('Body Keys:', Object.keys(req.body || {}));
+        
+        res.json({
+            success: true,
+            message: 'Body received successfully',
+            contentType: req.get('Content-Type'),
+            bodyType: typeof req.body,
+            bodyKeys: Object.keys(req.body || {}),
+            body: req.body
+        });
     });
-});
+}
 
 // Basic routes
 app.get('/', (req, res) => {

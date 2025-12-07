@@ -109,4 +109,44 @@ router.delete('/session/:sessionId', (req, res) => {
     }
 });
 
+// Compatibility endpoints to avoid 404s on existing test tools
+router.get('/availability', (req, res) => {
+    res.json({
+        success: false,
+        message: 'Availability endpoint is currently disabled in this build.'
+    });
+});
+
+router.post('/debug', (req, res) => {
+    const { sessionId } = req.body || {};
+    const history = conversationSessions.get(sessionId) || [];
+    
+    res.json({
+        success: true,
+        message: 'Debug info available',
+        data: {
+            sessionId: sessionId || 'n/a',
+            conversationLength: history.length,
+            lastMessages: history.slice(-4)
+        }
+    });
+});
+
+router.post('/quick-booking', (req, res) => {
+    res.status(403).json({
+        success: false,
+        message: 'Quick booking is disabled. Please use the main booking form.'
+    });
+});
+
+router.get('/stats', (req, res) => {
+    res.json({
+        success: true,
+        data: {
+            activeSessions: conversationSessions.size,
+            uptimeSeconds: Math.round(process.uptime())
+        }
+    });
+});
+
 module.exports = router;
