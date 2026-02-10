@@ -53,11 +53,9 @@
         .story-hero h1 {
             font-size: 2.8rem;
             margin-bottom: 1rem;
-            opacity: 0;
         }
         .story-hero p {
             font-size: 1.15rem;
-            opacity: 0;
             max-width: 600px;
             margin: 0 auto;
         }
@@ -66,7 +64,6 @@
             color: rgba(255,255,255,0.8); text-decoration: none;
             margin-bottom: 1.5rem; font-size: 0.95rem;
             transition: color 0.3s;
-            opacity: 0;
         }
         .story-hero .back-link:hover { color: white; }
 
@@ -225,7 +222,6 @@
             text-align: center;
             padding: 4rem 0;
             background: white;
-            opacity: 0;
         }
         .story-cta h2 { margin-bottom: 1rem; color: var(--dark); }
         .story-cta p { color: var(--text-light); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
@@ -431,10 +427,9 @@
         // Hero entrance animation timeline
         var heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
         heroTl
-            .from('.story-hero::before', { opacity: 0, duration: 1.5 })
-            .to('.story-hero .back-link', { opacity: 1, y: 0, duration: 0.6 }, 0.3)
-            .fromTo('.story-hero h1', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.5)
-            .fromTo('.story-hero p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.8);
+            .fromTo('.story-hero .back-link', { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, 0.2)
+            .fromTo('.story-hero h1', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.4)
+            .fromTo('.story-hero p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.7);
 
         // Animate the timeline line growing as user scrolls
         gsap.to('.timeline-line', {
@@ -513,9 +508,9 @@
 
         // CTA section entrance
         gsap.fromTo('.story-cta',
-            { opacity: 0, y: 50 },
+            { y: 50, opacity: 0 },
             {
-                opacity: 1, y: 0, duration: 0.8,
+                y: 0, opacity: 1, duration: 0.8,
                 scrollTrigger: {
                     trigger: '.story-cta',
                     start: 'top 85%',
