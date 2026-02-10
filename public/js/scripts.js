@@ -1451,42 +1451,9 @@ document.head.appendChild(calendarStyle);
     function initGSAPAnimations() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
             console.warn('GSAP or ScrollTrigger not available for scroll animations');
-            // Fallback: make gallery items visible
-            document.querySelectorAll('.reveal-item').forEach(function(item) {
-                item.style.opacity = '1';
-                item.style.filter = 'blur(0px)';
-                item.style.transform = 'scale(1)';
-            });
             return;
         }
         gsap.registerPlugin(ScrollTrigger);
-
-        // --- Blur Reveal Gallery: Staggered blur-to-sharp entrance ---
-        var revealItems = document.querySelectorAll('.reveal-item');
-        if (revealItems.length) {
-            revealItems.forEach(function(item, i) {
-                gsap.fromTo(item,
-                    {
-                        opacity: 0,
-                        scale: 1.05,
-                        filter: 'blur(20px)'
-                    },
-                    {
-                        opacity: 1,
-                        scale: 1,
-                        filter: 'blur(0px)',
-                        duration: 1,
-                        delay: i * 0.15,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: item,
-                            start: 'top 90%',
-                            toggleActions: 'play none none none'
-                        }
-                    }
-                );
-            });
-        }
 
         // --- Section titles: slide up + fade ---
         document.querySelectorAll('.section-title h2').forEach(function(h2) {
