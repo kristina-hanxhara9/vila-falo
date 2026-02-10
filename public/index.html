@@ -948,30 +948,39 @@
                                 <div class="error-message" data-en="Please select a check-out date" data-al="Ju lutemi zgjidhni një datë check-out">Please select a check-out date</div>
                             </div>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="numberOfGuests" data-en="Number of Guests" data-al="Numri i Mysafirëve">
-                                    <i class="fas fa-users" style="margin-right: 8px; color: #2c5f2d;"></i>Number of Guests
+                        <div class="stepper-row">
+                            <div class="stepper-group">
+                                <label data-en="Adults" data-al="Të rritur">
+                                    <i class="fas fa-user" style="margin-right: 6px; color: #2c5f2d;"></i>Adults
                                 </label>
-                                <select id="numberOfGuests" name="numberOfGuests" required>
-                                    <option value="1">1</option>
-                                    <option value="2" selected>2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                                <div class="stepper-control">
+                                    <button type="button" class="stepper-btn stepper-minus" data-target="adults">−</button>
+                                    <input type="number" id="adults" name="adults" value="2" min="1" max="10" readonly>
+                                    <button type="button" class="stepper-btn stepper-plus" data-target="adults">+</button>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="roomsBooked" data-en="Number of Rooms" data-al="Numri i Dhomave">
-                                    <i class="fas fa-key" style="margin-right: 8px; color: #2c5f2d;"></i>Number of Rooms
+                            <div class="stepper-group">
+                                <label data-en="Children" data-al="Fëmijë">
+                                    <i class="fas fa-child" style="margin-right: 6px; color: #2c5f2d;"></i>Children
                                 </label>
-                                <select id="roomsBooked" name="roomsBooked" required>
-                                    <option value="1" selected>1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
+                                <div class="stepper-control">
+                                    <button type="button" class="stepper-btn stepper-minus" data-target="children">−</button>
+                                    <input type="number" id="children" name="children" value="0" min="0" max="6" readonly>
+                                    <button type="button" class="stepper-btn stepper-plus" data-target="children">+</button>
+                                </div>
+                            </div>
+                            <div class="stepper-group">
+                                <label data-en="Rooms" data-al="Dhoma">
+                                    <i class="fas fa-door-closed" style="margin-right: 6px; color: #2c5f2d;"></i>Rooms
+                                </label>
+                                <div class="stepper-control">
+                                    <button type="button" class="stepper-btn stepper-minus" data-target="roomsBooked">−</button>
+                                    <input type="number" id="roomsBooked" name="roomsBooked" value="1" min="1" max="5" readonly>
+                                    <button type="button" class="stepper-btn stepper-plus" data-target="roomsBooked">+</button>
+                                </div>
                             </div>
                         </div>
+                        <input type="hidden" id="numberOfGuests" name="numberOfGuests" value="2">
                         <div class="form-group">
                             <label for="guestName" data-en="Full Name" data-al="Emri i Plotë">
                                 <i class="fas fa-user" style="margin-right: 8px; color: #2c5f2d;"></i>Full Name

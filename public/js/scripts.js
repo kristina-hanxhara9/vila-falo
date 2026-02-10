@@ -1608,3 +1608,33 @@ document.head.appendChild(calendarStyle);
 
     // Init GSAP animations after a small delay
     setTimeout(initGSAPAnimations, 200);
+
+    // ============ STEPPER CONTROLS (Adults/Children/Rooms) ============
+    function updateGuestCount() {
+        var adults = parseInt(document.getElementById('adults')?.value || 2);
+        var children = parseInt(document.getElementById('children')?.value || 0);
+        var hidden = document.getElementById('numberOfGuests');
+        if (hidden) hidden.value = adults + children;
+    }
+
+    document.querySelectorAll('.stepper-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var targetId = this.getAttribute('data-target');
+            var input = document.getElementById(targetId);
+            if (!input) return;
+            var val = parseInt(input.value) || 0;
+            var min = parseInt(input.min) || 0;
+            var max = parseInt(input.max) || 99;
+            if (this.classList.contains('stepper-plus')) {
+                if (val < max) input.value = val + 1;
+            } else {
+                if (val > min) input.value = val - 1;
+            }
+            updateGuestCount();
+            // Trigger change event for price calculator
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+    });
+
+    // Add smooth scroll behavior
+    document.documentElement.style.scrollBehavior = 'smooth';
