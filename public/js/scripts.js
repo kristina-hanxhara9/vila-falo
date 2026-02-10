@@ -1342,27 +1342,9 @@ document.head.appendChild(calendarStyle);
 
     // ============ HOVER EFFECT INITIALIZATION ============
     function initHoverEffects() {
-        if (typeof hoverEffect === 'undefined') return;
+        if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined') return;
 
-        // Generate displacement image as canvas data URL
-        function generateDisplacement() {
-            var canvas = document.createElement('canvas');
-            canvas.width = 512;
-            canvas.height = 512;
-            var ctx = canvas.getContext('2d');
-            var imageData = ctx.createImageData(512, 512);
-            for (var i = 0; i < imageData.data.length; i += 4) {
-                var v = Math.random() * 255;
-                imageData.data[i] = v;
-                imageData.data[i + 1] = v;
-                imageData.data[i + 2] = v;
-                imageData.data[i + 3] = 255;
-            }
-            ctx.putImageData(imageData, 0, 0);
-            return canvas.toDataURL();
-        }
-
-        var displacementImg = generateDisplacement();
+        var displacementImg = '/images/13.jpg';
 
         // About section hover effect (summer ↔ winter)
         var aboutContainer = document.getElementById('about-hover-container');
