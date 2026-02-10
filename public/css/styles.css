@@ -2505,20 +2505,28 @@ form textarea:focus {
     gap: 1.2rem;
 }
 
+/* Suppress browser native red outlines on unfilled required fields */
+input:invalid,
+select:invalid,
+textarea:invalid {
+    box-shadow: none !important;
+    outline: none;
+}
+
 .error-message {
     color: #dc3545;
     font-size: 0.875rem;
     margin-top: 0.5rem;
-    display: none;
+    display: none !important;
 }
 
 input.error, select.error {
-    border-color: #dc3545;
+    border-color: #dc3545 !important;
 }
 
-input.error + .error-message, 
+input.error + .error-message,
 select.error + .error-message {
-    display: block;
+    display: block !important;
 }
 
 button[type="submit"] {

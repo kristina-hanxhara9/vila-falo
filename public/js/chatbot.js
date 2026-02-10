@@ -162,14 +162,14 @@ class VilaFaloChatbot {
     async loadPopularQuestions() {
         try {
             const response = await fetch(`${this.options.apiEndpoint}/popular-questions`);
+            if (!response.ok) return;
             const data = await response.json();
-            
+
             if (data.success && data.data) {
-                // Update quick questions if needed
                 this.popularQuestions = data.data;
             }
         } catch (error) {
-            console.warn('Could not load popular questions:', error);
+            // Silently ignore - popular questions are optional
         }
     }
 
