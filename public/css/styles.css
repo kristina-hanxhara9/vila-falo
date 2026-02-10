@@ -1640,188 +1640,219 @@ body.scrolled .language-toggle:hover {
     overflow: hidden;
 }
 
-/* ============ 3D FAN-OUT GALLERY ============ */
-.fan-gallery {
-    perspective: 1200px;
-    padding: 1rem 0 2.5rem;
-    overflow: visible;
+/* ============ BLUR REVEAL GALLERY ============ */
+
+/* Blur reveal animation keyframe */
+@keyframes revealBlur {
+    0% {
+        filter: blur(20px);
+        opacity: 0;
+        transform: scale(1.05);
+    }
+    100% {
+        filter: blur(0px);
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.fan-gallery--reverse {
-    padding-top: 0;
-    padding-bottom: 3rem;
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-.fan-gallery-track {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0;
+.reveal-gallery {
     max-width: 1300px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 1rem 1.5rem 2rem;
 }
 
-.fan-card {
-    flex: 0 0 28%;
-    max-width: 340px;
-    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
-    will-change: transform;
+.reveal-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.reveal-item {
     position: relative;
-    z-index: 1;
-}
-
-/* 3D rotation: outer cards rotate in, inner cards stay flatter */
-.fan-card:nth-child(1) {
-    transform: rotateY(18deg) scale(0.92);
-    transform-origin: right center;
-    z-index: 1;
-    margin-right: -20px;
-}
-.fan-card:nth-child(2) {
-    transform: rotateY(6deg) scale(0.97);
-    transform-origin: right center;
-    z-index: 2;
-    margin-right: -10px;
-}
-.fan-card:nth-child(3) {
-    transform: rotateY(-6deg) scale(0.97);
-    transform-origin: left center;
-    z-index: 2;
-    margin-left: -10px;
-}
-.fan-card:nth-child(4) {
-    transform: rotateY(-18deg) scale(0.92);
-    transform-origin: left center;
-    z-index: 1;
-    margin-left: -20px;
-}
-
-/* Reversed row: mirror the rotation */
-.fan-gallery--reverse .fan-card:nth-child(1) {
-    transform: rotateY(-18deg) scale(0.92);
-    transform-origin: left center;
-}
-.fan-gallery--reverse .fan-card:nth-child(2) {
-    transform: rotateY(-6deg) scale(0.97);
-    transform-origin: left center;
-}
-.fan-gallery--reverse .fan-card:nth-child(3) {
-    transform: rotateY(6deg) scale(0.97);
-    transform-origin: right center;
-}
-.fan-gallery--reverse .fan-card:nth-child(4) {
-    transform: rotateY(18deg) scale(0.92);
-    transform-origin: right center;
-}
-
-/* Hover: flatten and lift */
-.fan-card:hover {
-    transform: rotateY(0deg) scale(1.04) !important;
-    z-index: 10 !important;
-}
-
-.fan-card-inner {
-    border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    transition: box-shadow 0.5s ease;
+    border-radius: 14px;
+    /* Start blurred - GSAP will animate */
+    filter: blur(20px);
+    opacity: 0;
+    transform: scale(1.05);
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.reveal-item.is-revealed {
+    animation: revealBlur 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-delay: calc(var(--delay, 0) * 0.15s);
+}
+
+.reveal-item--wide {
+    grid-column: span 2;
+}
+
+.reveal-item-inner {
     position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    height: 100%;
 }
 
-.fan-card:hover .fan-card-inner {
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
-}
-
-.fan-card-inner img {
+.reveal-item-inner img {
     width: 100%;
-    height: 380px;
+    height: 340px;
     object-fit: cover;
     display: block;
     transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.fan-card:hover .fan-card-inner img {
-    transform: scale(1.06);
+.reveal-item--wide .reveal-item-inner img {
+    height: 380px;
 }
 
-/* Fade edges on outer cards */
-.fan-card:nth-child(1) .fan-card-inner::after,
-.fan-card:nth-child(4) .fan-card-inner::after {
+.reveal-item:hover .reveal-item-inner img {
+    transform: scale(1.08);
+}
+
+.reveal-item-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.reveal-item:hover .reveal-item-overlay {
+    transform: translateY(0);
+}
+
+.reveal-item-overlay span {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ---- Marquee Scrolling Strip ---- */
+.gallery-marquee {
+    overflow: hidden;
+    padding: 1.5rem 0 2rem;
+    position: relative;
+}
+
+.gallery-marquee::before,
+.gallery-marquee::after {
     content: '';
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 40%;
+    width: 80px;
+    z-index: 2;
     pointer-events: none;
-    z-index: 1;
-}
-.fan-card:nth-child(1) .fan-card-inner::after {
-    left: 0;
-    background: linear-gradient(to right, rgba(255,255,255,0.5), transparent);
-}
-.fan-card:nth-child(4) .fan-card-inner::after {
-    right: 0;
-    left: auto;
-    background: linear-gradient(to left, rgba(255,255,255,0.5), transparent);
-}
-.fan-gallery--reverse .fan-card:nth-child(1) .fan-card-inner::after {
-    left: auto;
-    right: 0;
-    background: linear-gradient(to left, rgba(255,255,255,0.5), transparent);
-}
-.fan-gallery--reverse .fan-card:nth-child(4) .fan-card-inner::after {
-    right: auto;
-    left: 0;
-    background: linear-gradient(to right, rgba(255,255,255,0.5), transparent);
 }
 
-.fan-card:hover .fan-card-inner::after {
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.gallery-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, var(--white), transparent);
 }
 
-/* Responsive */
+.gallery-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, var(--white), transparent);
+}
+
+.gallery-marquee-track {
+    display: flex;
+    gap: 16px;
+    animation: marqueeScroll 30s linear infinite;
+    width: max-content;
+}
+
+.gallery-marquee-track:hover {
+    animation-play-state: paused;
+}
+
+.marquee-item {
+    flex-shrink: 0;
+    width: 240px;
+    height: 160px;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.marquee-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.marquee-item:hover img {
+    transform: scale(1.08);
+}
+
+/* Responsive gallery */
 @media (max-width: 991px) {
-    .fan-card-inner img {
+    .reveal-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    .reveal-item-inner img {
+        height: 260px;
+    }
+    .reveal-item--wide .reveal-item-inner img {
         height: 280px;
     }
-    .fan-card {
-        flex: 0 0 26%;
+    .marquee-item {
+        width: 200px;
+        height: 130px;
     }
 }
 
 @media (max-width: 768px) {
-    .fan-gallery-track {
-        flex-wrap: wrap;
-        gap: 1rem;
-        padding: 1rem;
+    .reveal-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
-    .fan-gallery {
-        perspective: none;
+    .reveal-item--wide {
+        grid-column: span 2;
     }
-    .fan-card,
-    .fan-card:nth-child(1),
-    .fan-card:nth-child(2),
-    .fan-card:nth-child(3),
-    .fan-card:nth-child(4),
-    .fan-gallery--reverse .fan-card:nth-child(1),
-    .fan-gallery--reverse .fan-card:nth-child(2),
-    .fan-gallery--reverse .fan-card:nth-child(3),
-    .fan-gallery--reverse .fan-card:nth-child(4) {
-        flex: 0 0 47%;
-        max-width: none;
-        transform: none;
-        margin: 0;
+    .reveal-item-inner img {
+        height: 180px;
     }
-    .fan-card-inner img {
+    .reveal-item--wide .reveal-item-inner img {
         height: 200px;
     }
-    .fan-card:nth-child(1) .fan-card-inner::after,
-    .fan-card:nth-child(4) .fan-card-inner::after,
-    .fan-gallery--reverse .fan-card:nth-child(1) .fan-card-inner::after,
-    .fan-gallery--reverse .fan-card:nth-child(4) .fan-card-inner::after {
-        display: none;
+    .reveal-gallery {
+        padding: 1rem;
+    }
+    .marquee-item {
+        width: 160px;
+        height: 110px;
+    }
+    .gallery-marquee-track {
+        animation-duration: 20s;
+    }
+}
+
+@media (max-width: 480px) {
+    .reveal-gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .reveal-item--wide {
+        grid-column: span 1;
+    }
+    .reveal-item-inner img,
+    .reveal-item--wide .reveal-item-inner img {
+        height: 200px;
     }
 }
 

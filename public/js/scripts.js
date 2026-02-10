@@ -1043,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
         
         // Vila Falo Virtual Tour
-        videoIframe.src = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&rel=0';
+        videoIframe.src = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
         videoIframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
         videoIframe.allowFullscreen = true;
         
@@ -1290,7 +1290,8 @@ document.head.appendChild(calendarStyle);
         const videoIframe = document.getElementById('virtualTourVideo');
         
         // Vila Falo Virtual Tour Video
-        const videoURL = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&rel=0&modestbranding=1';
+        // Note: autoplay requires mute=1 in most browsers; user can unmute manually
+        const videoURL = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
         
         // Open modal function
         function openVideoModal() {
@@ -1450,36 +1451,42 @@ document.head.appendChild(calendarStyle);
     function initGSAPAnimations() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
             console.warn('GSAP or ScrollTrigger not available for scroll animations');
-            // Fallback: make gallery cards visible
-            document.querySelectorAll('.fan-card').forEach(function(item) {
+            // Fallback: make gallery items visible
+            document.querySelectorAll('.reveal-item').forEach(function(item) {
                 item.style.opacity = '1';
+                item.style.filter = 'blur(0px)';
+                item.style.transform = 'scale(1)';
             });
             return;
         }
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- 3D Fan Gallery: Staggered card entrance ---
-        document.querySelectorAll('.fan-gallery').forEach(function(gallery) {
-            var cards = gallery.querySelectorAll('.fan-card');
-            // Start cards invisible and spread out
-            gsap.fromTo(cards,
-                { opacity: 0, y: 80, scale: 0.8 },
-                {
-                    opacity: 1, y: 0, scale: function(i) {
-                        // Restore CSS scale: outer=0.92, inner=0.97
-                        return (i === 0 || i === 3) ? 0.92 : 0.97;
+        // --- Blur Reveal Gallery: Staggered blur-to-sharp entrance ---
+        var revealItems = document.querySelectorAll('.reveal-item');
+        if (revealItems.length) {
+            revealItems.forEach(function(item, i) {
+                gsap.fromTo(item,
+                    {
+                        opacity: 0,
+                        scale: 1.05,
+                        filter: 'blur(20px)'
                     },
-                    duration: 0.9,
-                    stagger: 0.12,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: gallery,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        filter: 'blur(0px)',
+                        duration: 1,
+                        delay: i * 0.15,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 90%',
+                            toggleActions: 'play none none none'
+                        }
                     }
-                }
-            );
-        });
+                );
+            });
+        }
 
         // --- Section titles: slide up + fade ---
         document.querySelectorAll('.section-title h2').forEach(function(h2) {
