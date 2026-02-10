@@ -1894,13 +1894,14 @@ body.scrolled .language-toggle:hover {
 .testimonial-dots {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.35rem;
     margin-top: 2rem;
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: var(--text-light);
     opacity: 0.3;
@@ -1911,7 +1912,7 @@ body.scrolled .language-toggle:hover {
 .dot.active {
     opacity: 1;
     background: var(--primary);
-    transform: scale(1.2);
+    transform: scale(1.3);
 }
 
 /* Booking Section */
@@ -4563,6 +4564,23 @@ button[type="submit"]:disabled:hover {
 .about-story-btn {
     margin-bottom: 1.5rem;
     display: inline-block;
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+}
+
+.about-story-btn:hover {
+    background: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    color: white !important;
+}
+
+/* Testimonial stars */
+.testimonial-stars {
+    color: #f39c12;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    letter-spacing: 2px;
 }
 
 /* ============ REVIEWS SECTION ============ */
@@ -4585,122 +4603,8 @@ button[type="submit"]:disabled:hover {
     color: var(--text);
 }
 
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.review-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.review-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-strong);
-}
-
-.review-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-}
-
-.review-author-avatar {
-    font-size: 2.2rem;
-    color: var(--primary);
-    line-height: 1;
-}
-
-.review-author {
-    font-weight: 700;
-    font-size: 1rem;
-    color: var(--dark);
-}
-
-.review-meta {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.review-meta .fab.fa-google {
-    color: #4285F4;
-}
-
-.review-header .review-stars {
-    margin-left: auto;
-    color: #f39c12;
-    font-size: 0.85rem;
-    display: flex;
-    gap: 2px;
-}
-
-.review-text {
-    font-size: 0.93rem;
-    color: var(--text);
-    line-height: 1.65;
-    margin-bottom: 0.75rem;
-}
-
-.review-tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-top: 0.75rem;
-    padding-top: 0.75rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.review-tag {
-    font-size: 0.75rem;
-    color: var(--text-light);
-    background: rgba(42, 109, 78, 0.06);
-    padding: 0.3rem 0.6rem;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.review-tag i {
-    color: var(--primary);
-    font-size: 0.7rem;
-}
-
-.reviews-toggle-container {
-    text-align: center;
-    margin-top: 2rem;
-    margin-bottom: 1.5rem;
-}
-
-.reviews-hidden {
-    display: none;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.reviews-hidden.show {
-    display: grid;
-}
-
-/* Reviews mobile responsive */
+/* Hover effect responsive */
 @media (max-width: 768px) {
-    .reviews-grid,
-    .reviews-hidden {
-        grid-template-columns: 1fr;
-    }
-
     .about-hover-img,
     .honey-hover-img {
         min-height: 300px;
@@ -4708,10 +4612,6 @@ button[type="submit"]:disabled:hover {
 }
 
 @media (max-width: 480px) {
-    .review-card {
-        padding: 1.2rem;
-    }
-
     .about-hover-img,
     .honey-hover-img {
         min-height: 250px;

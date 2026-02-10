@@ -312,8 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initTestimonialSlider() {
-        console.log('Testimonial slider initialized');
-        // Testimonial slider logic here
+        // Actual implementation is below (hoisted function at line ~826)
     }
 
     function initAOS() {
@@ -826,34 +825,53 @@ document.addEventListener('DOMContentLoaded', function() {
     function initTestimonialSlider() {
         let currentSlide = 0;
         const slides = document.querySelectorAll('.testimonial');
-        const dots = document.querySelectorAll('.dot');
         const track = document.querySelector('.testimonials-track');
+        const dotsContainer = document.querySelector('.testimonial-dots');
 
         if (!slides.length || !track) return;
 
+        // Dynamically generate dots for all slides
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            slides.forEach(function(_, i) {
+                var dot = document.createElement('span');
+                dot.className = 'dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', function() {
+                    currentSlide = i;
+                    showSlide(currentSlide);
+                    resetAutoPlay();
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        var dots = document.querySelectorAll('.dot');
+
         function showSlide(index) {
-            const translateX = -index * 100;
-            track.style.transform = `translateX(${translateX}%)`;
-            
+            var translateX = -index * 100;
+            track.style.transform = 'translateX(' + translateX + '%)';
+
             // Update dots
-            dots.forEach((dot, i) => {
+            dots.forEach(function(dot, i) {
                 dot.classList.toggle('active', i === index);
             });
         }
 
-        // Auto-play slider
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }, 5000);
-
-        // Manual dot navigation
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                currentSlide = index;
+        // Auto-play with reset capability
+        var autoPlayInterval;
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(function() {
+                currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
-            });
-        });
+            }, 5000);
+        }
+        function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            startAutoPlay();
+        }
+
+        startAutoPlay();
+        showSlide(0);
     }
 
     function initAOS() {
@@ -1385,25 +1403,5 @@ document.head.appendChild(calendarStyle);
         }
     }
 
-    // ============ REVIEWS TOGGLE ============
-    function initReviewsToggle() {
-        var btn = document.querySelector('.show-all-reviews-btn');
-        if (!btn) return;
-
-        btn.addEventListener('click', function () {
-            var hidden = document.querySelector('.reviews-hidden');
-            if (!hidden) return;
-            hidden.classList.toggle('show');
-            var isExpanded = hidden.classList.contains('show');
-            var lang = document.documentElement.lang === 'sq' ? 'al' : 'en';
-            if (isExpanded) {
-                btn.textContent = lang === 'al' ? 'Shfaq Më Pak' : 'Show Less';
-            } else {
-                btn.textContent = lang === 'al' ? 'Shfaq të 22 Vlerësimet' : 'Show All 22 Reviews';
-            }
-        });
-    }
-
     // Initialize new features
     initHoverEffects();
-    initReviewsToggle();
