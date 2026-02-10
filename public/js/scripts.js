@@ -1351,6 +1351,7 @@ document.head.appendChild(calendarStyle);
         retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
         var honeyContainer = document.getElementById('honey-hover-container');
+        var restaurantContainer = document.getElementById('restaurant-hover-container');
 
         // If libraries didn't load yet, retry up to 5 times with delays
         if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined' || typeof TweenMax === 'undefined') {
@@ -1362,12 +1363,13 @@ document.head.appendChild(calendarStyle);
             console.warn('Hover-effect dependencies missing after retries: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
             showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
             showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
+            showFallbackImage(restaurantContainer, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
             return;
         }
 
         var displacementImg = '/images/13.jpg';
 
-        // About section hover effect (summer ↔ winter)
+        // About section hover effect (summer ↔ winter) - both 960x960
         if (aboutContainer && !aboutContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
@@ -1386,7 +1388,26 @@ document.head.appendChild(calendarStyle);
             }
         }
 
-        // Honey section hover effect (honey jar ↔ honey yogurt)
+        // Restaurant section hover effect (restaurant-love ↔ lakror) - both 960x720
+        if (restaurantContainer && !restaurantContainer.querySelector('canvas')) {
+            try {
+                new hoverEffect({
+                    parent: restaurantContainer,
+                    intensity: 0.25,
+                    image1: '/images/restaurant-love.jpg',
+                    image2: '/images/lakror.jpg',
+                    displacementImage: displacementImg,
+                    speedIn: 1.4,
+                    speedOut: 1.0
+                });
+                console.log('Restaurant hover effect initialized successfully');
+            } catch (e) {
+                console.warn('Restaurant hover effect failed:', e);
+                showFallbackImage(restaurantContainer, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
+            }
+        }
+
+        // Honey section hover effect (honey jar ↔ honey yogurt) - both 960x1280
         if (honeyContainer && !honeyContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
@@ -1409,8 +1430,12 @@ document.head.appendChild(calendarStyle);
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
             var honey = document.getElementById('honey-hover-container');
+            var restaurant = document.getElementById('restaurant-hover-container');
             if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
                 showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
+            }
+            if (restaurant && !restaurant.querySelector('canvas') && !restaurant.querySelector('img')) {
+                showFallbackImage(restaurant, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
             }
             if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
                 showFallbackImage(honey, '/images/mjalte.jpg', 'Mountain Honey');

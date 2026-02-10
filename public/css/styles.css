@@ -2461,17 +2461,17 @@ body.scrolled .language-toggle:hover {
 }
 
 form .form-group {
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
     position: relative;
 }
 
 form label {
     display: block;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.25rem;
     font-weight: 500;
     color: var(--dark);
     transition: var(--transition);
-    font-size: 1rem;
+    font-size: 0.95rem;
 }
 
 form .form-group:focus-within label {
@@ -2483,11 +2483,11 @@ form input,
 form select,
 form textarea {
     width: 100%;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border: 2px solid rgba(42, 109, 78, 0.12);
     border-radius: 8px;
     font-family: inherit;
-    font-size: 1rem;
+    font-size: 0.95rem;
     transition: var(--transition);
     background: rgba(255, 255, 255, 0.95);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -2511,7 +2511,7 @@ form textarea:focus {
 .form-row {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1.2rem;
+    gap: 0.6rem;
 }
 
 /* Suppress browser native red outlines on unfilled required fields */
@@ -4525,9 +4525,10 @@ button[type="submit"]:disabled:hover {
 
 /* ============ HOVER EFFECT CONTAINERS ============ */
 .about-hover-img,
-.honey-hover-img {
+.honey-hover-img,
+.restaurant-hover-img {
     flex: 1;
-    min-height: 400px;
+    min-height: 500px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: var(--shadow-strong);
@@ -4535,8 +4536,23 @@ button[type="submit"]:disabled:hover {
 }
 
 .about-hover-img canvas,
-.honey-hover-img canvas {
+.honey-hover-img canvas,
+.restaurant-hover-img canvas {
     border-radius: 12px;
+}
+
+/* Right column wrappers for restaurant and honey sections */
+.restaurant-right-col,
+.honey-right-col {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.restaurant-right-col .restaurant-hover-img,
+.honey-right-col .honey-hover-img {
+    width: 100%;
 }
 
 /* ============ ANTON QUOTE STYLE ============ */
@@ -4604,14 +4620,20 @@ button[type="submit"]:disabled:hover {
 /* Hover effect responsive */
 @media (max-width: 768px) {
     .about-hover-img,
-    .honey-hover-img {
+    .honey-hover-img,
+    .restaurant-hover-img {
         min-height: 300px;
+    }
+    .restaurant-right-col,
+    .honey-right-col {
+        flex: 1;
     }
 }
 
 @media (max-width: 480px) {
     .about-hover-img,
-    .honey-hover-img {
+    .honey-hover-img,
+    .restaurant-hover-img {
         min-height: 250px;
     }
 }
@@ -4619,7 +4641,7 @@ button[type="submit"]:disabled:hover {
 /* ============ WHATSAPP FLOATING BUTTON ============ */
 .whatsapp-float {
     position: fixed;
-    bottom: 100px;
+    bottom: 20px;
     left: 20px;
     width: 56px;
     height: 56px;
@@ -4649,7 +4671,7 @@ button[type="submit"]:disabled:hover {
 
 @media (max-width: 768px) {
     .whatsapp-float {
-        bottom: 80px;
+        bottom: 15px;
         left: 15px;
         width: 50px;
         height: 50px;
