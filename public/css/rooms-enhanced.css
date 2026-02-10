@@ -140,37 +140,38 @@
 
 .room-price {
     position: absolute;
-    bottom: 12px;
+    top: 12px;
     right: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    padding: 0.5rem 0.75rem;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #d9a566 0%, #e8b875 100%);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    align-items: center;
+    gap: 0.3rem;
     transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(8px);
+    animation: slideInBadge 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    animation-delay: 0.1s;
 }
 
 .room-card:hover .room-price {
-    background: rgba(255, 255, 255, 1);
     transform: scale(1.05);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(217, 165, 102, 0.4);
 }
 
 .room-price .price-amount {
-    font-size: 1.1rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: #2a6d4e;
+    color: white;
     line-height: 1;
 }
 
 .room-price .price-label {
     font-size: 0.7rem;
-    color: #999;
+    color: rgba(255, 255, 255, 0.9);
     font-weight: 600;
-    margin-top: 2px;
 }
 
 /* ============ ROOM RATING SECTION ============ */

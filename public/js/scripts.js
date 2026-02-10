@@ -1341,13 +1341,27 @@ document.head.appendChild(calendarStyle);
     }
 
     // ============ HOVER EFFECT INITIALIZATION ============
+    function showFallbackImage(container, src, alt) {
+        if (container && !container.querySelector('img')) {
+            container.innerHTML = '<img src="' + src + '" alt="' + alt + '" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+        }
+    }
+
     function initHoverEffects() {
-        if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined') return;
+        var aboutContainer = document.getElementById('about-hover-container');
+        var honeyContainer = document.getElementById('honey-hover-container');
+
+        // If libraries didn't load, show fallback images immediately
+        if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined' || typeof TweenMax === 'undefined') {
+            console.warn('Hover-effect dependencies missing: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
+            showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
+            showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
+            return;
+        }
 
         var displacementImg = '/images/13.jpg';
 
         // About section hover effect (summer ↔ winter)
-        var aboutContainer = document.getElementById('about-hover-container');
         if (aboutContainer) {
             try {
                 new hoverEffect({
@@ -1361,12 +1375,11 @@ document.head.appendChild(calendarStyle);
                 });
             } catch (e) {
                 console.warn('About hover effect failed:', e);
-                aboutContainer.innerHTML = '<img src="/images/outside-main.jpg" alt="Vila Falo" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
             }
         }
 
         // Honey section hover effect (honey jar ↔ honey yogurt)
-        var honeyContainer = document.getElementById('honey-hover-container');
         if (honeyContainer) {
             try {
                 new hoverEffect({
@@ -1380,9 +1393,21 @@ document.head.appendChild(calendarStyle);
                 });
             } catch (e) {
                 console.warn('Honey hover effect failed:', e);
-                honeyContainer.innerHTML = '<img src="/images/mjalte.jpg" alt="Mountain Honey" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+                showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
             }
         }
+
+        // Timeout fallback: if after 3 seconds containers are still empty, show static images
+        setTimeout(function() {
+            var about = document.getElementById('about-hover-container');
+            var honey = document.getElementById('honey-hover-container');
+            if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
+                showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
+            }
+            if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
+                showFallbackImage(honey, '/images/mjalte.jpg', 'Mountain Honey');
+            }
+        }, 3000);
     }
 
     // Initialize new features
