@@ -40,7 +40,7 @@ window.roomConfig = {
     minGuests: 1,
     maxGuests: 5,
     pricePerNight: 7000,
-    description: 'Luxury suite with panoramic mountain views',
+    description: 'Premium suite with panoramic mountain views',
     amenities: ['WiFi', 'Air Conditioning', 'Private Bathroom', 'TV', 'Jacuzzi', 'Terrace', 'Premium Minibar'],
     icon: '👑'
   }

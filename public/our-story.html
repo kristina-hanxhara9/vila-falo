@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historia Jonë | Vila Falo - Our Story</title>
+    <meta name="description" content="The story of Anton Falo - from 20 years as a waiter in Greece to building Vila Falo, a traditional family guesthouse in Voskopoje, Albania.">
+    <meta name="keywords" content="vila falo story, anton falo, voskopoje guesthouse history, traditional albanian hospitality, family guesthouse albania">
+    <link rel="canonical" href="https://www.vilafalo.com/our-story.html">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="theme-color" content="#2a6d4e">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Our Story | Vila Falo">
+    <meta property="og:description" content="From a waiter in Greece to building a family guesthouse in the mountains of Voskopoje.">
+    <meta property="og:url" content="https://www.vilafalo.com/our-story.html">
+    <meta property="og:type" content="article">
+
+    <!-- JSON-LD Breadcrumb -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.vilafalo.com" },
+        { "@type": "ListItem", "position": 2, "name": "Our Story", "item": "https://www.vilafalo.com/our-story.html" }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/mobile-responsive.css">
+
+    <style>
+        /* Our Story Page Styles */
+        .story-hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 8rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .story-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('/images/outside-snow.jpg') center/cover no-repeat;
+            opacity: 0.15;
+        }
+        .story-hero .container { position: relative; z-index: 1; }
+        .story-hero h1 { font-size: 2.8rem; margin-bottom: 1rem; }
+        .story-hero p { font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        .story-hero .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            color: rgba(255,255,255,0.8); text-decoration: none;
+            margin-bottom: 1.5rem; font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .story-hero .back-link:hover { color: white; }
+
+        .story-section { padding: 5rem 0; background: var(--light); }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 3rem 0;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0; bottom: 0;
+            width: 3px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            display: flex;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            position: relative;
+            align-items: flex-start;
+        }
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .timeline-item:nth-child(even) .timeline-content {
+            text-align: right;
+        }
+        .timeline-year-badge {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            z-index: 2;
+            white-space: nowrap;
+            box-shadow: 0 3px 10px rgba(42, 109, 78, 0.3);
+            top: 0;
+        }
+        .timeline-content {
+            flex: 1;
+            padding: 2.5rem 2rem;
+            padding-top: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        .timeline-content:hover {
+            box-shadow: var(--shadow-strong);
+            transform: translateY(-3px);
+        }
+        .timeline-content h3 {
+            font-size: 1.3rem;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+        .timeline-content p {
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+        .timeline-content blockquote {
+            border-left: 3px solid var(--primary);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0 0;
+            font-style: italic;
+            color: var(--text);
+            background: rgba(42, 109, 78, 0.04);
+            border-radius: 0 6px 6px 0;
+            font-size: 0.93rem;
+            line-height: 1.6;
+        }
+        .timeline-item:nth-child(even) .timeline-content blockquote {
+            border-left: none;
+            border-right: 3px solid var(--primary);
+            border-radius: 6px 0 0 6px;
+            text-align: right;
+        }
+        .timeline-content .timeline-img {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 1.25rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .timeline-spacer {
+            flex: 1;
+        }
+
+        /* CTA at bottom */
+        .story-cta {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+        }
+        .story-cta h2 { margin-bottom: 1rem; color: var(--dark); }
+        .story-cta p { color: var(--text-light); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .story-cta .btn { margin: 0 0.5rem; }
+
+        /* Story page footer */
+        .story-footer {
+            background: var(--dark);
+            color: rgba(255,255,255,0.7);
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .story-footer a { color: var(--secondary); text-decoration: none; }
+
+        /* Language toggle for story page */
+        .story-lang {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            display: flex;
+            gap: 0.25rem;
+            background: rgba(255,255,255,0.95);
+            padding: 0.4rem;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+        }
+        .story-lang button {
+            padding: 0.4rem 0.8rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.8rem;
+            background: transparent;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+        .story-lang button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .story-hero { padding: 6rem 0 3rem; }
+            .story-hero h1 { font-size: 2rem; }
+            .timeline::before { left: 24px; }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                flex-direction: column;
+                padding-left: 60px;
+            }
+            .timeline-year-badge {
+                left: 24px;
+                transform: translateX(-50%);
+                font-size: 0.85rem;
+                padding: 0.4rem 1rem;
+            }
+            .timeline-content,
+            .timeline-item:nth-child(even) .timeline-content {
+                text-align: left;
+            }
+            .timeline-item:nth-child(even) .timeline-content blockquote {
+                border-left: 3px solid var(--primary);
+                border-right: none;
+                border-radius: 0 6px 6px 0;
+                text-align: left;
+            }
+            .timeline-spacer { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="story-lang">
+        <button data-lang="en" onclick="setStoryLang('en')">EN</button>
+        <button data-lang="al" class="active" onclick="setStoryLang('al')">AL</button>
+    </div>
+
+    <!-- Hero -->
+    <section class="story-hero">
+        <div class="container">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> <span data-en="Back to Home" data-al="Kthehu në Kryefaqje">Kthehu në Kryefaqje</span></a>
+            <h1 data-en="Our Story" data-al="Historia Jonë">Historia Jonë</h1>
+            <p data-en="The journey of a waiter in Greece who built a family guesthouse in the mountains of Voskopoje" data-al="Udhëtimi i një kamerieri në Greqi që ngriti bujtinë familjare në malet e Voskopojës">Udhëtimi i një kamerieri në Greqi që ngriti bujtinë familjare në malet e Voskopojës</p>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="story-section">
+        <div class="container">
+            <div class="timeline">
+
+                <!-- 1990 -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-content">
+                        <h3 data-en="The Departure" data-al="Largimi">Largimi</h3>
+                        <p data-en="With the arrival of democracy in Albania in 1990, the Falo family, like many others, left the country seeking a better future. Anton, together with his family, emigrated to Greece — a journey that would shape his life for the next two decades." data-al="Me ardhjen e demokracisë në Shqipëri në vitet 1990, familja Falo, si shumë të tjerë, u largua nga vendi duke kërkuar një të ardhme më të mirë. Antoni, së bashku me familjen, emigroi në Greqi — një udhëtim që do të formonte jetën e tij për dy dekadat e ardhshme.">Largimi</p>
+                        <blockquote data-en="&ldquo;With the arrival of democracy in Albania in 1990, my family and I left for Greece.&rdquo;" data-al="&ldquo;Me ardhjen e demokracisë në Shqipëri në vitet 1990 unë me familjen ikëm në Greqi.&rdquo;">&ldquo;Me ardhjen e demokracisë në Shqipëri në vitet 1990 unë me familjen ikëm në Greqi.&rdquo;</blockquote>
+                        <img src="/images/outside-main.jpg" alt="Voskopoje Village" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-year-badge">1990</div>
+                </div>
+
+                <!-- 1990-2010 -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-content">
+                        <h3 data-en="20 Years in Greece" data-al="20 Vjet në Greqi">20 Vjet në Greqi</h3>
+                        <p data-en="For two decades, Anton worked as a waiter and his wife as a cook at a seaside restaurant in Greece. Those years of hard work in the hospitality industry gave them invaluable experience, skills, and savings that would later become the foundation of Vila Falo." data-al="Për dy dekada, Antoni punoi si kamerier dhe gruaja si kuzhiniere në një restorant buzë detit në Greqi. Ato vite pune të vështira në industrinë e mikpritjes u dhanë përvojë të paçmueshme, aftësi dhe kursime që më vonë do të bëheshin themeli i Vila Falo.">20 Vjet në Greqi</p>
+                        <blockquote data-en="&ldquo;I worked for 20 years in Greece at a seaside restaurant. I was a waiter, my wife a cook. That's how we gained our experience.&rdquo;" data-al="&ldquo;Kam punuar për 20 vjet në Greqi në një restorant, buzë detit. Unë punova kamerier, gruaja kuzhiniere. Kështu fituam përvojë.&rdquo;">&ldquo;Kam punuar për 20 vjet në Greqi në një restorant, buzë detit. Unë punova kamerier, gruaja kuzhiniere. Kështu fituam përvojë.&rdquo;</blockquote>
+                        <img src="/images/restaurant.jpg" alt="Restaurant Experience" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-year-badge">1990–2010</div>
+                </div>
+
+                <!-- 2010 -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-content">
+                        <h3 data-en="The Return" data-al="Kthimi">Kthimi</h3>
+                        <p data-en="In 2010, the Falo family made the decision to return to their roots in Voskopoje. With the experience and savings gathered over 20 years abroad, they invested in their homeland — transforming Anton's father's house into a small, welcoming family guesthouse." data-al="Në 2010, familja Falo mori vendimin të kthehej në rrënjët e saj në Voskopojë. Me përvojën dhe kursimet e mbledhura gjatë 20 viteve jashtë vendit, investuan në atdheun e tyre — duke e kthyer shtëpinë e babait të Antonit në një bujtinë të vogël dhe mikpritëse familjare.">Kthimi</p>
+                        <blockquote data-en="&ldquo;We returned to Albania. With the earnings from there, we invested in our land and built this small family guesthouse.&rdquo;" data-al="&ldquo;U kthyem në Shqipëri. Me të ardhurat që nxorëm atje investuam në tokën tonë, ngritëm këtë bujtinë të vogël familjare.&rdquo;">&ldquo;U kthyem në Shqipëri. Me të ardhurat që nxorëm atje investuam në tokën tonë, ngritëm këtë bujtinë të vogël familjare.&rdquo;</blockquote>
+                        <img src="/images/outside-up.jpg" alt="Vila Falo Panoramic View" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-year-badge">2010</div>
+                </div>
+
+                <!-- Today - Food -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-content">
+                        <h3 data-en="Vila Falo Today" data-al="Vila Falo Sot">Vila Falo Sot</h3>
+                        <p data-en="Today, Vila Falo is a beloved destination for both Albanian and international tourists in the heart of Voskopoje. The restaurant serves traditional dishes made with local ingredients — recipes passed down through generations, prepared with the expertise gained over decades of hospitality." data-al="Sot, Vila Falo është një destinacion i dashur për turistët shqiptarë dhe ndërkombëtarë në zemër të Voskopojës. Restoranti servir gatima tradicionale të bëra me përbërës vendas — receta të trashëguara brez pas brezi, të përgatitura me ekspertizën e fituar gjatë dekadave të mikpritjes.">Vila Falo Sot</p>
+                        <blockquote data-en="&ldquo;Here we make traditional food from our region — from two-layer lakror baked in a saç, lamb, sauces, cheeses, pickles, and our own plum raki.&rdquo;" data-al="&ldquo;Këtu bëjmë ushqime tradicionale të zonës sonë, që nga lakrori me dy petë në saç, mishi i qengjit, salcat, djathërat, turshitë, rakinë e kumbullës i kemi tonën.&rdquo;">&ldquo;Këtu bëjmë ushqime tradicionale të zonës sonë, që nga lakrori me dy petë në saç, mishi i qengjit, salcat, djathërat, turshitë, rakinë e kumbullës i kemi tonën.&rdquo;</blockquote>
+                        <img src="/images/restaurant-love.jpg" alt="Vila Falo Restaurant" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-year-badge" data-en="Today" data-al="Sot">Sot</div>
+                </div>
+
+                <!-- Beekeeping -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-content">
+                        <h3 data-en="The Beekeeping" data-al="Bletaria">Bletaria</h3>
+                        <p data-en="Beyond the guesthouse and restaurant, Anton also built a bee park with about 200 hives. The pure mountain honey is used in the restaurant for breakfast and desserts, served to tourists, and sold as gifts. Many tourists even visit the hives to extract honey themselves." data-al="Përveç bujtinës dhe restorantit, Antoni ndërtoi gjithashtu një park bletësh me rreth 200 koshere. Mjalti i pastër malor përdoret në restorant për mëngjes dhe ëmbëlsira, u serviret turistëve, dhe shitet si dhuratë. Shumë turistë vizitojnë edhe kosheret për të nxjerrë mjaltin vetë.">Bletaria</p>
+                        <blockquote data-en="&ldquo;I also have a bee park with about 200 hives. I use the honey in the restaurant for breakfast, for desserts, I serve it to tourists, and make gifts. Many tourists, after tasting the honey in the restaurant, come to the park and extract honey themselves from the hives.&rdquo;" data-al="&ldquo;Unë kam dhe parkun e bletëve me rreth 200 koshere. Mjaltin e bletëve e përdor në restorant për mëngjes, për ëmbëlsira, ua servir turistëve, bëj dhurata. Shumë turistë pasi shijojnë mjaltin në restorant, vijnë në park dhe e nxjerrin mjaltin vetë nga kosheret.&rdquo;">&ldquo;Unë kam dhe parkun e bletëve me rreth 200 koshere. Mjaltin e bletëve e përdor në restorant për mëngjes, për ëmbëlsira, ua servir turistëve, bëj dhurata. Shumë turistë pasi shijojnë mjaltin në restorant, vijnë në park dhe e nxjerrin mjaltin vetë nga kosheret.&rdquo;</blockquote>
+                        <img src="/images/mjalte.jpg" alt="Vila Falo Mountain Honey" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-year-badge">200+</div>
+                </div>
+
+                <!-- Family Tradition -->
+                <div class="timeline-item" data-aos="fade-up">
+                    <div class="timeline-spacer"></div>
+                    <div class="timeline-content">
+                        <h3 data-en="Family Tradition" data-al="Tradita Familjare">Tradita Familjare</h3>
+                        <p data-en="Beekeeping runs deep in the Falo family. Anton started helping his father with the bees at just 5 years old. This passion has been carried forward through generations, and today it's an essential part of the Vila Falo experience." data-al="Bletaria ka rrënjë të thella në familjen Falo. Antoni filloi të ndihmonte babanë me bletët kur ishte vetëm 5 vjeç. Kjo pasion është çuar përpara brez pas brezi, dhe sot është pjesë thelbësore e përvojës së Vila Falo.">Tradita Familjare</p>
+                        <blockquote data-en="&ldquo;Beekeeping is a family tradition for me. When I was 5, my father kept bees and I helped him. I continued my family's tradition. I love bees and will work with them as long as I can.&rdquo;" data-al="&ldquo;Profesionin e bletarisë e kam traditë familjare. Që kur kam qenë 5 vjeç babai im vuri bletë dhe unë e ndihmoja babanë. Kështu vazhdova traditën e familjes sime. Unë i dashuroj bletët e do punoj me to deri sa të kem mundësi.&rdquo;">&ldquo;Profesionin e bletarisë e kam traditë familjare. Që kur kam qenë 5 vjeç babai im vuri bletë dhe unë e ndihmoja babanë. Kështu vazhdova traditën e familjes sime. Unë i dashuroj bletët e do punoj me to deri sa të kem mundësi.&rdquo;</blockquote>
+                        <img src="/images/kos-mjalte.jpg" alt="Honey and Traditional Food" class="timeline-img" loading="lazy">
+                    </div>
+                    <div class="timeline-year-badge"><i class="fas fa-heart" style="font-size:0.85rem"></i></div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="story-cta">
+        <div class="container">
+            <h2 data-en="Come Experience Our Story" data-al="Ejani Përjetoni Historinë Tonë">Ejani Përjetoni Historinë Tonë</h2>
+            <p data-en="Visit Vila Falo and become part of our family's journey. Taste the traditional food, try our mountain honey, and enjoy the warmth of Voskopoje." data-al="Vizitoni Vila Falo dhe bëhuni pjesë e udhëtimit të familjes sonë. Shijoni ushqimin tradicional, provoni mjaltin tonë malor, dhe shijoni ngrohtësinë e Voskopojës.">Vizitoni Vila Falo dhe bëhuni pjesë e udhëtimit të familjes sonë. Shijoni ushqimin tradicional, provoni mjaltin tonë malor, dhe shijoni ngrohtësinë e Voskopojës.</p>
+            <a href="/#booking" class="btn" data-en="Book Your Stay" data-al="Rezervo Qëndrimin">Rezervo Qëndrimin</a>
+            <a href="/" class="btn btn-outline" data-en="Back to Home" data-al="Kthehu në Kryefaqje">Kthehu në Kryefaqje</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="story-footer">
+        <div class="container">
+            <p>&copy; 2025 Vila Falo. <a href="/">vilafalo.com</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 80 });
+
+        function setStoryLang(lang) {
+            var elements = document.querySelectorAll('[data-en][data-al]');
+            elements.forEach(function(el) {
+                var text = el.getAttribute('data-' + lang);
+                if (text) el.textContent = text;
+            });
+            document.querySelectorAll('.story-lang button').forEach(function(btn) {
+                btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+            });
+            document.documentElement.lang = lang === 'al' ? 'sq' : 'en';
+        }
+
+        // Default: Albanian
+        setStoryLang('al');
+    </script>
+</body>
+</html>
