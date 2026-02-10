@@ -1,0 +1,33 @@
+# Vila Falo Mountain Hotel & Restaurant - Robots.txt
+# Robots exclusion rules for search engine crawlers
+
+# Allow all crawlers to index content
+User-agent: *
+Allow: /
+
+# Disallow admin and API paths from being indexed
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /*.json
+
+# Disallow dynamic image parameters
+Disallow: /*?*size=
+Disallow: /*?*format=
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# User agent specific rules
+User-agent: Googlebot
+Crawl-delay: 0.5
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+# Point search engines to sitemap
+Sitemap: https://www.vilafalo.com/sitemap.xml
+
+# Additional sitemap for future expansion
+# Sitemap: https://www.vilafalo.com/sitemap-rooms.xml
+# Sitemap: https://www.vilafalo.com/sitemap-blog.xml
