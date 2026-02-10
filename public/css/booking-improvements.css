@@ -83,9 +83,9 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-/* Booking CTA */
-.booking-form button,
-.booking-form .btn {
+/* Booking CTA - exclude stepper buttons */
+.booking-form button[type="submit"],
+.booking-form .btn:not(.stepper-btn) {
     width: 100%;
     background: linear-gradient(135deg, #2a6d4e, #3a8e6a);
     color: #fff !important;
@@ -97,8 +97,8 @@
     box-shadow: 0 10px 24px rgba(42, 109, 78, 0.25);
 }
 
-.booking-form button:hover,
-.booking-form .btn:hover {
+.booking-form button[type="submit"]:hover,
+.booking-form .btn:not(.stepper-btn):hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 28px rgba(42, 109, 78, 0.35);
 }
