@@ -29,12 +29,11 @@
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/mobile-responsive.css">
 
     <style>
-        /* Our Story Page Styles */
+        /* Our Story Page Styles - GSAP Enhanced */
         .story-hero {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
@@ -51,13 +50,23 @@
             opacity: 0.15;
         }
         .story-hero .container { position: relative; z-index: 1; }
-        .story-hero h1 { font-size: 2.8rem; margin-bottom: 1rem; }
-        .story-hero p { font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+        .story-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+        }
+        .story-hero p {
+            font-size: 1.15rem;
+            opacity: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
         .story-hero .back-link {
             display: inline-flex; align-items: center; gap: 0.5rem;
             color: rgba(255,255,255,0.8); text-decoration: none;
             margin-bottom: 1.5rem; font-size: 0.95rem;
             transition: color 0.3s;
+            opacity: 0;
         }
         .story-hero .back-link:hover { color: white; }
 
@@ -70,12 +79,12 @@
             max-width: 950px;
             margin: 0 auto;
         }
-        .timeline::before {
-            content: '';
+        .timeline-line {
             position: absolute;
             left: 50%;
-            top: 0; bottom: 0;
+            top: 0;
             width: 3px;
+            height: 0;
             background: var(--primary);
             transform: translateX(-50%);
         }
@@ -85,6 +94,7 @@
             margin-bottom: 4rem;
             position: relative;
             align-items: flex-start;
+            opacity: 0;
         }
         .timeline-item:nth-child(even) {
             flex-direction: row-reverse;
@@ -95,7 +105,7 @@
         .timeline-year-badge {
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translateX(-50%) scale(0);
             background: var(--primary);
             color: white;
             padding: 0.5rem 1.5rem;
@@ -114,16 +124,37 @@
             background: white;
             border-radius: 12px;
             box-shadow: var(--shadow);
-            transition: var(--transition);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .timeline-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        .timeline-content:hover::before {
+            transform: scaleX(1);
         }
         .timeline-content:hover {
-            box-shadow: var(--shadow-strong);
-            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(42, 109, 78, 0.15);
+            transform: translateY(-6px);
         }
         .timeline-content h3 {
             font-size: 1.3rem;
             color: var(--dark);
             margin-bottom: 0.75rem;
+            transition: color 0.3s ease;
+        }
+        .timeline-content:hover h3 {
+            color: var(--primary);
         }
         .timeline-content p {
             color: var(--text);
@@ -140,6 +171,11 @@
             border-radius: 0 6px 6px 0;
             font-size: 0.93rem;
             line-height: 1.6;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+        .timeline-content:hover blockquote {
+            background: rgba(42, 109, 78, 0.08);
+            border-color: var(--secondary);
         }
         .timeline-item:nth-child(even) .timeline-content blockquote {
             border-left: none;
@@ -147,11 +183,19 @@
             border-radius: 6px 0 0 6px;
             text-align: right;
         }
+        .timeline-item:nth-child(even) .timeline-content:hover blockquote {
+            border-color: var(--secondary);
+        }
         .timeline-content .timeline-img {
             width: 100%;
             border-radius: 8px;
             margin-top: 1.25rem;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.5s ease, box-shadow 0.4s ease;
+        }
+        .timeline-content:hover .timeline-img {
+            transform: scale(1.03);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .timeline-spacer {
             flex: 1;
@@ -162,10 +206,18 @@
             text-align: center;
             padding: 4rem 0;
             background: white;
+            opacity: 0;
         }
         .story-cta h2 { margin-bottom: 1rem; color: var(--dark); }
         .story-cta p { color: var(--text-light); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .story-cta .btn { margin: 0 0.5rem; }
+        .story-cta .btn {
+            margin: 0 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .story-cta .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(42, 109, 78, 0.25);
+        }
 
         /* Story page footer */
         .story-footer {
@@ -210,7 +262,7 @@
         @media (max-width: 768px) {
             .story-hero { padding: 6rem 0 3rem; }
             .story-hero h1 { font-size: 2rem; }
-            .timeline::before { left: 24px; }
+            .timeline-line { left: 24px; }
             .timeline-item,
             .timeline-item:nth-child(even) {
                 flex-direction: column;
@@ -218,7 +270,6 @@
             }
             .timeline-year-badge {
                 left: 24px;
-                transform: translateX(-50%);
                 font-size: 0.85rem;
                 padding: 0.4rem 1rem;
             }
@@ -256,9 +307,11 @@
     <section class="story-section">
         <div class="container">
             <div class="timeline">
+                <!-- Animated timeline line (replaces ::before pseudo-element) -->
+                <div class="timeline-line"></div>
 
                 <!-- 1990 -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <h3 data-en="The Departure" data-al="Largimi">Largimi</h3>
                         <p data-en="With the arrival of democracy in Albania in 1990, the Falo family, like many others, left the country seeking a better future. Anton, together with his family, emigrated to Greece — a journey that would shape his life for the next two decades." data-al="Me ardhjen e demokracisë në Shqipëri në vitet 1990, familja Falo, si shumë të tjerë, u largua nga vendi duke kërkuar një të ardhme më të mirë. Antoni, së bashku me familjen, emigroi në Greqi — një udhëtim që do të formonte jetën e tij për dy dekadat e ardhshme.">Largimi</p>
@@ -270,7 +323,7 @@
                 </div>
 
                 <!-- 1990-2010 -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-spacer"></div>
                     <div class="timeline-content">
                         <h3 data-en="20 Years in Greece" data-al="20 Vjet në Greqi">20 Vjet në Greqi</h3>
@@ -282,7 +335,7 @@
                 </div>
 
                 <!-- 2010 -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <h3 data-en="The Return" data-al="Kthimi">Kthimi</h3>
                         <p data-en="In 2010, the Falo family made the decision to return to their roots in Voskopoje. With the experience and savings gathered over 20 years abroad, they invested in their homeland — transforming Anton's father's house into a small, welcoming family guesthouse." data-al="Në 2010, familja Falo mori vendimin të kthehej në rrënjët e saj në Voskopojë. Me përvojën dhe kursimet e mbledhura gjatë 20 viteve jashtë vendit, investuan në atdheun e tyre — duke e kthyer shtëpinë e babait të Antonit në një bujtinë të vogël dhe mikpritëse familjare.">Kthimi</p>
@@ -294,7 +347,7 @@
                 </div>
 
                 <!-- Today - Food -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-spacer"></div>
                     <div class="timeline-content">
                         <h3 data-en="Vila Falo Today" data-al="Vila Falo Sot">Vila Falo Sot</h3>
@@ -306,7 +359,7 @@
                 </div>
 
                 <!-- Beekeeping -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-content">
                         <h3 data-en="The Beekeeping" data-al="Bletaria">Bletaria</h3>
                         <p data-en="Beyond the guesthouse and restaurant, Anton also built a bee park with about 200 hives. The pure mountain honey is used in the restaurant for breakfast and desserts, served to tourists, and sold as gifts. Many tourists even visit the hives to extract honey themselves." data-al="Përveç bujtinës dhe restorantit, Antoni ndërtoi gjithashtu një park bletësh me rreth 200 koshere. Mjalti i pastër malor përdoret në restorant për mëngjes dhe ëmbëlsira, u serviret turistëve, dhe shitet si dhuratë. Shumë turistë vizitojnë edhe kosheret për të nxjerrë mjaltin vetë.">Bletaria</p>
@@ -318,7 +371,7 @@
                 </div>
 
                 <!-- Family Tradition -->
-                <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-item">
                     <div class="timeline-spacer"></div>
                     <div class="timeline-content">
                         <h3 data-en="Family Tradition" data-al="Tradita Familjare">Tradita Familjare</h3>
@@ -350,10 +403,100 @@
         </div>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- GSAP Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true, offset: 80 });
+        gsap.registerPlugin(ScrollTrigger);
 
+        // Hero entrance animation timeline
+        var heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+        heroTl
+            .from('.story-hero::before', { opacity: 0, duration: 1.5 })
+            .to('.story-hero .back-link', { opacity: 1, y: 0, duration: 0.6 }, 0.3)
+            .fromTo('.story-hero h1', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8 }, 0.5)
+            .fromTo('.story-hero p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0.8);
+
+        // Animate the timeline line growing as user scrolls
+        gsap.to('.timeline-line', {
+            height: '100%',
+            ease: 'none',
+            scrollTrigger: {
+                trigger: '.timeline',
+                start: 'top 80%',
+                end: 'bottom 20%',
+                scrub: 1
+            }
+        });
+
+        // Animate each timeline item with GSAP ScrollTrigger
+        var timelineItems = document.querySelectorAll('.timeline-item');
+        timelineItems.forEach(function(item, index) {
+            var isEven = index % 2 !== 0;
+            var xStart = isEven ? 80 : -80;
+
+            var itemTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: item,
+                    start: 'top 85%',
+                    end: 'top 50%',
+                    toggleActions: 'play none none none'
+                }
+            });
+
+            // Content slides in from left or right
+            var content = item.querySelector('.timeline-content');
+            itemTl.fromTo(item, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0);
+            itemTl.fromTo(content,
+                { x: xStart, opacity: 0 },
+                { x: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
+                0.1
+            );
+
+            // Year badge pops in
+            var badge = item.querySelector('.timeline-year-badge');
+            if (badge) {
+                itemTl.to(badge,
+                    { scale: 1, duration: 0.5, ease: 'back.out(1.7)' },
+                    0.4
+                );
+            }
+
+            // Image fades in slightly after content
+            var img = item.querySelector('.timeline-img');
+            if (img) {
+                itemTl.fromTo(img,
+                    { y: 20, opacity: 0 },
+                    { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+                    0.6
+                );
+            }
+
+            // Blockquote slides in
+            var quote = item.querySelector('blockquote');
+            if (quote) {
+                itemTl.fromTo(quote,
+                    { x: isEven ? 30 : -30, opacity: 0 },
+                    { x: 0, opacity: 1, duration: 0.5, ease: 'power2.out' },
+                    0.5
+                );
+            }
+        });
+
+        // CTA section entrance
+        gsap.fromTo('.story-cta',
+            { opacity: 0, y: 50 },
+            {
+                opacity: 1, y: 0, duration: 0.8,
+                scrollTrigger: {
+                    trigger: '.story-cta',
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // Language switcher
         function setStoryLang(lang) {
             var elements = document.querySelectorAll('[data-en][data-al]');
             elements.forEach(function(el) {

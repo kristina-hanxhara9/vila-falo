@@ -1347,13 +1347,19 @@ document.head.appendChild(calendarStyle);
         }
     }
 
-    function initHoverEffects() {
+    function initHoverEffects(retryCount) {
+        retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
         var honeyContainer = document.getElementById('honey-hover-container');
 
-        // If libraries didn't load, show fallback images immediately
+        // If libraries didn't load yet, retry up to 5 times with delays
         if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined' || typeof TweenMax === 'undefined') {
-            console.warn('Hover-effect dependencies missing: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
+            if (retryCount < 5) {
+                console.log('Hover-effect dependencies not ready (attempt ' + (retryCount + 1) + '/5), retrying...');
+                setTimeout(function() { initHoverEffects(retryCount + 1); }, 500 * (retryCount + 1));
+                return;
+            }
+            console.warn('Hover-effect dependencies missing after retries: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
             showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
             showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
             return;
@@ -1362,7 +1368,7 @@ document.head.appendChild(calendarStyle);
         var displacementImg = '/images/13.jpg';
 
         // About section hover effect (summer ↔ winter)
-        if (aboutContainer) {
+        if (aboutContainer && !aboutContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
                     parent: aboutContainer,
@@ -1373,6 +1379,7 @@ document.head.appendChild(calendarStyle);
                     speedIn: 1.6,
                     speedOut: 1.2
                 });
+                console.log('About hover effect initialized successfully');
             } catch (e) {
                 console.warn('About hover effect failed:', e);
                 showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
@@ -1380,7 +1387,7 @@ document.head.appendChild(calendarStyle);
         }
 
         // Honey section hover effect (honey jar ↔ honey yogurt)
-        if (honeyContainer) {
+        if (honeyContainer && !honeyContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
                     parent: honeyContainer,
@@ -1391,13 +1398,14 @@ document.head.appendChild(calendarStyle);
                     speedIn: 1.6,
                     speedOut: 1.2
                 });
+                console.log('Honey hover effect initialized successfully');
             } catch (e) {
                 console.warn('Honey hover effect failed:', e);
                 showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
             }
         }
 
-        // Timeout fallback: if after 3 seconds containers are still empty, show static images
+        // Timeout fallback: if after 5 seconds containers are still empty, show static images
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
             var honey = document.getElementById('honey-hover-container');
@@ -1407,8 +1415,8 @@ document.head.appendChild(calendarStyle);
             if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
                 showFallbackImage(honey, '/images/mjalte.jpg', 'Mountain Honey');
             }
-        }, 3000);
+        }, 5000);
     }
 
-    // Initialize new features
-    initHoverEffects();
+    // Initialize new features - use slight delay to let external libs finish loading
+    setTimeout(function() { initHoverEffects(0); }, 100);
