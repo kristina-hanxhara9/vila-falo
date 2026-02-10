@@ -1450,83 +1450,35 @@ document.head.appendChild(calendarStyle);
     function initGSAPAnimations() {
         if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
             console.warn('GSAP or ScrollTrigger not available for scroll animations');
-            // Fallback: make gallery items visible
-            document.querySelectorAll('.luxury-gallery-item').forEach(function(item) {
+            // Fallback: make gallery cards visible
+            document.querySelectorAll('.fan-card').forEach(function(item) {
                 item.style.opacity = '1';
             });
             return;
         }
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- Luxury Gallery: Staggered Reveal + Parallax ---
-        var galleryItems = document.querySelectorAll('.luxury-gallery-item');
-        galleryItems.forEach(function(item) {
-            var speed = parseFloat(item.getAttribute('data-speed')) || 0;
-            var imgWrapper = item.querySelector('.luxury-img-wrapper');
-            var img = item.querySelector('.luxury-img');
-
-            // Clip-path reveal on scroll
-            gsap.fromTo(item,
-                { opacity: 0, y: 60 },
+        // --- 3D Fan Gallery: Staggered card entrance ---
+        document.querySelectorAll('.fan-gallery').forEach(function(gallery) {
+            var cards = gallery.querySelectorAll('.fan-card');
+            // Start cards invisible and spread out
+            gsap.fromTo(cards,
+                { opacity: 0, y: 80, scale: 0.8 },
                 {
-                    opacity: 1, y: 0,
-                    duration: 1,
+                    opacity: 1, y: 0, scale: function(i) {
+                        // Restore CSS scale: outer=0.92, inner=0.97
+                        return (i === 0 || i === 3) ? 0.92 : 0.97;
+                    },
+                    duration: 0.9,
+                    stagger: 0.12,
                     ease: 'power3.out',
                     scrollTrigger: {
-                        trigger: item,
-                        start: 'top 90%',
+                        trigger: gallery,
+                        start: 'top 85%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
-
-            // Image reveal with clipPath
-            if (imgWrapper) {
-                gsap.fromTo(imgWrapper,
-                    { clipPath: 'inset(15% 0% 15% 0%)' },
-                    {
-                        clipPath: 'inset(0% 0% 0% 0%)',
-                        duration: 1.2,
-                        ease: 'power3.out',
-                        scrollTrigger: {
-                            trigger: item,
-                            start: 'top 88%',
-                            toggleActions: 'play none none none'
-                        }
-                    }
-                );
-            }
-
-            // Parallax: image moves at different speed inside its container
-            if (img && speed !== 0) {
-                gsap.to(img, {
-                    yPercent: speed * 100,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: item,
-                        start: 'top bottom',
-                        end: 'bottom top',
-                        scrub: 1
-                    }
-                });
-            }
-
-            // Inner zoom reveal
-            if (img) {
-                gsap.fromTo(img,
-                    { scale: 1.2 },
-                    {
-                        scale: 1,
-                        duration: 1.5,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: item,
-                            start: 'top 88%',
-                            toggleActions: 'play none none none'
-                        }
-                    }
-                );
-            }
         });
 
         // --- Section titles: slide up + fade ---
