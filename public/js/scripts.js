@@ -1445,3 +1445,214 @@ document.head.appendChild(calendarStyle);
 
     // Initialize new features - use slight delay to let external libs finish loading
     setTimeout(function() { initHoverEffects(0); }, 100);
+
+    // ============ GSAP SCROLL ANIMATIONS ============
+    function initGSAPAnimations() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            console.warn('GSAP or ScrollTrigger not available for scroll animations');
+            // Fallback: make gallery items visible
+            document.querySelectorAll('.luxury-gallery-item').forEach(function(item) {
+                item.style.opacity = '1';
+            });
+            return;
+        }
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Luxury Gallery: Staggered Reveal + Parallax ---
+        var galleryItems = document.querySelectorAll('.luxury-gallery-item');
+        galleryItems.forEach(function(item) {
+            var speed = parseFloat(item.getAttribute('data-speed')) || 0;
+            var imgWrapper = item.querySelector('.luxury-img-wrapper');
+            var img = item.querySelector('.luxury-img');
+
+            // Clip-path reveal on scroll
+            gsap.fromTo(item,
+                { opacity: 0, y: 60 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+
+            // Image reveal with clipPath
+            if (imgWrapper) {
+                gsap.fromTo(imgWrapper,
+                    { clipPath: 'inset(15% 0% 15% 0%)' },
+                    {
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 1.2,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+
+            // Parallax: image moves at different speed inside its container
+            if (img && speed !== 0) {
+                gsap.to(img, {
+                    yPercent: speed * 100,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
+            }
+
+            // Inner zoom reveal
+            if (img) {
+                gsap.fromTo(img,
+                    { scale: 1.2 },
+                    {
+                        scale: 1,
+                        duration: 1.5,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+        });
+
+        // --- Section titles: slide up + fade ---
+        document.querySelectorAll('.section-title h2').forEach(function(h2) {
+            gsap.fromTo(h2,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: h2,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        document.querySelectorAll('.section-title p').forEach(function(p) {
+            gsap.fromTo(p,
+                { y: 25, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    delay: 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: p,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // --- Service cards: staggered entrance ---
+        var serviceCards = document.querySelectorAll('.service-card');
+        if (serviceCards.length) {
+            gsap.fromTo(serviceCards,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.services-grid',
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Room cards: staggered entrance ---
+        var roomCards = document.querySelectorAll('.room-card');
+        if (roomCards.length) {
+            gsap.fromTo(roomCards,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    stagger: 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.rooms-grid',
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Testimonial cards: slide in ---
+        var testimonials = document.querySelectorAll('.testimonial-card');
+        if (testimonials.length) {
+            gsap.fromTo(testimonials,
+                { y: 30, opacity: 0, scale: 0.95 },
+                {
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: testimonials[0].parentElement,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking section: slide up ---
+        var bookingForm = document.querySelector('.booking-form');
+        if (bookingForm) {
+            gsap.fromTo(bookingForm,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: bookingForm,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Parallax on hero background ---
+        var heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            gsap.to(heroSection, {
+                backgroundPositionY: '30%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroSection,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
+    }
+
+    // Init GSAP animations after a small delay
+    setTimeout(initGSAPAnimations, 200);
