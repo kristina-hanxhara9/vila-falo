@@ -84,4 +84,22 @@
         <mobile:mobile/>
     </url>
 
+    <!-- Our Story Page -->
+    <url>
+        <loc>https://www.vilafalo.com/our-story.html</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+        <mobile:mobile/>
+    </url>
+
+    <!-- Reviews Section -->
+    <url>
+        <loc>https://www.vilafalo.com#reviews</loc>
+        <lastmod>2026-02-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.75</priority>
+        <mobile:mobile/>
+    </url>
+
 </urlset>

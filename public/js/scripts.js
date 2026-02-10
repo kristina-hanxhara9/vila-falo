@@ -1321,3 +1321,89 @@ document.head.appendChild(calendarStyle);
             }
         });
     }
+
+    // ============ HOVER EFFECT INITIALIZATION ============
+    function initHoverEffects() {
+        if (typeof hoverEffect === 'undefined') return;
+
+        // Generate displacement image as canvas data URL
+        function generateDisplacement() {
+            var canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 512;
+            var ctx = canvas.getContext('2d');
+            var imageData = ctx.createImageData(512, 512);
+            for (var i = 0; i < imageData.data.length; i += 4) {
+                var v = Math.random() * 255;
+                imageData.data[i] = v;
+                imageData.data[i + 1] = v;
+                imageData.data[i + 2] = v;
+                imageData.data[i + 3] = 255;
+            }
+            ctx.putImageData(imageData, 0, 0);
+            return canvas.toDataURL();
+        }
+
+        var displacementImg = generateDisplacement();
+
+        // About section hover effect (summer ↔ winter)
+        var aboutContainer = document.getElementById('about-hover-container');
+        if (aboutContainer) {
+            try {
+                new hoverEffect({
+                    parent: aboutContainer,
+                    intensity: 0.3,
+                    image1: '/images/outside-main.jpg',
+                    image2: '/images/outside-snow.jpg',
+                    displacementImage: displacementImg,
+                    speedIn: 1.6,
+                    speedOut: 1.2
+                });
+            } catch (e) {
+                console.warn('About hover effect failed:', e);
+                aboutContainer.innerHTML = '<img src="/images/outside-main.jpg" alt="Vila Falo" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            }
+        }
+
+        // Honey section hover effect (honey jar ↔ honey yogurt)
+        var honeyContainer = document.getElementById('honey-hover-container');
+        if (honeyContainer) {
+            try {
+                new hoverEffect({
+                    parent: honeyContainer,
+                    intensity: 0.3,
+                    image1: '/images/mjalte.jpg',
+                    image2: '/images/kos-mjalte.jpg',
+                    displacementImage: displacementImg,
+                    speedIn: 1.6,
+                    speedOut: 1.2
+                });
+            } catch (e) {
+                console.warn('Honey hover effect failed:', e);
+                honeyContainer.innerHTML = '<img src="/images/mjalte.jpg" alt="Mountain Honey" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">';
+            }
+        }
+    }
+
+    // ============ REVIEWS TOGGLE ============
+    function initReviewsToggle() {
+        var btn = document.querySelector('.show-all-reviews-btn');
+        if (!btn) return;
+
+        btn.addEventListener('click', function () {
+            var hidden = document.querySelector('.reviews-hidden');
+            if (!hidden) return;
+            hidden.classList.toggle('show');
+            var isExpanded = hidden.classList.contains('show');
+            var lang = document.documentElement.lang === 'sq' ? 'al' : 'en';
+            if (isExpanded) {
+                btn.textContent = lang === 'al' ? 'Shfaq Më Pak' : 'Show Less';
+            } else {
+                btn.textContent = lang === 'al' ? 'Shfaq të 22 Vlerësimet' : 'Show All 22 Reviews';
+            }
+        });
+    }
+
+    // Initialize new features
+    initHoverEffects();
+    initReviewsToggle();
