@@ -1,0 +1,413 @@
+/*
+ * Enhanced Styling for Better UX
+ * Improves animations, spacing, form styling, and mobile responsiveness
+ */
+
+/* ============ FORM ENHANCEMENTS ============ */
+
+.booking-form form {
+    transition: var(--transition);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+}
+
+.form-group label:hover {
+    color: var(--primary);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.9rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    background-color: #ffffff;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.1);
+    transform: translateY(-2px);
+    background-color: #fafafa;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.form-group input:focus::placeholder,
+.form-group textarea:focus::placeholder {
+    color: var(--primary);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* ============ BUTTON ENHANCEMENTS ============ */
+
+.btn-primary {
+    padding: 0.85rem 2rem !important;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) !important;
+    box-shadow: 0 8px 25px rgba(42, 109, 78, 0.25) !important;
+}
+
+.btn-primary:active {
+    transform: translateY(-2px) !important;
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============ FORM ROW SPACING ============ */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+/* ============ ERROR AND SUCCESS MESSAGES ============ */
+
+#errorMessage,
+#successMessage,
+.error-message,
+.success-message {
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+#errorMessage,
+.error-message {
+    color: #d32f2f;
+    background-color: #ffebee;
+    border-left: 4px solid #d32f2f;
+    display: none;
+}
+
+#errorMessage:not(:empty),
+.error-message:not(:empty) {
+    display: block;
+    animation: slideInDown 0.4s ease;
+}
+
+#successMessage,
+.success-message {
+    color: #388e3c;
+    background-color: #e8f5e9;
+    border-left: 4px solid #388e3c;
+    display: none;
+}
+
+#successMessage:not(:empty),
+.success-message:not(:empty) {
+    display: block;
+    animation: slideInDown 0.4s ease;
+}
+
+/* ============ PRICE BREAKDOWN STYLING ============ */
+
+#priceBreakdown {
+    animation: fadeInScale 0.5s ease;
+}
+
+.price-breakdown {
+    background: linear-gradient(135deg, #f5f5f5 0%, #fafafa 100%);
+    border-radius: 8px;
+    border-left: 5px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.price-breakdown:hover {
+    box-shadow: 0 4px 12px rgba(42, 109, 78, 0.1);
+    transform: translateY(-2px);
+}
+
+.price-breakdown div {
+    transition: all 0.3s ease;
+}
+
+/* ============ ANIMATION KEYFRAMES ============ */
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============ SMOOTH TRANSITIONS ============ */
+
+/* Apply smooth transitions to all interactive elements */
+button,
+input,
+select,
+textarea,
+a,
+.nav-link,
+.card,
+.service-card {
+    transition: var(--transition);
+}
+
+/* ============ MOBILE TOUCH IMPROVEMENTS ============ */
+
+@media (pointer: coarse) {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        min-height: 44px;
+        padding: 1rem;
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+
+    .btn-primary {
+        min-height: 48px;
+        min-width: 48px;
+    }
+
+    /* More spacing on mobile */
+    .form-group {
+        margin-bottom: 1.8rem;
+    }
+
+    .form-row {
+        gap: 1.2rem;
+    }
+}
+
+/* ============ FOCUS VISIBLE STYLES ============ */
+
+.form-group input:focus-visible,
+.form-group select:focus-visible,
+.form-group textarea:focus-visible,
+.btn-primary:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* ============ ICON STYLING IN LABELS ============ */
+
+.form-group label i {
+    margin-right: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus ~ label i,
+.form-group select:focus ~ label i,
+.form-group input:focus-within ~ label i,
+.form-group select:focus-within ~ label i {
+    transform: scale(1.2) rotate(5deg);
+}
+
+/* ============ LOADING STATE ============ */
+
+.btn-primary:disabled,
+.btn-primary[disabled] {
+    background-color: #999;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.btn-primary:disabled::after,
+.btn-primary[disabled]::after {
+    content: ' ⏳';
+}
+
+/* ============ FORM CARD STYLING ============ */
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.booking-form:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* ============ RESPONSIVE IMPROVEMENTS ============ */
+
+@media (max-width: 768px) {
+    .booking-form {
+        padding: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 0.85rem;
+    }
+
+    .btn-primary {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .booking-form {
+        padding: 1.2rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ============ SCROLL EFFECTS ============ */
+
+/* Enhanced scroll animations */
+[data-aos="fade-up"] {
+    animation: fadeInUp 0.6s ease both;
+}
+
+[data-aos="fade-left"] {
+    animation: fadeInLeft 0.6s ease both;
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ============ IMPROVED TRANSITIONS FOR LINKS ============ */
+
+a,
+.nav-link {
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+}
+
+a:hover,
+.nav-link:hover {
+    transform: translateY(-2px);
+}
+
+/* ============ FIELD ICON IMPROVEMENTS ============ */
+
+.form-group i {
+    color: var(--primary);
+    font-size: 1rem;
+}
+
+/* ============ SMOOTH VISIBILITY TRANSITIONS ============ */
+
+.form-group,
+#priceBreakdown,
+#errorMessage,
+#successMessage {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
