@@ -274,6 +274,42 @@ class EmailService {
       return { success: false, message: error.message };
     }
   }
+
+  /**
+   * Get email service status
+   */
+  getStatus() {
+    return {
+      enabled: this.enabled,
+      configured: this.transporter !== null,
+      fromEmail: this.fromEmail,
+      adminEmail: this.adminEmail,
+      message: this.enabled ? 'Email service is configured and ready' : 'Email service is not configured'
+    };
+  }
+
+  /**
+   * Send custom email
+   */
+  async sendCustomEmail(to, subject, htmlContent, message) {
+    if (!this.enabled) {
+      return { success: false, message: 'Email service is not configured' };
+    }
+
+    try {
+      const mailOptions = {
+        from: this.fromEmail,
+        to,
+        subject,
+        html: htmlContent || message || ''
+      };
+
+      return await this.sendEmail(mailOptions);
+    } catch (error) {
+      console.error('❌ Custom email send failed:', error.message);
+      return { success: false, error: error.message };
+    }
+  }
 }
 
 // Export singleton instance

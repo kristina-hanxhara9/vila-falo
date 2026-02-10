@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { adminLogin, getAdminDashboard } = require('../controllers/adminController');
 const authenticate = require('../middleware/authenticate');
+const RoomInventory = require('../models/RoomInventory');
+const bookingService = require('../services/bookingService');
 
 // GET route to serve login page
 router.get('/login', (req, res) => {
@@ -224,11 +226,11 @@ router.get('/dashboard', (req, res, next) => {
 router.get('/', (req, res, next) => {
     try {
         const token = req.cookies.jwt || req.headers.authorization?.split(' ')[1];
-        
+
         if (!token) {
             return res.redirect('/admin/login');
         }
-        
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
         req.user = decoded;
         next();
@@ -236,5 +238,196 @@ router.get('/', (req, res, next) => {
         return res.redirect('/admin/login');
     }
 }, getAdminDashboard);
+
+// ============ ROOM INVENTORY MANAGEMENT ENDPOINTS ============
+
+/**
+ * GET /api/admin/rooms
+ * Get all rooms
+ */
+router.get('/rooms', authenticate, async (req, res) => {
+    try {
+        const rooms = await bookingService.getAllRooms();
+        res.json({
+            success: true,
+            count: rooms.length,
+            rooms: rooms
+        });
+    } catch (error) {
+        console.error('Error fetching rooms:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch rooms'
+        });
+    }
+});
+
+/**
+ * GET /api/admin/rooms/:type
+ * Get room by type
+ */
+router.get('/rooms/:type', authenticate, async (req, res) => {
+    try {
+        const room = await bookingService.getRoomByType(req.params.type);
+        if (!room) {
+            return res.status(404).json({
+                success: false,
+                message: 'Room not found'
+            });
+        }
+        res.json({
+            success: true,
+            room: room
+        });
+    } catch (error) {
+        console.error('Error fetching room:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch room'
+        });
+    }
+});
+
+/**
+ * POST /api/admin/rooms
+ * Create new room type
+ */
+router.post('/rooms', authenticate, async (req, res) => {
+    try {
+        const { type, name, albanianName, description, totalRooms, capacity, minGuests, maxGuests, pricePerNight, amenities, imageUrl } = req.body;
+
+        // Validate required fields
+        if (!type || !name || !totalRooms || !capacity || !pricePerNight) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing required fields: type, name, totalRooms, capacity, pricePerNight'
+            });
+        }
+
+        // Create room
+        const room = new RoomInventory({
+            type,
+            name,
+            albanianName,
+            description,
+            totalRooms,
+            capacity,
+            minGuests: minGuests || 1,
+            maxGuests: maxGuests || capacity,
+            pricePerNight,
+            amenities: amenities || [],
+            imageUrl,
+            isActive: true
+        });
+
+        await room.save();
+
+        // Update booking service cache
+        await bookingService.initializeRoomCache();
+
+        res.status(201).json({
+            success: true,
+            message: 'Room type created successfully',
+            room: room
+        });
+    } catch (error) {
+        console.error('Error creating room:', error);
+        if (error.code === 11000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Room type already exists'
+            });
+        }
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+/**
+ * PUT /api/admin/rooms/:type
+ * Update room type
+ */
+router.put('/rooms/:type', authenticate, async (req, res) => {
+    try {
+        const { name, albanianName, description, totalRooms, capacity, minGuests, maxGuests, pricePerNight, amenities, imageUrl, isActive } = req.body;
+
+        const room = await RoomInventory.findOneAndUpdate(
+            { type: req.params.type },
+            {
+                name,
+                albanianName,
+                description,
+                totalRooms,
+                capacity,
+                minGuests,
+                maxGuests,
+                pricePerNight,
+                amenities,
+                imageUrl,
+                isActive
+            },
+            { new: true, runValidators: true }
+        );
+
+        if (!room) {
+            return res.status(404).json({
+                success: false,
+                message: 'Room not found'
+            });
+        }
+
+        // Update booking service cache
+        await bookingService.initializeRoomCache();
+
+        res.json({
+            success: true,
+            message: 'Room updated successfully',
+            room: room
+        });
+    } catch (error) {
+        console.error('Error updating room:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+/**
+ * DELETE /api/admin/rooms/:type
+ * Soft delete room (disable it)
+ */
+router.delete('/rooms/:type', authenticate, async (req, res) => {
+    try {
+        const room = await RoomInventory.findOneAndUpdate(
+            { type: req.params.type },
+            { isActive: false },
+            { new: true }
+        );
+
+        if (!room) {
+            return res.status(404).json({
+                success: false,
+                message: 'Room not found'
+            });
+        }
+
+        // Update booking service cache
+        await bookingService.initializeRoomCache();
+
+        res.json({
+            success: true,
+            message: 'Room disabled successfully'
+        });
+    } catch (error) {
+        console.error('Error deleting room:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+    }
+});
 
 module.exports = router;
