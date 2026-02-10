@@ -160,7 +160,7 @@ section {
 }
 
 .btn-outline {
-    background: transparent;
+    background: var(--white);
     border: 2px solid var(--secondary);
     color: var(--secondary);
 }
@@ -1177,7 +1177,7 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .restaurant-cta .btn-outline {
-    background: transparent;
+    background: var(--white);
     border: 2px solid #ffb300;
     color: #e65100;
     box-shadow: none;
@@ -4109,6 +4109,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-contact-buttons .btn-outline {
+    background: var(--white);
     border: 2px solid #ffc107;
     color: #ff8f00;
 }
