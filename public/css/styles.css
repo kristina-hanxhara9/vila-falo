@@ -118,7 +118,7 @@ section {
     display: inline-block;
     padding: 12px 28px;
     background: var(--secondary);
-    color: var(--white) !important; /* keep text visible even before hover */
+    color: var(--white);
     border: none;
     border-radius: 4px;
     font-weight: 600;
@@ -160,14 +160,14 @@ section {
 }
 
 .btn-outline {
-    background: var(--white);
-    border: 2px solid var(--secondary);
-    color: var(--secondary);
+    background: var(--white) !important;
+    border: 2px solid var(--secondary) !important;
+    color: var(--secondary) !important;
 }
 
 .btn-outline:hover {
-    background: var(--secondary);
-    color: var(--white);
+    background: var(--secondary) !important;
+    color: var(--white) !important;
 }
 
 .btn-primary {
@@ -595,7 +595,7 @@ body.scrolled .language-toggle:hover {
     right: -100%;
     width: 80%;
     height: 100vh;
-    background: var(--dark);
+    background: var(--primary);
     padding: 120px 30px 60px;
     transition: var(--transition);
     z-index: 99;
@@ -982,22 +982,7 @@ body.scrolled .language-toggle:hover {
     transform: scale(1.05);
 }
 
-.room-price {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: var(--secondary);
-    color: var(--white);
-    padding: 10px 15px;
-    border-radius: 30px;
-    font-weight: 600;
-    transition: var(--transition);
-}
-
-.room-card:hover .room-price {
-    background: var(--primary);
-    padding: 10px 20px;
-}
+/* Room price styling handled in rooms-enhanced.css */
 
 .room-content {
     padding: 1.5rem;
@@ -2355,12 +2340,7 @@ body.scrolled .language-toggle:hover {
     margin-bottom: 0.5rem;
 }
 
-.room-price {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--secondary);
-    margin-bottom: 0.5rem;
-}
+/* Room price badge styling handled in rooms-enhanced.css */
 
 .room-features {
     display: flex;
