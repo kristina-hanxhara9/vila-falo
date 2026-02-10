@@ -1351,6 +1351,7 @@ document.head.appendChild(calendarStyle);
         retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
         var honeyContainer = document.getElementById('honey-hover-container');
+        var restaurantContainer = document.getElementById('restaurant-hover-container');
 
         // If libraries didn't load yet, retry up to 5 times with delays
         if (typeof hoverEffect === 'undefined' || typeof THREE === 'undefined' || typeof TweenMax === 'undefined') {
@@ -1362,12 +1363,13 @@ document.head.appendChild(calendarStyle);
             console.warn('Hover-effect dependencies missing after retries: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
             showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
             showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
+            showFallbackImage(restaurantContainer, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
             return;
         }
 
         var displacementImg = '/images/13.jpg';
 
-        // About section hover effect (summer ↔ winter)
+        // About section hover effect (summer ↔ winter) - both 960x960
         if (aboutContainer && !aboutContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
@@ -1386,7 +1388,26 @@ document.head.appendChild(calendarStyle);
             }
         }
 
-        // Honey section hover effect (honey jar ↔ honey yogurt)
+        // Restaurant section hover effect (restaurant-love ↔ lakror) - both 960x720
+        if (restaurantContainer && !restaurantContainer.querySelector('canvas')) {
+            try {
+                new hoverEffect({
+                    parent: restaurantContainer,
+                    intensity: 0.25,
+                    image1: '/images/restaurant-love.jpg',
+                    image2: '/images/lakror.jpg',
+                    displacementImage: displacementImg,
+                    speedIn: 1.4,
+                    speedOut: 1.0
+                });
+                console.log('Restaurant hover effect initialized successfully');
+            } catch (e) {
+                console.warn('Restaurant hover effect failed:', e);
+                showFallbackImage(restaurantContainer, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
+            }
+        }
+
+        // Honey section hover effect (honey jar ↔ honey yogurt) - both 960x1280
         if (honeyContainer && !honeyContainer.querySelector('canvas')) {
             try {
                 new hoverEffect({
@@ -1409,8 +1430,12 @@ document.head.appendChild(calendarStyle);
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
             var honey = document.getElementById('honey-hover-container');
+            var restaurant = document.getElementById('restaurant-hover-container');
             if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
                 showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
+            }
+            if (restaurant && !restaurant.querySelector('canvas') && !restaurant.querySelector('img')) {
+                showFallbackImage(restaurant, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
             }
             if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
                 showFallbackImage(honey, '/images/mjalte.jpg', 'Mountain Honey');
@@ -1420,3 +1445,214 @@ document.head.appendChild(calendarStyle);
 
     // Initialize new features - use slight delay to let external libs finish loading
     setTimeout(function() { initHoverEffects(0); }, 100);
+
+    // ============ GSAP SCROLL ANIMATIONS ============
+    function initGSAPAnimations() {
+        if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+            console.warn('GSAP or ScrollTrigger not available for scroll animations');
+            // Fallback: make gallery items visible
+            document.querySelectorAll('.luxury-gallery-item').forEach(function(item) {
+                item.style.opacity = '1';
+            });
+            return;
+        }
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- Luxury Gallery: Staggered Reveal + Parallax ---
+        var galleryItems = document.querySelectorAll('.luxury-gallery-item');
+        galleryItems.forEach(function(item) {
+            var speed = parseFloat(item.getAttribute('data-speed')) || 0;
+            var imgWrapper = item.querySelector('.luxury-img-wrapper');
+            var img = item.querySelector('.luxury-img');
+
+            // Clip-path reveal on scroll
+            gsap.fromTo(item,
+                { opacity: 0, y: 60 },
+                {
+                    opacity: 1, y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+
+            // Image reveal with clipPath
+            if (imgWrapper) {
+                gsap.fromTo(imgWrapper,
+                    { clipPath: 'inset(15% 0% 15% 0%)' },
+                    {
+                        clipPath: 'inset(0% 0% 0% 0%)',
+                        duration: 1.2,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+
+            // Parallax: image moves at different speed inside its container
+            if (img && speed !== 0) {
+                gsap.to(img, {
+                    yPercent: speed * 100,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1
+                    }
+                });
+            }
+
+            // Inner zoom reveal
+            if (img) {
+                gsap.fromTo(img,
+                    { scale: 1.2 },
+                    {
+                        scale: 1,
+                        duration: 1.5,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+        });
+
+        // --- Section titles: slide up + fade ---
+        document.querySelectorAll('.section-title h2').forEach(function(h2) {
+            gsap.fromTo(h2,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: h2,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        document.querySelectorAll('.section-title p').forEach(function(p) {
+            gsap.fromTo(p,
+                { y: 25, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    delay: 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: p,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // --- Service cards: staggered entrance ---
+        var serviceCards = document.querySelectorAll('.service-card');
+        if (serviceCards.length) {
+            gsap.fromTo(serviceCards,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.services-grid',
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Room cards: staggered entrance ---
+        var roomCards = document.querySelectorAll('.room-card');
+        if (roomCards.length) {
+            gsap.fromTo(roomCards,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    stagger: 0.15,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.rooms-grid',
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Testimonial cards: slide in ---
+        var testimonials = document.querySelectorAll('.testimonial-card');
+        if (testimonials.length) {
+            gsap.fromTo(testimonials,
+                { y: 30, opacity: 0, scale: 0.95 },
+                {
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: testimonials[0].parentElement,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking section: slide up ---
+        var bookingForm = document.querySelector('.booking-form');
+        if (bookingForm) {
+            gsap.fromTo(bookingForm,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: bookingForm,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Parallax on hero background ---
+        var heroSection = document.querySelector('.hero');
+        if (heroSection) {
+            gsap.to(heroSection, {
+                backgroundPositionY: '30%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: heroSection,
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: 1
+                }
+            });
+        }
+    }
+
+    // Init GSAP animations after a small delay
+    setTimeout(initGSAPAnimations, 200);
