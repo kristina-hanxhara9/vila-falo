@@ -1204,7 +1204,7 @@ body.scrolled .language-toggle:hover {
 .restaurant-container {
     display: flex;
     gap: 3rem;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .restaurant-content {
@@ -1352,17 +1352,26 @@ body.scrolled .language-toggle:hover {
 }
 
 .image-grid {
-    position: absolute;
-    bottom: -30px;
-    right: -30px;
+    position: relative;
+    bottom: auto;
+    right: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    margin-top: 12px;
+}
+
+.restaurant-cta-right {
+    margin-top: 1.2rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .food-image, .dining-image {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 140px;
     object-fit: cover;
     border-radius: 8px;
     box-shadow: var(--shadow);
@@ -1941,15 +1950,15 @@ body.scrolled .language-toggle:hover {
 
 .booking-form {
     flex: 1;
-    background: var(--light);
-    padding: 3rem;
+    background: linear-gradient(180deg, #f0f9f4 0%, #f8faf9 100%);
+    padding: 2.5rem;
     border-radius: 15px;
     box-shadow: var(--shadow-strong);
     transition: var(--transition);
     position: relative;
     z-index: 1;
     overflow: hidden;
-    border: 1px solid rgba(217, 165, 102, 0.1);
+    border: 1.5px solid rgba(42, 109, 78, 0.15);
 }
 
 .booking-form::before {
@@ -2452,17 +2461,17 @@ body.scrolled .language-toggle:hover {
 }
 
 form .form-group {
-    margin-bottom: 1.8rem;
+    margin-bottom: 1rem;
     position: relative;
 }
 
 form label {
     display: block;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.4rem;
     font-weight: 500;
     color: var(--dark);
     transition: var(--transition);
-    font-size: 1.05rem;
+    font-size: 1rem;
 }
 
 form .form-group:focus-within label {
@@ -2474,20 +2483,20 @@ form input,
 form select,
 form textarea {
     width: 100%;
-    padding: 14px 16px;
-    border: 2px solid rgba(0, 0, 0, 0.07);
+    padding: 10px 14px;
+    border: 2px solid rgba(42, 109, 78, 0.12);
     border-radius: 8px;
     font-family: inherit;
     font-size: 1rem;
     transition: var(--transition);
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.95);
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 form input:hover,
 form select:hover,
 form textarea:hover {
-    border-color: rgba(217, 165, 102, 0.3);
+    border-color: rgba(42, 109, 78, 0.3);
 }
 
 form input:focus,
@@ -4604,5 +4613,46 @@ button[type="submit"]:disabled:hover {
     .about-hover-img,
     .honey-hover-img {
         min-height: 250px;
+    }
+}
+
+/* ============ WHATSAPP FLOATING BUTTON ============ */
+.whatsapp-float {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    transition: all 0.3s ease;
+    z-index: 999;
+    text-decoration: none;
+}
+
+.whatsapp-float:hover {
+    background: #128C7E;
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    color: white;
+}
+
+.whatsapp-float i {
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .whatsapp-float {
+        bottom: 80px;
+        left: 15px;
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
     }
 }
