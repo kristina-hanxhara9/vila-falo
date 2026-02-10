@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/hero-mobile-fixes.css">
     <link rel="stylesheet" href="/css/booking-improvements.css">
     <link rel="stylesheet" href="/css/price-summary.css">
+    <link rel="stylesheet" href="/css/enhancements.css">
 </head>
 <body>
     <!-- Mountain Loader -->
@@ -779,67 +780,87 @@
                     </div>
                 </div>
                 <div class="booking-form" data-aos="fade-left" data-aos-delay="150">
-                    <form id="bookingForm" action="/api/booking" method="POST">
+                    <div id="errorMessage"></div>
+                    <div id="successMessage"></div>
+                    <form id="bookingForm" data-form="booking" method="POST">
                         <div class="form-group">
-                            <label for="roomType" data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës">Select Room Type</label>
+                            <label for="roomType" data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës">
+                                <i class="fas fa-door-open" style="margin-right: 8px; color: #2c5f2d;"></i>Select Room Type
+                            </label>
                             <select id="roomType" name="roomType" required>
                                 <option value="" data-en="-- Select Room --" data-al="-- Zgjidhni Dhomën --">-- Select Room --</option>
-                                <option value="Standard Mountain Room" data-en="Standard Mountain Room" data-al="Dhomë Standard Malore">Standard Mountain Room</option>
-                                <option value="Deluxe Family Suite" data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe">Deluxe Family Suite</option>
-                                <option value="Premium Panorama Suite" data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike">Premium Panorama Suite</option>
+                                <option value="Standard" data-en="Standard Mountain Room" data-al="Dhomë Standard Malore">🏔️ Standard Mountain Room - 5000 ALL/night</option>
+                                <option value="Deluxe" data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe">👨‍👩‍👧‍👦 Deluxe Family Suite - 6000 ALL/night</option>
+                                <option value="Premium" data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike">👑 Premium Panorama Suite - 7000 ALL/night</option>
                             </select>
                             <div class="error-message" data-en="Please select a room type" data-al="Ju lutemi zgjidhni një lloj dhome">Please select a room type</div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="checkIn" data-en="Check-in Date" data-al="Data e Check-in">Check-in Date</label>
-                                <input type="date" id="checkIn" name="checkIn" required>
+                                <label for="checkInDate" data-en="Check-in Date" data-al="Data e Check-in">
+                                    <i class="fas fa-calendar-check" style="margin-right: 8px; color: #2c5f2d;"></i>Check-in Date
+                                </label>
+                                <input type="date" id="checkInDate" name="checkInDate" required>
                                 <div class="error-message" data-en="Please select a check-in date" data-al="Ju lutemi zgjidhni një datë check-in">Please select a check-in date</div>
                             </div>
                             <div class="form-group">
-                                <label for="checkOut" data-en="Check-out Date" data-al="Data e Check-out">Check-out Date</label>
-                                <input type="date" id="checkOut" name="checkOut" required>
+                                <label for="checkOutDate" data-en="Check-out Date" data-al="Data e Check-out">
+                                    <i class="fas fa-calendar-times" style="margin-right: 8px; color: #2c5f2d;"></i>Check-out Date
+                                </label>
+                                <input type="date" id="checkOutDate" name="checkOutDate" required>
                                 <div class="error-message" data-en="Please select a check-out date" data-al="Ju lutemi zgjidhni një datë check-out">Please select a check-out date</div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="adults" data-en="Adults" data-al="Të Rritur">Adults</label>
-                                <select id="adults" name="adults" required>
+                                <label for="numberOfGuests" data-en="Number of Guests" data-al="Numri i Mysafirëve">
+                                    <i class="fas fa-users" style="margin-right: 8px; color: #2c5f2d;"></i>Number of Guests
+                                </label>
+                                <select id="numberOfGuests" name="numberOfGuests" required>
                                     <option value="1">1</option>
                                     <option value="2" selected>2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
+                                    <option value="5">5</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="children" data-en="Children" data-al="Fëmijë">Children</label>
-                                <select id="children" name="children">
-                                    <option value="0" selected>0</option>
-                                    <option value="1">1</option>
+                                <label for="roomsBooked" data-en="Number of Rooms" data-al="Numri i Dhomave">
+                                    <i class="fas fa-key" style="margin-right: 8px; color: #2c5f2d;"></i>Number of Rooms
+                                </label>
+                                <select id="roomsBooked" name="roomsBooked" required>
+                                    <option value="1" selected>1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="name" data-en="Full Name" data-al="Emri i Plotë">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Your name" required>
+                            <label for="guestName" data-en="Full Name" data-al="Emri i Plotë">
+                                <i class="fas fa-user" style="margin-right: 8px; color: #2c5f2d;"></i>Full Name
+                            </label>
+                            <input type="text" id="guestName" name="guestName" placeholder="Your name" required>
                             <div class="error-message" data-en="Please enter your name" data-al="Ju lutemi shkruani emrin tuaj">Please enter your name</div>
                         </div>
                         <div class="form-group">
-                            <label for="email" data-en="Email Address" data-al="Adresa e Emailit">Email Address</label>
+                            <label for="email" data-en="Email Address" data-al="Adresa e Emailit">
+                                <i class="fas fa-envelope" style="margin-right: 8px; color: #2c5f2d;"></i>Email Address
+                            </label>
                             <input type="email" id="email" name="email" placeholder="Your email" required>
                             <div class="error-message" data-en="Please enter a valid email address" data-al="Ju lutemi shkruani një adresë emaili të vlefshme">Please enter a valid email address</div>
                         </div>
                         <div class="form-group">
-                            <label for="phone" data-en="Phone Number" data-al="Numri i Telefonit">Phone Number</label>
+                            <label for="phone" data-en="Phone Number" data-al="Numri i Telefonit">
+                                <i class="fas fa-phone" style="margin-right: 8px; color: #2c5f2d;"></i>Phone Number
+                            </label>
                             <input type="tel" id="phone" name="phone" placeholder="Your phone number" required>
                             <div class="error-message" data-en="Please enter your phone number" data-al="Ju lutemi shkruani numrin tuaj të telefonit">Please enter your phone number</div>
                         </div>
                         <div class="form-group">
-                            <label for="special" data-en="Special Requests (Optional)" data-al="Kërkesa të Veçanta (Opsionale)">Special Requests (Optional)</label>
-                            <textarea id="special" name="special" rows="3" placeholder="Any special requests?"></textarea>
+                            <label for="specialRequests" data-en="Special Requests (Optional)" data-al="Kërkesa të Veçanta (Opsionale)">
+                                <i class="fas fa-sticky-note" style="margin-right: 8px; color: #2c5f2d;"></i>Special Requests (Optional)
+                            </label>
+                            <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Any special requests?"></textarea>
                         </div>
                         
                         <!-- Food & Beverage Add-ons -->
@@ -870,36 +891,9 @@
                             </div>
                         </div>
 
-                        <div id="priceSummary" class="price-summary" style="display:none" data-aos="fade-up" data-aos-delay="50">
-                            <h4 data-en="Price Summary" data-al="Përmbledhje Çmimi">Price Summary</h4>
-                            <div class="price-row">
-                                <span data-en="Room" data-al="Dhoma">Room</span>
-                                <span id="summaryRoomType">-</span>
-                            </div>
-                            <div class="price-row">
-                                <span data-en="Nights" data-al="Net">Nights</span>
-                                <span id="summaryNights">-</span>
-                            </div>
-                            <div class="price-row">
-                                <span data-en="Price per Night" data-al="Çmimi për Natë">Price per Night</span>
-                                <span id="summaryPricePerNight">-</span>
-                            </div>
-                            <div class="price-row">
-                                <span data-en="Deposit (50%)" data-al="Depozita (50%)">Deposit (50%)</span>
-                                <span id="summaryDeposit">-</span>
-                            </div>
-                            <div class="price-row">
-                                <span data-en="On Arrival (50%)" data-al="Në Mbërritje (50%)">On Arrival (50%)</span>
-                                <span id="summaryArrival">-</span>
-                            </div>
-                            <div class="price-row total">
-                                <span data-en="Total" data-al="Totali">Total</span>
-                                <span id="summaryTotalPrice">-</span>
-                            </div>
-                            <div class="price-note" data-en="Prices include traditional Albanian breakfast" data-al="Çmimet përfshijnë mengjesin tradicional shqiptar">Prices include traditional Albanian breakfast</div>
-                        </div>
-                        
-                        <button class="btn btn-primary full-width" type="submit" data-en="Book Your Mountain Escape" data-al="Rezervo Aventurën Tënde Malore">Book Your Mountain Escape</button>
+                        <div id="priceBreakdown" data-price-display style="display:none" data-aos="fade-up" data-aos-delay="50"></div>
+
+                        <button class="btn btn-primary full-width" type="submit" style="transition: all 0.3s ease; transform: translateY(0);" data-en="Book Your Mountain Escape" data-al="Rezervo Aventurën Tënde Malore">Book Your Mountain Escape</button>
                     </form>
                 </div>
             </div>
@@ -1237,11 +1231,21 @@
     <!-- Chatbot Widget -->
     <link rel="stylesheet" href="/css/chatbot.css">
     <script src="/js/chatbot.js"></script>
-    
+
+    <!-- Centralized Booking Configuration and Handlers -->
+    <script src="/config/rooms.js"></script>
+    <script src="/js/priceCalculator.js"></script>
+    <script src="/js/bookingFormHandler.js"></script>
+
+    <!-- Initialize booking form handler -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            window.BookingFormHandler.init('#bookingForm');
+            console.log('✅ Booking form handler initialized on page load');
+        });
+    </script>
+
     <!-- IMMEDIATE FIXES SCRIPT - Load immediately -->
     <script src="/js/immediate-fixes.js"></script>
-    
-    <!-- FIXED BOOKING FORM HANDLER -->
-    <script src="/js/booking-form-fix.js"></script>
 </body>
 </html>
