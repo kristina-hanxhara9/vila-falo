@@ -1866,40 +1866,6 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Overlap scroll reveal: Location pinned, CTA slides over it ---
-        var overlapSections = document.querySelectorAll('.overlap-section');
-        if (overlapSections.length > 1) {
-            overlapSections.forEach(function(section, i) {
-                if (i < overlapSections.length - 1) {
-                    // Pin each section except the last, so the next one scrolls over it
-                    ScrollTrigger.create({
-                        trigger: section,
-                        start: 'top top',
-                        end: function() {
-                            // Pin until the next section fully covers this one
-                            return '+=' + section.offsetHeight;
-                        },
-                        pin: true,
-                        pinSpacing: false,
-                        anticipatePin: 1
-                    });
-
-                    // Scale down slightly and dim the pinned section as next one overlaps
-                    gsap.to(section, {
-                        scale: 0.95,
-                        opacity: 0.6,
-                        filter: 'brightness(0.7)',
-                        ease: 'none',
-                        scrollTrigger: {
-                            trigger: overlapSections[i + 1],
-                            start: 'top bottom',
-                            end: 'top 10%',
-                            scrub: true
-                        }
-                    });
-                }
-            });
-        }
     }
 
     // Init GSAP animations after a small delay
