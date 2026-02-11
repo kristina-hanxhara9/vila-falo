@@ -928,112 +928,15 @@ body.scrolled .language-toggle:hover {
 
 /* Rooms Section */
 .rooms {
-    background: #f8f9fa;
+    background: linear-gradient(to right, rgba(30, 45, 50, 0.85), rgba(30, 45, 50, 0.75)),
+                url('/images/outside-main.jpg') center/cover no-repeat fixed;
     position: relative;
     overflow: hidden;
 }
 
-.rooms::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 300px;
-    background: rgba(42, 109, 78, 0.05);
-    border-radius: 50%;
-    transform: translate(150px, -150px);
-}
-
-.rooms-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.room-card {
-    background: var(--white);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    position: relative;
-}
-
-.room-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-strong);
-}
-
-.room-img {
-    height: 250px;
-    position: relative;
-    overflow: hidden;
-}
-
-.room-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.8s ease;
-}
-
-.room-card:hover .room-img img {
-    transform: scale(1.05);
-}
-
-/* Room price styling handled in rooms-enhanced.css */
-
-.room-content {
-    padding: 1.5rem;
-}
-
-.room-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--dark);
-    position: relative;
-    display: inline-block;
-}
-
-.room-content h3::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--secondary);
-    transition: var(--transition);
-}
-
-.room-card:hover .room-content h3::after {
-    width: 100%;
-}
-
-.room-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.room-feature {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--text-light);
-    font-size: 0.9rem;
-    transition: var(--transition);
-}
-
-.room-card:hover .room-feature {
-    color: var(--primary);
-}
-
-.room-btns {
-    display: flex;
-    justify-content: space-between;
+.rooms .section-title h2,
+.rooms .section-title p {
+    color: #fff;
 }
 
 /* Restaurant Section */
