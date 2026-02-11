@@ -123,6 +123,29 @@ const connectDB = async () => {
             maxPoolSize: 10
         });
         console.log('✅ MongoDB Connected');
+
+        // Seed admin user on startup
+        try {
+            const bcrypt = require('bcryptjs');
+            const User = require('./models/users');
+            const adminEmail = 'vilafalo@gmail.com';
+            const adminPassword = process.env.ADMIN_PASSWORD || 'VF@admin2025';
+
+            const existing = await User.findOne({ email: adminEmail });
+            if (!existing) {
+                const hash = await bcrypt.hash(adminPassword, 10);
+                await User.create({ name: 'Admin', email: adminEmail, password: hash });
+                console.log('✅ Admin user created');
+            } else {
+                // Update password to ensure it matches
+                const hash = await bcrypt.hash(adminPassword, 10);
+                await User.updateOne({ email: adminEmail }, { $set: { password: hash } });
+                console.log('✅ Admin user password synced');
+            }
+        } catch (seedErr) {
+            console.log('⚠️ Admin seed skipped:', seedErr.message);
+        }
+
     } catch (error) {
         console.error('❌ MongoDB Error:', error.message);
         // Don't crash in production, just log the error
