@@ -370,12 +370,18 @@
             margin-left: 4px;
         }
 
-        /* Capacity & Stats Grid */
-        .capacity-stats {
+        /* Capacity & Stats Grid - merged with room columns */
+        .room-columns {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--spacing-sm);
+            gap: var(--spacing-md);
             padding: var(--spacing-md) var(--spacing-lg);
+        }
+
+        .room-column {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
         }
 
         .stats-card {
@@ -446,6 +452,12 @@
             margin-top: 4px;
         }
 
+        .room-cards {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
         /* View Containers */
         .view-container {
             display: none;
@@ -457,48 +469,8 @@
 
         /* Room List View */
         .room-list {
-            padding: 0 var(--spacing-lg);
+            padding: 0;
             margin-bottom: var(--spacing-xl);
-        }
-
-        .room-category {
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .category-title {
-            font-size: var(--font-size-sm);
-            text-transform: uppercase;
-            color: var(--text-medium);
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            gap: var(--spacing-sm);
-        }
-
-        .category-marker {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .marker-dopio {
-            background-color: var(--dopio-color);
-        }
-
-        .marker-triple {
-            background-color: var(--triple-color);
-        }
-
-        .marker-suite {
-            background-color: var(--suite-color);
-        }
-
-        .room-cards {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: var(--spacing-sm);
         }
 
         .room-card {
@@ -963,7 +935,7 @@
                 padding: var(--spacing-sm) var(--spacing-md);
             }
 
-            .capacity-stats {
+            .room-columns {
                 grid-template-columns: 1fr;
                 padding: var(--spacing-sm) var(--spacing-md);
             }
@@ -986,7 +958,7 @@
                 margin-bottom: var(--spacing-md);
             }
 
-            .room-list, .bookings-list {
+            .bookings-list {
                 padding: 0 var(--spacing-md);
             }
         }
@@ -1032,12 +1004,12 @@
                 max-width: 400px;
             }
 
-            .capacity-stats {
+            .room-columns {
                 padding-left: var(--spacing-xl);
                 padding-right: var(--spacing-xl);
             }
 
-            .room-list, .bookings-list {
+            .bookings-list {
                 padding-left: var(--spacing-xl);
                 padding-right: var(--spacing-xl);
             }
@@ -1047,10 +1019,6 @@
                 padding-right: var(--spacing-xl);
             }
 
-            .room-cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .floating-btn {
                 bottom: var(--spacing-xl);
                 right: var(--spacing-xl);
@@ -1058,10 +1026,6 @@
         }
 
         @media screen and (min-width: 1024px) {
-            .room-cards {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
             .dashboard-overview {
                 max-width: 700px;
             }
@@ -1159,64 +1123,48 @@
             <div class="section-divider-title">Disponueshmeria e Dhomave - <span id="stats-date-label">Sot</span></div>
         </div>
 
-        <!-- Room Stats Cards -->
-        <div class="capacity-stats">
-            <div class="stats-card card-standard">
-                <div class="stats-title">Standard</div>
-                <div class="stats-value">0 <span class="stats-fraction">/ 5</span></div>
-                <div class="progress-bar">
-                    <div class="progress-value progress-dopio" style="width: 0%"></div>
-                </div>
-                <div class="stats-capacity">2-3 persona/dhome</div>
-            </div>
-            <div class="stats-card card-deluxe">
-                <div class="stats-title">Deluxe</div>
-                <div class="stats-value">0 <span class="stats-fraction">/ 4</span></div>
-                <div class="progress-bar">
-                    <div class="progress-value progress-triple" style="width: 0%"></div>
-                </div>
-                <div class="stats-capacity">3-4 persona/dhome</div>
-            </div>
-            <div class="stats-card card-suite">
-                <div class="stats-title">Suite</div>
-                <div class="stats-value">0 <span class="stats-fraction">/ 3</span></div>
-                <div class="progress-bar">
-                    <div class="progress-value progress-suite" style="width: 0%"></div>
-                </div>
-                <div class="stats-capacity">4-5 persona/dhome</div>
-            </div>
-        </div>
-
-        <!-- Room List View -->
+        <!-- Room Columns: Stats + Room Cards per type -->
         <div class="view-container active" id="rooms-view">
-            <div class="room-list" id="room-list">
-                <!-- Standard Rooms -->
-                <div class="room-category">
-                    <div class="category-title">
-                        <div class="category-marker marker-dopio"></div>
-                        Dhoma Standard
+            <div class="room-columns" id="room-list">
+                <!-- Standard Column -->
+                <div class="room-column">
+                    <div class="stats-card card-standard">
+                        <div class="stats-title">Standard</div>
+                        <div class="stats-value">0 <span class="stats-fraction">/ 5</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-dopio" style="width: 0%"></div>
+                        </div>
+                        <div class="stats-capacity">2-3 persona/dhome</div>
                     </div>
                     <div class="room-cards" id="standard-rooms">
                         <!-- Will be populated by JS -->
                     </div>
                 </div>
 
-                <!-- Deluxe Rooms -->
-                <div class="room-category">
-                    <div class="category-title">
-                        <div class="category-marker marker-triple"></div>
-                        Dhoma Deluxe
+                <!-- Deluxe Column -->
+                <div class="room-column">
+                    <div class="stats-card card-deluxe">
+                        <div class="stats-title">Deluxe</div>
+                        <div class="stats-value">0 <span class="stats-fraction">/ 4</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-triple" style="width: 0%"></div>
+                        </div>
+                        <div class="stats-capacity">3-4 persona/dhome</div>
                     </div>
                     <div class="room-cards" id="deluxe-rooms">
                         <!-- Will be populated by JS -->
                     </div>
                 </div>
 
-                <!-- Suite Rooms -->
-                <div class="room-category">
-                    <div class="category-title">
-                        <div class="category-marker marker-suite"></div>
-                        Suite
+                <!-- Suite Column -->
+                <div class="room-column">
+                    <div class="stats-card card-suite">
+                        <div class="stats-title">Suite</div>
+                        <div class="stats-value">0 <span class="stats-fraction">/ 3</span></div>
+                        <div class="progress-bar">
+                            <div class="progress-value progress-suite" style="width: 0%"></div>
+                        </div>
+                        <div class="stats-capacity">4-5 persona/dhome</div>
                     </div>
                     <div class="room-cards" id="suite-rooms">
                         <!-- Will be populated by JS -->
