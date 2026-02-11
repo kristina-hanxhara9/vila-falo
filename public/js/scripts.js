@@ -1351,6 +1351,7 @@ document.head.appendChild(calendarStyle);
     function initHoverEffects(retryCount) {
         retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
+        var honeyContainer = document.getElementById('honey-hover-container');
         var restaurantContainer = document.getElementById('restaurant-hover-container');
 
         // If libraries didn't load yet, retry up to 5 times with delays
@@ -1407,12 +1408,35 @@ document.head.appendChild(calendarStyle);
             }
         }
 
+        // Honey section hover effect (advertising ↔ honey jar)
+        if (honeyContainer && !honeyContainer.querySelector('canvas')) {
+            try {
+                new hoverEffect({
+                    parent: honeyContainer,
+                    intensity: 0.3,
+                    image1: '/images/mjalti-advertising.png',
+                    image2: '/images/mjalte.jpg',
+                    displacementImage: displacementImg,
+                    speedIn: 1.6,
+                    speedOut: 1.2
+                });
+                console.log('Honey hover effect initialized successfully');
+            } catch (e) {
+                console.warn('Honey hover effect failed:', e);
+                showFallbackImage(honeyContainer, '/images/mjalti-advertising.png', 'Mountain Honey');
+            }
+        }
+
         // Timeout fallback: if after 5 seconds containers are still empty, show static images
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
+            var honey = document.getElementById('honey-hover-container');
             var restaurant = document.getElementById('restaurant-hover-container');
             if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
                 showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
+            }
+            if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
+                showFallbackImage(honey, '/images/mjalti-advertising.png', 'Mountain Honey');
             }
             if (restaurant && !restaurant.querySelector('canvas') && !restaurant.querySelector('img')) {
                 showFallbackImage(restaurant, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
@@ -1465,35 +1489,70 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- Service cards: staggered entrance ---
-        var serviceCards = document.querySelectorAll('.service-card');
-        if (serviceCards.length) {
-            gsap.fromTo(serviceCards,
-                { y: 50, opacity: 0 },
+        // --- About section: content slide in from left, image from right ---
+        var aboutText = document.querySelector('.about-text');
+        if (aboutText) {
+            gsap.fromTo(aboutText,
+                { x: -60, opacity: 0 },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.6,
-                    stagger: 0.12,
-                    ease: 'power2.out',
+                    x: 0, opacity: 1,
+                    duration: 1,
+                    ease: 'power3.out',
                     scrollTrigger: {
-                        trigger: '.services-grid',
-                        start: 'top 85%',
+                        trigger: '.about-content',
+                        start: 'top 80%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Room cards: staggered entrance ---
+        var aboutImg = document.querySelector('.about-hover-img');
+        if (aboutImg) {
+            gsap.fromTo(aboutImg,
+                { x: 60, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.about-content',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- About features: staggered pop-in ---
+        var aboutFeatures = document.querySelectorAll('.feature-item');
+        if (aboutFeatures.length) {
+            gsap.fromTo(aboutFeatures,
+                { y: 30, opacity: 0, scale: 0.9 },
+                {
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: 'back.out(1.4)',
+                    scrollTrigger: {
+                        trigger: '.about-features',
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Room cards: staggered scale + slide ---
         var roomCards = document.querySelectorAll('.room-card');
         if (roomCards.length) {
             gsap.fromTo(roomCards,
-                { y: 40, opacity: 0 },
+                { y: 60, opacity: 0, scale: 0.92 },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.7,
-                    stagger: 0.15,
-                    ease: 'power2.out',
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.8,
+                    stagger: 0.18,
+                    ease: 'power3.out',
                     scrollTrigger: {
                         trigger: '.rooms-grid',
                         start: 'top 85%',
@@ -1503,18 +1562,110 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Testimonial cards: slide in ---
-        var testimonials = document.querySelectorAll('.testimonial-card');
-        if (testimonials.length) {
-            gsap.fromTo(testimonials,
-                { y: 30, opacity: 0, scale: 0.95 },
+        // --- Room images: subtle parallax within cards ---
+        document.querySelectorAll('.room-img img').forEach(function(img) {
+            gsap.fromTo(img,
+                { yPercent: -5 },
                 {
-                    y: 0, opacity: 1, scale: 1,
-                    duration: 0.6,
+                    yPercent: 5,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: img.closest('.room-card'),
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1.5
+                    }
+                }
+            );
+        });
+
+        // --- Service cards v2: alternating slide with stagger ---
+        var serviceCardsV2 = document.querySelectorAll('.service-card-v2');
+        if (serviceCardsV2.length) {
+            serviceCardsV2.forEach(function(card, i) {
+                var fromY = i % 2 === 0 ? -50 : 50;
+                gsap.fromTo(card,
+                    { y: fromY, opacity: 0, scale: 0.9 },
+                    {
+                        y: 0, opacity: 1, scale: 1,
+                        duration: 0.8,
+                        delay: i * 0.12,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: '.services-grid-v2',
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+        }
+
+        // --- Restaurant section: content + image slide ---
+        var restaurantContent = document.querySelector('#restaurant .restaurant-content');
+        if (restaurantContent) {
+            gsap.fromTo(restaurantContent,
+                { x: -50, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '#restaurant .restaurant-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Honey section: content + image slide ---
+        var honeyContent = document.querySelector('#honey .restaurant-content');
+        if (honeyContent) {
+            gsap.fromTo(honeyContent,
+                { x: -50, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '#honey .restaurant-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        var honeyRight = document.querySelector('.honey-right-col');
+        if (honeyRight) {
+            gsap.fromTo(honeyRight,
+                { x: 50, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '#honey .restaurant-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Food fan cards: staggered fan entrance ---
+        var foodCards = document.querySelectorAll('.food-fan-card');
+        if (foodCards.length) {
+            gsap.fromTo(foodCards,
+                { y: 40, opacity: 0, rotationY: 15 },
+                {
+                    y: 0, opacity: 1, rotationY: 0,
+                    duration: 0.7,
                     stagger: 0.1,
                     ease: 'power2.out',
                     scrollTrigger: {
-                        trigger: testimonials[0].parentElement,
+                        trigger: '.food-fan-track',
                         start: 'top 85%',
                         toggleActions: 'play none none none'
                     }
@@ -1522,17 +1673,126 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Booking section: slide up ---
+        // --- Gallery marquee: fade + slide up ---
+        var marquee = document.querySelector('.gallery-marquee');
+        if (marquee) {
+            gsap.fromTo(marquee,
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: marquee,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Review cards track: slide in ---
+        var reviewTrack = document.querySelector('.reviews-track');
+        if (reviewTrack) {
+            gsap.fromTo(reviewTrack,
+                { x: 80, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: reviewTrack,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking section: form slides up, info slides left ---
+        var bookingInfo = document.querySelector('.booking-info');
+        if (bookingInfo) {
+            gsap.fromTo(bookingInfo,
+                { x: -50, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.booking-container',
+                        start: 'top 82%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
         var bookingForm = document.querySelector('.booking-form');
         if (bookingForm) {
             gsap.fromTo(bookingForm,
                 { y: 50, opacity: 0 },
                 {
                     y: 0, opacity: 1,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.booking-container',
+                        start: 'top 82%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Location section: map frame scale in ---
+        var mapFrame = document.querySelector('.map-frame');
+        if (mapFrame) {
+            gsap.fromTo(mapFrame,
+                { scale: 0.9, opacity: 0 },
+                {
+                    scale: 1, opacity: 1,
                     duration: 0.8,
                     ease: 'power2.out',
                     scrollTrigger: {
-                        trigger: bookingForm,
+                        trigger: mapFrame,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Contact items: staggered slide ---
+        var contactItems = document.querySelectorAll('.contact-item');
+        if (contactItems.length) {
+            gsap.fromTo(contactItems,
+                { x: -30, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: contactItems[0].parentElement,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Season cards: stagger pop ---
+        var seasonCards = document.querySelectorAll('.season-card');
+        if (seasonCards.length) {
+            gsap.fromTo(seasonCards,
+                { y: 30, opacity: 0, scale: 0.9 },
+                {
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.5,
+                    stagger: 0.12,
+                    ease: 'back.out(1.3)',
+                    scrollTrigger: {
+                        trigger: '.seasons-grid',
                         start: 'top 88%',
                         toggleActions: 'play none none none'
                     }
@@ -1553,6 +1813,57 @@ document.head.appendChild(calendarStyle);
                     scrub: 1
                 }
             });
+        }
+
+        // --- Rooms section background parallax ---
+        var roomsSection = document.querySelector('.rooms');
+        if (roomsSection) {
+            gsap.to(roomsSection, {
+                backgroundPositionY: '20%',
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: roomsSection,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1.5
+                }
+            });
+        }
+
+        // --- Blockquotes: elegant fade + slide ---
+        document.querySelectorAll('.anton-quote').forEach(function(quote) {
+            gsap.fromTo(quote,
+                { x: -20, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.8,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: quote,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        });
+
+        // --- Menu highlights grid: staggered ---
+        var menuItems = document.querySelectorAll('.menu-item');
+        if (menuItems.length) {
+            gsap.fromTo(menuItems,
+                { y: 20, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.4,
+                    stagger: 0.08,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: menuItems[0].closest('.menu-grid'),
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
         }
     }
 
