@@ -1610,6 +1610,124 @@ document.head.appendChild(calendarStyle);
         });
     });
 
+    // ============ SERVICES CAROUSEL ============
+    (function() {
+        var carousel = document.getElementById('servicesCarousel');
+        var track = document.getElementById('servicesTrack');
+        var dotsContainer = document.getElementById('servicesDots');
+        if (!carousel || !track) return;
+
+        var slides = Array.from(track.querySelectorAll('.services-slide'));
+        if (!slides.length) return;
+
+        var currentIndex = 0;
+        var isDragging = false;
+        var startX = 0;
+        var dragOffset = 0;
+        var slideWidth = 0;
+        var maxIndex = 0;
+
+        function calcLayout() {
+            var vw = window.innerWidth;
+            if (vw >= 768) {
+                slideWidth = track.offsetWidth * 0.6;
+            } else {
+                slideWidth = track.offsetWidth;
+            }
+            var visible = Math.floor(track.offsetWidth / slideWidth);
+            maxIndex = Math.max(0, slides.length - visible);
+            if (currentIndex > maxIndex) currentIndex = maxIndex;
+        }
+
+        function goTo(index) {
+            currentIndex = Math.max(0, Math.min(maxIndex, index));
+            var offset = -currentIndex * slideWidth;
+            track.style.transform = 'translateX(' + (offset + dragOffset) + 'px)';
+            updateDots();
+        }
+
+        function buildDots() {
+            if (!dotsContainer) return;
+            dotsContainer.innerHTML = '';
+            var dotCount = maxIndex + 1;
+            for (var i = 0; i < dotCount; i++) {
+                var dot = document.createElement('button');
+                dot.className = 'services-dot' + (i === currentIndex ? ' active' : '');
+                dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+                dot.dataset.index = String(i);
+                dot.addEventListener('click', function() {
+                    goTo(parseInt(this.dataset.index));
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateDots() {
+            if (!dotsContainer) return;
+            var dots = dotsContainer.querySelectorAll('.services-dot');
+            dots.forEach(function(d, i) {
+                d.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        // Nav buttons
+        var prevBtn = carousel.querySelector('.services-prev');
+        var nextBtn = carousel.querySelector('.services-next');
+        if (prevBtn) prevBtn.addEventListener('click', function() { goTo(currentIndex - 1); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { goTo(currentIndex + 1); });
+
+        // Drag
+        function onDown(e) {
+            isDragging = true;
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            dragOffset = 0;
+            track.classList.add('is-dragging');
+        }
+        function onMove(e) {
+            if (!isDragging) return;
+            var x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            dragOffset = x - startX;
+            var base = -currentIndex * slideWidth;
+            track.style.transform = 'translateX(' + (base + dragOffset) + 'px)';
+        }
+        function onUp() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('is-dragging');
+            var threshold = slideWidth * 0.2;
+            if (dragOffset < -threshold) {
+                goTo(currentIndex + 1);
+            } else if (dragOffset > threshold) {
+                goTo(currentIndex - 1);
+            } else {
+                dragOffset = 0;
+                goTo(currentIndex);
+            }
+            dragOffset = 0;
+        }
+
+        track.addEventListener('mousedown', onDown);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        track.addEventListener('touchstart', onDown, { passive: true });
+        window.addEventListener('touchmove', onMove, { passive: true });
+        window.addEventListener('touchend', onUp);
+        track.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+        function init() {
+            calcLayout();
+            buildDots();
+            goTo(0);
+        }
+
+        init();
+        window.addEventListener('resize', function() {
+            calcLayout();
+            buildDots();
+            goTo(currentIndex);
+        });
+    })();
+
     // ============ 3D CURVED CAROUSEL ============
     (function() {
         var carousel = document.getElementById('curvedCarousel');
