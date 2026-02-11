@@ -952,9 +952,9 @@ body.scrolled .language-toggle:hover {
     padding-bottom: 1.5rem;
 }
 
-/* Honey Section - Bee Hive Background */
+/* Honey Section - Bee Hives Background */
 #honey {
-    background: url('/images/bee-hove-bg.png') center/cover no-repeat;
+    background: url('/images/bee-hives.png') center/cover no-repeat;
     background-color: #2a1f0e;
     position: relative;
     overflow: hidden;
