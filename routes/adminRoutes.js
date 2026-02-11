@@ -239,6 +239,26 @@ router.get('/', (req, res, next) => {
     }
 }, getAdminDashboard);
 
+// Admin calendar route
+router.get('/calendar', (req, res, next) => {
+    try {
+        const token = req.cookies.jwt || req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            return res.redirect('/admin/login');
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.redirect('/admin/login');
+    }
+}, (req, res) => {
+    const path = require('path');
+    res.sendFile(path.join(__dirname, '..', 'public', 'admin-calendar.html'));
+});
+
 // ============ ROOM INVENTORY MANAGEMENT ENDPOINTS ============
 
 /**
