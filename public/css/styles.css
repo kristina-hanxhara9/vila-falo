@@ -952,9 +952,9 @@ body.scrolled .language-toggle:hover {
     padding-bottom: 1.5rem;
 }
 
-/* Honey Section - Bee Hives Background */
+/* Honey Section - Background */
 #honey {
-    background: url('/images/bee-hives.png') center/cover no-repeat;
+    background: url('/images/mjalte.jpg') center/cover no-repeat;
     background-color: #2a1f0e;
     position: relative;
     overflow: hidden;
@@ -5067,24 +5067,15 @@ button[type="submit"]:disabled:hover {
     animation-delay: 0.6s;
 }
 
-/* Override honey styles to match restaurant section */
-#honey {
-    background: var(--white) !important;
-    padding: 7rem 0 !important;
-}
-
+/* Override honey sub-element styles */
 #honey .honey-container,
 #honey .honey-content,
 #honey .honey-image,
 #honey .honey-cta,
 #honey .honey-contact-buttons,
 #honey .honey-note {
-    /* Reset all honey-specific styling */
-    background: inherit !important;
-    color: inherit !important;
+    background: transparent !important;
     border: none !important;
-    padding: inherit !important;
-    margin: inherit !important;
 }
 
 /* ============ HOVER EFFECT CONTAINERS ============ */
