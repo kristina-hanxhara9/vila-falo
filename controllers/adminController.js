@@ -1,56 +1,72 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const path = require('path');
+const User = require('../models/users');
 
-// This function isn't needed since your route file handles login directly
-// But keeping it here if you want to use it instead of the route file logic
 const adminLogin = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        console.log('Login attempt:', { username }); // Debug log
-        
-        // Replace with actual admin credentials validation
-        if (username === (process.env.ADMIN_USERNAME || 'admin') && 
-            password === (process.env.ADMIN_PASSWORD || 'admin123')) {
-            
-            // Create JWT token
-            const token = jwt.sign(
-                { id: '1', username, role: 'admin' },
-                process.env.JWT_SECRET || 'your_jwt_secret',
-                { expiresIn: '1d' }
-            );
-            
-            // Set cookie (to match your route file's approach)
-            res.cookie('jwt', token, {
-                httpOnly: true,
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict'
-            });
-            
-            console.log('Login successful for user:', username); // Debug log
-            
-            return res.status(200).json({ 
-                success: true,
-                message: 'Login successful',
-                user: {
-                    id: '1',
-                    username,
-                    role: 'admin'
-                }
-            });
-        } else {
-            console.log('Invalid credentials for user:', username); // Debug log
-            return res.status(401).json({ 
+        console.log('Login attempt:', { username });
+
+        // Find user by email or name in MongoDB
+        const user = await User.findOne({
+            $or: [
+                { email: username },
+                { name: username }
+            ]
+        });
+
+        if (!user) {
+            console.log('User not found:', username);
+            return res.status(401).json({
                 success: false,
-                message: 'Invalid credentials' 
+                message: 'Invalid credentials'
             });
         }
+
+        // Compare password with bcrypt hash
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            console.log('Invalid password for user:', username);
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid credentials'
+            });
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+            { id: user._id, username: user.name, role: 'admin' },
+            process.env.JWT_SECRET || 'your_jwt_secret',
+            { expiresIn: '1d' }
+        );
+
+        // Set cookie
+        res.cookie('jwt', token, {
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax'
+        });
+
+        console.log('Login successful for user:', user.name);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Login successful',
+            user: {
+                id: user._id,
+                username: user.name,
+                role: 'admin'
+            }
+        });
     } catch (error) {
-        console.error('Login error:', error); // Debug log
-        res.status(500).json({ 
+        console.error('Login error:', error);
+        res.status(500).json({
             success: false,
-            message: 'Server error', 
+            message: 'Server error',
             error: process.env.NODE_ENV === 'development' ? error.message : 'An error occurred'
         });
     }
@@ -58,7 +74,6 @@ const adminLogin = async (req, res) => {
 
 const getAdminDashboard = (req, res) => {
     try {
-        // Serve the admin panel HTML file from the correct path
         const filePath = path.join(__dirname, '..', 'public', 'admin-panel.html');
         console.log('Serving admin dashboard from:', filePath);
         res.sendFile(filePath);

@@ -954,8 +954,7 @@ body.scrolled .language-toggle:hover {
 
 /* Honey Section - Bee Hive Background */
 #honey {
-    background: url('/images/bee-hove-bg.png') center/cover no-repeat,
-                url('/images/mjalte.jpg') center/cover no-repeat;
+    background: url('/images/mjalte.jpg') center/cover no-repeat;
     background-color: #2a1f0e;
     position: relative;
     overflow: hidden;
@@ -978,15 +977,16 @@ body.scrolled .language-toggle:hover {
     position: relative;
     z-index: 10;
     display: flex;
-    justify-content: center;
-    margin-top: -80px;
-    margin-bottom: -80px;
+    justify-content: flex-start;
+    margin-top: -60px;
+    margin-bottom: -60px;
+    padding-left: 8%;
     pointer-events: none;
 }
 
 .bee-video-wrapper {
-    width: 320px;
-    height: 320px;
+    width: 280px;
+    height: 280px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 6px rgba(255, 179, 0, 0.3), 0 0 0 12px rgba(42, 109, 78, 0.15);
@@ -1002,23 +1002,25 @@ body.scrolled .language-toggle:hover {
 
 @media (max-width: 768px) {
     .bee-video-wrapper {
-        width: 220px;
-        height: 220px;
+        width: 200px;
+        height: 200px;
     }
     .bee-video-overlap {
-        margin-top: -55px;
-        margin-bottom: -55px;
+        margin-top: -50px;
+        margin-bottom: -50px;
+        padding-left: 5%;
     }
 }
 
 @media (max-width: 480px) {
     .bee-video-wrapper {
-        width: 170px;
-        height: 170px;
+        width: 150px;
+        height: 150px;
     }
     .bee-video-overlap {
-        margin-top: -42px;
-        margin-bottom: -42px;
+        margin-top: -38px;
+        margin-bottom: -38px;
+        padding-left: 4%;
     }
 }
 
@@ -3497,6 +3499,16 @@ button[type="submit"]:hover::before {
 .footer-col p {
     color: rgba(255, 255, 255, 0.7);
     margin-bottom: 1.5rem;
+}
+
+/* Two-column links layout */
+.footer-links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .footer-links li {

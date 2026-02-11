@@ -30,7 +30,51 @@
 
 .room-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 16px 50px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 60px rgba(42, 109, 78, 0.18), 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Shine sweep on hover */
+.room-img::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    z-index: 3;
+    transition: none;
+}
+
+.room-card:hover .room-img::after {
+    animation: roomShine 0.7s ease forwards;
+}
+
+@keyframes roomShine {
+    to { left: 130%; }
+}
+
+/* Content lift on hover */
+.room-card:hover .room-content h3 {
+    color: #2a6d4e;
+    transition: color 0.3s ease;
+}
+
+.room-card:hover .room-features {
+    border-color: rgba(42, 109, 78, 0.15);
+    transition: border-color 0.3s ease;
+}
+
+.room-card:hover .room-feature i {
+    transform: scale(1.15);
+    transition: transform 0.3s ease;
+}
+
+/* Price pill glow on hover */
+.room-card:hover .room-price-pill {
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
 }
 
 /* ============ ROOM IMAGE ============ */
