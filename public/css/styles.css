@@ -954,10 +954,12 @@ body.scrolled .language-toggle:hover {
 
 /* Honey Section - Bee Hive Background */
 #honey {
-    background: url('/images/bee-hove-bg.png') center/cover no-repeat;
+    background: url('/images/bee-hove-bg.png') center/cover no-repeat,
+                url('/images/mjalte.jpg') center/cover no-repeat;
+    background-color: #2a1f0e;
     position: relative;
     overflow: hidden;
-    padding: 3.5rem 0 7rem;
+    padding: 6rem 0 7rem;
 }
 
 #honey::before {
@@ -971,19 +973,53 @@ body.scrolled .language-toggle:hover {
     z-index: 0;
 }
 
-/* Inline bee video in honey section */
-.honey-video-inline {
-    width: 100%;
-    border-radius: 16px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+/* Bee Video Overlap Between Sections */
+.bee-video-overlap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    margin-top: -80px;
+    margin-bottom: -80px;
+    pointer-events: none;
 }
 
-.honey-video-inline video {
+.bee-video-wrapper {
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 6px rgba(255, 179, 0, 0.3), 0 0 0 12px rgba(42, 109, 78, 0.15);
+    pointer-events: auto;
+}
+
+.bee-video-wrapper video {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+    .bee-video-wrapper {
+        width: 220px;
+        height: 220px;
+    }
+    .bee-video-overlap {
+        margin-top: -55px;
+        margin-bottom: -55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .bee-video-wrapper {
+        width: 170px;
+        height: 170px;
+    }
+    .bee-video-overlap {
+        margin-top: -42px;
+        margin-bottom: -42px;
+    }
 }
 
 /* honeycomb pattern removed - video bg instead */
@@ -3069,7 +3105,7 @@ button[type="submit"]:hover::before {
 
 /* Location Section */
 .location {
-    background: #f8f9fa;
+    background: url('/images/mali-bg.png') center/cover no-repeat;
     position: relative;
 }
 
@@ -3080,16 +3116,11 @@ button[type="submit"]:hover::before {
 
 .location-info {
     flex: 1;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.5)),
-                url('/images/mali-bg.png') center/cover no-repeat;
-    border-radius: 16px;
-    padding: 2rem;
-    color: #fff;
 }
 
 .location-info h3 {
     font-size: 1.8rem;
-    color: #fff;
+    color: var(--primary);
     margin-bottom: 1.5rem;
     position: relative;
     display: inline-block;
@@ -3113,20 +3144,20 @@ button[type="submit"]:hover::before {
 .location-info p {
     margin-bottom: 1.5rem;
     line-height: 1.7;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text);
 }
 
 .location-info h4 {
-    color: #fff;
+    color: var(--primary);
 }
 
 .location-info .contact-item p {
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-light);
 }
 
 .location-info .contact-icon {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
+    background: rgba(42, 109, 78, 0.1);
+    color: var(--primary);
 }
 
 .location-map {

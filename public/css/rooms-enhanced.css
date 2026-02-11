@@ -38,7 +38,7 @@
     position: relative;
     border-radius: 16px;
     overflow: hidden;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 2;
 }
 
 .room-img img {
@@ -191,7 +191,7 @@
         width: 100%;
     }
     .room-img {
-        aspect-ratio: 5 / 4;
+        aspect-ratio: 3 / 2;
     }
     .room-content {
         padding: 14px 6px 6px;
