@@ -6,26 +6,27 @@
     <title>Vila Falo - Kalendari i Rezervimeve</title>
     <style>
         :root {
-            --primary-color: #4361ee;
-            --primary-light: #4895ef;
-            --primary-dark: #3f37c9;
-            --secondary-color: #560bad;
-            --standard-color: #4361ee;
-            --deluxe-color: #06d6a0;
-            --suite-color: #8338ec;
+            --primary-color: #2c5f2d;
+            --primary-light: #3a7d3c;
+            --primary-dark: #1e4620;
+            --secondary-color: #4a8c4f;
+            --accent-color: #d4a843;
+            --standard-color: #5b8a72;
+            --deluxe-color: #d4a843;
+            --suite-color: #8b5e3c;
             --available-color: #d8f3dc;
             --booked-color: #ffccd5;
             --pending-color: #fff3b0;
             --confirmed-color: #d0f0fd;
             --cancelled-color: #fde2e2;
             --completed-color: #d8f3dc;
-            --success-color: #06d6a0;
-            --warning-color: #ffbe0b;
-            --error-color: #ef476f;
+            --success-color: #2c5f2d;
+            --warning-color: #d4a843;
+            --error-color: #c0392b;
             --text-dark: #2b2d42;
             --text-medium: #6c757d;
             --text-light: #adb5bd;
-            --background-light: #f8f9fa;
+            --background-light: #f5f3ef;
             --background-white: #ffffff;
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -64,14 +65,15 @@
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #2c5f2d 0%, #3a7d3c 50%, #2c5f2d 100%);
             color: white;
-            padding: var(--spacing-lg) var(--spacing-md);
-            padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-top: calc(var(--spacing-md) + env(safe-area-inset-top));
             position: sticky;
             top: 0;
             z-index: 20;
-            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.3);
+            box-shadow: 0 4px 20px rgba(44, 95, 45, 0.3);
+            border-bottom: 3px solid var(--accent-color);
         }
 
         .header-top {
@@ -81,9 +83,27 @@
             margin-bottom: var(--spacing-sm);
         }
 
-        .header-title {
-            font-size: var(--font-size-xl);
-            font-weight: bold;
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .header-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-badge {
+            background: var(--accent-color);
+            color: #1a1a2e;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--border-radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .header-nav {
@@ -92,18 +112,24 @@
         }
 
         .header-nav a {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
             text-decoration: none;
             padding: 6px 14px;
             border-radius: var(--border-radius-full);
-            font-size: var(--font-size-sm);
-            font-weight: 500;
-            transition: background 0.2s;
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        .header-nav a:hover, .header-nav a.active {
-            background: rgba(255, 255, 255, 0.35);
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .header-nav a.active {
+            background: white;
+            color: var(--primary-color);
         }
 
         /* Month Navigation */
@@ -707,9 +733,12 @@
     <!-- Header -->
     <div class="header">
         <div class="header-top">
-            <h1 class="header-title">Kalendari</h1>
+            <div class="header-brand">
+                <span class="header-logo">Vila Falo</span>
+                <span class="header-badge">Admin</span>
+            </div>
             <div class="header-nav">
-                <a href="/admin/dashboard">Panel</a>
+                <a href="/admin/panel">Dashboard</a>
                 <a href="/admin/calendar" class="active">Kalendar</a>
             </div>
         </div>

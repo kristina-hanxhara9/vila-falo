@@ -6,27 +6,28 @@
     <title>Vila Falo - Admin Panel</title>
     <style>
         :root {
-            --primary-color: #4361ee;
-            --primary-light: #4895ef;
-            --primary-dark: #3f37c9;
-            --secondary-color: #560bad;
-            --dopio-color: #ef476f;
-            --triple-color: #06d6a0;
-            --suite-color: #8338ec;
+            --primary-color: #2c5f2d;
+            --primary-light: #3a7d3c;
+            --primary-dark: #1e4620;
+            --secondary-color: #4a8c4f;
+            --accent-color: #d4a843;
+            --dopio-color: #5b8a72;
+            --triple-color: #d4a843;
+            --suite-color: #8b5e3c;
             --available-color: #d8f3dc;
             --booked-color: #ffccd5;
             --pending-color: #fff3b0;
-            --success-color: #06d6a0;
-            --warning-color: #ffbe0b;
-            --error-color: #ef476f;
-            --text-dark: #2b2d42;
+            --success-color: #2c5f2d;
+            --warning-color: #d4a843;
+            --error-color: #c0392b;
+            --text-dark: #1a1a2e;
             --text-medium: #6c757d;
             --text-light: #adb5bd;
-            --background-light: #f8f9fa;
+            --background-light: #f5f3ef;
             --background-white: #ffffff;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
             --border-radius-sm: 0.375rem;
             --border-radius-md: 0.75rem;
             --border-radius-lg: 1rem;
@@ -61,19 +62,71 @@
 
         /* Header Styles */
         .header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #2c5f2d 0%, #3a7d3c 50%, #2c5f2d 100%);
             color: white;
-            padding: var(--spacing-lg) var(--spacing-md);
-            padding-top: calc(var(--spacing-lg) + env(safe-area-inset-top));
+            padding: var(--spacing-md) var(--spacing-lg);
+            padding-top: calc(var(--spacing-md) + env(safe-area-inset-top));
             position: sticky;
             top: 0;
             z-index: 20;
+            border-bottom: 3px solid var(--accent-color);
         }
 
-        .header-title {
-            font-size: var(--font-size-xl);
-            font-weight: bold;
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: var(--spacing-sm);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .header-logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header-badge {
+            background: var(--accent-color);
+            color: #1a1a2e;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: var(--border-radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            align-items: center;
+        }
+
+        .header-nav-link {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: var(--border-radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: 600;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .header-nav-link:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .header-nav-link.active {
+            background: white;
+            color: var(--primary-color);
         }
 
         .header-actions {
@@ -88,13 +141,13 @@
         }
 
         .btn-add {
-            background-color: white;
-            color: var(--primary-color);
+            background-color: var(--accent-color);
+            color: #1a1a2e;
             border: none;
             border-radius: var(--border-radius-full);
             padding: var(--spacing-xs) var(--spacing-md);
             font-size: var(--font-size-sm);
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -102,11 +155,68 @@
         .btn-add:hover {
             transform: translateY(-1px);
             box-shadow: var(--shadow-md);
+            background-color: #e0b84f;
+        }
+
+        /* Dashboard Overview */
+        .dashboard-overview {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            background: white;
+            border-bottom: 1px solid #e8e5e0;
+        }
+
+        .overview-card {
+            text-align: center;
+            padding: var(--spacing-md) var(--spacing-sm);
+            border-radius: var(--border-radius-md);
+            background: var(--background-light);
+            transition: all 0.2s ease;
+        }
+
+        .overview-card:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .overview-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .overview-value {
+            font-size: var(--font-size-xl);
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .overview-label {
+            font-size: var(--font-size-xs);
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            background: var(--background-light);
+            border-bottom: 1px solid #e8e5e0;
+            border-top: 1px solid #e8e5e0;
+        }
+
+        .section-divider-title {
+            font-size: var(--font-size-xs);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-medium);
+            font-weight: 700;
         }
 
         /* Date Navigation Styles */
         .date-nav {
-            padding: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
             background-color: white;
             position: sticky;
             top: calc(5rem + env(safe-area-inset-top));
@@ -186,7 +296,7 @@
         .date-item.active {
             background-color: var(--primary-color);
             color: white;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
         }
 
         .date-item::after {
@@ -223,17 +333,18 @@
         .tab-navigation {
             display: flex;
             background-color: white;
-            padding: var(--spacing-sm);
+            padding: 4px;
             border-radius: var(--border-radius-full);
-            margin: 0 var(--spacing-md);
+            margin: 0 var(--spacing-lg);
             margin-bottom: var(--spacing-md);
             box-shadow: var(--shadow-sm);
+            border: 1px solid #e8e5e0;
         }
 
         .tab-button {
             flex: 1;
             text-align: center;
-            padding: var(--spacing-sm) var(--spacing-md);
+            padding: 10px var(--spacing-md);
             border-radius: var(--border-radius-full);
             font-weight: 600;
             font-size: var(--font-size-sm);
@@ -247,44 +358,61 @@
         .tab-button.active {
             background-color: var(--primary-color);
             color: white;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
         }
 
-        /* Statistics Summary */
-        .stats-summary {
-            display: flex;
-            padding: 0 var(--spacing-md);
+        .tab-count {
+            display: inline-block;
+            background: rgba(255,255,255,0.3);
+            padding: 1px 6px;
+            border-radius: var(--border-radius-full);
+            font-size: 0.7rem;
+            margin-left: 4px;
+        }
+
+        /* Capacity & Stats Grid */
+        .capacity-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--spacing-sm);
-            overflow-x: auto;
-            margin-bottom: var(--spacing-md);
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-
-        .stats-summary::-webkit-scrollbar {
-            display: none;
+            padding: var(--spacing-md) var(--spacing-lg);
         }
 
         .stats-card {
             background-color: white;
             border-radius: var(--border-radius-md);
             padding: var(--spacing-md);
-            min-width: 8rem;
-            flex-shrink: 0;
             box-shadow: var(--shadow-sm);
-            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
         }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+        }
+
+        .stats-card.card-standard::before { background: var(--dopio-color); }
+        .stats-card.card-deluxe::before { background: var(--triple-color); }
+        .stats-card.card-suite::before { background: var(--suite-color); }
 
         .stats-title {
             font-size: var(--font-size-xs);
             color: var(--text-medium);
             margin-bottom: var(--spacing-xs);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
         .stats-value {
             font-size: var(--font-size-lg);
-            font-weight: 700;
+            font-weight: 800;
+            color: var(--text-dark);
         }
 
         .stats-fraction {
@@ -295,7 +423,7 @@
 
         .progress-bar {
             width: 100%;
-            height: 0.25rem;
+            height: 0.3rem;
             background-color: #e9ecef;
             border-radius: var(--border-radius-full);
             margin-top: var(--spacing-sm);
@@ -305,18 +433,17 @@
         .progress-value {
             height: 100%;
             border-radius: var(--border-radius-full);
+            transition: width 0.5s ease;
         }
 
-        .progress-dopio {
-            background-color: var(--dopio-color);
-        }
+        .progress-dopio { background-color: var(--dopio-color); }
+        .progress-triple { background-color: var(--triple-color); }
+        .progress-suite { background-color: var(--suite-color); }
 
-        .progress-triple {
-            background-color: var(--triple-color);
-        }
-
-        .progress-suite {
-            background-color: var(--suite-color);
+        .stats-capacity {
+            font-size: var(--font-size-xs);
+            color: var(--text-light);
+            margin-top: 4px;
         }
 
         /* View Containers */
@@ -330,7 +457,7 @@
 
         /* Room List View */
         .room-list {
-            padding: 0 var(--spacing-md);
+            padding: 0 var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
@@ -380,20 +507,25 @@
             box-shadow: var(--shadow-sm);
             padding: var(--spacing-md);
             position: relative;
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
             transition: all 0.2s ease;
             cursor: pointer;
+        }
+
+        .room-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
         }
 
         .room-card:active {
             transform: scale(0.98);
         }
 
-        .room-card-dopio {
+        .room-card-standard {
             border-left-color: var(--dopio-color);
         }
 
-        .room-card-triple {
+        .room-card-deluxe {
             border-left-color: var(--triple-color);
         }
 
@@ -444,7 +576,7 @@
 
         /* Bookings List */
         .bookings-list {
-            padding: 0 var(--spacing-md);
+            padding: 0 var(--spacing-lg);
             margin-bottom: var(--spacing-xl);
         }
 
@@ -452,23 +584,30 @@
             margin-bottom: var(--spacing-lg);
         }
 
-        .section-title {
+        .bookings-section .section-title {
             font-size: var(--font-size-xs);
             text-transform: uppercase;
             color: var(--text-medium);
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            letter-spacing: 0.05em;
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.06em;
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 2px solid #e8e5e0;
         }
 
         .booking-card {
             background-color: white;
             border-radius: var(--border-radius-md);
-            margin-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-sm);
             overflow: hidden;
             box-shadow: var(--shadow-sm);
             transition: all 0.2s ease;
             cursor: pointer;
+        }
+
+        .booking-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
         }
 
         .booking-card:active {
@@ -490,45 +629,60 @@
 
         .booking-room {
             font-weight: 700;
+            font-size: var(--font-size-md);
         }
 
         .booking-client {
             font-size: var(--font-size-sm);
             color: var(--text-medium);
+            font-weight: 500;
         }
 
         .booking-date {
             font-size: var(--font-size-xs);
             color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .booking-date::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background: var(--text-light);
+            border-radius: 50%;
         }
 
         .booking-status {
             font-size: var(--font-size-xs);
             font-weight: 600;
-            padding: var(--spacing-xs) var(--spacing-sm);
+            padding: 3px 10px;
             border-radius: var(--border-radius-full);
+            white-space: nowrap;
         }
 
         .status-confirmed {
-            background-color: #d1edff;
-            color: #0969da;
+            background-color: #d8f3dc;
+            color: #2c5f2d;
         }
 
         .status-pending {
             background-color: #fff3b0;
-            color: #ee9b00;
+            color: #92400e;
         }
 
         .status-cancelled {
             background-color: #ffccd5;
-            color: #e63946;
+            color: #c0392b;
         }
 
-        .border-dopio {
+        .border-standard {
             border-left: 4px solid var(--dopio-color);
         }
 
-        .border-triple {
+        .border-deluxe {
             border-left: 4px solid var(--triple-color);
         }
 
@@ -573,13 +727,13 @@
             width: 3.5rem;
             height: 3.5rem;
             border-radius: var(--border-radius-full);
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            background: var(--primary-color);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: none;
-            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--accent-color);
+            box-shadow: 0 4px 16px rgba(44, 95, 45, 0.35);
             cursor: pointer;
             transition: all 0.3s ease;
             z-index: 100;
@@ -587,6 +741,7 @@
 
         .floating-btn:hover {
             transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 24px rgba(44, 95, 45, 0.4);
         }
 
         .floating-btn:active {
@@ -620,9 +775,10 @@
         }
 
         .modal-header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #2c5f2d 0%, #3a7d3c 100%);
             color: white;
-            padding: var(--spacing-md);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-bottom: 2px solid var(--accent-color);
         }
 
         .modal-title {
@@ -658,7 +814,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.15);
         }
 
         .modal-footer {
@@ -685,8 +841,12 @@
         }
 
         .btn-primary {
-            background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+            background: var(--primary-color);
             color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
         }
 
         .btn-danger {
@@ -701,46 +861,50 @@
         /* Details Panel */
         .booking-details-panel {
             background-color: white;
-            padding: var(--spacing-md);
+            padding: 0;
             border-radius: var(--border-radius-md);
-            box-shadow: var(--shadow-sm);
             margin-bottom: var(--spacing-md);
         }
 
         .details-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: var(--spacing-md);
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 2px solid #e8e5e0;
         }
 
         .details-title {
             font-size: var(--font-size-lg);
-            font-weight: 700;
+            font-weight: 800;
+            color: var(--primary-color);
         }
 
         .details-status {
             font-size: var(--font-size-xs);
             font-weight: 600;
-            padding: 3px var(--spacing-sm);
+            padding: 4px 12px;
             border-radius: var(--border-radius-full);
         }
 
         .details-info {
             display: grid;
             grid-template-columns: auto 1fr;
-            gap: var(--spacing-xs) var(--spacing-lg);
+            gap: var(--spacing-sm) var(--spacing-lg);
             margin-bottom: var(--spacing-lg);
         }
 
         .details-label {
             font-size: var(--font-size-sm);
             color: var(--text-medium);
+            font-weight: 500;
         }
 
         .details-value {
             font-size: var(--font-size-sm);
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--text-dark);
         }
 
         /* Loading Indicator */
@@ -774,14 +938,17 @@
             transform: translateX(-50%);
             background-color: var(--success-color);
             color: white;
-            padding: var(--spacing-md) var(--spacing-lg);
+            padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: var(--border-radius-full);
-            font-weight: 500;
-            box-shadow: var(--shadow-md);
+            font-weight: 600;
+            font-size: var(--font-size-sm);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
             z-index: 9000;
             opacity: 0;
             transition: all 0.3s ease;
             pointer-events: none;
+            max-width: 90%;
+            text-align: center;
         }
 
         .toast.show {
@@ -790,49 +957,113 @@
         }
 
         /* Responsive Styles */
+        @media screen and (max-width: 480px) {
+            .dashboard-overview {
+                grid-template-columns: repeat(2, 1fr);
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            .capacity-stats {
+                grid-template-columns: 1fr;
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            .header-logo {
+                font-size: 1.1rem;
+            }
+
+            .header-nav-link {
+                padding: 4px 10px;
+                font-size: 0.65rem;
+            }
+
+            .date-nav {
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+
+            .tab-navigation {
+                margin: 0 var(--spacing-md);
+                margin-bottom: var(--spacing-md);
+            }
+
+            .room-list, .bookings-list {
+                padding: 0 var(--spacing-md);
+            }
+        }
+
         @media screen and (max-width: 390px) {
             .date-item {
                 width: 2.75rem;
                 height: 3.75rem;
             }
-            
+
             .date-day {
                 font-size: var(--font-size-md);
             }
-            
+
             .floating-btn {
                 width: 3rem;
                 height: 3rem;
             }
-            
-            .header-title {
+
+            .dashboard-overview {
+                gap: var(--spacing-xs);
+            }
+
+            .overview-value {
                 font-size: var(--font-size-lg);
             }
         }
 
         @media screen and (min-width: 768px) {
-            .header, .date-nav {
+            .header {
                 padding-left: var(--spacing-xl);
                 padding-right: var(--spacing-xl);
             }
-            
-            .tab-navigation, .stats-summary, .room-list, .bookings-list {
+
+            .date-nav {
+                padding-left: var(--spacing-xl);
+                padding-right: var(--spacing-xl);
+            }
+
+            .tab-navigation {
                 margin-left: var(--spacing-xl);
                 margin-right: var(--spacing-xl);
+                max-width: 400px;
             }
-            
+
+            .capacity-stats {
+                padding-left: var(--spacing-xl);
+                padding-right: var(--spacing-xl);
+            }
+
+            .room-list, .bookings-list {
+                padding-left: var(--spacing-xl);
+                padding-right: var(--spacing-xl);
+            }
+
+            .dashboard-overview {
+                padding-left: var(--spacing-xl);
+                padding-right: var(--spacing-xl);
+            }
+
             .room-cards {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .stats-card {
-                flex: 1;
-                min-width: 0;
-            }
-            
+
             .floating-btn {
                 bottom: var(--spacing-xl);
                 right: var(--spacing-xl);
+            }
+        }
+
+        @media screen and (min-width: 1024px) {
+            .room-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .dashboard-overview {
+                max-width: 700px;
             }
         }
 
@@ -856,14 +1087,49 @@
     <div class="main-content">
         <!-- Header -->
         <div class="header">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-sm);">
-                <h1 class="header-title">Vila Falo - Admin Panel</h1>
-                <a href="/admin/calendar" style="background: rgba(255,255,255,0.2); color: white; text-decoration: none; padding: 6px 14px; border-radius: var(--border-radius-full); font-size: var(--font-size-sm); font-weight: 500;">Kalendar</a>
+            <div class="header-top">
+                <div class="header-brand">
+                    <span class="header-logo">Vila Falo</span>
+                    <span class="header-badge">Admin</span>
+                </div>
+                <div class="header-nav">
+                    <a href="/admin/panel" class="header-nav-link active">Dashboard</a>
+                    <a href="/admin/calendar" class="header-nav-link">Kalendar</a>
+                </div>
             </div>
             <div class="header-actions">
                 <div class="header-stats">Gjithsej rezervime: <span id="total-bookings">0</span></div>
-                <button class="btn-add" id="add-booking-btn">Shto</button>
+                <button class="btn-add" id="add-booking-btn">+ Shto Rezervim</button>
             </div>
+        </div>
+
+        <!-- Dashboard Overview -->
+        <div class="dashboard-overview">
+            <div class="overview-card">
+                <div class="overview-icon">📊</div>
+                <div class="overview-value" id="overview-total">0</div>
+                <div class="overview-label">Gjithsej</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">📥</div>
+                <div class="overview-value" id="overview-checkins">0</div>
+                <div class="overview-label">Check-in Sot</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">📤</div>
+                <div class="overview-value" id="overview-checkouts">0</div>
+                <div class="overview-label">Check-out Sot</div>
+            </div>
+            <div class="overview-card">
+                <div class="overview-icon">🏨</div>
+                <div class="overview-value" id="overview-occupied">0</div>
+                <div class="overview-label">Dhoma Sot</div>
+            </div>
+        </div>
+
+        <!-- Section: Date Selection -->
+        <div class="section-divider">
+            <div class="section-divider-title">Zgjidhni Daten</div>
         </div>
 
         <!-- Date Navigation -->
@@ -888,53 +1154,36 @@
             <button class="tab-button" data-view="daily-view">Rezervimet</button>
         </div>
 
-        <!-- Room Inventory Info -->
-        <div style="padding: 0 var(--spacing-md); margin-bottom: var(--spacing-md);">
-            <div style="background: linear-gradient(135deg, #4361ee 0%, #560bad 100%); color: white; border-radius: var(--border-radius-md); padding: var(--spacing-md); box-shadow: var(--shadow-md);">
-                <div style="font-size: var(--font-size-md); font-weight: 600; margin-bottom: var(--spacing-sm);">🏨 Kapaciteti Total i Dhomave</div>
-                <div style="display: flex; gap: var(--spacing-md); flex-wrap: wrap; font-size: var(--font-size-sm);">
-                    <div>
-                        <div style="opacity: 0.9;">Gjithsej:</div>
-                        <div style="font-size: var(--font-size-lg); font-weight: 700;">12 dhoma</div>
-                    </div>
-                    <div>
-                        <div style="opacity: 0.9;">Për 5 persona:</div>
-                        <div style="font-weight: 600;">1 dhomë</div>
-                    </div>
-                    <div>
-                        <div style="opacity: 0.9;">Për 4 persona:</div>
-                        <div style="font-weight: 600;">4 dhoma</div>
-                    </div>
-                    <div>
-                        <div style="opacity: 0.9;">Për 2-3 persona:</div>
-                        <div style="font-weight: 600;">7 dhoma</div>
-                    </div>
-                </div>
-            </div>
+        <!-- Section: Room Availability -->
+        <div class="section-divider">
+            <div class="section-divider-title">Disponueshmeria e Dhomave - <span id="stats-date-label">Sot</span></div>
         </div>
 
-        <!-- Statistics Summary -->
-        <div class="stats-summary">
-            <div class="stats-card">
-                <div class="stats-title">Dhoma Standard</div>
+        <!-- Room Stats Cards -->
+        <div class="capacity-stats">
+            <div class="stats-card card-standard">
+                <div class="stats-title">Standard</div>
                 <div class="stats-value">0 <span class="stats-fraction">/ 5</span></div>
                 <div class="progress-bar">
                     <div class="progress-value progress-dopio" style="width: 0%"></div>
                 </div>
+                <div class="stats-capacity">2-3 persona/dhome</div>
             </div>
-            <div class="stats-card">
-                <div class="stats-title">Dhoma Deluxe</div>
+            <div class="stats-card card-deluxe">
+                <div class="stats-title">Deluxe</div>
                 <div class="stats-value">0 <span class="stats-fraction">/ 4</span></div>
                 <div class="progress-bar">
                     <div class="progress-value progress-triple" style="width: 0%"></div>
                 </div>
+                <div class="stats-capacity">3-4 persona/dhome</div>
             </div>
-            <div class="stats-card">
+            <div class="stats-card card-suite">
                 <div class="stats-title">Suite</div>
                 <div class="stats-value">0 <span class="stats-fraction">/ 3</span></div>
                 <div class="progress-bar">
                     <div class="progress-value progress-suite" style="width: 0%"></div>
                 </div>
+                <div class="stats-capacity">4-5 persona/dhome</div>
             </div>
         </div>
 
@@ -980,14 +1229,14 @@
         <div class="view-container" id="daily-view">
             <div class="bookings-list" id="bookings-list">
                 <div class="bookings-section">
-                    <h3 class="section-title">Rezervimet për <span id="selected-date-display">sot</span></h3>
+                    <h3 class="section-title">Rezervimet per <span id="selected-date-display">sot</span></h3>
                     <div id="daily-bookings">
                         <!-- Will be populated by JS -->
                     </div>
                 </div>
-                
-                <div class="bookings-section">
-                    <h3 class="section-title">Rezervimet e ardhshme</h3>
+
+                <div class="bookings-section" style="margin-top: var(--spacing-lg);">
+                    <h3 class="section-title">Rezervimet e ardhshme (5 te ardhshmet)</h3>
                     <div id="upcoming-bookings">
                         <!-- Will be populated by JS -->
                     </div>
@@ -1316,38 +1565,65 @@
         function updateBookingStats() {
             // Update total bookings count
             totalBookingsElement.textContent = bookings.length;
-            
+
             // Count bookings by room type for selected date
             const stats = {
                 'Standard': { booked: 0, total: roomData.Standard.length },
                 'Deluxe': { booked: 0, total: roomData.Deluxe.length },
                 'Suite': { booked: 0, total: roomData.Suite.length }
             };
-            
+
+            let todayCheckIns = 0;
+            let todayCheckOuts = 0;
+            let todayOccupied = 0;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
             bookings.forEach(booking => {
                 const checkIn = new Date(booking.checkInDate);
                 const checkOut = new Date(booking.checkOutDate);
                 checkIn.setHours(0, 0, 0, 0);
                 checkOut.setHours(0, 0, 0, 0);
-                
-                if (selectedDate >= checkIn && selectedDate < checkOut && booking.status !== 'cancelled') {
-                    if (stats[booking.roomType]) {
-                        stats[booking.roomType].booked++;
+
+                if (booking.status !== 'cancelled') {
+                    // Stats for selected date
+                    if (selectedDate >= checkIn && selectedDate < checkOut) {
+                        if (stats[booking.roomType]) {
+                            stats[booking.roomType].booked++;
+                        }
                     }
+
+                    // Today's overview stats
+                    if (checkIn.getTime() === today.getTime()) todayCheckIns++;
+                    if (checkOut.getTime() === today.getTime()) todayCheckOuts++;
+                    if (today >= checkIn && today < checkOut) todayOccupied++;
                 }
             });
-            
+
+            // Update dashboard overview
+            document.getElementById('overview-total').textContent = bookings.filter(b => b.status !== 'cancelled').length;
+            document.getElementById('overview-checkins').textContent = todayCheckIns;
+            document.getElementById('overview-checkouts').textContent = todayCheckOuts;
+            document.getElementById('overview-occupied').textContent = todayOccupied + '/12';
+
+            // Update stats date label
+            const statsDateLabel = document.getElementById('stats-date-label');
+            if (statsDateLabel) {
+                const isToday = selectedDate.getTime() === today.getTime();
+                statsDateLabel.textContent = isToday ? 'Sot' : selectedDate.toLocaleDateString('sq-AL', { day: 'numeric', month: 'short' });
+            }
+
             // Update stats cards
             const statsCards = document.querySelectorAll('.stats-card');
             const roomTypes = ['Standard', 'Deluxe', 'Suite'];
-            
+
             statsCards.forEach((card, index) => {
                 const roomType = roomTypes[index];
                 const stat = stats[roomType];
-                
-                card.querySelector('.stats-value').innerHTML = 
+
+                card.querySelector('.stats-value').innerHTML =
                     `${stat.booked} <span class="stats-fraction">/ ${stat.total}</span>`;
-                card.querySelector('.progress-value').style.width = 
+                card.querySelector('.progress-value').style.width =
                     `${(stat.booked / stat.total) * 100}%`;
             });
         }
@@ -1397,12 +1673,12 @@
                     statusClass = `room-status-${booking.status === 'confirmed' ? 'booked' : booking.status}`;
                     statusText = translateStatus(booking.status);
                     clientInfo = booking.guestName;
-                    
+
                     const checkIn = new Date(booking.checkInDate);
                     const checkOut = new Date(booking.checkOutDate);
                     const nights = Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-                    
-                    bookingDates = `${formatDateForDisplay(booking.checkInDate)} - ${formatDateForDisplay(booking.checkOutDate)} (${nights} netë)`;
+
+                    bookingDates = `${formatDateForDisplay(booking.checkInDate)} - ${formatDateForDisplay(booking.checkOutDate)} (${nights} nete)`;
                     bookingId = booking._id;
                     cardClass = `room-card-${roomType.toLowerCase()}`;
                 }
@@ -1494,10 +1770,10 @@
             const nights = Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24));
             const source = booking.source || 'Website';
             const sourceIcons = { 'Website': '🌐', 'Admin': '🔑', 'Chatbot': '🤖', 'Phone': '📞', 'Other': '📋' };
-            const sourceColors = { 'Website': '#0369a1;background:#e0f2fe', 'Admin': '#9d174d;background:#fce7f3', 'Chatbot': '#065f46;background:#d1fae5', 'Phone': '#92400e;background:#fef3c7', 'Other': '#4b5563;background:#f3f4f6' };
+            const sourceColors = { 'Website': '#0369a1;background:#e0f2fe', 'Admin': '#2c5f2d;background:#d8f3dc', 'Chatbot': '#065f46;background:#d1fae5', 'Phone': '#92400e;background:#fef3c7', 'Other': '#4b5563;background:#f3f4f6' };
             const srcIcon = sourceIcons[source] || '🌐';
             const srcColor = sourceColors[source] || sourceColors['Website'];
-            const sourceBadge = `<span style="color:${srcColor}; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight:600; margin-left: 8px;">${srcIcon} ${source}</span>`;
+            const sourceBadge = `<span style="color:${srcColor}; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight:600; margin-left: 6px;">${srcIcon} ${source}</span>`;
 
             return `
                 <div class="booking-card border-${booking.roomType.toLowerCase()}" data-booking-id="${booking._id}">
@@ -1509,7 +1785,7 @@
                             </div>
                             <div class="booking-status status-${booking.status}">${translateStatus(booking.status)}</div>
                         </div>
-                        <div class="booking-date">${formatDateForDisplay(booking.checkInDate)} - ${formatDateForDisplay(booking.checkOutDate)} (${nights} netë)</div>
+                        <div class="booking-date">${formatDateForDisplay(booking.checkInDate)} - ${formatDateForDisplay(booking.checkOutDate)} (${nights} nete)</div>
                     </div>
                 </div>
             `;
