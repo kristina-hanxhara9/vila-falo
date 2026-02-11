@@ -22,7 +22,7 @@
                 box-shadow 0.4s ease;
     position: relative;
     flex: 1;
-    max-width: 380px;
+    max-width: 440px;
     display: flex;
     flex-direction: column;
     padding: 14px;
@@ -84,7 +84,33 @@
     font-size: 1.4rem;
     font-weight: 700;
     color: #333;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+/* ============ ROOM FEATURES GRID ============ */
+.room-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+    margin-bottom: 0.8rem;
+    padding: 10px 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.room-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: #555;
+}
+
+.room-feature i {
+    color: #2a6d4e;
+    font-size: 0.85rem;
+    width: 16px;
+    text-align: center;
 }
 
 .room-content p {
@@ -124,17 +150,32 @@
     box-shadow: 0 6px 16px rgba(42, 109, 78, 0.3);
 }
 
+.btn-outline.room-details-btn {
+    background: transparent;
+    border: 2px solid #2a6d4e;
+    color: #2a6d4e;
+}
+
+.btn-outline.room-details-btn:hover {
+    background: #2a6d4e;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width: 991px) {
     .rooms-grid {
         gap: 20px;
     }
     .room-card {
-        max-width: 320px;
+        max-width: 360px;
         padding: 12px;
     }
     .room-content h3 {
         font-size: 1.2rem;
+    }
+    .room-feature {
+        font-size: 0.78rem;
     }
 }
 
@@ -146,7 +187,7 @@
         padding: 0 16px;
     }
     .room-card {
-        max-width: 400px;
+        max-width: 440px;
         width: 100%;
     }
     .room-img {
@@ -178,5 +219,11 @@
     .room-price-pill {
         font-size: 0.78rem;
         padding: 6px 14px;
+    }
+    .room-features {
+        gap: 6px 8px;
+    }
+    .room-feature {
+        font-size: 0.75rem;
     }
 }
