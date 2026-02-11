@@ -1905,14 +1905,24 @@ body.scrolled .language-toggle:hover {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* ---- Services Grid (all 6 visible) ---- */
+/* ---- Services Grid (4 cards, staggered) ---- */
 .services-grid-v2 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 16px;
+    padding: 60px 24px 0;
+    align-items: flex-start;
+}
+
+/* Staggered: odd cards up, even cards down */
+.service-card-v2:nth-child(odd) {
+    margin-top: 0;
+}
+
+.service-card-v2:nth-child(even) {
+    margin-top: 80px;
 }
 
 /* ---- Glassmorphism Offer Card ---- */
@@ -1920,32 +1930,34 @@ body.scrolled .language-toggle:hover {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    border-radius: 18px;
+    gap: 16px;
+    border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 10px;
+    padding: 14px;
     backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);
     background: rgba(237, 229, 222, 0.05);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    flex: 1;
+    max-width: 280px;
 }
 
 .service-card-v2:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
 .service-card-img {
-    border-radius: 12px;
+    border-radius: 14px;
     overflow: hidden;
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 3 / 4;
 }
 
 .service-card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 14px;
     display: block;
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
@@ -1956,54 +1968,64 @@ body.scrolled .language-toggle:hover {
 
 .service-card-text {
     text-align: center;
-    padding: 0 4px 6px;
+    padding: 0 6px 8px;
 }
 
 .service-card-text h3 {
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.4rem;
     color: #fff;
 }
 
 .service-card-text p {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
     line-height: 1.5;
 }
 
 /* ---- Responsive Services Grid ---- */
 @media (max-width: 991px) {
-    .services-grid-v2 {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-    }
-    .service-card-text h3 { font-size: 0.9rem; }
-    .service-card-text p { font-size: 0.75rem; }
+    .services-grid-v2 { gap: 16px; padding: 40px 16px 0; }
+    .service-card-v2 { max-width: 240px; padding: 10px; border-radius: 20px; }
+    .service-card-v2:nth-child(even) { margin-top: 60px; }
+    .service-card-text h3 { font-size: 1rem; }
+    .service-card-text p { font-size: 0.8rem; }
 }
 
 @media (max-width: 767px) {
     .services-grid-v2 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding: 0 8px;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 20px 12px 0;
+        justify-content: center;
     }
     .services { padding-top: 20px; padding-bottom: 35px; }
-    .service-card-v2 { padding: 8px; gap: 8px; border-radius: 14px; }
-    .service-card-text h3 { font-size: 0.88rem; }
-    .service-card-text p { font-size: 0.73rem; }
+    .service-card-v2 {
+        flex: 0 0 calc(50% - 8px);
+        max-width: calc(50% - 8px);
+        padding: 8px;
+        gap: 10px;
+        border-radius: 16px;
+    }
+    .service-card-v2:nth-child(even) { margin-top: 40px; }
+    .service-card-text h3 { font-size: 0.95rem; }
+    .service-card-text p { font-size: 0.75rem; }
 }
 
 @media (max-width: 480px) {
-    .services-grid-v2 {
-        grid-template-columns: repeat(2, 1fr);
+    .services-grid-v2 { gap: 8px; padding: 16px 8px 0; }
+    .service-card-v2 {
+        flex: 0 0 calc(50% - 6px);
+        max-width: calc(50% - 6px);
+        padding: 6px;
         gap: 8px;
-        padding: 0 4px;
+        border-radius: 14px;
     }
-    .service-card-v2 { padding: 6px; gap: 6px; border-radius: 12px; }
+    .service-card-v2:nth-child(even) { margin-top: 30px; }
     .service-card-img { border-radius: 10px; }
     .service-card-img img { border-radius: 10px; }
-    .service-card-text h3 { font-size: 0.82rem; }
+    .service-card-text h3 { font-size: 0.85rem; }
     .service-card-text p { font-size: 0.7rem; line-height: 1.4; }
 }
 
