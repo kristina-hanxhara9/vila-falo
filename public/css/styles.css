@@ -947,12 +947,17 @@ body.scrolled .language-toggle:hover {
     padding: 7rem 0;
 }
 
+/* Reduce gap between restaurant (food) and honey */
+#restaurant {
+    padding-bottom: 3rem;
+}
+
 /* Honey Section - Special Yellow Styling */
 #honey {
     background: linear-gradient(135deg, #fff7d6 0%, #fffbe6 50%, #fef7cd 100%);
     position: relative;
     overflow: hidden;
-    padding: 7rem 0;
+    padding: 3.5rem 0 7rem;
 }
 
 #honey::before {
@@ -3041,7 +3046,8 @@ button[type="submit"]:hover::before {
 
 /* Location Section */
 .location {
-    background: #f8f9fa;
+    background: linear-gradient(to bottom, rgba(248, 249, 250, 0.92), rgba(248, 249, 250, 0.88)),
+                url('/images/mali-bg.png') center/cover no-repeat;
     position: relative;
 }
 
