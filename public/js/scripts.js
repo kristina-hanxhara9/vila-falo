@@ -19,6 +19,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Ensure body is visible
         body.style.visibility = 'visible';
         body.style.opacity = '1';
+
+        // Ensure bee video keeps playing in loop
+        const beeVideo = document.querySelector('.bee-video-wrapper video');
+        if (beeVideo) {
+            beeVideo.loop = true;
+            beeVideo.muted = true;
+            beeVideo.play().catch(() => {});
+            beeVideo.addEventListener('ended', () => { beeVideo.currentTime = 0; beeVideo.play(); });
+        }
         
         console.log('FALLBACK: All content made visible');
     }, 1000);
