@@ -1465,7 +1465,7 @@ document.head.appendChild(calendarStyle);
         gsap.registerPlugin(ScrollTrigger);
 
         // --- GLOBAL: Smooth section reveal with clip-path wipe ---
-        document.querySelectorAll('#about, #rooms, #restaurant, #honey, #gallery, #services, #reviews, #booking, #location').forEach(function(section) {
+        document.querySelectorAll('#rooms, #restaurant, #honey, #gallery, #services, #reviews, #booking, #location').forEach(function(section) {
             gsap.fromTo(section,
                 { opacity: 0, y: 60 },
                 {
@@ -1935,9 +1935,11 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Parallax on hero background ---
+        // --- Hero section: parallax bg + content fade-out on scroll ---
         var heroSection = document.querySelector('.hero');
+        var heroContent = document.querySelector('.hero-content');
         if (heroSection) {
+            // Background parallax
             gsap.to(heroSection, {
                 backgroundPositionY: '30%',
                 ease: 'none',
@@ -1948,6 +1950,41 @@ document.head.appendChild(calendarStyle);
                     scrub: 1
                 }
             });
+
+            // Hero content fades out and drifts up as user scrolls away
+            if (heroContent) {
+                gsap.to(heroContent, {
+                    y: -100,
+                    opacity: 0,
+                    scale: 0.95,
+                    filter: 'blur(6px)',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: heroSection,
+                        start: '20% top',
+                        end: '80% top',
+                        scrub: true
+                    }
+                });
+            }
+        }
+
+        // --- About section: entrance from hero ---
+        var aboutSection = document.querySelector('#about');
+        if (aboutSection) {
+            gsap.fromTo(aboutSection,
+                { clipPath: 'inset(8% 4% 8% 4%)', opacity: 0.3 },
+                {
+                    clipPath: 'inset(0% 0% 0% 0%)', opacity: 1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: aboutSection,
+                        start: 'top 95%',
+                        end: 'top 50%',
+                        scrub: true
+                    }
+                }
+            );
         }
 
         // --- Rooms section background parallax ---

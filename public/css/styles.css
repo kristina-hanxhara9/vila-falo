@@ -5067,24 +5067,15 @@ button[type="submit"]:disabled:hover {
     animation-delay: 0.6s;
 }
 
-/* Override honey styles to match restaurant section */
-#honey {
-    background: var(--white) !important;
-    padding: 7rem 0 !important;
-}
-
+/* Override honey sub-element styles */
 #honey .honey-container,
 #honey .honey-content,
 #honey .honey-image,
 #honey .honey-cta,
 #honey .honey-contact-buttons,
 #honey .honey-note {
-    /* Reset all honey-specific styling */
-    background: inherit !important;
-    color: inherit !important;
+    background: transparent !important;
     border: none !important;
-    padding: inherit !important;
-    margin: inherit !important;
 }
 
 /* ============ HOVER EFFECT CONTAINERS ============ */
