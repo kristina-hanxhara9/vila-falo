@@ -1610,6 +1610,168 @@ document.head.appendChild(calendarStyle);
         });
     });
 
+    // ============ 3D CURVED CAROUSEL ============
+    (function() {
+        var carousel = document.getElementById('curvedCarousel');
+        var track = document.getElementById('curvedTrack');
+        if (!carousel || !track) return;
+
+        var cards = Array.from(track.querySelectorAll('.curved-card'));
+        if (!cards.length) return;
+
+        var currentIndex = Math.floor(cards.length / 2);
+        var cardWidth = 0;
+        var gap = 20;
+        var isDragging = false;
+        var startX = 0;
+        var dragOffset = 0;
+        var autoTimer = null;
+
+        function getCardWidth() {
+            if (cards[0]) {
+                cardWidth = cards[0].offsetWidth;
+                gap = parseInt(getComputedStyle(track).gap) || 20;
+            }
+        }
+
+        function applyTransforms() {
+            var viewport = carousel.querySelector('.curved-carousel-viewport');
+            var viewportCenter = viewport.offsetWidth / 2;
+            var step = cardWidth + gap;
+            var totalOffset = -currentIndex * step + viewportCenter - cardWidth / 2 + dragOffset;
+
+            cards.forEach(function(card, i) {
+                var distFromCenter = (i - currentIndex) * step + dragOffset;
+                var normalizedDist = distFromCenter / (step * 2.5);
+                var clampedDist = Math.max(-1, Math.min(1, normalizedDist));
+
+                // rotateY for the curve effect
+                var rotateY = clampedDist * -45;
+                // translateZ for depth
+                var absClamp = Math.abs(clampedDist);
+                var translateZ = -absClamp * 180;
+                // scale for depth illusion
+                var scale = 1 - absClamp * 0.15;
+                // opacity for far cards
+                var opacity = 1 - absClamp * 0.4;
+
+                card.style.transform = 'rotateY(' + rotateY + 'deg) translateZ(' + translateZ + 'px) scale(' + scale + ')';
+                card.style.opacity = Math.max(0.3, opacity);
+                card.style.zIndex = Math.round((1 - absClamp) * 100);
+
+                if (absClamp < 0.15) {
+                    card.classList.add('is-center');
+                } else {
+                    card.classList.remove('is-center');
+                }
+            });
+
+            track.style.transform = 'translateX(' + totalOffset + 'px)';
+        }
+
+        function goTo(index) {
+            currentIndex = Math.max(0, Math.min(cards.length - 1, index));
+            dragOffset = 0;
+            applyTransforms();
+        }
+
+        function next() {
+            if (currentIndex < cards.length - 1) {
+                goTo(currentIndex + 1);
+            } else {
+                goTo(0);
+            }
+        }
+
+        function prev() {
+            if (currentIndex > 0) {
+                goTo(currentIndex - 1);
+            } else {
+                goTo(cards.length - 1);
+            }
+        }
+
+        // Navigation buttons
+        var prevBtn = carousel.querySelector('.curved-prev');
+        var nextBtn = carousel.querySelector('.curved-next');
+        if (prevBtn) prevBtn.addEventListener('click', function() { prev(); resetAutoPlay(); });
+        if (nextBtn) nextBtn.addEventListener('click', function() { next(); resetAutoPlay(); });
+
+        // Drag handling
+        function onPointerDown(e) {
+            isDragging = true;
+            startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            dragOffset = 0;
+            track.classList.add('is-dragging');
+            stopAutoPlay();
+        }
+
+        function onPointerMove(e) {
+            if (!isDragging) return;
+            var x = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+            dragOffset = x - startX;
+            applyTransforms();
+        }
+
+        function onPointerUp() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('is-dragging');
+
+            var threshold = cardWidth * 0.25;
+            if (dragOffset < -threshold) {
+                next();
+            } else if (dragOffset > threshold) {
+                prev();
+            } else {
+                dragOffset = 0;
+                applyTransforms();
+            }
+            resetAutoPlay();
+        }
+
+        track.addEventListener('mousedown', onPointerDown);
+        window.addEventListener('mousemove', onPointerMove);
+        window.addEventListener('mouseup', onPointerUp);
+        track.addEventListener('touchstart', onPointerDown, { passive: true });
+        window.addEventListener('touchmove', onPointerMove, { passive: true });
+        window.addEventListener('touchend', onPointerUp);
+
+        // Prevent image dragging
+        track.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+        // Auto-play
+        function startAutoPlay() {
+            autoTimer = setInterval(next, 3500);
+        }
+        function stopAutoPlay() {
+            if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+        }
+        function resetAutoPlay() {
+            stopAutoPlay();
+            startAutoPlay();
+        }
+
+        // Pause on hover
+        carousel.addEventListener('mouseenter', stopAutoPlay);
+        carousel.addEventListener('mouseleave', startAutoPlay);
+
+        // Init
+        function init() {
+            getCardWidth();
+            currentIndex = Math.floor(cards.length / 2);
+            applyTransforms();
+            startAutoPlay();
+        }
+
+        // Run on load and resize
+        init();
+        window.addEventListener('resize', function() {
+            getCardWidth();
+            applyTransforms();
+        });
+    })();
+
     // ============ FOOD FAN-OUT GSAP ANIMATION ============
     setTimeout(function() {
         if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
