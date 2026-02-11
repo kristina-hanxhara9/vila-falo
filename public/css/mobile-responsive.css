@@ -367,11 +367,24 @@
         gap: 1rem;
         align-items: center;
     }
-    
+
     .restaurant-cta .btn {
         width: 100%;
         max-width: 250px;
         text-align: center;
+    }
+
+    /* Honey buttons always inline */
+    .restaurant-cta-right {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .restaurant-cta-right .btn {
+        width: auto !important;
+        max-width: none !important;
+        font-size: 0.78rem;
+        padding: 8px 12px;
     }
     
     .image-grid {
