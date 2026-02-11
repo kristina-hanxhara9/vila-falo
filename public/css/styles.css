@@ -952,23 +952,12 @@ body.scrolled .language-toggle:hover {
     padding-bottom: 3rem;
 }
 
-/* Honey Section - Video Background */
+/* Honey Section - Bee Hive Background */
 #honey {
-    background: #1a1a0e;
+    background: url('/images/bee-hove-bg.png') center/cover no-repeat;
     position: relative;
     overflow: hidden;
     padding: 3.5rem 0 7rem;
-}
-
-.honey-video-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-    opacity: 0.4;
 }
 
 #honey::before {
@@ -978,8 +967,23 @@ body.scrolled .language-toggle:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(26, 26, 14, 0.5), rgba(26, 26, 14, 0.3));
+    background: rgba(0, 0, 0, 0.35);
     z-index: 0;
+}
+
+/* Inline bee video in honey section */
+.honey-video-inline {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.honey-video-inline video {
+    width: 100%;
+    display: block;
+    border-radius: 16px;
 }
 
 /* honeycomb pattern removed - video bg instead */
@@ -3065,7 +3069,7 @@ button[type="submit"]:hover::before {
 
 /* Location Section */
 .location {
-    background: url('/images/mali-bg.png') center/cover no-repeat;
+    background: #f8f9fa;
     position: relative;
 }
 
@@ -3076,11 +3080,16 @@ button[type="submit"]:hover::before {
 
 .location-info {
     flex: 1;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.5)),
+                url('/images/mali-bg.png') center/cover no-repeat;
+    border-radius: 16px;
+    padding: 2rem;
+    color: #fff;
 }
 
 .location-info h3 {
     font-size: 1.8rem;
-    color: var(--primary);
+    color: #fff;
     margin-bottom: 1.5rem;
     position: relative;
     display: inline-block;
@@ -3104,6 +3113,20 @@ button[type="submit"]:hover::before {
 .location-info p {
     margin-bottom: 1.5rem;
     line-height: 1.7;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.location-info h4 {
+    color: #fff;
+}
+
+.location-info .contact-item p {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.location-info .contact-icon {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
 }
 
 .location-map {
@@ -5020,40 +5043,3 @@ button[type="submit"]:disabled:hover {
     display: block;
 }
 
-/* ============ OVERLAP SCROLL REVEAL ============ */
-.overlap-scroll-container {
-    position: relative;
-}
-
-.overlap-section {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15);
-}
-
-/* Stack order: CTA on top of Location */
-.overlap-section:nth-child(1) { z-index: 1; }
-.overlap-section:nth-child(2) { z-index: 2; }
-
-/* Location gets a rounded top for the reveal look */
-section.location.overlap-section {
-    border-radius: 28px 28px 0 0;
-    overflow: hidden;
-}
-
-/* CTA slides over location */
-section.cta.overlap-section {
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.2);
-}
-
-@media (max-width: 768px) {
-    .overlap-section {
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
-    }
-    section.location.overlap-section,
-    section.cta.overlap-section {
-        border-radius: 20px 20px 0 0;
-    }
-}
