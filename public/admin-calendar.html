@@ -316,6 +316,27 @@
             text-decoration: line-through;
         }
 
+        .day-booking .source-icon {
+            font-size: 8px;
+            margin-right: 2px;
+        }
+
+        .source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 8px;
+            border-radius: var(--border-radius-full);
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .source-tag.src-website { background: #e0f2fe; color: #0369a1; }
+        .source-tag.src-admin { background: #fce7f3; color: #9d174d; }
+        .source-tag.src-chatbot { background: #d1fae5; color: #065f46; }
+        .source-tag.src-phone { background: #fef3c7; color: #92400e; }
+        .source-tag.src-other { background: #f3f4f6; color: #4b5563; }
+
         .day-more {
             font-size: 10px;
             color: var(--primary-color);
@@ -894,7 +915,8 @@
                 dayBookings.slice(0, maxShow).forEach(b => {
                     const typeClass = `type-${b.roomType.toLowerCase()}`;
                     const statusClass = `status-${b.status}`;
-                    bookingsHTML += `<div class="day-booking ${typeClass} ${statusClass}" data-id="${b._id}" onclick="event.stopPropagation(); showBookingInDetail('${b._id}', '${dateStr}')">${b.guestName}</div>`;
+                    const srcIcon = getSourceIcon(b.source);
+                    bookingsHTML += `<div class="day-booking ${typeClass} ${statusClass}" data-id="${b._id}" onclick="event.stopPropagation(); showBookingInDetail('${b._id}', '${dateStr}')"><span class="source-icon">${srcIcon}</span>${b.guestName}</div>`;
                 });
 
                 if (dayBookings.length > maxShow) {
@@ -1062,16 +1084,21 @@
             const source = booking.source || 'Website';
             const created = booking.createdAt ? new Date(booking.createdAt).toLocaleDateString('sq-AL') : '-';
 
+            const srcClass = `src-${source.toLowerCase()}`;
+            const srcIcon = getSourceIcon(source);
+            const srcLabel = translateSource(source);
+
             return `<div class="detail-booking-card" onclick="toggleExpanded(this)">
                 <div class="card-top">
                     <span class="guest-name">${booking.guestName}</span>
                     <span class="room-badge ${typeClass}">${booking.roomType}</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
-                    <span style="font-size:12px; color:var(--text-medium);">
-                        ${formatDisplayDate(booking.checkInDate)} - ${formatDisplayDate(booking.checkOutDate)} (${nights} netë)
-                    </span>
+                    <span class="source-tag ${srcClass}">${srcIcon} ${srcLabel}</span>
                     <span class="status-badge ${booking.status}">${translateStatus(booking.status)}</span>
+                </div>
+                <div style="font-size:12px; color:var(--text-medium); margin-top:4px;">
+                    ${formatDisplayDate(booking.checkInDate)} - ${formatDisplayDate(booking.checkOutDate)} (${nights} netë)
                 </div>
                 <div class="booking-expanded">
                     <div class="info-row">
@@ -1159,6 +1186,28 @@
                 'completed': 'Përfunduar'
             };
             return map[status] || status;
+        }
+
+        function getSourceIcon(source) {
+            const icons = {
+                'Website': '🌐',
+                'Admin': '🔑',
+                'Chatbot': '🤖',
+                'Phone': '📞',
+                'Other': '📋'
+            };
+            return icons[source] || '🌐';
+        }
+
+        function translateSource(source) {
+            const map = {
+                'Website': 'Website',
+                'Admin': 'Admin',
+                'Chatbot': 'Chatbot',
+                'Phone': 'Telefon',
+                'Other': 'Tjetër'
+            };
+            return map[source] || source || 'Website';
         }
 
         function translatePayment(status) {

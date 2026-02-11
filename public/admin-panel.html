@@ -1493,8 +1493,12 @@
             const checkOut = new Date(booking.checkOutDate);
             const nights = Math.round((checkOut - checkIn) / (1000 * 60 * 60 * 24));
             const source = booking.source || 'Website';
-            const sourceBadge = source === 'Chatbot' ? '<span style="background: #28a745; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 8px;">🤖 Chatbot</span>' : '';
-            
+            const sourceIcons = { 'Website': '🌐', 'Admin': '🔑', 'Chatbot': '🤖', 'Phone': '📞', 'Other': '📋' };
+            const sourceColors = { 'Website': '#0369a1;background:#e0f2fe', 'Admin': '#9d174d;background:#fce7f3', 'Chatbot': '#065f46;background:#d1fae5', 'Phone': '#92400e;background:#fef3c7', 'Other': '#4b5563;background:#f3f4f6' };
+            const srcIcon = sourceIcons[source] || '🌐';
+            const srcColor = sourceColors[source] || sourceColors['Website'];
+            const sourceBadge = `<span style="color:${srcColor}; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight:600; margin-left: 8px;">${srcIcon} ${source}</span>`;
+
             return `
                 <div class="booking-card border-${booking.roomType.toLowerCase()}" data-booking-id="${booking._id}">
                     <div class="booking-content">
@@ -1633,7 +1637,7 @@
                             <div class="details-value">${currentBooking.specialRequests || 'Asnjë'}</div>
                             
                             <div class="details-label">Burimi:</div>
-                            <div class="details-value">${currentBooking.source || 'Website'}</div>
+                            <div class="details-value">${({'Website':'🌐 Website','Admin':'🔑 Admin','Chatbot':'🤖 Chatbot','Phone':'📞 Telefon','Other':'📋 Tjetër'})[currentBooking.source] || '🌐 Website'}</div>
                             
                             <div class="details-label">Krijuar më:</div>
                             <div class="details-value">${createdDate}</div>
@@ -1697,7 +1701,8 @@
                     numberOfGuests: parseInt(numberOfGuests),
                     checkInDate,
                     checkOutDate,
-                    specialRequests
+                    specialRequests,
+                    source: 'Admin'
                 };
                 
                 let response;
