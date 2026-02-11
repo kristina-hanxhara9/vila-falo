@@ -1464,30 +1464,54 @@ document.head.appendChild(calendarStyle);
         }
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- Section titles: slide up + fade ---
-        document.querySelectorAll('.section-title h2').forEach(function(h2) {
-            gsap.fromTo(h2,
-                { y: 40, opacity: 0 },
+        // --- GLOBAL: Smooth section reveal with clip-path wipe ---
+        document.querySelectorAll('#about, #rooms, #restaurant, #honey, #gallery, #services, #reviews, #booking, #location').forEach(function(section) {
+            gsap.fromTo(section,
+                { opacity: 0, y: 60 },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out',
+                    opacity: 1, y: 0,
+                    duration: 1,
+                    ease: 'power3.out',
                     scrollTrigger: {
-                        trigger: h2,
-                        start: 'top 88%',
+                        trigger: section,
+                        start: 'top 85%',
+                        end: 'top 40%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         });
 
+        // --- Section titles: split character reveal ---
+        document.querySelectorAll('.section-title h2').forEach(function(h2) {
+            var text = h2.textContent;
+            var chars = text.split('');
+            h2.innerHTML = chars.map(function(c) {
+                return c === ' ' ? ' ' : '<span style="display:inline-block;opacity:0;transform:translateY(30px)">' + c + '</span>';
+            }).join('');
+            var spans = h2.querySelectorAll('span');
+            if (spans.length) {
+                gsap.to(spans, {
+                    opacity: 1, y: 0,
+                    duration: 0.5,
+                    stagger: 0.02,
+                    ease: 'back.out(1.5)',
+                    scrollTrigger: {
+                        trigger: h2,
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                });
+            }
+        });
+
         document.querySelectorAll('.section-title p').forEach(function(p) {
             gsap.fromTo(p,
-                { y: 25, opacity: 0 },
+                { y: 25, opacity: 0, filter: 'blur(6px)' },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.7,
-                    delay: 0.15,
+                    y: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 0.8,
+                    delay: 0.3,
                     ease: 'power2.out',
                     scrollTrigger: {
                         trigger: p,
@@ -1498,15 +1522,15 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- About section: content slide in from left, image from right ---
+        // --- About section: parallax split reveal ---
         var aboutText = document.querySelector('.about-text');
         if (aboutText) {
             gsap.fromTo(aboutText,
-                { x: -60, opacity: 0 },
+                { x: -80, opacity: 0, filter: 'blur(4px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 1,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.about-content',
                         start: 'top 80%',
@@ -1519,11 +1543,11 @@ document.head.appendChild(calendarStyle);
         var aboutImg = document.querySelector('.about-hover-img');
         if (aboutImg) {
             gsap.fromTo(aboutImg,
-                { x: 60, opacity: 0 },
+                { x: 80, opacity: 0, scale: 0.9, filter: 'blur(4px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 1,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.about-content',
                         start: 'top 80%',
@@ -1533,50 +1557,52 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- About features: staggered pop-in ---
+        // --- About features: staggered bounce-in with rotation ---
         var aboutFeatures = document.querySelectorAll('.feature-item');
         if (aboutFeatures.length) {
             gsap.fromTo(aboutFeatures,
-                { y: 30, opacity: 0, scale: 0.9 },
+                { y: 50, opacity: 0, scale: 0.8, rotationX: 20 },
                 {
-                    y: 0, opacity: 1, scale: 1,
-                    duration: 0.5,
-                    stagger: 0.1,
-                    ease: 'back.out(1.4)',
+                    y: 0, opacity: 1, scale: 1, rotationX: 0,
+                    duration: 0.7,
+                    stagger: 0.12,
+                    ease: 'back.out(1.7)',
                     scrollTrigger: {
                         trigger: '.about-features',
-                        start: 'top 90%',
+                        start: 'top 88%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Room cards: staggered scale + slide ---
+        // --- Room cards: 3D flip-in with stagger ---
         var roomCards = document.querySelectorAll('.room-card');
         if (roomCards.length) {
-            gsap.fromTo(roomCards,
-                { y: 60, opacity: 0, scale: 0.92 },
-                {
-                    y: 0, opacity: 1, scale: 1,
-                    duration: 0.8,
-                    stagger: 0.18,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.rooms-grid',
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+            roomCards.forEach(function(card, i) {
+                gsap.fromTo(card,
+                    { y: 80, opacity: 0, rotationX: 15, scale: 0.9, filter: 'blur(4px)' },
+                    {
+                        y: 0, opacity: 1, rotationX: 0, scale: 1, filter: 'blur(0px)',
+                        duration: 1,
+                        delay: i * 0.2,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: '.rooms-grid',
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
                     }
-                }
-            );
+                );
+            });
         }
 
-        // --- Room images: subtle parallax within cards ---
+        // --- Room images: smooth parallax within cards ---
         document.querySelectorAll('.room-img img').forEach(function(img) {
             gsap.fromTo(img,
-                { yPercent: -5 },
+                { yPercent: -8, scale: 1.08 },
                 {
-                    yPercent: 5,
+                    yPercent: 8, scale: 1,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: img.closest('.room-card'),
@@ -1588,18 +1614,17 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- Service cards v2: alternating slide with stagger ---
+        // --- Service cards v2: wave entrance ---
         var serviceCardsV2 = document.querySelectorAll('.service-card-v2');
         if (serviceCardsV2.length) {
             serviceCardsV2.forEach(function(card, i) {
-                var fromY = i % 2 === 0 ? -50 : 50;
                 gsap.fromTo(card,
-                    { y: fromY, opacity: 0, scale: 0.9 },
+                    { y: 60, opacity: 0, scale: 0.85, filter: 'blur(3px)' },
                     {
-                        y: 0, opacity: 1, scale: 1,
-                        duration: 0.8,
-                        delay: i * 0.12,
-                        ease: 'power3.out',
+                        y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                        duration: 0.7,
+                        delay: i * 0.08,
+                        ease: 'back.out(1.2)',
                         scrollTrigger: {
                             trigger: '.services-grid-v2',
                             start: 'top 85%',
@@ -1610,36 +1635,36 @@ document.head.appendChild(calendarStyle);
             });
         }
 
-        // --- Restaurant section: content + image slide ---
+        // --- Restaurant section: cinematic split reveal ---
         var restaurantContent = document.querySelector('#restaurant .restaurant-content');
         if (restaurantContent) {
             gsap.fromTo(restaurantContent,
-                { x: -50, opacity: 0 },
+                { x: -70, opacity: 0, filter: 'blur(5px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 0.9,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '#restaurant .restaurant-container',
-                        start: 'top 80%',
+                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Honey section: content + image slide ---
+        // --- Honey section: smooth dual reveal ---
         var honeyContent = document.querySelector('#honey .restaurant-content');
         if (honeyContent) {
             gsap.fromTo(honeyContent,
-                { x: -50, opacity: 0 },
+                { x: -70, opacity: 0, filter: 'blur(5px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 0.9,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
-                        start: 'top 80%',
+                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
@@ -1649,68 +1674,54 @@ document.head.appendChild(calendarStyle);
         var honeyRight = document.querySelector('.honey-right-col');
         if (honeyRight) {
             gsap.fromTo(honeyRight,
-                { x: 50, opacity: 0 },
+                { x: 70, opacity: 0, scale: 0.95, filter: 'blur(5px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 0.9,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    delay: 0.15,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
-                        start: 'top 80%',
+                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Food fan cards: staggered fan entrance ---
+        // --- Food fan cards: dramatic fan open ---
         var foodCards = document.querySelectorAll('.food-fan-card');
         if (foodCards.length) {
-            gsap.fromTo(foodCards,
-                { y: 40, opacity: 0, rotationY: 15 },
-                {
-                    y: 0, opacity: 1, rotationY: 0,
-                    duration: 0.7,
-                    stagger: 0.1,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: '.food-fan-track',
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+            foodCards.forEach(function(card, i) {
+                var angle = (i - 1.5) * 12;
+                gsap.fromTo(card,
+                    { y: 60, opacity: 0, rotationY: angle, scale: 0.85 },
+                    {
+                        y: 0, opacity: 1, rotationY: 0, scale: 1,
+                        duration: 0.9,
+                        delay: i * 0.1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: '.food-fan-track',
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
                     }
-                }
-            );
+                );
+            });
         }
 
-        // --- Gallery marquee: fade + slide up ---
+        // --- Gallery marquee: smooth curtain reveal ---
         var marquee = document.querySelector('.gallery-marquee');
         if (marquee) {
             gsap.fromTo(marquee,
-                { y: 40, opacity: 0 },
+                { y: 50, opacity: 0, clipPath: 'inset(20% 10% 20% 10%)' },
                 {
-                    y: 0, opacity: 1,
-                    duration: 1,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: marquee,
-                        start: 'top 90%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Review cards track: slide in ---
-        var reviewTrack = document.querySelector('.reviews-track');
-        if (reviewTrack) {
-            gsap.fromTo(reviewTrack,
-                { x: 80, opacity: 0 },
-                {
-                    x: 0, opacity: 1,
-                    duration: 1,
+                    y: 0, opacity: 1, clipPath: 'inset(0% 0% 0% 0%)',
+                    duration: 1.2,
                     ease: 'power3.out',
                     scrollTrigger: {
-                        trigger: reviewTrack,
+                        trigger: marquee,
                         start: 'top 88%',
                         toggleActions: 'play none none none'
                     }
@@ -1718,18 +1729,55 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Booking section: form slides up, info slides left ---
+        // --- Review cards: carousel sweep in ---
+        var reviewTrack = document.querySelector('.reviews-carousel-track');
+        if (reviewTrack) {
+            gsap.fromTo(reviewTrack,
+                { x: 120, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: '.reviews-section',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Individual review cards: staggered depth ---
+        var reviewCards = document.querySelectorAll('.review-card');
+        if (reviewCards.length) {
+            gsap.fromTo(reviewCards,
+                { y: 40, opacity: 0, rotationY: 8 },
+                {
+                    y: 0, opacity: 1, rotationY: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.reviews-section',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking section: smooth dual entrance ---
         var bookingInfo = document.querySelector('.booking-info');
         if (bookingInfo) {
             gsap.fromTo(bookingInfo,
-                { x: -50, opacity: 0 },
+                { x: -60, opacity: 0, filter: 'blur(4px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 0.9,
-                    ease: 'power3.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.booking-container',
-                        start: 'top 82%',
+                        start: 'top 80%',
                         toggleActions: 'play none none none'
                     }
                 }
@@ -1739,13 +1787,51 @@ document.head.appendChild(calendarStyle);
         var bookingForm = document.querySelector('.booking-form');
         if (bookingForm) {
             gsap.fromTo(bookingForm,
-                { y: 50, opacity: 0 },
+                { y: 60, opacity: 0, scale: 0.95, filter: 'blur(4px)' },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.9,
-                    ease: 'power3.out',
+                    y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                    duration: 1,
+                    delay: 0.15,
+                    ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.booking-container',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking form fields: cascade reveal ---
+        var formGroups = document.querySelectorAll('.booking-form .form-group');
+        if (formGroups.length) {
+            gsap.fromTo(formGroups,
+                { y: 20, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.35,
+                    stagger: 0.05,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.booking-form',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Location section: map cinematic zoom ---
+        var mapFrame = document.querySelector('.map-frame');
+        if (mapFrame) {
+            gsap.fromTo(mapFrame,
+                { scale: 0.85, opacity: 0, borderRadius: '30px', filter: 'blur(6px)' },
+                {
+                    scale: 1, opacity: 1, borderRadius: '12px', filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: mapFrame,
                         start: 'top 82%',
                         toggleActions: 'play none none none'
                     }
@@ -1753,34 +1839,34 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Location section: map frame scale in ---
-        var mapFrame = document.querySelector('.map-frame');
-        if (mapFrame) {
-            gsap.fromTo(mapFrame,
-                { scale: 0.9, opacity: 0 },
+        // --- Location info: smooth content reveal ---
+        var locationInfo = document.querySelector('.location-info');
+        if (locationInfo) {
+            gsap.fromTo(locationInfo,
+                { x: -60, opacity: 0, filter: 'blur(4px)' },
                 {
-                    scale: 1, opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1,
+                    ease: 'power4.out',
                     scrollTrigger: {
-                        trigger: mapFrame,
-                        start: 'top 85%',
+                        trigger: '.location-container',
+                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Contact items: staggered slide ---
+        // --- Contact items: bounce in with icon spin ---
         var contactItems = document.querySelectorAll('.contact-item');
         if (contactItems.length) {
             gsap.fromTo(contactItems,
-                { x: -30, opacity: 0 },
+                { x: -40, opacity: 0 },
                 {
                     x: 0, opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.1,
-                    ease: 'power2.out',
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'back.out(1.4)',
                     scrollTrigger: {
                         trigger: contactItems[0].parentElement,
                         start: 'top 85%',
@@ -1790,19 +1876,59 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Season cards: stagger pop ---
+        var contactIcons = document.querySelectorAll('.contact-icon');
+        if (contactIcons.length) {
+            gsap.fromTo(contactIcons,
+                { scale: 0, rotation: -180 },
+                {
+                    scale: 1, rotation: 0,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'back.out(2)',
+                    scrollTrigger: {
+                        trigger: contactIcons[0].closest('.contact-info'),
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Season cards: wave pop with depth ---
         var seasonCards = document.querySelectorAll('.season-card');
         if (seasonCards.length) {
-            gsap.fromTo(seasonCards,
-                { y: 30, opacity: 0, scale: 0.9 },
+            seasonCards.forEach(function(card, i) {
+                gsap.fromTo(card,
+                    { y: 50, opacity: 0, scale: 0.8, rotationX: 15 },
+                    {
+                        y: 0, opacity: 1, scale: 1, rotationX: 0,
+                        duration: 0.7,
+                        delay: i * 0.12,
+                        ease: 'back.out(1.5)',
+                        scrollTrigger: {
+                            trigger: '.seasons-grid',
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+        }
+
+        // --- Season highlight badges: delayed pop ---
+        var seasonHighlights = document.querySelectorAll('.season-highlight');
+        if (seasonHighlights.length) {
+            gsap.fromTo(seasonHighlights,
+                { scale: 0, opacity: 0 },
                 {
-                    y: 0, opacity: 1, scale: 1,
+                    scale: 1, opacity: 1,
                     duration: 0.5,
-                    stagger: 0.12,
-                    ease: 'back.out(1.3)',
+                    stagger: 0.1,
+                    delay: 0.4,
+                    ease: 'back.out(2.5)',
                     scrollTrigger: {
                         trigger: '.seasons-grid',
-                        start: 'top 88%',
+                        start: 'top 80%',
                         toggleActions: 'play none none none'
                     }
                 }
@@ -1839,14 +1965,14 @@ document.head.appendChild(calendarStyle);
             });
         }
 
-        // --- Blockquotes: elegant fade + slide ---
+        // --- Blockquotes: elegant underline reveal ---
         document.querySelectorAll('.anton-quote').forEach(function(quote) {
             gsap.fromTo(quote,
-                { x: -20, opacity: 0 },
+                { x: -30, opacity: 0, filter: 'blur(3px)' },
                 {
-                    x: 0, opacity: 1,
-                    duration: 0.8,
-                    ease: 'power2.out',
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 0.9,
+                    ease: 'power3.out',
                     scrollTrigger: {
                         trigger: quote,
                         start: 'top 90%',
@@ -1856,26 +1982,26 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- Menu highlights grid: staggered ---
+        // --- Menu highlights grid: cascade ---
         var menuItems = document.querySelectorAll('.menu-item');
         if (menuItems.length) {
             gsap.fromTo(menuItems,
-                { y: 20, opacity: 0 },
+                { y: 25, opacity: 0, scale: 0.95 },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.4,
-                    stagger: 0.08,
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.45,
+                    stagger: 0.06,
                     ease: 'power2.out',
                     scrollTrigger: {
                         trigger: menuItems[0].closest('.menu-grid'),
-                        start: 'top 90%',
+                        start: 'top 88%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- CTA section: dramatic entrance ---
+        // --- CTA section: cinematic parallax + staggered text ---
         var ctaSection = document.querySelector('.cta');
         if (ctaSection) {
             gsap.fromTo(ctaSection,
@@ -1898,10 +2024,10 @@ document.head.appendChild(calendarStyle);
 
             if (ctaH2) {
                 gsap.fromTo(ctaH2,
-                    { y: 50, opacity: 0, scale: 0.9 },
+                    { y: 50, opacity: 0, scale: 0.9, filter: 'blur(6px)' },
                     {
-                        y: 0, opacity: 1, scale: 1,
-                        duration: 1,
+                        y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                        duration: 1.2,
                         ease: 'power4.out',
                         scrollTrigger: {
                             trigger: ctaSection,
@@ -1914,10 +2040,10 @@ document.head.appendChild(calendarStyle);
 
             if (ctaP) {
                 gsap.fromTo(ctaP,
-                    { y: 30, opacity: 0 },
+                    { y: 30, opacity: 0, filter: 'blur(4px)' },
                     {
-                        y: 0, opacity: 1,
-                        duration: 0.8,
+                        y: 0, opacity: 1, filter: 'blur(0px)',
+                        duration: 1,
                         delay: 0.2,
                         ease: 'power3.out',
                         scrollTrigger: {
@@ -1931,12 +2057,12 @@ document.head.appendChild(calendarStyle);
 
             if (ctaBtn) {
                 gsap.fromTo(ctaBtn,
-                    { y: 20, opacity: 0, scale: 0.85 },
+                    { y: 20, opacity: 0, scale: 0.8 },
                     {
                         y: 0, opacity: 1, scale: 1,
-                        duration: 0.7,
+                        duration: 0.8,
                         delay: 0.4,
-                        ease: 'back.out(2)',
+                        ease: 'back.out(2.5)',
                         scrollTrigger: {
                             trigger: ctaSection,
                             start: 'top 75%',
@@ -1947,14 +2073,14 @@ document.head.appendChild(calendarStyle);
             }
         }
 
-        // --- Footer columns: staggered rise from bottom ---
+        // --- Footer columns: staggered rise with blur ---
         var footerCols = document.querySelectorAll('.footer-col');
         if (footerCols.length) {
             gsap.fromTo(footerCols,
-                { y: 50, opacity: 0 },
+                { y: 60, opacity: 0, filter: 'blur(4px)' },
                 {
-                    y: 0, opacity: 1,
-                    duration: 0.7,
+                    y: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 0.8,
                     stagger: 0.15,
                     ease: 'power3.out',
                     scrollTrigger: {
@@ -1966,67 +2092,32 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Location info: text lines reveal stagger ---
-        var locationInfo = document.querySelector('.location-info');
-        if (locationInfo) {
-            gsap.fromTo(locationInfo,
-                { x: -60, opacity: 0 },
-                {
-                    x: 0, opacity: 1,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.location-container',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        var locationMap = document.querySelector('.location-map');
-        if (locationMap) {
-            gsap.fromTo(locationMap,
-                { x: 60, opacity: 0, scale: 0.95 },
-                {
-                    x: 0, opacity: 1, scale: 1,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.location-container',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Bee video hexagon: float in from left with rotation ---
+        // --- Bee video hexagon: float in with gentle spin ---
         var beeVideoOverlap = document.querySelector('.bee-video-overlap');
         if (beeVideoOverlap) {
             gsap.fromTo(beeVideoOverlap,
-                { x: -100, opacity: 0, rotation: -10 },
+                { x: -120, opacity: 0, rotation: -15, scale: 0.8 },
                 {
-                    x: 0, opacity: 1, rotation: 0,
-                    duration: 1.2,
+                    x: 0, opacity: 1, rotation: 0, scale: 1,
+                    duration: 1.4,
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: beeVideoOverlap,
-                        start: 'top 90%',
+                        start: 'top 92%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Honey section right column product cards: stagger pop ---
+        // --- Honey products: stagger pop ---
         var honeyProducts = document.querySelectorAll('.honey-right-col .food-fan-card, .honey-right-col .honey-product');
         if (honeyProducts.length) {
             gsap.fromTo(honeyProducts,
-                { y: 40, opacity: 0, scale: 0.9 },
+                { y: 40, opacity: 0, scale: 0.85 },
                 {
                     y: 0, opacity: 1, scale: 1,
-                    duration: 0.6,
+                    duration: 0.7,
                     stagger: 0.12,
                     ease: 'back.out(1.5)',
                     scrollTrigger: {
@@ -2038,104 +2129,7 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Section dividers / decorative lines: width grow ---
-        document.querySelectorAll('.section-title').forEach(function(st) {
-            var line = st.querySelector('hr, .divider, .title-line');
-            if (line) {
-                gsap.fromTo(line,
-                    { scaleX: 0 },
-                    {
-                        scaleX: 1,
-                        duration: 0.8,
-                        ease: 'power2.inOut',
-                        scrollTrigger: {
-                            trigger: st,
-                            start: 'top 88%',
-                            toggleActions: 'play none none none'
-                        }
-                    }
-                );
-            }
-        });
-
-        // --- Review cards: individual card hover-like entrance ---
-        var reviewCards = document.querySelectorAll('.review-card');
-        if (reviewCards.length) {
-            gsap.fromTo(reviewCards,
-                { y: 40, opacity: 0, rotationX: 10 },
-                {
-                    y: 0, opacity: 1, rotationX: 0,
-                    duration: 0.7,
-                    stagger: 0.15,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.reviews-track',
-                        start: 'top 88%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Booking form groups: cascade down ---
-        var formGroups = document.querySelectorAll('.booking-form .form-group');
-        if (formGroups.length) {
-            gsap.fromTo(formGroups,
-                { y: 20, opacity: 0 },
-                {
-                    y: 0, opacity: 1,
-                    duration: 0.4,
-                    stagger: 0.06,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: '.booking-form',
-                        start: 'top 80%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Contact icons: bounce in ---
-        var contactIcons = document.querySelectorAll('.contact-icon');
-        if (contactIcons.length) {
-            gsap.fromTo(contactIcons,
-                { scale: 0, rotation: -180 },
-                {
-                    scale: 1, rotation: 0,
-                    duration: 0.6,
-                    stagger: 0.1,
-                    ease: 'back.out(1.7)',
-                    scrollTrigger: {
-                        trigger: contactIcons[0].closest('.contact-info'),
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Weather seasons highlight badges: pop scale ---
-        var seasonHighlights = document.querySelectorAll('.season-highlight');
-        if (seasonHighlights.length) {
-            gsap.fromTo(seasonHighlights,
-                { scale: 0, opacity: 0 },
-                {
-                    scale: 1, opacity: 1,
-                    duration: 0.5,
-                    stagger: 0.1,
-                    delay: 0.3,
-                    ease: 'back.out(2)',
-                    scrollTrigger: {
-                        trigger: '.seasons-grid',
-                        start: 'top 80%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Scroll-linked number counter for stats (if any) ---
+        // --- Scroll-linked number counter ---
         document.querySelectorAll('[data-count]').forEach(function(el) {
             var target = parseInt(el.getAttribute('data-count'));
             var obj = { val: 0 };
