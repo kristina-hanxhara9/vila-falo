@@ -1351,7 +1351,6 @@ document.head.appendChild(calendarStyle);
     function initHoverEffects(retryCount) {
         retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
-        var honeyContainer = document.getElementById('honey-hover-container');
         var restaurantContainer = document.getElementById('restaurant-hover-container');
 
         // If libraries didn't load yet, retry up to 5 times with delays
@@ -1408,38 +1407,15 @@ document.head.appendChild(calendarStyle);
             }
         }
 
-        // Honey section hover effect (honey jar ↔ honey yogurt) - both 960x1280
-        if (honeyContainer && !honeyContainer.querySelector('canvas')) {
-            try {
-                new hoverEffect({
-                    parent: honeyContainer,
-                    intensity: 0.3,
-                    image1: '/images/mjalte.jpg',
-                    image2: '/images/kos-mjalte.jpg',
-                    displacementImage: displacementImg,
-                    speedIn: 1.6,
-                    speedOut: 1.2
-                });
-                console.log('Honey hover effect initialized successfully');
-            } catch (e) {
-                console.warn('Honey hover effect failed:', e);
-                showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
-            }
-        }
-
         // Timeout fallback: if after 5 seconds containers are still empty, show static images
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
-            var honey = document.getElementById('honey-hover-container');
             var restaurant = document.getElementById('restaurant-hover-container');
             if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
                 showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
             }
             if (restaurant && !restaurant.querySelector('canvas') && !restaurant.querySelector('img')) {
                 showFallbackImage(restaurant, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
-            }
-            if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
-                showFallbackImage(honey, '/images/mjalte.jpg', 'Mountain Honey');
             }
         }, 5000);
     }

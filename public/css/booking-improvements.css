@@ -1,115 +1,227 @@
-/* Booking Form Improvements */
+/* Booking Form - Luxury Delicate Style */
 
-/* Make date inputs visible */
+/* ============ FORM CONTAINER ============ */
+.booking-form {
+    background: linear-gradient(180deg, #fdfcfa 0%, #f7f5f0 100%) !important;
+    border: 1px solid rgba(42, 109, 78, 0.1) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(42, 109, 78, 0.08) !important;
+    padding: 2.2rem 2.2rem !important;
+}
+
+.booking-form::before {
+    height: 3px !important;
+    background: linear-gradient(to right, #2a6d4e, #5ab88a, #2a6d4e) !important;
+    opacity: 0.7;
+}
+
+.booking-form:hover {
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(42, 109, 78, 0.1) !important;
+    transform: translateY(-3px) !important;
+}
+
+/* ============ FORM INPUTS ============ */
+.booking-form input[type="text"],
+.booking-form input[type="email"],
+.booking-form input[type="tel"],
+.booking-form input[type="date"],
+.booking-form select,
+.booking-form textarea {
+    background: #fff !important;
+    border: 1.5px solid rgba(42, 109, 78, 0.12) !important;
+    border-radius: 10px !important;
+    padding: 10px 14px !important;
+    font-size: 0.92rem !important;
+    color: #333 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.booking-form input[type="text"]:focus,
+.booking-form input[type="email"]:focus,
+.booking-form input[type="tel"]:focus,
+.booking-form input[type="date"]:focus,
+.booking-form select:focus,
+.booking-form textarea:focus {
+    border-color: #2a6d4e !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.08), 0 2px 8px rgba(42, 109, 78, 0.06) !important;
+}
+
+.booking-form input::placeholder,
+.booking-form textarea::placeholder {
+    color: #aaa !important;
+    font-style: italic;
+    font-size: 0.88rem !important;
+}
+
+/* ============ LABELS ============ */
+.booking-form label {
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 4px;
+    display: inline-block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.booking-form label i {
+    color: #2a6d4e !important;
+    opacity: 0.7;
+}
+
+/* ============ SELECT DROPDOWN ============ */
+.booking-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%232a6d4e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 12px center !important;
+    padding-right: 36px !important;
+    cursor: pointer;
+}
+
+/* ============ DATE INPUTS ============ */
 #checkInDate, #checkOutDate {
-    min-height: 38px !important;
-    font-size: 14px !important;
-    padding: 6px 10px !important;
-    border: 2px solid rgba(42, 109, 78, 0.12) !important;
-    border-radius: 8px !important;
+    min-height: 42px !important;
+    font-size: 0.92rem !important;
+    padding: 10px 14px !important;
+    border: 1.5px solid rgba(42, 109, 78, 0.12) !important;
+    border-radius: 10px !important;
 }
 
 #checkInDate:focus, #checkOutDate:focus {
     border-color: #2a6d4e !important;
     outline: none !important;
-    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.1) !important;
+    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.08) !important;
 }
 
-/* Style for date picker icon (calendar icon) */
 #checkInDate::-webkit-calendar-picker-indicator,
 #checkOutDate::-webkit-calendar-picker-indicator {
     cursor: pointer;
     font-size: 16px;
     padding: 3px;
+    opacity: 0.6;
 }
 
-/* Required asterisk styling */
+/* ============ PHONE INPUT ============ */
+#phone {
+    min-height: 42px !important;
+    font-size: 0.92rem !important;
+    padding: 10px 14px !important;
+}
+
+/* ============ FORM GROUPS ============ */
+.booking-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.booking-form .form-row {
+    gap: 1rem;
+}
+
+/* ============ STEPPER CONTROLS ============ */
+.stepper-row {
+    background: rgba(42, 109, 78, 0.03);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(42, 109, 78, 0.06);
+}
+
+/* ============ ADDON OPTIONS ============ */
+.addon-option {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border-radius: 10px;
+    border: 1.5px solid rgba(42, 109, 78, 0.08);
+    background: #fff;
+}
+
+.addon-option:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    border-color: rgba(42, 109, 78, 0.15);
+}
+
+.addon-description {
+    font-size: 11px !important;
+    margin-top: 4px !important;
+    color: #888 !important;
+    line-height: 1.4 !important;
+}
+
+/* ============ SUBMIT BUTTON ============ */
+.booking-form button[type="submit"],
+.booking-form .btn:not(.stepper-btn) {
+    width: 100%;
+    background: linear-gradient(135deg, #2a6d4e, #3a8e6a) !important;
+    color: #fff !important;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(42, 109, 78, 0.2);
+    transition: all 0.35s ease;
+}
+
+.booking-form button[type="submit"]:hover,
+.booking-form .btn:not(.stepper-btn):hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(42, 109, 78, 0.3);
+    background: linear-gradient(135deg, #236042, #348060) !important;
+}
+
+/* ============ REQUIRED ASTERISK ============ */
 .required-asterisk {
     color: #ef476f;
     margin-left: 4px;
     font-weight: bold;
 }
 
-/* Make phone number input consistent */
-#phone {
-    min-height: 38px !important;
-    font-size: 14px !important;
-    padding: 6px 10px !important;
-}
-
-/* Improve form labels - compact luxury */
-.booking-form label {
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 2px;
-    display: inline-block;
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-/* Mobile responsiveness for date inputs */
-@media (max-width: 768px) {
-    #checkInDate, #checkOutDate, #phone {
-        min-height: 40px !important;
-        font-size: 16px !important;
-    }
-}
-
-/* Additional styling for addon description */
-.addon-description {
-    font-size: 11px !important;
-    margin-top: 4px !important;
-    color: #666 !important;
-    line-height: 1.4 !important;
-}
-
-/* Subtle hover states to add depth */
+/* ============ BOOKING STEP ============ */
 .booking-step {
     transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .booking-step:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
-.addon-option {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+/* ============ PRICE BREAKDOWN ============ */
+#priceBreakdown {
+    background: rgba(42, 109, 78, 0.04);
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid rgba(42, 109, 78, 0.08);
+    margin-bottom: 1rem;
 }
 
-.addon-option:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
-}
-
-/* Booking CTA - exclude stepper buttons */
-.booking-form button[type="submit"],
-.booking-form .btn:not(.stepper-btn) {
-    width: 100%;
-    background: linear-gradient(135deg, #2a6d4e, #3a8e6a);
-    color: #fff !important;
-    border: none;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 10px 24px rgba(42, 109, 78, 0.25);
-}
-
-.booking-form button[type="submit"]:hover,
-.booking-form .btn:not(.stepper-btn):hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 28px rgba(42, 109, 78, 0.35);
-}
-
-/* Mobile spacing */
+/* ============ MOBILE ============ */
 @media (max-width: 768px) {
+    .booking-form {
+        padding: 1.5rem 1.2rem !important;
+        border-radius: 16px !important;
+    }
+
+    #checkInDate, #checkOutDate, #phone {
+        min-height: 44px !important;
+        font-size: 16px !important;
+    }
+
     .booking-grid {
         gap: 1rem;
     }
 
     #priceSummary {
         margin-top: 0.75rem;
+    }
+
+    .stepper-row {
+        padding: 10px 8px;
     }
 }
