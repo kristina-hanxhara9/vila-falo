@@ -954,7 +954,7 @@ body.scrolled .language-toggle:hover {
 
 /* Honey Section - Bee Hive Background */
 #honey {
-    background: url('/images/mjalte.jpg') center/cover no-repeat;
+    background: url('/images/bee-hove-bg.png') center/cover no-repeat;
     background-color: #2a1f0e;
     position: relative;
     overflow: hidden;
@@ -978,15 +978,15 @@ body.scrolled .language-toggle:hover {
     z-index: 10;
     display: flex;
     justify-content: flex-start;
-    margin-top: -40px;
-    margin-bottom: -40px;
+    margin-top: -20px;
+    margin-bottom: -160px;
     padding-left: 8%;
     pointer-events: none;
 }
 
 .bee-video-wrapper {
-    width: 280px;
-    height: 280px;
+    width: 340px;
+    height: 340px;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     overflow: hidden;
     box-shadow: none;
@@ -1015,24 +1015,24 @@ body.scrolled .language-toggle:hover {
 
 @media (max-width: 768px) {
     .bee-video-wrapper {
-        width: 200px;
-        height: 200px;
+        width: 240px;
+        height: 240px;
     }
     .bee-video-overlap {
-        margin-top: -30px;
-        margin-bottom: -30px;
+        margin-top: -15px;
+        margin-bottom: -110px;
         padding-left: 5%;
     }
 }
 
 @media (max-width: 480px) {
     .bee-video-wrapper {
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
     }
     .bee-video-overlap {
-        margin-top: -20px;
-        margin-bottom: -20px;
+        margin-top: -10px;
+        margin-bottom: -80px;
         padding-left: 4%;
     }
 }
