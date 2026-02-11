@@ -952,12 +952,23 @@ body.scrolled .language-toggle:hover {
     padding-bottom: 3rem;
 }
 
-/* Honey Section - Special Yellow Styling */
+/* Honey Section - Video Background */
 #honey {
-    background: linear-gradient(135deg, #fff7d6 0%, #fffbe6 50%, #fef7cd 100%);
+    background: #1a1a0e;
     position: relative;
     overflow: hidden;
     padding: 3.5rem 0 7rem;
+}
+
+.honey-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    opacity: 0.4;
 }
 
 #honey::before {
@@ -967,28 +978,20 @@ body.scrolled .language-toggle:hover {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 20%, rgba(255, 193, 7, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255, 165, 0, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 40% 60%, rgba(255, 215, 0, 0.05) 0%, transparent 50%);
+    background: linear-gradient(to bottom, rgba(26, 26, 14, 0.5), rgba(26, 26, 14, 0.3));
     z-index: 0;
 }
 
-#honey::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffb300' fill-opacity='0.03'%3E%3Cpath d='M30 0l15 8.66v17.32L30 34.64 15 25.98V8.66L30 0zm0 5.77L18.45 12.3v13.86L30 32.64l11.55-6.48V12.3L30 5.77z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
-    opacity: 0.6;
-    z-index: 0;
-}
+/* honeycomb pattern removed - video bg instead */
 
 #honey .container {
     position: relative;
     z-index: 1;
+}
+
+#honey .section-title h2,
+#honey .section-title p {
+    color: #fff;
 }
 
 #honey .section-title h2::after {
@@ -996,7 +999,13 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .restaurant-content h3 {
-    color: #e65100;
+    color: #ffb300;
+}
+
+#honey .restaurant-content p,
+#honey .anton-quote,
+#honey .anton-cite {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 #honey .restaurant-content h3::after {
@@ -1004,28 +1013,37 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .menu-highlights {
-    background: linear-gradient(135deg, rgba(255, 179, 0, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
-    border: 2px solid rgba(255, 179, 0, 0.15);
-    box-shadow: 0 8px 32px rgba(255, 179, 0, 0.1);
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(255, 179, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 #honey .menu-highlights::before {
-    background: linear-gradient(135deg, rgba(255, 179, 0, 0.08) 0%, rgba(255, 193, 7, 0.05) 100%);
+    background: transparent;
 }
 
 #honey .menu-highlights h4 {
-    color: #e65100;
-    background: linear-gradient(45deg, #e65100, #ff8f00);
+    color: #ffb300;
+    background: linear-gradient(45deg, #ffb300, #ffd54f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
+#honey .menu-item h5 {
+    color: #fff;
+}
+
+#honey .menu-item p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 #honey .menu-item:hover {
-    background: rgba(255, 248, 225, 0.8);
+    background: rgba(255, 179, 0, 0.1);
     border-left: 4px solid #ffb300;
     transform: translateY(-5px) translateX(5px);
-    box-shadow: 0 8px 25px rgba(255, 179, 0, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 #honey .menu-icon {
@@ -1070,9 +1088,10 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .restaurant-cta .btn-outline {
-    background: var(--white);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
     border: 2px solid #ffb300;
-    color: #e65100;
+    color: #ffb300;
     box-shadow: none;
 }
 
@@ -3046,8 +3065,7 @@ button[type="submit"]:hover::before {
 
 /* Location Section */
 .location {
-    background: linear-gradient(to bottom, rgba(248, 249, 250, 0.92), rgba(248, 249, 250, 0.88)),
-                url('/images/mali-bg.png') center/cover no-repeat;
+    background: url('/images/mali-bg.png') center/cover no-repeat;
     position: relative;
 }
 
@@ -5014,12 +5032,11 @@ button[type="submit"]:disabled:hover {
     box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.15);
 }
 
-/* Stack order: each section on top of the previous */
+/* Stack order: CTA on top of Location */
 .overlap-section:nth-child(1) { z-index: 1; }
 .overlap-section:nth-child(2) { z-index: 2; }
-.overlap-section:nth-child(3) { z-index: 3; }
 
-/* Location gets a slight rounded top for the reveal look */
+/* Location gets a rounded top for the reveal look */
 section.location.overlap-section {
     border-radius: 28px 28px 0 0;
     overflow: hidden;
@@ -5031,19 +5048,12 @@ section.cta.overlap-section {
     box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.2);
 }
 
-/* Footer slides over CTA */
-footer.footer.overlap-section {
-    border-radius: 28px 28px 0 0;
-    box-shadow: 0 -15px 50px rgba(0, 0, 0, 0.25);
-}
-
 @media (max-width: 768px) {
     .overlap-section {
         box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.1);
     }
     section.location.overlap-section,
-    section.cta.overlap-section,
-    footer.footer.overlap-section {
+    section.cta.overlap-section {
         border-radius: 20px 20px 0 0;
     }
 }
