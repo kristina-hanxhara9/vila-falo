@@ -225,3 +225,66 @@
         padding: 10px 8px;
     }
 }
+
+/* ============ BREAKFAST TOGGLE ============ */
+.breakfast-toggle {
+    margin-bottom: 0.8rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #444;
+    padding: 10px 14px;
+    background: rgba(42, 109, 78, 0.04);
+    border-radius: 10px;
+    border: 1.5px solid rgba(42, 109, 78, 0.1);
+    transition: all 0.3s ease;
+}
+
+.checkbox-label:hover {
+    border-color: rgba(42, 109, 78, 0.25);
+    background: rgba(42, 109, 78, 0.06);
+}
+
+.checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(42, 109, 78, 0.3);
+    border-radius: 5px;
+    position: relative;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom {
+    background: #2a6d4e;
+    border-color: #2a6d4e;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* ============ SPECIAL REQUESTS - SMALLER ============ */
+.special-requests-group textarea {
+    max-width: 100%;
+    resize: vertical;
+    max-height: 120px;
+}

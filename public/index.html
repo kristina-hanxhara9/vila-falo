@@ -1007,11 +1007,18 @@
                             <input type="tel" id="phone" name="phone" placeholder="Your phone number" required>
                             <div class="error-message" data-en="Please enter your phone number" data-al="Ju lutemi shkruani numrin tuaj të telefonit">Please enter your phone number</div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group breakfast-toggle">
+                            <label class="checkbox-label" for="breakfastIncluded">
+                                <input type="checkbox" id="breakfastIncluded" name="breakfastIncluded" checked>
+                                <span class="checkbox-custom"></span>
+                                <span data-en="Breakfast Included" data-al="Mëngjesi i Përfshirë">Mëngjesi i Përfshirë</span>
+                            </label>
+                        </div>
+                        <div class="form-group special-requests-group">
                             <label for="specialRequests" data-en="Special Requests (Optional)" data-al="Kërkesa të Veçanta (Opsionale)">
                                 <i class="fas fa-sticky-note" style="margin-right: 8px; color: #2c5f2d;"></i>Special Requests (Optional)
                             </label>
-                            <textarea id="specialRequests" name="specialRequests" rows="2" placeholder="Any special requests?" style="resize: vertical; max-height: 200px;"></textarea>
+                            <textarea id="specialRequests" name="specialRequests" rows="2" placeholder="Any special requests?"></textarea>
                         </div>
 
 
@@ -1087,26 +1094,38 @@
             <div class="weather-seasons" data-aos="fade-up">
                 <h4 class="text-center mb-4" data-en="Seasonal Weather" data-al="Moti Sipas Stinëve">Seasonal Weather</h4>
                 <div class="seasons-grid">
-                    <div class="season-card">
+                    <div class="season-card season-winter">
+                        <div class="season-particles">
+                            <span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
                         <div class="season-icon"><i class="fas fa-snowflake"></i></div>
                         <h5 data-en="Winter (Dec-Feb)" data-al="Dimër (Dhj-Shk)">Winter (Dec-Feb)</h5>
                         <p data-en="Average: -5°C to 5°C" data-al="Mesatare: -5°C deri 5°C">Average: -5°C to 5°C</p>
                         <div class="season-highlight" data-en="Perfect for skiing!" data-al="Perfekt për ski!">Perfect for skiing!</div>
                     </div>
-                    <div class="season-card">
-                        <div class="season-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="season-card season-spring">
+                        <div class="season-particles">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="season-icon"><i class="fas fa-seedling"></i></div>
                         <h5 data-en="Spring (Mar-May)" data-al="Pranverë (Mar-Maj)">Spring (Mar-May)</h5>
                         <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Average: 5°C to 15°C</p>
                         <div class="season-highlight" data-en="Wildflower blooms" data-al="Lulëzim i luleve të egra">Wildflower blooms</div>
                     </div>
-                    <div class="season-card">
+                    <div class="season-card season-summer">
+                        <div class="season-particles">
+                            <span></span><span></span><span></span><span></span>
+                        </div>
                         <div class="season-icon"><i class="fas fa-sun"></i></div>
                         <h5 data-en="Summer (Jun-Aug)" data-al="Verë (Qer-Gus)">Summer (Jun-Aug)</h5>
                         <p data-en="Average: 15°C to 25°C" data-al="Mesatare: 15°C deri 25°C">Average: 15°C to 25°C</p>
                         <div class="season-highlight" data-en="Ideal hiking weather" data-al="Mot ideal për hiking">Ideal hiking weather</div>
                     </div>
-                    <div class="season-card">
-                        <div class="season-icon"><i class="fas fa-tree"></i></div>
+                    <div class="season-card season-autumn">
+                        <div class="season-particles">
+                            <span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="season-icon"><i class="fas fa-canadian-maple-leaf"></i></div>
                         <h5 data-en="Autumn (Sep-Nov)" data-al="Vjeshtë (Sht-Nën)">Autumn (Sep-Nov)</h5>
                         <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Average: 5°C to 15°C</p>
                         <div class="season-highlight" data-en="Beautiful foliage" data-al="Gjethe të bukura">Beautiful foliage</div>
