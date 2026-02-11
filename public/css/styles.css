@@ -949,7 +949,7 @@ body.scrolled .language-toggle:hover {
 
 /* Reduce gap between restaurant (food) and honey */
 #restaurant {
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
 }
 
 /* Honey Section - Bee Hive Background */
@@ -978,8 +978,8 @@ body.scrolled .language-toggle:hover {
     z-index: 10;
     display: flex;
     justify-content: flex-start;
-    margin-top: -20px;
-    margin-bottom: -160px;
+    margin-top: -10px;
+    margin-bottom: -280px;
     padding-left: 8%;
     pointer-events: none;
 }
@@ -1019,8 +1019,8 @@ body.scrolled .language-toggle:hover {
         height: 240px;
     }
     .bee-video-overlap {
-        margin-top: -15px;
-        margin-bottom: -110px;
+        margin-top: -10px;
+        margin-bottom: -190px;
         padding-left: 5%;
     }
 }
@@ -1031,8 +1031,8 @@ body.scrolled .language-toggle:hover {
         height: 180px;
     }
     .bee-video-overlap {
-        margin-top: -10px;
-        margin-bottom: -80px;
+        margin-top: -5px;
+        margin-bottom: -140px;
         padding-left: 4%;
     }
 }
