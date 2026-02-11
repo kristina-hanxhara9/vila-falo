@@ -1875,6 +1875,285 @@ document.head.appendChild(calendarStyle);
             );
         }
 
+        // --- CTA section: dramatic entrance ---
+        var ctaSection = document.querySelector('.cta');
+        if (ctaSection) {
+            gsap.fromTo(ctaSection,
+                { backgroundPositionY: '80%' },
+                {
+                    backgroundPositionY: '20%',
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: ctaSection,
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        scrub: 1.2
+                    }
+                }
+            );
+
+            var ctaH2 = ctaSection.querySelector('h2');
+            var ctaP = ctaSection.querySelector('p');
+            var ctaBtn = ctaSection.querySelector('.btn');
+
+            if (ctaH2) {
+                gsap.fromTo(ctaH2,
+                    { y: 50, opacity: 0, scale: 0.9 },
+                    {
+                        y: 0, opacity: 1, scale: 1,
+                        duration: 1,
+                        ease: 'power4.out',
+                        scrollTrigger: {
+                            trigger: ctaSection,
+                            start: 'top 75%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+
+            if (ctaP) {
+                gsap.fromTo(ctaP,
+                    { y: 30, opacity: 0 },
+                    {
+                        y: 0, opacity: 1,
+                        duration: 0.8,
+                        delay: 0.2,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: ctaSection,
+                            start: 'top 75%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+
+            if (ctaBtn) {
+                gsap.fromTo(ctaBtn,
+                    { y: 20, opacity: 0, scale: 0.85 },
+                    {
+                        y: 0, opacity: 1, scale: 1,
+                        duration: 0.7,
+                        delay: 0.4,
+                        ease: 'back.out(2)',
+                        scrollTrigger: {
+                            trigger: ctaSection,
+                            start: 'top 75%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+        }
+
+        // --- Footer columns: staggered rise from bottom ---
+        var footerCols = document.querySelectorAll('.footer-col');
+        if (footerCols.length) {
+            gsap.fromTo(footerCols,
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.7,
+                    stagger: 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.footer',
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Location info: text lines reveal stagger ---
+        var locationInfo = document.querySelector('.location-info');
+        if (locationInfo) {
+            gsap.fromTo(locationInfo,
+                { x: -60, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.location-container',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        var locationMap = document.querySelector('.location-map');
+        if (locationMap) {
+            gsap.fromTo(locationMap,
+                { x: 60, opacity: 0, scale: 0.95 },
+                {
+                    x: 0, opacity: 1, scale: 1,
+                    duration: 1,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.location-container',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Bee video hexagon: float in from left with rotation ---
+        var beeVideoOverlap = document.querySelector('.bee-video-overlap');
+        if (beeVideoOverlap) {
+            gsap.fromTo(beeVideoOverlap,
+                { x: -100, opacity: 0, rotation: -10 },
+                {
+                    x: 0, opacity: 1, rotation: 0,
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: beeVideoOverlap,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Honey section right column product cards: stagger pop ---
+        var honeyProducts = document.querySelectorAll('.honey-right-col .food-fan-card, .honey-right-col .honey-product');
+        if (honeyProducts.length) {
+            gsap.fromTo(honeyProducts,
+                { y: 40, opacity: 0, scale: 0.9 },
+                {
+                    y: 0, opacity: 1, scale: 1,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'back.out(1.5)',
+                    scrollTrigger: {
+                        trigger: '.honey-right-col',
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Section dividers / decorative lines: width grow ---
+        document.querySelectorAll('.section-title').forEach(function(st) {
+            var line = st.querySelector('hr, .divider, .title-line');
+            if (line) {
+                gsap.fromTo(line,
+                    { scaleX: 0 },
+                    {
+                        scaleX: 1,
+                        duration: 0.8,
+                        ease: 'power2.inOut',
+                        scrollTrigger: {
+                            trigger: st,
+                            start: 'top 88%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            }
+        });
+
+        // --- Review cards: individual card hover-like entrance ---
+        var reviewCards = document.querySelectorAll('.review-card');
+        if (reviewCards.length) {
+            gsap.fromTo(reviewCards,
+                { y: 40, opacity: 0, rotationX: 10 },
+                {
+                    y: 0, opacity: 1, rotationX: 0,
+                    duration: 0.7,
+                    stagger: 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.reviews-track',
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Booking form groups: cascade down ---
+        var formGroups = document.querySelectorAll('.booking-form .form-group');
+        if (formGroups.length) {
+            gsap.fromTo(formGroups,
+                { y: 20, opacity: 0 },
+                {
+                    y: 0, opacity: 1,
+                    duration: 0.4,
+                    stagger: 0.06,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: '.booking-form',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Contact icons: bounce in ---
+        var contactIcons = document.querySelectorAll('.contact-icon');
+        if (contactIcons.length) {
+            gsap.fromTo(contactIcons,
+                { scale: 0, rotation: -180 },
+                {
+                    scale: 1, rotation: 0,
+                    duration: 0.6,
+                    stagger: 0.1,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: contactIcons[0].closest('.contact-info'),
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Weather seasons highlight badges: pop scale ---
+        var seasonHighlights = document.querySelectorAll('.season-highlight');
+        if (seasonHighlights.length) {
+            gsap.fromTo(seasonHighlights,
+                { scale: 0, opacity: 0 },
+                {
+                    scale: 1, opacity: 1,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    delay: 0.3,
+                    ease: 'back.out(2)',
+                    scrollTrigger: {
+                        trigger: '.seasons-grid',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Scroll-linked number counter for stats (if any) ---
+        document.querySelectorAll('[data-count]').forEach(function(el) {
+            var target = parseInt(el.getAttribute('data-count'));
+            var obj = { val: 0 };
+            gsap.to(obj, {
+                val: target,
+                duration: 2,
+                ease: 'power1.out',
+                scrollTrigger: {
+                    trigger: el,
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                },
+                onUpdate: function() {
+                    el.textContent = Math.round(obj.val);
+                }
+            });
+        });
+
     }
 
     // Init GSAP animations after a small delay
