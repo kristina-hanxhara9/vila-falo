@@ -226,6 +226,28 @@
     }
 }
 
+@media (max-width: 480px) {
+    .booking-form {
+        padding: 1rem 0.8rem !important;
+        border-radius: 12px !important;
+    }
+
+    .booking-form:hover {
+        transform: none !important;
+    }
+
+    .checkbox-label {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .booking-form {
+        padding: 0.75rem 0.6rem !important;
+    }
+}
+
 /* ============ BREAKFAST TOGGLE ============ */
 .breakfast-toggle {
     margin-bottom: 0.8rem;

@@ -247,10 +247,17 @@
     :root {
         font-size: 14px;
     }
-    
+
     .container {
         width: 95%;
         padding: 0 10px;
+    }
+
+    /* Fix background-attachment: fixed for iOS */
+    .cta,
+    .hero,
+    .rooms {
+        background-attachment: scroll !important;
     }
     
     section {
@@ -725,6 +732,379 @@
         height: 30px;
         font-size: 0.8rem;
     }
+}
+
+/* ============ ULTRA SMALL SCREENS (320px - iPhone SE, Galaxy Fold) ============ */
+@media (max-width: 360px) {
+    :root {
+        font-size: 12px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 0 8px;
+    }
+
+    section {
+        padding: 2rem 0;
+    }
+
+    /* Hero ultra small */
+    .hero {
+        min-height: 55vh;
+    }
+
+    .hero h1 span:first-child {
+        font-size: 1.2rem;
+    }
+
+    .hero h1 span:nth-child(2) {
+        font-size: 2rem;
+    }
+
+    .hero h1 span:nth-child(3) {
+        font-size: 1.2rem;
+    }
+
+    .hero-content p {
+        font-size: 0.85rem;
+        max-width: 95%;
+    }
+
+    .hero-btns .btn {
+        font-size: 0.8rem;
+        padding: 10px 16px;
+    }
+
+    /* Section titles ultra small */
+    .section-title h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-title p {
+        font-size: 0.8rem;
+    }
+
+    /* Reviews ultra small */
+    .review-card {
+        flex: 0 0 240px;
+        min-height: 260px;
+        padding: 20px 16px;
+    }
+
+    .review-text {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .reviews-carousel-track {
+        gap: 12px;
+        padding: 0 10px;
+    }
+
+    .reviews-header-left h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Food fan cards ultra small */
+    .food-fan-card,
+    .food-fan-card:nth-child(1),
+    .food-fan-card:nth-child(2),
+    .food-fan-card:nth-child(3),
+    .food-fan-card:nth-child(4) {
+        flex: 0 0 100%;
+    }
+
+    .food-fan-inner img {
+        height: 160px;
+    }
+
+    /* Food gallery ultra small */
+    .food-gallery {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    /* Seasons grid ultra small */
+    .seasons-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .season-card {
+        padding: 1rem;
+    }
+
+    /* Bee video ultra small */
+    .bee-video-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+
+    .bee-video-overlap {
+        margin-bottom: -110px;
+        padding-left: 3%;
+    }
+
+    /* Restaurant testimonial ultra small */
+    .restaurant-testimonial {
+        padding: 1.2rem;
+        margin-top: 1.5rem;
+    }
+
+    .restaurant-testimonial::before {
+        font-size: 3rem;
+    }
+
+    .restaurant-author-img {
+        width: 45px;
+        height: 45px;
+    }
+
+    /* Booking form ultra small */
+    .booking-form {
+        padding: 0.75rem;
+    }
+
+    .stepper-btn {
+        width: 28px !important;
+        min-width: 28px !important;
+    }
+
+    /* Location map ultra small */
+    .map-frame iframe {
+        height: 250px;
+    }
+
+    /* Gallery marquee ultra small */
+    .marquee-item {
+        width: 200px;
+        height: 150px;
+    }
+
+    /* Footer ultra small */
+    .footer-container {
+        padding: 0 8px;
+    }
+
+    .newsletter-form {
+        max-width: 260px;
+    }
+
+    /* Modals ultra small */
+    .modal-content {
+        width: 95%;
+        padding: 20px 15px;
+        max-height: 85vh;
+    }
+
+    .confirmation-message i {
+        font-size: 40px;
+    }
+
+    .confirmation-message h3 {
+        font-size: 1.2rem;
+    }
+
+    /* CTA ultra small */
+    .cta h2 {
+        font-size: 1.5rem;
+    }
+
+    .cta p {
+        font-size: 0.85rem;
+    }
+
+    /* About section ultra small */
+    .about-hover-img {
+        min-height: 180px;
+    }
+
+    .feature-item {
+        padding: 0.75rem;
+    }
+
+    /* Contact items ultra small */
+    .contact-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+
+    .contact-icon {
+        margin: 0 auto;
+    }
+}
+
+/* ============ SMALL PHONE FIXES (480px) - additions ============ */
+@media (max-width: 480px) {
+    /* Review cards - ensure fits 320px+ */
+    .reviews-carousel-track {
+        gap: 12px;
+        padding: 0 12px;
+    }
+
+    /* Seasons grid - single column on small phones */
+    .seasons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Food fan cards - full width on small phones */
+    .food-fan-card,
+    .food-fan-card:nth-child(1),
+    .food-fan-card:nth-child(2),
+    .food-fan-card:nth-child(3),
+    .food-fan-card:nth-child(4) {
+        flex: 0 0 100%;
+    }
+
+    .food-fan-inner img {
+        height: 170px;
+    }
+
+    /* Restaurant testimonial small phone fix */
+    .restaurant-testimonial {
+        padding: 1.5rem;
+    }
+
+    /* Map height small phone */
+    .map-frame iframe {
+        height: 280px;
+    }
+
+    /* CTA small phone */
+    .cta {
+        padding: 3rem 0;
+    }
+
+    .cta h2 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+    }
+
+    .cta p {
+        font-size: 0.9rem;
+    }
+
+    /* Modal small phone */
+    .modal-content {
+        width: 95%;
+        padding: 20px;
+        max-height: 85vh;
+    }
+
+    /* Anton quotes small phone */
+    .anton-quote {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+    }
+
+    /* Marquee items small phone */
+    .marquee-item {
+        width: 220px;
+        height: 165px;
+    }
+
+    /* Services grid v2 small phone */
+    .services-grid-v2 {
+        gap: 8px;
+    }
+
+    .service-card-v2 {
+        min-width: 0;
+        width: calc(50% - 4px);
+    }
+}
+
+/* ============ TABLET LANDSCAPE FIX (991px) - missing transitions ============ */
+@media (max-width: 991px) and (min-width: 769px) {
+    /* Seasons grid - 2 cols on tablet */
+    .seasons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Review cards tablet */
+    .reviews-carousel-track {
+        padding: 0 30px;
+    }
+
+    /* Food fan cards tablet - 2x2 grid */
+    .food-fan-track {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    .food-fan-card,
+    .food-fan-card:nth-child(1),
+    .food-fan-card:nth-child(2),
+    .food-fan-card:nth-child(3),
+    .food-fan-card:nth-child(4) {
+        flex: 0 0 47%;
+        transform: none;
+        margin: 0;
+    }
+
+    .food-fan-gallery {
+        perspective: none;
+    }
+
+    /* Booking container tablet */
+    .booking-container {
+        gap: 2rem;
+    }
+
+    /* Location tablet */
+    .location-container {
+        gap: 2rem;
+    }
+}
+
+/* ============ GENERAL OVERFLOW PROTECTION ============ */
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+iframe {
+    max-width: 100%;
+}
+
+/* Prevent horizontal scroll from any element */
+.container,
+section,
+.hero,
+.about,
+.rooms,
+.restaurant,
+.gallery,
+.services,
+.reviews-section,
+.booking,
+.location,
+.cta,
+.footer {
+    overflow-x: hidden;
+}
+
+/* Ensure all grids don't overflow */
+.rooms-grid,
+.services-grid,
+.services-grid-v2,
+.gallery-grid,
+.food-gallery,
+.seasons-grid,
+.about-features,
+.footer-container {
+    max-width: 100%;
 }
 
 /* Landscape Mobile Orientation */

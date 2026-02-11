@@ -277,6 +277,7 @@
         @media (max-width: 768px) {
             .story-hero { padding: 6rem 0 3rem; }
             .story-hero h1 { font-size: 2rem; }
+            .story-hero p { font-size: 1rem; }
             .timeline-line { left: 24px; }
             .timeline-item,
             .timeline-item:nth-child(even) {
@@ -292,6 +293,7 @@
             .timeline-item:nth-child(even) .timeline-content {
                 text-align: left;
             }
+            .timeline-content h3 { font-size: 1.3rem; }
             .timeline-item:nth-child(even) .timeline-content blockquote {
                 border-left: 3px solid var(--primary);
                 border-right: none;
@@ -299,6 +301,54 @@
                 text-align: left;
             }
             .timeline-spacer { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .story-hero { padding: 5rem 0 2rem; }
+            .story-hero h1 { font-size: 1.7rem; }
+            .story-hero p { font-size: 0.9rem; }
+            .story-section { padding: 2rem 0; }
+            .timeline-line { left: 16px; }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-left: 45px;
+                margin-bottom: 2rem;
+            }
+            .timeline-year-badge {
+                left: 16px;
+                font-size: 0.75rem;
+                padding: 0.3rem 0.75rem;
+            }
+            .timeline-content {
+                padding: 1.2rem;
+            }
+            .timeline-content h3 { font-size: 1.15rem; }
+            .timeline-content p { font-size: 0.9rem; line-height: 1.6; }
+            .timeline-content blockquote {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .story-hero h1 { font-size: 1.4rem; }
+            .story-hero p { font-size: 0.85rem; }
+            .timeline-line { left: 12px; }
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-left: 36px;
+            }
+            .timeline-year-badge {
+                left: 12px;
+                font-size: 0.7rem;
+                padding: 0.25rem 0.6rem;
+            }
+            .timeline-content {
+                padding: 1rem;
+            }
+            .timeline-content h3 { font-size: 1.05rem; }
+            .timeline-content p { font-size: 0.85rem; }
+            .back-link { font-size: 0.85rem; }
         }
     </style>
 </head>
