@@ -1866,7 +1866,7 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Overlap scroll reveal: Location → CTA → Footer stack on scroll ---
+        // --- Overlap scroll reveal: Location pinned, CTA slides over it ---
         var overlapSections = document.querySelectorAll('.overlap-section');
         if (overlapSections.length > 1) {
             overlapSections.forEach(function(section, i) {
