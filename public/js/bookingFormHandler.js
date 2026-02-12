@@ -250,8 +250,9 @@ window.BookingFormHandler = {
    * Handle successful booking
    */
   handleSuccess: function(result) {
+    var booking = result.data || result.booking;
     // Show success message
-    this.showSuccess(`✅ Booking created successfully! Your Booking ID: ${result.booking._id}`);
+    this.showSuccess('✅ Booking created successfully! Your Booking ID: ' + (booking ? booking._id : (result.reference || 'N/A')));
 
     // If payment URL is available, redirect to payment
     if (result.paymentUrl) {
@@ -260,7 +261,7 @@ window.BookingFormHandler = {
       }, 2000);
     } else {
       // Show booking confirmation modal
-      this.showConfirmationModal(result.booking);
+      if (booking) this.showConfirmationModal(booking);
       // Reset form
       document.querySelector('form')?.reset();
     }
