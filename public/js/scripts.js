@@ -1464,24 +1464,6 @@ document.head.appendChild(calendarStyle);
         }
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- GLOBAL: Smooth section reveal with clip-path wipe ---
-        document.querySelectorAll('#rooms, #restaurant, #honey, #gallery, #booking').forEach(function(section) {
-            gsap.fromTo(section,
-                { opacity: 0, y: 60 },
-                {
-                    opacity: 1, y: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 85%',
-                        end: 'top 40%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        });
-
         // --- Section titles: split character reveal ---
         document.querySelectorAll('.section-title h2').forEach(function(h2) {
             var text = h2.textContent;
@@ -1522,7 +1504,59 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- About section: no inner scroll animations (kept static) ---
+        // --- About section: parallax split reveal ---
+        var aboutText = document.querySelector('.about-text');
+        if (aboutText) {
+            gsap.fromTo(aboutText,
+                { x: -80, opacity: 0, filter: 'blur(4px)' },
+                {
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: '.about-content',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        var aboutImg = document.querySelector('.about-hover-img');
+        if (aboutImg) {
+            gsap.fromTo(aboutImg,
+                { x: 80, opacity: 0, scale: 0.9, filter: 'blur(4px)' },
+                {
+                    x: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: '.about-content',
+                        start: 'top 80%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- About features: staggered bounce-in with rotation ---
+        var aboutFeatures = document.querySelectorAll('.feature-item');
+        if (aboutFeatures.length) {
+            gsap.fromTo(aboutFeatures,
+                { y: 50, opacity: 0, scale: 0.8, rotationX: 20 },
+                {
+                    y: 0, opacity: 1, scale: 1, rotationX: 0,
+                    duration: 0.7,
+                    stagger: 0.12,
+                    ease: 'back.out(1.7)',
+                    scrollTrigger: {
+                        trigger: '.about-features',
+                        start: 'top 88%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
 
         // --- Room cards: 3D flip-in with stagger ---
         var roomCards = document.querySelectorAll('.room-card');
@@ -1562,7 +1596,26 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- Service cards: no scroll animation ---
+        // --- Service cards: wave entrance ---
+        var serviceCardsV2 = document.querySelectorAll('.service-card-v2');
+        if (serviceCardsV2.length) {
+            serviceCardsV2.forEach(function(card, i) {
+                gsap.fromTo(card,
+                    { y: 60, opacity: 0, scale: 0.85, filter: 'blur(3px)' },
+                    {
+                        y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
+                        duration: 0.7,
+                        delay: i * 0.08,
+                        ease: 'back.out(1.2)',
+                        scrollTrigger: {
+                            trigger: '.services-grid-v2',
+                            start: 'top 85%',
+                            toggleActions: 'play none none none'
+                        }
+                    }
+                );
+            });
+        }
 
         // --- Restaurant section: cinematic split reveal ---
         var restaurantContent = document.querySelector('#restaurant .restaurant-content');
@@ -1640,25 +1693,42 @@ document.head.appendChild(calendarStyle);
             });
         }
 
-        // --- Gallery marquee: smooth curtain reveal ---
-        var marquee = document.querySelector('.gallery-marquee');
-        if (marquee) {
-            gsap.fromTo(marquee,
-                { y: 50, opacity: 0, clipPath: 'inset(20% 10% 20% 10%)' },
+        // --- Review cards: carousel sweep in ---
+        var reviewTrack = document.querySelector('.reviews-carousel-track');
+        if (reviewTrack) {
+            gsap.fromTo(reviewTrack,
+                { x: 120, opacity: 0 },
                 {
-                    y: 0, opacity: 1, clipPath: 'inset(0% 0% 0% 0%)',
+                    x: 0, opacity: 1,
                     duration: 1.2,
-                    ease: 'power3.out',
+                    ease: 'power4.out',
                     scrollTrigger: {
-                        trigger: marquee,
-                        start: 'top 88%',
+                        trigger: '.reviews-section',
+                        start: 'top 80%',
                         toggleActions: 'play none none none'
                     }
                 }
             );
         }
 
-        // --- Reviews: no scroll animation ---
+        // --- Individual review cards: staggered depth ---
+        var reviewCards = document.querySelectorAll('.review-card');
+        if (reviewCards.length) {
+            gsap.fromTo(reviewCards,
+                { y: 40, opacity: 0, rotationY: 8 },
+                {
+                    y: 0, opacity: 1, rotationY: 0,
+                    duration: 0.8,
+                    stagger: 0.15,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: '.reviews-section',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
 
         // --- Booking section: smooth dual entrance ---
         var bookingInfo = document.querySelector('.booking-info');
@@ -1715,7 +1785,78 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Location section: no inner scroll animations (kept static) ---
+        // --- Location section: map cinematic zoom ---
+        var mapFrame = document.querySelector('.map-frame');
+        if (mapFrame) {
+            gsap.fromTo(mapFrame,
+                { scale: 0.85, opacity: 0, borderRadius: '30px', filter: 'blur(6px)' },
+                {
+                    scale: 1, opacity: 1, borderRadius: '12px', filter: 'blur(0px)',
+                    duration: 1.2,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: mapFrame,
+                        start: 'top 82%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Location info: smooth content reveal ---
+        var locationInfo = document.querySelector('.location-info');
+        if (locationInfo) {
+            gsap.fromTo(locationInfo,
+                { x: -60, opacity: 0, filter: 'blur(4px)' },
+                {
+                    x: 0, opacity: 1, filter: 'blur(0px)',
+                    duration: 1,
+                    ease: 'power4.out',
+                    scrollTrigger: {
+                        trigger: '.location-container',
+                        start: 'top 78%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        // --- Contact items: bounce in with icon spin ---
+        var contactItems = document.querySelectorAll('.contact-item');
+        if (contactItems.length) {
+            gsap.fromTo(contactItems,
+                { x: -40, opacity: 0 },
+                {
+                    x: 0, opacity: 1,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'back.out(1.4)',
+                    scrollTrigger: {
+                        trigger: contactItems[0].parentElement,
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
+
+        var contactIcons = document.querySelectorAll('.contact-icon');
+        if (contactIcons.length) {
+            gsap.fromTo(contactIcons,
+                { scale: 0, rotation: -180 },
+                {
+                    scale: 1, rotation: 0,
+                    duration: 0.6,
+                    stagger: 0.12,
+                    ease: 'back.out(2)',
+                    scrollTrigger: {
+                        trigger: contactIcons[0].closest('.contact-info'),
+                        start: 'top 85%',
+                        toggleActions: 'play none none none'
+                    }
+                }
+            );
+        }
 
         // --- Season cards: wave pop with depth ---
         var seasonCards = document.querySelectorAll('.season-card');
@@ -1771,24 +1912,6 @@ document.head.appendChild(calendarStyle);
                     scrub: 1
                 }
             });
-        }
-
-        // --- About section: entrance from hero ---
-        var aboutSection = document.querySelector('#about');
-        if (aboutSection) {
-            gsap.fromTo(aboutSection,
-                { clipPath: 'inset(8% 4% 8% 4%)', opacity: 0.3 },
-                {
-                    clipPath: 'inset(0% 0% 0% 0%)', opacity: 1,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: aboutSection,
-                        start: 'top 95%',
-                        end: 'top 50%',
-                        scrub: true
-                    }
-                }
-            );
         }
 
         // --- Rooms section background parallax ---
