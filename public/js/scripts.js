@@ -593,18 +593,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     const formData = new FormData(bookingForm);
                     const adults = parseInt(formData.get('adults')) || 1;
                     const children = parseInt(formData.get('children')) || 0;
-                    
+
                     const bookingData = {
                         roomType: formData.get('roomType'),
-                        checkInDate: formData.get('checkIn'),
-                        checkOutDate: formData.get('checkOut'),
-                        guestName: formData.get('name'),
+                        checkInDate: formData.get('checkInDate'),
+                        checkOutDate: formData.get('checkOutDate'),
+                        guestName: formData.get('guestName'),
                         email: formData.get('email'),
                         phone: formData.get('phone'),
                         numberOfGuests: adults + children,
                         adults: adults,
                         children: children,
-                        specialRequests: formData.get('special') || '',
+                        specialRequests: formData.get('specialRequests') || '',
                         addons: formData.getAll('addons') || [],
                         language: currentLang === 'en' ? 'en' : 'al'
                     };
