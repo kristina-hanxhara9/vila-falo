@@ -1464,24 +1464,6 @@ document.head.appendChild(calendarStyle);
         }
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- GLOBAL: Smooth section reveal with clip-path wipe ---
-        document.querySelectorAll('#rooms, #restaurant, #honey, #gallery, #services, #reviews, #booking, #location').forEach(function(section) {
-            gsap.fromTo(section,
-                { opacity: 0, y: 60 },
-                {
-                    opacity: 1, y: 0,
-                    duration: 1,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: section,
-                        start: 'top 85%',
-                        end: 'top 40%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        });
-
         // --- Section titles: split character reveal ---
         document.querySelectorAll('.section-title h2').forEach(function(h2) {
             var text = h2.textContent;
@@ -1614,7 +1596,7 @@ document.head.appendChild(calendarStyle);
             );
         });
 
-        // --- Service cards v2: wave entrance ---
+        // --- Service cards: wave entrance ---
         var serviceCardsV2 = document.querySelectorAll('.service-card-v2');
         if (serviceCardsV2.length) {
             serviceCardsV2.forEach(function(card, i) {
@@ -1709,24 +1691,6 @@ document.head.appendChild(calendarStyle);
                     }
                 );
             });
-        }
-
-        // --- Gallery marquee: smooth curtain reveal ---
-        var marquee = document.querySelector('.gallery-marquee');
-        if (marquee) {
-            gsap.fromTo(marquee,
-                { y: 50, opacity: 0, clipPath: 'inset(20% 10% 20% 10%)' },
-                {
-                    y: 0, opacity: 1, clipPath: 'inset(0% 0% 0% 0%)',
-                    duration: 1.2,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: marquee,
-                        start: 'top 88%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
         }
 
         // --- Review cards: carousel sweep in ---
@@ -1935,11 +1899,9 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Hero section: parallax bg + content fade-out on scroll ---
+        // --- Hero section: parallax bg only (text always visible) ---
         var heroSection = document.querySelector('.hero');
-        var heroContent = document.querySelector('.hero-content');
         if (heroSection) {
-            // Background parallax
             gsap.to(heroSection, {
                 backgroundPositionY: '30%',
                 ease: 'none',
@@ -1950,41 +1912,6 @@ document.head.appendChild(calendarStyle);
                     scrub: 1
                 }
             });
-
-            // Hero content fades out and drifts up as user scrolls away
-            if (heroContent) {
-                gsap.to(heroContent, {
-                    y: -100,
-                    opacity: 0,
-                    scale: 0.95,
-                    filter: 'blur(6px)',
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: heroSection,
-                        start: '20% top',
-                        end: '80% top',
-                        scrub: true
-                    }
-                });
-            }
-        }
-
-        // --- About section: entrance from hero ---
-        var aboutSection = document.querySelector('#about');
-        if (aboutSection) {
-            gsap.fromTo(aboutSection,
-                { clipPath: 'inset(8% 4% 8% 4%)', opacity: 0.3 },
-                {
-                    clipPath: 'inset(0% 0% 0% 0%)', opacity: 1,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: aboutSection,
-                        start: 'top 95%',
-                        end: 'top 50%',
-                        scrub: true
-                    }
-                }
-            );
         }
 
         // --- Rooms section background parallax ---
