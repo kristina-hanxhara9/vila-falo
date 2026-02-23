@@ -88,7 +88,13 @@ document.addEventListener('DOMContentLoaded', function() {
     initCalendar();
     initAOS();
     initVirtualTourModal();
-    
+    initRoomPreselection();
+    initRoomDetailModals();
+
+    // Dynamic copyright year
+    var yearEl = document.getElementById('copyrightYear');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
     // CRITICAL: Set initial language to Albanian immediately
     setTimeout(function() {
         updateLanguage('al');
@@ -444,6 +450,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Initial render
         renderCalendar();
+
+        // Expose renderCalendar for language switching
+        window._renderCalendar = renderCalendar;
     }
 
     function initLanguageSwitcher() {
@@ -482,6 +491,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.language-option').forEach(opt => {
             opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
         });
+
+        // Update HTML lang attribute
+        document.documentElement.lang = lang === 'al' ? 'sq' : 'en';
+
+        // Re-render calendar with new language
+        if (typeof window._renderCalendar === 'function') {
+            window._renderCalendar();
+        }
     }
 
     function initScrollEffects() {
@@ -533,38 +550,52 @@ document.addEventListener('DOMContentLoaded', function() {
         const snowContainer = document.getElementById('snowContainer');
         if (!snowContainer) return;
 
-        function createSnowflake() {
-            const snowflake = document.createElement('div');
-            snowflake.classList.add('snowflake');
-            snowflake.innerHTML = '❄';
-            
-            // Random properties
-            const size = Math.random() * 15 + 10;
-            const startPositionX = Math.random() * window.innerWidth;
-            const animationDuration = Math.random() * 10 + 5;
-            const opacity = Math.random() * 0.8 + 0.2;
-            
-            snowflake.style.position = 'absolute';
-            snowflake.style.left = startPositionX + 'px';
-            snowflake.style.top = '-20px';
-            snowflake.style.fontSize = size + 'px';
-            snowflake.style.color = 'white';
-            snowflake.style.opacity = opacity;
-            snowflake.style.pointerEvents = 'none';
-            snowflake.style.animation = `snowfall ${animationDuration}s linear forwards`;
-            
-            snowContainer.appendChild(snowflake);
-            
-            // Remove snowflake after animation
-            setTimeout(() => {
-                if (snowflake.parentNode) {
-                    snowflake.parentNode.removeChild(snowflake);
+        var month = new Date().getMonth(); // 0-11
+        var particleConfig;
+
+        if (month >= 11 || month <= 1) {
+            // Winter (Dec, Jan, Feb): snowflakes
+            particleConfig = { chars: ['\u2744', '\u2745', '\u2746', '\u2727'], color: 'white', interval: 300, sizeRange: [10, 25] };
+        } else if (month >= 2 && month <= 4) {
+            // Spring (Mar, Apr, May): petals
+            particleConfig = { chars: ['\uD83C\uDF38', '\u273F', '\u2740', '\uD83C\uDF43'], color: '#ffb7c5', interval: 500, sizeRange: [12, 22] };
+        } else if (month >= 5 && month <= 7) {
+            // Summer (Jun, Jul, Aug): fireflies
+            particleConfig = { chars: ['\u2726', '\u2727', '\u00B7'], color: '#ffd700', interval: 600, sizeRange: [8, 16] };
+        } else {
+            // Autumn (Sep, Oct, Nov): falling leaves
+            particleConfig = { chars: ['\uD83C\uDF42', '\uD83C\uDF41', '\uD83C\uDF43'], color: '#c97b2a', interval: 500, sizeRange: [14, 24] };
+        }
+
+        function createParticle() {
+            var particle = document.createElement('div');
+            particle.classList.add('snowflake');
+            particle.innerHTML = particleConfig.chars[Math.floor(Math.random() * particleConfig.chars.length)];
+
+            var size = Math.random() * (particleConfig.sizeRange[1] - particleConfig.sizeRange[0]) + particleConfig.sizeRange[0];
+            var startPositionX = Math.random() * window.innerWidth;
+            var animationDuration = Math.random() * 10 + 5;
+            var opacity = Math.random() * 0.8 + 0.2;
+
+            particle.style.position = 'absolute';
+            particle.style.left = startPositionX + 'px';
+            particle.style.top = '-20px';
+            particle.style.fontSize = size + 'px';
+            particle.style.color = particleConfig.color;
+            particle.style.opacity = opacity;
+            particle.style.pointerEvents = 'none';
+            particle.style.animation = 'snowfall ' + animationDuration + 's linear forwards';
+
+            snowContainer.appendChild(particle);
+
+            setTimeout(function() {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
                 }
             }, animationDuration * 1000);
         }
 
-        // Create snowflakes periodically
-        setInterval(createSnowflake, 300);
+        setInterval(createParticle, particleConfig.interval);
     }
 
     function initBookingForm() {
@@ -763,6 +794,169 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         return isValid;
+    }
+
+    function initRoomPreselection() {
+        var roomNameToValue = {
+            'Standard Mountain Room': 'Standard',
+            'Deluxe Family Suite': 'Deluxe',
+            'Premium Panorama Suite': 'Premium'
+        };
+
+        document.querySelectorAll('.book-room-btn').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var roomName = this.getAttribute('data-room');
+                var roomValue = roomNameToValue[roomName];
+
+                if (roomValue) {
+                    var roomSelect = document.getElementById('roomType');
+                    if (roomSelect) {
+                        roomSelect.value = roomValue;
+                        roomSelect.dispatchEvent(new Event('change'));
+                    }
+                }
+
+                var bookingSection = document.getElementById('booking');
+                if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+
+    function initRoomDetailModals() {
+        var roomData = [
+            {
+                nameEn: 'Standard Mountain Room',
+                nameAl: 'Dhom\u00eb Standard Malore',
+                image: '/images/nice-room.jpg',
+                priceAll: '5,000',
+                priceEur: '~\u20ac46',
+                guestsEn: 'Up to 2 Guests',
+                guestsAl: 'Deri n\u00eb 2 Vizitor\u00eb',
+                amenitiesEn: ['1 Double Bed', 'Mountain View', 'Free WiFi', 'Private Bathroom', 'Heating', 'Breakfast Included', 'Daily Housekeeping'],
+                amenitiesAl: ['1 Krevat Dopio', 'Pamje Nga Mali', 'WiFi Falas', 'Banjo Private', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Past\u00ebrtia Ditore'],
+                descEn: 'Our cozy standard room offers comfortable accommodation with essential amenities and spectacular mountain views. Perfect for couples or solo travelers seeking a peaceful mountain retreat.',
+                descAl: 'Dhoma jon\u00eb standard e rehatshme ofron akomodim komod me pajisje thelbësore dhe pamje spektakolare t\u00eb maleve. Perfekte p\u00ebr çifte ose udh\u00ebtarë individualë q\u00eb k\u00ebrkojn\u00eb nj\u00eb arratisje malore t\u00eb qet\u00eb.',
+                bookValue: 'Standard'
+            },
+            {
+                nameEn: 'Deluxe Family Suite',
+                nameAl: 'Suit\u00eb Familjare Deluxe',
+                image: '/images/family-room.jpg',
+                priceAll: '6,000',
+                priceEur: '~\u20ac55',
+                guestsEn: 'Up to 4 Guests',
+                guestsAl: 'Deri n\u00eb 4 Vizitor\u00eb',
+                amenitiesEn: ['2 Beds', 'Seating Area', 'Private Bathroom', 'Free WiFi', 'Heating', 'Breakfast Included', 'Mountain View', 'Daily Housekeeping'],
+                amenitiesAl: ['2 Krevate', 'Zon\u00eb Ndenjeje', 'Banjo Private', 'WiFi Falas', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Pamje Nga Mali', 'Past\u00ebrtia Ditore'],
+                descEn: 'Spacious suite perfect for families, featuring separate sleeping areas, a comfortable seating area, and premium amenities. Enjoy quality time together in a warm mountain setting.',
+                descAl: 'Suit\u00eb e gjer\u00eb perfekte p\u00ebr familjet, me zona t\u00eb ndara gjumi, nj\u00eb zon\u00eb t\u00eb rehatshme ndenjeje dhe pajisje premium. Shijoni koh\u00eb cil\u00ebsore s\u00eb bashku n\u00eb nj\u00eb ambient t\u00eb ngroht\u00eb malor.',
+                bookValue: 'Deluxe'
+            },
+            {
+                nameEn: 'Premium Panorama Suite',
+                nameAl: 'Suit\u00eb Premium Panoramike',
+                image: '/images/double-bed-room.jpg',
+                priceAll: '7,000',
+                priceEur: '~\u20ac65',
+                guestsEn: 'Up to 5 Guests',
+                guestsAl: 'Deri n\u00eb 5 Vizitor\u00eb',
+                amenitiesEn: ['King Size Bed', 'Jacuzzi', 'Private Balcony', 'Panoramic View', 'Free WiFi', 'Heating', 'Breakfast Included', 'Premium Toiletries', 'Daily Housekeeping'],
+                amenitiesAl: ['Krevat King Size', 'Jakuzi', 'Ballkon Privat', 'Pamje Panoramike', 'WiFi Falas', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Artikuj Premium Tualeti', 'Past\u00ebrtia Ditore'],
+                descEn: 'Our finest accommodation featuring a private balcony with panoramic views, a jacuzzi, and exclusive amenities. Perfect for families or groups up to 5 people.',
+                descAl: 'Akomodimi yn\u00eb m\u00eb i mir\u00eb me nj\u00eb ballkon privat me pamje panoramike, nj\u00eb jakuzi dhe pajisje ekskluzive. Perfekt p\u00ebr familje ose grupe deri n\u00eb 5 persona.',
+                bookValue: 'Premium'
+            }
+        ];
+
+        // Create modal HTML
+        var modalHTML = '<div class="room-detail-modal" id="roomDetailModal">' +
+            '<div class="room-detail-modal-content">' +
+                '<button class="room-detail-modal-close" id="roomDetailClose"><i class="fas fa-times"></i></button>' +
+                '<div class="room-detail-modal-body">' +
+                    '<div class="room-detail-image"><img id="roomDetailImg" src="" alt="">' +
+                        '<div class="room-detail-price" id="roomDetailPrice"></div>' +
+                    '</div>' +
+                    '<div class="room-detail-info">' +
+                        '<h2 id="roomDetailName"></h2>' +
+                        '<p class="room-detail-guests" id="roomDetailGuests"></p>' +
+                        '<p class="room-detail-desc" id="roomDetailDesc"></p>' +
+                        '<h4 id="roomDetailAmenitiesLabel"></h4>' +
+                        '<ul class="room-detail-amenities" id="roomDetailAmenities"></ul>' +
+                        '<a href="#booking" class="btn book-from-modal" id="roomDetailBookBtn"></a>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        var modal = document.getElementById('roomDetailModal');
+        var closeBtn = document.getElementById('roomDetailClose');
+
+        // Open modal on room details click
+        document.querySelectorAll('.room-details-btn').forEach(function(btn, index) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var room = roomData[index];
+                if (!room) return;
+
+                var lang = currentLang || 'al';
+
+                document.getElementById('roomDetailImg').src = room.image;
+                document.getElementById('roomDetailImg').alt = lang === 'en' ? room.nameEn : room.nameAl;
+                document.getElementById('roomDetailName').textContent = lang === 'en' ? room.nameEn : room.nameAl;
+                document.getElementById('roomDetailGuests').innerHTML = '<i class="fas fa-users"></i> ' + (lang === 'en' ? room.guestsEn : room.guestsAl);
+                document.getElementById('roomDetailDesc').textContent = lang === 'en' ? room.descEn : room.descAl;
+                document.getElementById('roomDetailPrice').textContent = room.priceAll + ' ALL / ' + room.priceEur;
+                document.getElementById('roomDetailAmenitiesLabel').textContent = lang === 'en' ? 'Amenities' : 'Pajisjet';
+
+                var amenitiesList = document.getElementById('roomDetailAmenities');
+                amenitiesList.innerHTML = '';
+                var amenities = lang === 'en' ? room.amenitiesEn : room.amenitiesAl;
+                amenities.forEach(function(a) {
+                    var li = document.createElement('li');
+                    li.innerHTML = '<i class="fas fa-check"></i> ' + a;
+                    amenitiesList.appendChild(li);
+                });
+
+                var bookBtn = document.getElementById('roomDetailBookBtn');
+                bookBtn.textContent = lang === 'en' ? 'Book This Room' : 'Rezervo K\u00ebt\u00eb Dhom\u00eb';
+                bookBtn.setAttribute('data-room-value', room.bookValue);
+
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Close modal
+        function closeRoomModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        closeBtn.addEventListener('click', closeRoomModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeRoomModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeRoomModal();
+        });
+
+        // Book from modal button
+        document.getElementById('roomDetailBookBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            var roomValue = this.getAttribute('data-room-value');
+            var roomSelect = document.getElementById('roomType');
+            if (roomSelect && roomValue) {
+                roomSelect.value = roomValue;
+                roomSelect.dispatchEvent(new Event('change'));
+            }
+            closeRoomModal();
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        });
     }
 
     function showBookingConfirmation(bookingData) {
