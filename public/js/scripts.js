@@ -1509,7 +1509,6 @@ document.head.appendChild(calendarStyle);
     function initHoverEffects(retryCount) {
         retryCount = retryCount || 0;
         var aboutContainer = document.getElementById('about-hover-container');
-        var honeyContainer = document.getElementById('honey-hover-container');
         var restaurantContainer = document.getElementById('restaurant-hover-container');
 
         // If libraries didn't load yet, retry up to 5 times with delays
@@ -1521,7 +1520,6 @@ document.head.appendChild(calendarStyle);
             }
             console.warn('Hover-effect dependencies missing after retries: THREE=' + (typeof THREE) + ', TweenMax=' + (typeof TweenMax) + ', hoverEffect=' + (typeof hoverEffect));
             showFallbackImage(aboutContainer, '/images/outside-main.jpg', 'Vila Falo');
-            showFallbackImage(honeyContainer, '/images/mjalte.jpg', 'Mountain Honey');
             showFallbackImage(restaurantContainer, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');
             return;
         }
@@ -1566,35 +1564,12 @@ document.head.appendChild(calendarStyle);
             }
         }
 
-        // Honey section hover effect (advertising ↔ honey jar)
-        if (honeyContainer && !honeyContainer.querySelector('canvas')) {
-            try {
-                new hoverEffect({
-                    parent: honeyContainer,
-                    intensity: 0.3,
-                    image1: '/images/mjalti-advertising.png',
-                    image2: '/images/mjalte.jpg',
-                    displacementImage: displacementImg,
-                    speedIn: 1.6,
-                    speedOut: 1.2
-                });
-                console.log('Honey hover effect initialized successfully');
-            } catch (e) {
-                console.warn('Honey hover effect failed:', e);
-                showFallbackImage(honeyContainer, '/images/mjalti-advertising.png', 'Mountain Honey');
-            }
-        }
-
         // Timeout fallback: if after 5 seconds containers are still empty, show static images
         setTimeout(function() {
             var about = document.getElementById('about-hover-container');
-            var honey = document.getElementById('honey-hover-container');
             var restaurant = document.getElementById('restaurant-hover-container');
             if (about && !about.querySelector('canvas') && !about.querySelector('img')) {
                 showFallbackImage(about, '/images/outside-main.jpg', 'Vila Falo');
-            }
-            if (honey && !honey.querySelector('canvas') && !honey.querySelector('img')) {
-                showFallbackImage(honey, '/images/mjalti-advertising.png', 'Mountain Honey');
             }
             if (restaurant && !restaurant.querySelector('canvas') && !restaurant.querySelector('img')) {
                 showFallbackImage(restaurant, '/images/restaurant-love.jpg', 'Vila Falo Restaurant');

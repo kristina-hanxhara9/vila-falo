@@ -50,83 +50,7 @@
         text-align: center;
     }
     
-    /* Navigation Mobile */
-    .nav-links {
-        display: none;
-    }
-    
-    .hamburger {
-        display: flex;
-        flex-direction: column;
-        cursor: pointer;
-        padding: 10px;
-        min-width: 44px;
-        min-height: 44px;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hamburger .bar {
-        width: 25px;
-        height: 3px;
-        background: var(--white, #fff);
-        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
-        margin: 3px 0;
-        transition: 0.3s;
-    }
-
-    .header.scrolled .hamburger .bar {
-        background: var(--text, #333);
-    }
-    
-    .hamburger.active .bar:nth-child(1) {
-        transform: rotate(-45deg) translate(-5px, 6px);
-    }
-    
-    .hamburger.active .bar:nth-child(2) {
-        opacity: 0;
-    }
-    
-    .hamburger.active .bar:nth-child(3) {
-        transform: rotate(45deg) translate(-5px, -6px);
-    }
-    
-    .mobile-nav {
-        display: block;
-        position: fixed;
-        top: 70px;
-        left: -100%;
-        width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        padding-top: 2rem;
-        transition: left 0.3s ease;
-        z-index: 1000;
-        overflow-y: auto;
-    }
-    
-    .mobile-nav.active {
-        left: 0;
-    }
-    
-    .mobile-nav .nav-link {
-        display: block;
-        padding: 1rem 2rem;
-        font-size: 1.2rem;
-        width: 100%;
-        text-align: center;
-        border-bottom: 1px solid #eee;
-        transition: all 0.3s ease;
-    }
-    
-    .mobile-nav .nav-link:hover {
-        background: var(--primary);
-        color: white;
-    }
+    /* Navigation - nav links visible at tablet, hamburger hidden */
     
     /* Rooms Grid Mobile */
     .rooms-grid {
@@ -197,11 +121,20 @@
 
     /* Hero badges stack */
     .hero-review-badge {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        white-space: nowrap;
     }
 
     .live-music-banner {
         font-size: 0.8rem;
+    }
+
+    .hero-explore-link {
+        font-size: 0.85rem;
+    }
+
+    .bar-cta {
+        font-size: 0.85rem;
     }
 
     /* Lightbox mobile */
@@ -307,17 +240,96 @@
         padding: 0 10px;
     }
 
+    /* Navigation Mobile — hide nav links, show hamburger */
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        padding: 10px;
+        min-width: 44px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hamburger .bar {
+        width: 25px;
+        height: 3px;
+        background: var(--white, #fff);
+        filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+        margin: 3px 0;
+        transition: 0.3s;
+    }
+
+    .header.scrolled .hamburger .bar {
+        background: var(--text, #333);
+    }
+
+    .hamburger.active .bar:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .hamburger.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active .bar:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    .mobile-nav {
+        display: block;
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 2rem;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        overflow-y: auto;
+    }
+
+    .mobile-nav.active {
+        left: 0;
+    }
+
+    .mobile-nav .nav-link {
+        display: block;
+        padding: 0.8rem 2rem;
+        font-size: 1.2rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        transition: all 0.3s ease;
+        line-height: 1.4;
+    }
+
+    .mobile-nav .nav-link:hover {
+        background: var(--primary);
+        color: white;
+    }
+
     /* Fix background-attachment: fixed for iOS */
     .cta,
     .hero,
     .rooms {
         background-attachment: scroll !important;
     }
-    
+
     section {
         padding: 3rem 0;
     }
-    
+
     /* Typography Mobile */
     .section-title h2 {
         font-size: 2rem;
@@ -610,12 +622,17 @@
     :root {
         font-size: 13px;
     }
-    
+
+    .hero-review-badge {
+        font-size: 0.7rem;
+        padding: 6px 12px;
+    }
+
     .container {
         width: 98%;
         padding: 0 5px;
     }
-    
+
     section {
         padding: 2.5rem 0;
     }
@@ -952,9 +969,14 @@
         padding: 0 12px;
     }
 
-    /* Seasons grid - single column on small phones */
+    /* Seasons grid - 2x2 on small phones */
     .seasons-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+
+    .seasons-grid .season-card {
+        padding: 0.75rem 0.5rem;
     }
 
     /* Food fan cards - full width on small phones */
