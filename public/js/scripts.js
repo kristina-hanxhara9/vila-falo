@@ -415,12 +415,25 @@ document.addEventListener('DOMContentLoaded', function() {
                             calendarGrid.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
                             // Add selection to clicked day
                             this.classList.add('selected');
-                            
-                            // Update form check-in date if available
-                            const checkInInput = document.getElementById('checkIn');
+
+                            // Auto-fill check-in date
+                            const checkInInput = document.getElementById('checkInDate');
                             if (checkInInput) {
                                 const selectedDate = new Date(year, month, day);
                                 checkInInput.value = selectedDate.toISOString().split('T')[0];
+
+                                // Auto-set check-out to +1 day
+                                const checkOutInput = document.getElementById('checkOutDate');
+                                if (checkOutInput) {
+                                    const nextDay = new Date(year, month, day + 1);
+                                    checkOutInput.value = nextDay.toISOString().split('T')[0];
+                                }
+
+                                // Scroll booking form into view
+                                const bookingForm = document.querySelector('.booking-form');
+                                if (bookingForm) {
+                                    bookingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
                             }
                         });
                     } else {
