@@ -460,13 +460,13 @@ section {
 }
 
 /* Keep green even when page is scrolled */
-.header.scrolled ~ .language-toggle,
+.header.scrolled .language-toggle,
 body.scrolled .language-toggle {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
     border-color: rgba(255, 255, 255, 0.2);
 }
 
-.header.scrolled ~ .language-toggle:hover,
+.header.scrolled .language-toggle:hover,
 body.scrolled .language-toggle:hover {
     background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
 }
@@ -503,6 +503,16 @@ body.scrolled .language-toggle:hover {
     background: rgba(255, 255, 255, 0.2);
     border-color: rgba(255, 255, 255, 0.4);
     transform: scale(1.05);
+}
+
+/* Desktop: keep language toggle fixed outside header flow */
+@media (min-width: 769px) {
+    .language-toggle {
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        z-index: 1001;
+    }
 }
 
 /* Header Styles */
@@ -726,7 +736,7 @@ body.scrolled .language-toggle:hover {
     z-index: 2;
     max-width: 900px;
     text-align: center;
-    padding: 0 2rem;
+    padding: 0 15px;
 }
 
 .hero h1 {
@@ -1107,6 +1117,12 @@ body.scrolled .language-toggle:hover {
     align-items: center;
 }
 
+@media (min-width: 993px) {
+    .honey-layout {
+        flex-direction: row;
+    }
+}
+
 .honey-image-col {
     flex: 1;
 }
@@ -1181,7 +1197,7 @@ body.scrolled .language-toggle:hover {
     display: flex;
     justify-content: flex-start;
     margin-top: -10px;
-    margin-bottom: -280px;
+    margin-bottom: -150px;
     padding-left: 8%;
     pointer-events: none;
 }
@@ -1222,7 +1238,7 @@ body.scrolled .language-toggle:hover {
     }
     .bee-video-overlap {
         margin-top: -10px;
-        margin-bottom: -120px;
+        margin-bottom: -80px;
         padding-left: 5%;
     }
 }
@@ -1234,7 +1250,7 @@ body.scrolled .language-toggle:hover {
     }
     .bee-video-overlap {
         margin-top: -5px;
-        margin-bottom: -80px;
+        margin-bottom: -50px;
         padding-left: 4%;
     }
 }
@@ -4582,11 +4598,6 @@ button[type="submit"]:disabled:hover {
         height: 35px;
         font-size: 1rem;
     }
-    
-    .language-toggle {
-        top: 70px;
-    }
-    
     
     .weather-widget {
         display: none;
