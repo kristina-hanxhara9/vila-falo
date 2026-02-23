@@ -176,30 +176,18 @@ function forceHeroVisibility() {
 
 // Language toggle force fix function
 function forceLanguageToggleFix() {
+    // Desktop uses nav-lang inside .nav-links; mobile uses .language-toggle inside .mobile-nav
+    // Only ensure pointer events work on all language options
+    const languageOptions = document.querySelectorAll('.language-option');
+    languageOptions.forEach(option => {
+        option.style.pointerEvents = 'auto';
+        option.style.cursor = 'pointer';
+    });
+
     const languageToggle = document.querySelector('.language-toggle');
     if (languageToggle) {
-        if (window.innerWidth > 768) {
-            languageToggle.style.position = 'fixed';
-            languageToggle.style.top = '20px';
-            languageToggle.style.right = '30px';
-            languageToggle.style.zIndex = '1001';
-        } else {
-            // On mobile, let CSS handle positioning (static inside mobile-nav)
-            languageToggle.style.position = '';
-            languageToggle.style.top = '';
-            languageToggle.style.right = '';
-            languageToggle.style.zIndex = '';
-        }
         languageToggle.style.display = 'flex';
         languageToggle.style.pointerEvents = 'auto';
-
-        const languageOptions = languageToggle.querySelectorAll('.language-option');
-        languageOptions.forEach(option => {
-            option.style.pointerEvents = 'auto';
-            option.style.cursor = 'pointer';
-        });
-
-        console.log('Language toggle position and visibility forced');
     }
 }
 

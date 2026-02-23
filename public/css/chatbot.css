@@ -27,8 +27,10 @@
     }
     
     .chatbot-toggle {
-        bottom: 15px;
+        bottom: 80px;
         right: 15px;
+        width: 48px;
+        height: 48px;
     }
 }
 
@@ -43,7 +45,7 @@
     }
     
     .chatbot-toggle {
-        bottom: 10px;
+        bottom: 80px;
         right: 10px;
     }
 }
@@ -63,9 +65,9 @@
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-    /* Ensure it stays in bottom right */
+    /* Ensure it stays in bottom right, above booking bar */
     position: fixed;
-    bottom: 20px;
+    bottom: 90px;
     right: 20px;
     z-index: 10001;
 }
