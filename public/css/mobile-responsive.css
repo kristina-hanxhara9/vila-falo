@@ -596,14 +596,14 @@
     }
     
     .language-toggle {
-        position: fixed;
-        top: 80px;
-        right: 15px;
-        z-index: 1000;
-        background: rgba(255, 255, 255, 0.9);
+        position: static;
+        z-index: auto;
+        background: linear-gradient(135deg, #2a6d4e 0%, #3a8e6a 100%);
         border-radius: 25px;
-        padding: 5px;
+        padding: 8px 15px;
         backdrop-filter: blur(10px);
+        margin: 1.5rem auto 0;
+        width: fit-content;
     }
     
     .language-options {
@@ -630,13 +630,13 @@
 
     .container {
         width: 98%;
-        padding: 0 5px;
+        padding: 0 8px;
     }
 
     section {
         padding: 2.5rem 0;
     }
-    
+
     /* Hero Extra Small */
     .hero {
         min-height: 60vh;
@@ -867,7 +867,7 @@
     }
 
     .bee-video-overlap {
-        margin-bottom: -110px;
+        margin-bottom: -40px;
         padding-left: 3%;
     }
 

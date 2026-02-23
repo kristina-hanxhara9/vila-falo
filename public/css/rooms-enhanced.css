@@ -271,3 +271,17 @@
         font-size: 0.75rem;
     }
 }
+
+/* ============ ROOM INCLUDES - FIX FOR LIGHT CARD BACKGROUND ============ */
+.room-includes {
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.include-tag {
+    color: #555;
+    background: rgba(42, 109, 78, 0.08);
+}
+
+.include-tag i {
+    color: #2a6d4e;
+}

@@ -178,19 +178,27 @@ function forceHeroVisibility() {
 function forceLanguageToggleFix() {
     const languageToggle = document.querySelector('.language-toggle');
     if (languageToggle) {
-        languageToggle.style.position = 'fixed';
-        languageToggle.style.top = '10px';
-        languageToggle.style.right = '10px';
-        languageToggle.style.zIndex = '1002';
+        if (window.innerWidth > 768) {
+            languageToggle.style.position = 'fixed';
+            languageToggle.style.top = '20px';
+            languageToggle.style.right = '30px';
+            languageToggle.style.zIndex = '1001';
+        } else {
+            // On mobile, let CSS handle positioning (static inside mobile-nav)
+            languageToggle.style.position = '';
+            languageToggle.style.top = '';
+            languageToggle.style.right = '';
+            languageToggle.style.zIndex = '';
+        }
         languageToggle.style.display = 'flex';
         languageToggle.style.pointerEvents = 'auto';
-        
+
         const languageOptions = languageToggle.querySelectorAll('.language-option');
         languageOptions.forEach(option => {
             option.style.pointerEvents = 'auto';
             option.style.cursor = 'pointer';
         });
-        
+
         console.log('Language toggle position and visibility forced');
     }
 }
@@ -208,6 +216,7 @@ if (document.readyState === 'loading') {
 
 // Run fixes on window resize for mobile
 window.addEventListener('resize', function() {
+    forceLanguageToggleFix();
     if (window.innerWidth <= 768) {
         const hero = document.querySelector('.hero');
         if (hero) {
