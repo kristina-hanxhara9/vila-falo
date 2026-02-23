@@ -172,6 +172,16 @@
         gap: 1rem;
     }
     
+    /* Honey Layout Mobile */
+    .honey-layout {
+        flex-direction: column;
+    }
+
+    .honey-image-col,
+    .honey-text-col {
+        width: 100%;
+    }
+
     /* Booking Form Mobile */
     .booking-container {
         flex-direction: column;
@@ -238,6 +248,10 @@
     .location-info,
     .location-map {
         width: 100%;
+    }
+
+    .location-info {
+        order: -1;
     }
     
     .seasons-grid {
