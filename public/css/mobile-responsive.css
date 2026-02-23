@@ -182,6 +182,37 @@
         width: 100%;
     }
 
+    /* Sticky Booking Bar Mobile */
+    .booking-bar-inner {
+        flex-wrap: wrap;
+    }
+
+    .bar-field {
+        flex: 1 1 45%;
+    }
+
+    .bar-cta {
+        width: 100%;
+    }
+
+    /* Hero badges stack */
+    .hero-review-badge {
+        font-size: 0.8rem;
+    }
+
+    .live-music-banner {
+        font-size: 0.8rem;
+    }
+
+    /* Lightbox mobile */
+    .lightbox-img {
+        max-width: 95vw;
+        max-height: 80vh;
+    }
+
+    .lightbox-prev { left: 8px; }
+    .lightbox-next { right: 8px; }
+
     /* Booking Form Mobile */
     .booking-container {
         flex-direction: column;

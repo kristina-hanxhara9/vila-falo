@@ -513,6 +513,7 @@ body.scrolled .language-toggle:hover {
     z-index: 1000;
     transition: var(--transition);
     padding: 1.5rem 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
 }
 
 .header.scrolled {
@@ -585,9 +586,30 @@ body.scrolled .language-toggle:hover {
     width: 100%;
 }
 
-.nav-link:hover, 
+.nav-link:hover,
 .nav-link.active {
     color: var(--secondary);
+}
+
+/* Nav CTA pill button */
+.nav-cta {
+    background: var(--secondary) !important;
+    color: white !important;
+    border-radius: 20px;
+    padding: 6px 18px;
+}
+
+.nav-cta::after {
+    display: none !important;
+}
+
+.nav-cta:hover {
+    background: #c4924f !important;
+    color: white !important;
+}
+
+.header.scrolled .nav-cta {
+    color: white !important;
 }
 
 .hamburger {
@@ -742,11 +764,89 @@ body.scrolled .language-toggle:hover {
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+/* Hero Review Badge */
+.hero-review-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.badge-stars {
+    color: var(--secondary);
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+.badge-stars .half-star {
+    opacity: 0.5;
+}
+
+.hero-review-badge span {
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Hero Explore Link (replaces outlined button) */
+.hero-explore-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    padding: 10px 0;
+}
+
+.hero-explore-link:hover {
+    color: white;
+}
+
+.hero-explore-link i {
+    font-size: 0.75rem;
+    animation: bounce 2s infinite;
+}
+
+/* Live Music Banner */
+.live-music-banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 8px 20px;
+    border: 1px solid rgba(217, 165, 102, 0.5);
+    border-radius: 30px;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background: rgba(217, 165, 102, 0.15);
+    backdrop-filter: blur(4px);
+}
+
+.live-music-banner i {
+    color: var(--secondary);
+    animation: musicPulse 2s ease-in-out infinite;
+}
+
+@keyframes musicPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
+}
+
 .hero-btns {
     display: flex;
     gap: 1.5rem;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
 }
 
 .scroll-indicator {
@@ -5388,6 +5488,228 @@ button[type="submit"]:disabled:hover {
     .restaurant-hover-img {
         min-height: 220px;
     }
+}
+
+/* ============ STICKY BOOKING BAR ============ */
+.booking-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    padding: 12px 0;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.booking-bar.visible {
+    transform: translateY(0);
+}
+
+.booking-bar-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    padding: 0 1.5rem;
+}
+
+.bar-field {
+    flex: 1;
+}
+
+.bar-field label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bar-field input,
+.bar-field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid rgba(42, 109, 78, 0.2);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.bar-field input:focus,
+.bar-field select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(42, 109, 78, 0.1);
+}
+
+.bar-cta {
+    padding: 12px 24px !important;
+    white-space: nowrap;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* ============ ROOM LIGHTBOX ============ */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10003;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.lightbox-prev { left: 20px; }
+.lightbox-next { right: 20px; }
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.lightbox-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+/* ============ ROOM CARD ENHANCEMENTS ============ */
+.room-includes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.include-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.08);
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.include-tag i {
+    font-size: 0.65rem;
+    color: rgba(46, 204, 113, 0.8);
+}
+
+.scarcity-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(42, 109, 78, 0.9);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 4px;
+    z-index: 2;
+}
+
+.scarcity-badge.urgent {
+    background: rgba(230, 81, 0, 0.9);
+}
+
+.value-frame {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--secondary);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+/* ============ REVIEWS CTA ============ */
+.reviews-cta {
+    text-align: center;
+    padding: 2rem 0 0;
+}
+
+.reviews-cta p {
+    color: var(--text-light);
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+/* ============ URGENCY SUBTEXT ============ */
+.urgency-subtext {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
 }
 
 /* ============ WHATSAPP FLOATING BUTTON ============ */
