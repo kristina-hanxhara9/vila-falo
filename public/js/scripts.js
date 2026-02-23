@@ -837,8 +837,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 guestsAl: 'Deri n\u00eb 2 Vizitor\u00eb',
                 amenitiesEn: ['1 Double Bed', 'Mountain View', 'Free WiFi', 'Private Bathroom', 'Heating', 'Breakfast Included', 'Daily Housekeeping'],
                 amenitiesAl: ['1 Krevat Dopio', 'Pamje Nga Mali', 'WiFi Falas', 'Banjo Private', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Past\u00ebrtia Ditore'],
-                descEn: 'Our cozy standard room offers comfortable accommodation with essential amenities and spectacular mountain views. Perfect for couples or solo travelers seeking a peaceful mountain retreat.',
-                descAl: 'Dhoma jon\u00eb standard e rehatshme ofron akomodim komod me pajisje thelbësore dhe pamje spektakolare t\u00eb maleve. Perfekte p\u00ebr çifte ose udh\u00ebtarë individualë q\u00eb k\u00ebrkojn\u00eb nj\u00eb arratisje malore t\u00eb qet\u00eb.',
+                descEn: 'You\'ll sleep well here. Open the window in the morning and the first thing you hear is birds. Mountain view, double bed, free WiFi \u2014 everything you actually need.',
+                descAl: 'Do t\u00eb flini mir\u00eb k\u00ebtu. Hap dritaren n\u00eb m\u00ebngjjes dhe gj\u00ebja e par\u00eb q\u00eb d\u00ebgjon jan\u00eb zogjt\u00eb. Pamje mali, krevat dopio, WiFi falas \u2014 gjith\u00e7ka q\u00eb ju nevojitet v\u00ebrtet.',
                 bookValue: 'Standard'
             },
             {
@@ -851,8 +851,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 guestsAl: 'Deri n\u00eb 4 Vizitor\u00eb',
                 amenitiesEn: ['2 Beds', 'Seating Area', 'Private Bathroom', 'Free WiFi', 'Heating', 'Breakfast Included', 'Mountain View', 'Daily Housekeeping'],
                 amenitiesAl: ['2 Krevate', 'Zon\u00eb Ndenjeje', 'Banjo Private', 'WiFi Falas', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Pamje Nga Mali', 'Past\u00ebrtia Ditore'],
-                descEn: 'Spacious suite perfect for families, featuring separate sleeping areas, a comfortable seating area, and premium amenities. Enjoy quality time together in a warm mountain setting.',
-                descAl: 'Suit\u00eb e gjer\u00eb perfekte p\u00ebr familjet, me zona t\u00eb ndara gjumi, nj\u00eb zon\u00eb t\u00eb rehatshme ndenjeje dhe pajisje premium. Shijoni koh\u00eb cil\u00ebsore s\u00eb bashku n\u00eb nj\u00eb ambient t\u00eb ngroht\u00eb malor.',
+                descEn: 'Enough space for everyone to spread out. Separate sleeping areas so the kids can crash early while you enjoy the evening. Clean, quiet, and the perfect size for a family.',
+                descAl: 'Hap\u00ebsir\u00eb e mjaftueshme p\u00ebr t\u00eb gjith\u00eb. Zona gjumi t\u00eb ndara q\u00eb f\u00ebmij\u00ebt t\u00eb flen\u00eb her\u00ebt nd\u00ebrsa ju shijoni mbr\u00ebmjen. E past\u00ebr, e qet\u00eb, dhe madh\u00ebsia perfekte p\u00ebr nj\u00eb familje.',
                 bookValue: 'Deluxe'
             },
             {
@@ -865,8 +865,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 guestsAl: 'Deri n\u00eb 5 Vizitor\u00eb',
                 amenitiesEn: ['King Size Bed', 'Jacuzzi', 'Private Balcony', 'Panoramic View', 'Free WiFi', 'Heating', 'Breakfast Included', 'Premium Toiletries', 'Daily Housekeeping'],
                 amenitiesAl: ['Krevat King Size', 'Jakuzi', 'Ballkon Privat', 'Pamje Panoramike', 'WiFi Falas', 'Ngrohje', 'M\u00ebngjesi i P\u00ebrfshir\u00eb', 'Artikuj Premium Tualeti', 'Past\u00ebrtia Ditore'],
-                descEn: 'Our finest accommodation featuring a private balcony with panoramic views, a jacuzzi, and exclusive amenities. Perfect for families or groups up to 5 people.',
-                descAl: 'Akomodimi yn\u00eb m\u00eb i mir\u00eb me nj\u00eb ballkon privat me pamje panoramike, nj\u00eb jakuzi dhe pajisje ekskluzive. Perfekt p\u00ebr familje ose grupe deri n\u00eb 5 persona.',
+                descEn: 'Your private balcony looks out over the entire valley. There\'s a jacuzzi, a king bed, and nothing you need to do except be there. The kind of room you plan a trip around.',
+                descAl: 'Ballkoni juaj privat shikon mbi gjith\u00eb lugin\u00ebn. Ka nj\u00eb jakuzi, nj\u00eb krevat king, dhe asgj\u00eb q\u00eb duhet t\u00eb b\u00ebni p\u00ebrve\u00e7se t\u00eb jeni aty. Lloji i dhom\u00ebs rreth s\u00eb cil\u00ebs planifikoni nj\u00eb udh\u00ebtim.',
                 bookValue: 'Premium'
             }
         ];
