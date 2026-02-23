@@ -85,6 +85,7 @@ body {
     color: var(--text);
     overflow-x: hidden;
     background-color: var(--light);
+    padding-bottom: 80px;
 }
 
 a {
@@ -103,7 +104,7 @@ img {
 
 .container {
     width: 90%;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -847,6 +848,11 @@ body.scrolled .language-toggle:hover {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+
+.hero-btns .btn {
+    width: auto;
+    padding: 14px 48px;
 }
 
 .scroll-indicator {
@@ -1940,7 +1946,7 @@ body.scrolled .language-toggle:hover {
         transform: none;
         margin: 0;
     }
-    .food-fan-inner img { height: 180px; }
+    .food-fan-inner img { height: 200px; }
     .food-fan-card:nth-child(1) .food-fan-inner::after,
     .food-fan-card:nth-child(4) .food-fan-inner::after { display: none; }
 }
@@ -2298,6 +2304,7 @@ body.scrolled .language-toggle:hover {
     background: #2a6d4e;
     border-radius: 8px;
     padding: 40px 32px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -2335,6 +2342,8 @@ body.scrolled .language-toggle:hover {
     line-height: 1.7;
     flex: 1;
     margin-bottom: 2rem;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .review-author {
@@ -4626,12 +4635,14 @@ button[type="submit"]:disabled:hover {
     }
     
     .seasons-grid {
-        flex-direction: column;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
     }
     .seasons-grid .season-card {
-        min-width: 80%;
-        max-width: 100%;
+        min-width: auto;
+        max-width: none;
+        padding: 1rem 0.75rem;
     }
 
     .back-to-top {
@@ -5390,6 +5401,39 @@ button[type="submit"]:disabled:hover {
 .restaurant-right-col .restaurant-hover-img,
 .honey-right-col .honey-hover-img {
     width: 100%;
+}
+
+/* ============ HONEY STATIC IMAGE ============ */
+.honey-static-img {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-strong);
+}
+
+.honey-static-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: 400px;
+}
+
+@media (max-width: 992px) {
+    .honey-static-img img {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 768px) {
+    .honey-static-img img {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .honey-static-img img {
+        min-height: 220px;
+    }
 }
 
 /* ============ ANTON QUOTE STYLE ============ */
