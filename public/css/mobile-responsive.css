@@ -59,15 +59,23 @@
         display: flex;
         flex-direction: column;
         cursor: pointer;
-        padding: 5px;
+        padding: 10px;
+        min-width: 44px;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
     }
-    
+
     .hamburger .bar {
         width: 25px;
         height: 3px;
-        background: #333;
+        background: var(--white, #fff);
         margin: 3px 0;
         transition: 0.3s;
+    }
+
+    .header.scrolled .hamburger .bar {
+        background: var(--text, #333);
     }
     
     .hamburger.active .bar:nth-child(1) {

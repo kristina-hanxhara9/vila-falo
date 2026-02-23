@@ -170,6 +170,24 @@ section {
     color: var(--white) !important;
 }
 
+/* Hero Explore More button - glass effect for contrast on dark background */
+.hero .btn-outline {
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    color: var(--white) !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.hero .btn-outline:hover {
+    background: rgba(255, 255, 255, 0.3) !important;
+    border-color: var(--white) !important;
+    color: var(--white) !important;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
 .btn-primary {
     background: var(--primary);
 }
@@ -1021,7 +1039,7 @@ body.scrolled .language-toggle:hover {
     }
     .bee-video-overlap {
         margin-top: -10px;
-        margin-bottom: -190px;
+        margin-bottom: -120px;
         padding-left: 5%;
     }
 }
@@ -1033,7 +1051,7 @@ body.scrolled .language-toggle:hover {
     }
     .bee-video-overlap {
         margin-top: -5px;
-        margin-bottom: -140px;
+        margin-bottom: -80px;
         padding-left: 4%;
     }
 }
@@ -3345,69 +3363,61 @@ button[type="submit"]:hover::before {
     }
 }
 
-/* Seasonal Weather */
-.weather-seasons {
-    margin-top: 4rem;
+/* Seasons Section */
+.seasons {
+    background: linear-gradient(to right, rgba(30, 45, 50, 0.9), rgba(30, 45, 50, 0.8)),
+                url('/images/outside-snow.jpg') center/cover no-repeat fixed;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.seasons .section-title h2,
+.seasons .section-title p {
+    color: #fff;
+}
+
+.seasons .section-title h2::after {
+    background: linear-gradient(45deg, #5ba3d9, #4caf50);
 }
 
 .seasons-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    justify-content: center;
     gap: 1.5rem;
+    flex-wrap: wrap;
 }
 
 .season-card {
     padding: 2rem 1.5rem;
-    border-radius: 16px;
+    border-radius: 24px;
     text-align: center;
     position: relative;
     overflow: hidden;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    background: rgba(255, 255, 255, 0.05);
+    flex: 1;
+    min-width: 200px;
+    max-width: 280px;
 }
 
 .season-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
-/* Animated underline on hover */
+/* Underline always visible */
 .season-card h5::after {
     content: '';
     display: block;
-    width: 0%;
+    width: 100%;
     height: 2px;
     margin: 6px auto 0;
     transition: width 0.3s ease;
 }
-
-.season-card:hover h5::after {
-    width: 100%;
-}
-
-/* --- Season Gradients --- */
-.season-winter {
-    background: linear-gradient(135deg, #e6f2ff, #f0f7ff);
-    box-shadow: 0 4px 20px rgba(124, 185, 232, 0.15);
-}
-.season-spring {
-    background: linear-gradient(135deg, #e8fbe8, #f2fdf2);
-    box-shadow: 0 4px 20px rgba(144, 238, 144, 0.15);
-}
-.season-summer {
-    background: linear-gradient(135deg, #fff8d6, #fffbeb);
-    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.15);
-}
-.season-autumn {
-    background: linear-gradient(135deg, #fff0e0, #fff7f0);
-    box-shadow: 0 4px 20px rgba(210, 105, 30, 0.12);
-}
-
-/* Hover shadow per season */
-.season-winter:hover { box-shadow: 0 20px 40px rgba(124, 185, 232, 0.25); }
-.season-spring:hover { box-shadow: 0 20px 40px rgba(100, 200, 100, 0.2); }
-.season-summer:hover { box-shadow: 0 20px 40px rgba(255, 200, 0, 0.25); }
-.season-autumn:hover { box-shadow: 0 20px 40px rgba(210, 120, 50, 0.2); }
 
 /* --- Season Icons --- */
 .season-icon {
@@ -3417,16 +3427,16 @@ button[type="submit"]:hover::before {
     z-index: 1;
 }
 
-.season-winter .season-icon { color: #5ba3d9; }
-.season-spring .season-icon { color: #4caf50; }
-.season-summer .season-icon { color: #f9a825; }
-.season-autumn .season-icon { color: #bf6c2e; }
+.season-winter .season-icon { color: #7ec8e3; }
+.season-spring .season-icon { color: #81c784; }
+.season-summer .season-icon { color: #ffd54f; }
+.season-autumn .season-icon { color: #e0965b; }
 
-/* Icon animations */
-.season-winter:hover .season-icon i { animation: snowSpin 2s linear infinite; }
-.season-spring:hover .season-icon i { animation: springSway 1.5s ease-in-out infinite; }
-.season-summer:hover .season-icon i { animation: sunPulse 2s ease-in-out infinite; }
-.season-autumn:hover .season-icon i { animation: leafDrift 2s ease-in-out infinite; }
+/* Icon animations - always on */
+.season-winter .season-icon i { animation: snowSpin 3s linear infinite; }
+.season-spring .season-icon i { animation: springSway 2s ease-in-out infinite; }
+.season-summer .season-icon i { animation: sunPulse 2.5s ease-in-out infinite; }
+.season-autumn .season-icon i { animation: leafDrift 2.5s ease-in-out infinite; }
 
 @keyframes snowSpin {
     0% { transform: rotate(0deg); }
@@ -3447,21 +3457,21 @@ button[type="submit"]:hover::before {
 }
 
 /* --- h5 underline colors per season --- */
-.season-winter h5::after { background: #5ba3d9; }
-.season-spring h5::after { background: #4caf50; }
-.season-summer h5::after { background: #f9a825; }
-.season-autumn h5::after { background: #bf6c2e; }
+.season-winter h5::after { background: #7ec8e3; }
+.season-spring h5::after { background: #81c784; }
+.season-summer h5::after { background: #ffd54f; }
+.season-autumn h5::after { background: #e0965b; }
 
 .season-card h5 {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
-    color: var(--dark);
+    color: #fff;
     font-weight: 700;
 }
 
 .season-card p {
     font-size: 0.9rem;
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.65);
     margin-bottom: 0.6rem;
 }
 
@@ -3470,9 +3480,9 @@ button[type="submit"]:hover::before {
     display: inline-block;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    background: rgba(255,255,255,0.6);
-    border: 1px solid rgba(255,255,255,0.4);
-    color: var(--dark);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255, 255, 255, 0.85);
     padding: 5px 14px;
     border-radius: 50px;
     font-size: 0.78rem;
@@ -3482,10 +3492,10 @@ button[type="submit"]:hover::before {
     z-index: 1;
 }
 
-.season-winter .season-highlight { color: #3a7bbf; }
-.season-spring .season-highlight { color: #2e7d32; }
-.season-summer .season-highlight { color: #e68a00; }
-.season-autumn .season-highlight { color: #8d4e1a; }
+.season-winter .season-highlight { color: #7ec8e3; }
+.season-spring .season-highlight { color: #81c784; }
+.season-summer .season-highlight { color: #ffd54f; }
+.season-autumn .season-highlight { color: #e0965b; }
 
 /* --- Particle effects --- */
 .season-particles {
@@ -3511,7 +3521,7 @@ button[type="submit"]:hover::before {
     box-shadow: 0 0 4px rgba(180, 210, 240, 0.5);
     top: -10px;
 }
-.season-winter:hover .season-particles span { animation: snowFall linear infinite; opacity: 0.7; }
+.season-winter .season-particles span { animation: snowFall linear infinite; opacity: 0.7; }
 .season-winter .season-particles span:nth-child(1) { left: 10%; animation-duration: 3s; animation-delay: 0s; width: 4px; height: 4px; }
 .season-winter .season-particles span:nth-child(2) { left: 30%; animation-duration: 4s; animation-delay: 0.5s; }
 .season-winter .season-particles span:nth-child(3) { left: 50%; animation-duration: 3.5s; animation-delay: 1s; width: 5px; height: 5px; }
@@ -3532,7 +3542,7 @@ button[type="submit"]:hover::before {
     border-radius: 50% 0;
     top: -10px;
 }
-.season-spring:hover .season-particles span { animation: petalFloat linear infinite; opacity: 0.6; }
+.season-spring .season-particles span { animation: petalFloat linear infinite; opacity: 0.6; }
 .season-spring .season-particles span:nth-child(1) { left: 15%; animation-duration: 4s; animation-delay: 0s; }
 .season-spring .season-particles span:nth-child(2) { left: 40%; animation-duration: 5s; animation-delay: 0.7s; background: rgba(200,230,150,0.6); }
 .season-spring .season-particles span:nth-child(3) { left: 65%; animation-duration: 4.5s; animation-delay: 1.2s; }
@@ -3553,7 +3563,7 @@ button[type="submit"]:hover::before {
     top: 10px;
     transform-origin: center top;
 }
-.season-summer:hover .season-particles span { animation: sunRay 2s ease-in-out infinite; opacity: 0.5; }
+.season-summer .season-particles span { animation: sunRay 2s ease-in-out infinite; opacity: 0.5; }
 .season-summer .season-particles span:nth-child(1) { left: 20%; animation-delay: 0s; height: 25px; }
 .season-summer .season-particles span:nth-child(2) { left: 40%; animation-delay: 0.5s; }
 .season-summer .season-particles span:nth-child(3) { left: 60%; animation-delay: 1s; height: 18px; }
@@ -3571,7 +3581,7 @@ button[type="submit"]:hover::before {
     border-radius: 50% 0 50% 0;
     top: -10px;
 }
-.season-autumn:hover .season-particles span { animation: leafFall linear infinite; opacity: 0.6; }
+.season-autumn .season-particles span { animation: leafFall linear infinite; opacity: 0.6; }
 .season-autumn .season-particles span:nth-child(1) { left: 15%; animation-duration: 4s; animation-delay: 0s; background: #c0392b; }
 .season-autumn .season-particles span:nth-child(2) { left: 35%; animation-duration: 5s; animation-delay: 0.6s; width: 8px; height: 8px; }
 .season-autumn .season-particles span:nth-child(3) { left: 55%; animation-duration: 4.2s; animation-delay: 1.3s; background: #e67e22; }
@@ -3587,7 +3597,11 @@ button[type="submit"]:hover::before {
 
 @media (max-width: 768px) {
     .seasons-grid {
-        grid-template-columns: 1fr 1fr;
+        flex-wrap: wrap;
+    }
+    .seasons-grid .season-card {
+        min-width: 45%;
+        max-width: 48%;
     }
 }
 
@@ -4094,8 +4108,8 @@ button[type="submit"]:disabled:hover {
 /* Virtual Tour Button */
 .virtual-tour-btn {
     position: fixed;
-    bottom: 160px;
-    right: 30px;
+    bottom: 90px;
+    right: 20px;
     background: var(--primary);
     color: white;
     padding: 10px 15px;
@@ -4197,9 +4211,13 @@ button[type="submit"]:disabled:hover {
     }
     
     .seasons-grid {
-        grid-template-columns: repeat(2, 1fr);
+        flex-wrap: wrap;
     }
-    
+    .seasons-grid .season-card {
+        min-width: 45%;
+        max-width: 48%;
+    }
+
     .food-gallery {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -4349,9 +4367,14 @@ button[type="submit"]:disabled:hover {
     }
     
     .seasons-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
     }
-    
+    .seasons-grid .season-card {
+        min-width: 80%;
+        max-width: 100%;
+    }
+
     .back-to-top, .virtual-tour-btn {
         width: 40px;
         height: 40px;
@@ -5268,5 +5291,168 @@ button[type="submit"]:disabled:hover {
 .map-frame iframe {
     border-radius: 14px;
     display: block;
+}
+
+/* Room Detail Modal */
+.room-detail-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10002;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.room-detail-modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+.room-detail-modal-content {
+    background: white;
+    border-radius: 16px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.room-detail-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: background 0.3s;
+}
+
+.room-detail-modal-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.room-detail-modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.room-detail-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+}
+
+.room-detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.room-detail-price {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: var(--primary);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.room-detail-info {
+    padding: 30px;
+}
+
+.room-detail-info h2 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.6rem;
+}
+
+.room-detail-guests {
+    color: var(--text-light);
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.room-detail-guests i {
+    margin-right: 6px;
+    color: var(--primary);
+}
+
+.room-detail-desc {
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--text);
+}
+
+.room-detail-info h4 {
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.room-detail-amenities {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.room-detail-amenities li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.room-detail-amenities li i {
+    color: var(--primary);
+    font-size: 0.8rem;
+}
+
+.book-from-modal {
+    display: inline-block;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .room-detail-image {
+        height: 200px;
+    }
+
+    .room-detail-info {
+        padding: 20px;
+    }
+
+    .room-detail-amenities {
+        grid-template-columns: 1fr;
+    }
+
+    .room-detail-info h2 {
+        font-size: 1.3rem;
+    }
 }
 
