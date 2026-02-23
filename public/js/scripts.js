@@ -89,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initAOS();
     initRoomPreselection();
     initRoomDetailModals();
+    initBookingBar();
+    initRoomLightbox();
+    initSeasonClicks();
 
     // Dynamic copyright year
     var yearEl = document.getElementById('copyrightYear');
@@ -1601,6 +1604,159 @@ document.head.appendChild(calendarStyle);
 
     // Initialize new features - use slight delay to let external libs finish loading
     setTimeout(function() { initHoverEffects(0); }, 100);
+
+    // ============ STICKY BOOKING BAR ============
+    function initBookingBar() {
+        var bar = document.getElementById('bookingBar');
+        var hero = document.getElementById('home');
+        var bookingSection = document.getElementById('booking');
+        if (!bar || !hero) return;
+
+        // Show bar when hero is not visible
+        var heroObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (!entry.isIntersecting) {
+                    bar.classList.add('visible');
+                } else {
+                    bar.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0 });
+        heroObserver.observe(hero);
+
+        // Hide bar when booking section is visible
+        if (bookingSection) {
+            var bookingObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        bar.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.2 });
+            bookingObserver.observe(bookingSection);
+        }
+
+        // Check Availability click: transfer dates to booking form
+        var checkBtn = document.getElementById('barCheckAvail');
+        if (checkBtn) {
+            checkBtn.addEventListener('click', function() {
+                var ci = document.getElementById('barCheckIn').value;
+                var co = document.getElementById('barCheckOut').value;
+                var guests = document.getElementById('barGuests').value;
+                if (ci) document.getElementById('checkInDate').value = ci;
+                if (co) document.getElementById('checkOutDate').value = co;
+                if (guests) document.getElementById('adults').value = guests;
+                document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Hero "Book Your Stay" opens bar and focuses check-in
+        var heroBtn = document.getElementById('heroBookBtn');
+        if (heroBtn) {
+            heroBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                bar.classList.add('visible');
+                setTimeout(function() {
+                    document.getElementById('barCheckIn').focus();
+                }, 400);
+            });
+        }
+    }
+
+    // ============ ROOM LIGHTBOX ============
+    function initRoomLightbox() {
+        var lightbox = document.getElementById('roomLightbox');
+        var lbImg = document.getElementById('lightboxImg');
+        var lbCounter = document.getElementById('lightboxCounter');
+        if (!lightbox || !lbImg) return;
+
+        var gallery = [];
+        var currentIndex = 0;
+
+        // Click room image to open lightbox
+        document.querySelectorAll('.room-img img').forEach(function(img) {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function() {
+                var card = this.closest('.room-card');
+                var extraImgs = this.getAttribute('data-gallery');
+                gallery = [this.src];
+                if (extraImgs) {
+                    extraImgs.split(',').forEach(function(name) {
+                        gallery.push('/images/' + name.trim());
+                    });
+                }
+                currentIndex = 0;
+                showSlide();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function showSlide() {
+            lbImg.src = gallery[currentIndex];
+            lbCounter.textContent = (currentIndex + 1) + ' / ' + gallery.length;
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxPrev').addEventListener('click', function() {
+            currentIndex = (currentIndex - 1 + gallery.length) % gallery.length;
+            showSlide();
+        });
+        document.getElementById('lightboxNext').addEventListener('click', function() {
+            currentIndex = (currentIndex + 1) % gallery.length;
+            showSlide();
+        });
+
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') {
+                currentIndex = (currentIndex - 1 + gallery.length) % gallery.length;
+                showSlide();
+            }
+            if (e.key === 'ArrowRight') {
+                currentIndex = (currentIndex + 1) % gallery.length;
+                showSlide();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    // ============ SEASON CARD CLICK-TO-SCROLL ============
+    function initSeasonClicks() {
+        var seasonTargets = {
+            'season-winter': '#services',
+            'season-spring': '#gallery',
+            'season-summer': '#about',
+            'season-autumn': '#gallery'
+        };
+
+        document.querySelectorAll('.season-card').forEach(function(card) {
+            card.style.cursor = 'pointer';
+            var classes = card.className.split(' ');
+            for (var i = 0; i < classes.length; i++) {
+                if (seasonTargets[classes[i]]) {
+                    card.setAttribute('data-scroll-target', seasonTargets[classes[i]]);
+                    break;
+                }
+            }
+            card.addEventListener('click', function() {
+                var target = this.getAttribute('data-scroll-target');
+                if (target) {
+                    var el = document.querySelector(target);
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    }
 
     // ============ GSAP SCROLL ANIMATIONS ============
     function initGSAPAnimations() {

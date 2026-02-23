@@ -233,14 +233,11 @@
             <nav>
                 <ul class="nav-links">
                     <li><a href="#home" class="nav-link active" data-en="Home" data-al="Kryefaqja">Kryefaqja</a></li>
-                    <li><a href="#about" class="nav-link" data-en="About" data-al="Rreth Nesh">Rreth Nesh</a></li>
                     <li><a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat">Dhomat</a></li>
                     <li><a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti">Restoranti</a></li>
-                    <li><a href="#honey" class="nav-link" data-en="Organic Honey" data-al="Mjaltë Bio">Mjaltë Bio</a></li>
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria">Galeria</a></li>
-                    <li><a href="#services" class="nav-link" data-en="Services" data-al="Shërbimet">Shërbimet</a></li>
-                    <li><a href="#booking" class="nav-link" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a></li>
                     <li><a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja">Vendndodhja</a></li>
+                    <li><a href="#booking" class="nav-link nav-cta" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a></li>
                 </ul>
             </nav>
             <div class="hamburger">
@@ -253,14 +250,11 @@
         <!-- Mobile Navigation -->
         <div class="mobile-nav">
             <a href="#home" class="nav-link" data-en="Home" data-al="Kryefaqja">Kryefaqja</a>
-            <a href="#about" class="nav-link" data-en="About" data-al="Rreth Nesh">Rreth Nesh</a>
             <a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat">Dhomat</a>
             <a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti">Restoranti</a>
-            <a href="#honey" class="nav-link" data-en="Organic Honey" data-al="Mjaltë Bio">Mjaltë Bio</a>
             <a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria">Galeria</a>
-            <a href="#services" class="nav-link" data-en="Services" data-al="Shërbimet">Shërbimet</a>
-            <a href="#booking" class="nav-link" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a>
             <a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja">Vendndodhja</a>
+            <a href="#booking" class="nav-link nav-cta" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a>
         </div>
     </header>
 
@@ -278,9 +272,17 @@
             <p data-aos="fade-up" data-aos-delay="400" data-en="21 km from Korçë, a world away from everything else. Fresh food, clean air, real rest — in the Albanian mountains." data-al="21 km nga Korça, një botë larg nga gjithçka tjetër. Ushqim i freskët, ajër i pastër, pushim i vërtetë — në malet shqiptare.">
                 21 km nga Korça, një botë larg nga gjithçka tjetër. Ushqim i freskët, ajër i pastër, pushim i vërtetë — në malet shqiptare.
             </p>
+            <div class="hero-review-badge" data-aos="fade-up" data-aos-delay="500">
+                <div class="badge-stars">★★★★<span class="half-star">★</span></div>
+                <span data-en="4.5 · 298 Google Reviews" data-al="4.5 · 298 Vlerësime Google">4.5 · 298 Vlerësime Google</span>
+            </div>
             <div class="hero-btns" data-aos="fade-up" data-aos-delay="600">
-                <a href="#booking" class="btn" data-en="Book Your Stay" data-al="Rezervo Qëndrimin">Rezervo Qëndrimin</a>
-                <a href="#about" class="btn btn-outline" data-en="See What's Waiting for You" data-al="Shiko Çfarë Të Pret">Shiko Çfarë Të Pret</a>
+                <a href="#booking" class="btn" id="heroBookBtn" data-en="Book Your Stay" data-al="Rezervo Qëndrimin">Rezervo Qëndrimin</a>
+                <a href="#about" class="hero-explore-link" data-en="See What's Waiting" data-al="Shiko Çfarë Të Pret"><span>Shiko Çfarë Të Pret</span> <i class="fas fa-chevron-down"></i></a>
+            </div>
+            <div class="live-music-banner" data-aos="fade-up" data-aos-delay="700">
+                <i class="fas fa-music"></i>
+                <span data-en="Live music every Saturday night" data-al="Muzikë live çdo të shtunë">Muzikë live çdo të shtunë</span>
             </div>
         </div>
         <div class="scroll-indicator">
@@ -423,8 +425,9 @@
                 <!-- Room 1 -->
                 <div class="room-card" data-aos="fade-up">
                     <div class="room-img">
+                        <span class="scarcity-badge" data-en="Popular choice" data-al="Zgjedhje popullore">Zgjedhje popullore</span>
                         <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
-                        <img src="/images/nice-room.jpg" alt="Standard Room - Mountain views in Voskopoje">
+                        <img src="/images/nice-room.jpg" alt="Standard Room - Mountain views in Voskopoje" data-gallery="romantic-room.jpg,valinetine-room.jpg">
                     </div>
                     <div class="room-content">
                         <h3 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore">Dhomë Standard Malore</h3>
@@ -449,6 +452,12 @@
                         <p data-en="You'll sleep well here. Open the window in the morning and the first thing you hear is birds. Mountain view, double bed, free WiFi — everything you actually need." data-al="Do të flini mirë këtu. Hap dritaren në mëngjes dhe gjëja e parë që dëgjon janë zogjtë. Pamje mali, krevat dopio, WiFi falas — gjithçka që ju nevojitet vërtet.">
                             Do të flini mirë këtu. Hap dritaren në mëngjes dhe gjëja e parë që dëgjon janë zogjtë. Pamje mali, krevat dopio, WiFi falas — gjithçka që ju nevojitet vërtet.
                         </p>
+                        <div class="room-includes">
+                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes">Mëngjes</span></span>
+                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
+                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
+                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas">Anulim falas</span></span>
+                        </div>
                         <div class="room-btns">
                             <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Detaje</a>
                             <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a>
@@ -459,8 +468,9 @@
                 <!-- Room 2 -->
                 <div class="room-card" data-aos="fade-up" data-aos-delay="200">
                     <div class="room-img">
+                        <span class="scarcity-badge" data-en="Great for families" data-al="Ideale për familje">Ideale për familje</span>
                         <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
-                        <img src="/images/family-room.jpg" alt="Deluxe Family Suite - Perfect for groups in Voskopoje">
+                        <img src="/images/family-room.jpg" alt="Deluxe Family Suite - Perfect for groups in Voskopoje" data-gallery="valinetine-room.jpg,nice-room.jpg">
                     </div>
                     <div class="room-content">
                         <h3 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe">Suitë Familjare Deluxe</h3>
@@ -485,6 +495,12 @@
                         <p data-en="Enough space for everyone to spread out. Separate sleeping areas so the kids can crash early while you enjoy the evening. Clean, quiet, and the perfect size for a family." data-al="Hapësirë e mjaftueshme për të gjithë. Zona gjumi të ndara që fëmijët të flenë herët ndërsa ju shijoni mbrëmjen. E pastër, e qetë, dhe madhësia perfekte për një familje.">
                             Hapësirë e mjaftueshme për të gjithë. Zona gjumi të ndara që fëmijët të flenë herët ndërsa ju shijoni mbrëmjen. E pastër, e qetë, dhe madhësia perfekte për një familje.
                         </p>
+                        <div class="room-includes">
+                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes">Mëngjes</span></span>
+                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
+                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
+                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas">Anulim falas</span></span>
+                        </div>
                         <div class="room-btns">
                             <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Detaje</a>
                             <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a>
@@ -495,8 +511,9 @@
                 <!-- Room 3 -->
                 <div class="room-card" data-aos="fade-up" data-aos-delay="400">
                     <div class="room-img">
+                        <span class="scarcity-badge urgent" data-en="Only 2 suites" data-al="Vetëm 2 suita">Vetëm 2 suita</span>
                         <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
-                        <img src="/images/double-bed-room.jpg" alt="Premium Panorama Suite - Traditional accommodation in Voskopoje mountains">
+                        <img src="/images/double-bed-room.jpg" alt="Premium Panorama Suite - Traditional accommodation in Voskopoje mountains" data-gallery="romantic-room.jpg,nice-room.jpg">
                     </div>
                     <div class="room-content">
                         <h3 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike">Suitë Premium Panoramike</h3>
@@ -521,6 +538,13 @@
                         <p data-en="Your private balcony looks out over the entire valley. There's a jacuzzi, a king bed, and nothing you need to do except be there. The kind of room you plan a trip around." data-al="Ballkoni juaj privat shikon mbi gjithë luginën. Ka një jakuzi, një krevat king, dhe asgjë që duhet të bëni përveçse të jeni aty. Lloji i dhomës rreth së cilës planifikoni një udhëtim.">
                             Ballkoni juaj privat shikon mbi gjithë luginën. Ka një jakuzi, një krevat king, dhe asgjë që duhet të bëni përveçse të jeni aty. Lloji i dhomës rreth së cilës planifikoni një udhëtim.
                         </p>
+                        <p class="value-frame" data-en="Jacuzzi suite with balcony view and breakfast — less than dinner for two in Tirana." data-al="Suitë me jakuzi, pamje nga ballkoni dhe mëngjes — më pak se një darkë për dy në Tiranë.">Suitë me jakuzi, pamje nga ballkoni dhe mëngjes — më pak se një darkë për dy në Tiranë.</p>
+                        <div class="room-includes">
+                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes">Mëngjes</span></span>
+                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
+                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
+                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas">Anulim falas</span></span>
+                        </div>
                         <div class="room-btns">
                             <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje">Detaje</a>
                             <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Book Now" data-al="Rezervo Tani">Rezervo Tani</a>
@@ -601,58 +625,6 @@
                             <img src="/images/petulla.jpg" alt="Petulla">
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bee Video Overlap Between Sections -->
-    <div class="bee-video-overlap">
-        <div class="bee-video-wrapper">
-            <video autoplay muted loop playsinline>
-                <source src="/images/bee-video.mp4" type="video/mp4">
-            </video>
-        </div>
-    </div>
-
-    <!-- Mountain Honey Section -->
-    <section id="honey" class="restaurant">
-        <div class="container">
-            <div class="section-title">
-                <h2 data-aos="fade-up" data-en="The Honey You'll Buy on Your Last Morning Here" data-al="Mjalti Që Do Ta Blini Mëngjesin e Fundit Këtu">Mjalti Që Do Ta Blini Mëngjesin e Fundit Këtu</h2>
-                <p data-aos="fade-up" data-aos-delay="200" data-en="Pure wildflower. 1,000m altitude. No factory. No blending." data-al="Lule të egra të pastra. 1,000m lartësi. Pa fabrikë. Pa përzierje.">Lule të egra të pastra. 1,000m lartësi. Pa fabrikë. Pa përzierje.</p>
-            </div>
-            <div class="honey-layout">
-                <!-- LEFT: image -->
-                <div class="honey-image-col" data-aos="fade-right">
-                    <div class="honey-hover-img" id="honey-hover-container"></div>
-                </div>
-                <!-- RIGHT: text + CTA -->
-                <div class="honey-text-col" data-aos="fade-left">
-                    <div class="honey-facts">
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-mountain"></i>
-                            </div>
-                            <p data-en="200 hives at 1,000+ metres — wildflower meadows, zero pesticides." data-al="200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide.">200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide.</p>
-                        </div>
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <p data-en="You'll taste it at breakfast. Most guests buy a jar before checkout." data-al="Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para checkout.">Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para checkout.</p>
-                        </div>
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-hand-holding-heart"></i>
-                            </div>
-                            <p data-en="1 kg jar — €20. Some visitors come to the park and pull it from the hive themselves." data-al="Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja.">Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja.</p>
-                        </div>
-                    </div>
-                    <a href="https://wa.me/355683369436?text=Hi%2C%20I'd%20like%20to%20order%20a%20jar%20of%20honey" class="btn honey-cta-btn" target="_blank">
-                        <i class="fab fa-whatsapp"></i>
-                        <span data-en="Order a Jar" data-al="Porosit një Kavanoz">Porosit një Kavanoz</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -899,6 +871,10 @@
                 </div>
             </div>
         </div>
+        <div class="reviews-cta" data-aos="fade-up">
+            <p data-en="Ready to see for yourself?" data-al="Gati ta shikoni vetë?">Gati ta shikoni vetë?</p>
+            <a href="#booking" class="btn" data-en="Book Your Stay" data-al="Rezervo Qëndrimin">Rezervo Qëndrimin</a>
+        </div>
     </section>
 
     <!-- Booking Section -->
@@ -910,7 +886,8 @@
             <div class="booking-container">
                 <div class="booking-info" data-aos="fade-right">
                     <h3 data-en="Summer fills up fast." data-al="Vera mbushet shpejt.">Summer fills up fast.</h3>
-                    
+                    <p class="urgency-subtext" data-en="We only have 8 rooms. July and August dates go first." data-al="Kemi vetëm 8 dhoma. Datat e korrikut dhe gushtit shkojnë të parat.">Kemi vetëm 8 dhoma. Datat e korrikut dhe gushtit shkojnë të parat.</p>
+
                     <!-- Availability Calendar -->
                     <div class="availability-calendar" data-aos="fade-up" data-aos-delay="100">
                         <div class="availability-header">
@@ -1027,6 +1004,58 @@
 
                         <button class="btn btn-primary full-width" type="submit" style="transition: all 0.3s ease; transform: translateY(0);" data-en="Reserve My Room" data-al="Rezervo Dhomën Time">Reserve My Room</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bee Video Overlap Between Sections -->
+    <div class="bee-video-overlap">
+        <div class="bee-video-wrapper">
+            <video autoplay muted loop playsinline>
+                <source src="/images/bee-video.mp4" type="video/mp4">
+            </video>
+        </div>
+    </div>
+
+    <!-- Mountain Honey Section — Post-booking upsell -->
+    <section id="honey" class="restaurant">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-aos="fade-up" data-en="The Honey You'll Buy on Your Last Morning Here" data-al="Mjalti Që Do Ta Blini Mëngjesin e Fundit Këtu">Mjalti Që Do Ta Blini Mëngjesin e Fundit Këtu</h2>
+                <p data-aos="fade-up" data-aos-delay="200" data-en="Pure wildflower. 1,000m altitude. No factory. No blending." data-al="Lule të egra të pastra. 1,000m lartësi. Pa fabrikë. Pa përzierje.">Lule të egra të pastra. 1,000m lartësi. Pa fabrikë. Pa përzierje.</p>
+            </div>
+            <div class="honey-layout">
+                <!-- LEFT: image -->
+                <div class="honey-image-col" data-aos="fade-right">
+                    <div class="honey-hover-img" id="honey-hover-container"></div>
+                </div>
+                <!-- RIGHT: text + CTA -->
+                <div class="honey-text-col" data-aos="fade-left">
+                    <div class="honey-facts">
+                        <div class="honey-fact">
+                            <div class="honey-fact-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <p data-en="200 hives at 1,000+ metres — wildflower meadows, zero pesticides." data-al="200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide.">200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide.</p>
+                        </div>
+                        <div class="honey-fact">
+                            <div class="honey-fact-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <p data-en="You'll taste it at breakfast. Most guests buy a jar before checkout." data-al="Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para checkout.">Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para checkout.</p>
+                        </div>
+                        <div class="honey-fact">
+                            <div class="honey-fact-icon">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <p data-en="1 kg jar — €20. Some visitors come to the park and pull it from the hive themselves." data-al="Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja.">Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja.</p>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/355683369436?text=Hi%2C%20I'd%20like%20to%20order%20a%20jar%20of%20honey" class="btn honey-cta-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        <span data-en="Order a Jar" data-al="Porosit një Kavanoz">Porosit një Kavanoz</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -1328,5 +1357,39 @@
 
     <!-- IMMEDIATE FIXES SCRIPT - Load immediately -->
     <script src="/js/immediate-fixes.js"></script>
+
+    <!-- Sticky Booking Bar -->
+    <div class="booking-bar" id="bookingBar">
+        <div class="booking-bar-inner">
+            <div class="bar-field">
+                <label data-en="Check-in" data-al="Check-in">Check-in</label>
+                <input type="date" id="barCheckIn">
+            </div>
+            <div class="bar-field">
+                <label data-en="Check-out" data-al="Check-out">Check-out</label>
+                <input type="date" id="barCheckOut">
+            </div>
+            <div class="bar-field">
+                <label data-en="Guests" data-al="Vizitorë">Guests</label>
+                <select id="barGuests">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5+</option>
+                </select>
+            </div>
+            <button class="btn bar-cta" id="barCheckAvail" data-en="Check Availability" data-al="Kontrollo Disponueshmërinë">Kontrollo Disponueshmërinë</button>
+        </div>
+    </div>
+
+    <!-- Room Lightbox -->
+    <div class="lightbox" id="roomLightbox">
+        <button class="lightbox-close" id="lightboxClose"><i class="fas fa-times"></i></button>
+        <button class="lightbox-prev" id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next" id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+        <img class="lightbox-img" id="lightboxImg" src="" alt="Room photo">
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
 </body>
 </html>
