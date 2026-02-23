@@ -178,11 +178,13 @@
     </script>
 
     <!-- Stylesheets -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/modal-fixes.css">
-    <link rel="stylesheet" href="/css/video-modal.css">
     <link rel="stylesheet" href="/css/mobile-responsive.css">
     <link rel="stylesheet" href="/css/hero-mobile-fixes.css">
     <link rel="stylesheet" href="/css/booking-improvements.css">
@@ -289,6 +291,53 @@
         <div class="mountain-bg">
             <div class="mountain-layer mountain-layer-1 mountain-parallax" data-speed="0.1"></div>
             <div class="mountain-layer mountain-layer-2 mountain-parallax" data-speed="0.05"></div>
+        </div>
+    </section>
+
+    <!-- When to Visit — Seasonal Strip -->
+    <section id="seasons" class="seasons seasons-strip">
+        <div class="container">
+            <div class="section-title">
+                <h2 data-en="When to Visit" data-al="Kur Të Vizitoni">Kur Të Vizitoni</h2>
+            </div>
+            <div class="seasons-grid">
+                <div class="season-card season-winter">
+                    <div class="season-particles">
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="season-icon"><i class="fas fa-snowflake"></i></div>
+                    <h5 data-en="Winter (Dec-Feb)" data-al="Dimër (Dhj-Shk)">Dimër (Dhj-Shk)</h5>
+                    <p data-en="-5°C to 5°C" data-al="-5°C deri 5°C">-5°C deri 5°C</p>
+                    <div class="season-highlight" data-en="Best for: skiing & snowboarding" data-al="Ideale për: ski & snowboard">Ideale për: ski & snowboard</div>
+                </div>
+                <div class="season-card season-spring">
+                    <div class="season-particles">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="season-icon"><i class="fas fa-seedling"></i></div>
+                    <h5 data-en="Spring (Mar-May)" data-al="Pranverë (Mar-Maj)">Pranverë (Mar-Maj)</h5>
+                    <p data-en="5°C to 15°C" data-al="5°C deri 15°C">5°C deri 15°C</p>
+                    <div class="season-highlight" data-en="Best for: wildflower hikes" data-al="Ideale për: shëtitje mes luleve">Ideale për: shëtitje mes luleve</div>
+                </div>
+                <div class="season-card season-summer">
+                    <div class="season-particles">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="season-icon"><i class="fas fa-sun"></i></div>
+                    <h5 data-en="Summer (Jun-Aug)" data-al="Verë (Qer-Gus)">Verë (Qer-Gus)</h5>
+                    <p data-en="15°C to 25°C" data-al="15°C deri 25°C">15°C deri 25°C</p>
+                    <div class="season-highlight" data-en="Best for: hiking & swimming" data-al="Ideale për: hiking & not">Ideale për: hiking & not</div>
+                </div>
+                <div class="season-card season-autumn">
+                    <div class="season-particles">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="season-icon"><i class="fas fa-leaf"></i></div>
+                    <h5 data-en="Autumn (Sep-Nov)" data-al="Vjeshtë (Sht-Nën)">Vjeshtë (Sht-Nën)</h5>
+                    <p data-en="5°C to 15°C" data-al="5°C deri 15°C">5°C deri 15°C</p>
+                    <div class="season-highlight" data-en="Best for: foliage & photography" data-al="Ideale për: gjethet & fotografi">Ideale për: gjethet & fotografi</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1085,54 +1134,6 @@
         </div>
     </section>
 
-    <!-- Seasonal Weather Section -->
-    <section id="seasons" class="seasons">
-        <div class="container">
-            <div class="section-title">
-                <h2 data-en="Seasonal Weather" data-al="Moti Sipas Stinëve">Moti Sipas Stinëve</h2>
-                <p data-en="Every season brings a unique experience in Voskopoje" data-al="Çdo stinë sjell një përvojë unike në Voskopojë">Çdo stinë sjell një përvojë unike në Voskopojë</p>
-            </div>
-            <div class="seasons-grid">
-                <div class="season-card season-winter">
-                    <div class="season-particles">
-                        <span></span><span></span><span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="season-icon"><i class="fas fa-snowflake"></i></div>
-                    <h5 data-en="Winter (Dec-Feb)" data-al="Dimër (Dhj-Shk)">Dimër (Dhj-Shk)</h5>
-                    <p data-en="Average: -5°C to 5°C" data-al="Mesatare: -5°C deri 5°C">Mesatare: -5°C deri 5°C</p>
-                    <div class="season-highlight" data-en="Perfect for skiing!" data-al="Perfekt për ski!">Perfekt për ski!</div>
-                </div>
-                <div class="season-card season-spring">
-                    <div class="season-particles">
-                        <span></span><span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="season-icon"><i class="fas fa-seedling"></i></div>
-                    <h5 data-en="Spring (Mar-May)" data-al="Pranverë (Mar-Maj)">Pranverë (Mar-Maj)</h5>
-                    <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Mesatare: 5°C deri 15°C</p>
-                    <div class="season-highlight" data-en="Wildflower blooms" data-al="Lulëzim i luleve të egra">Lulëzim i luleve të egra</div>
-                </div>
-                <div class="season-card season-summer">
-                    <div class="season-particles">
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="season-icon"><i class="fas fa-sun"></i></div>
-                    <h5 data-en="Summer (Jun-Aug)" data-al="Verë (Qer-Gus)">Verë (Qer-Gus)</h5>
-                    <p data-en="Average: 15°C to 25°C" data-al="Mesatare: 15°C deri 25°C">Mesatare: 15°C deri 25°C</p>
-                    <div class="season-highlight" data-en="Ideal hiking weather" data-al="Mot ideal për hiking">Mot ideal për hiking</div>
-                </div>
-                <div class="season-card season-autumn">
-                    <div class="season-particles">
-                        <span></span><span></span><span></span><span></span><span></span>
-                    </div>
-                    <div class="season-icon"><i class="fas fa-canadian-maple-leaf"></i></div>
-                    <h5 data-en="Autumn (Sep-Nov)" data-al="Vjeshtë (Sht-Nën)">Vjeshtë (Sht-Nën)</h5>
-                    <p data-en="Average: 5°C to 15°C" data-al="Mesatare: 5°C deri 15°C">Mesatare: 5°C deri 15°C</p>
-                    <div class="season-highlight" data-en="Beautiful foliage" data-al="Gjethe të bukura">Gjethe të bukura</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <!-- Footer -->
     <footer class="footer">
@@ -1209,12 +1210,6 @@
             !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
         </script>
     </div>   -->
-
-    <!-- Virtual Tour Button -->
-    <div class="virtual-tour-btn">
-        <i class="fas fa-vr-cardboard"></i>
-        <span data-en="Virtual Tour" data-al="Tur Virtual">Virtual Tour</span>
-    </div>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
@@ -1332,38 +1327,6 @@
         });
     </script>
     
-    <!-- Video Modal for Virtual Tour -->
-    <div class="video-modal" id="videoModal">
-        <div class="video-modal-overlay"></div>
-        <div class="video-modal-content">
-            <div class="video-modal-close" id="videoModalClose">
-                <i class="fas fa-times"></i>
-            </div>
-            <div class="video-modal-header">
-                <h3 data-en="Vila Falo Virtual Tour" data-al="Tur Virtual i Vila Falo">Tur Virtual i Vila Falo</h3>
-                <p data-en="Explore our beautiful mountain resort from the comfort of your home" data-al="Eksploroni resortin tonë të bukur malor nga rehatia e shtëpisë suaj">Eksploroni resortin tonë të bukur malor nga rehatia e shtëpisë suaj</p>
-            </div>
-            <div class="video-container">
-                <!-- Replace this YouTube embed with your actual virtual tour video -->
-                <iframe id="virtualTourVideo" 
-                        width="100%" 
-                        height="400" 
-                        src="" 
-                        title="Vila Falo Virtual Tour" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-            <div class="video-modal-footer">
-                <button class="btn video-modal-book-btn" onclick="closeVideoModal(); document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span data-en="Book Your Stay Now" data-al="Rezervo Qëndrimin Tënd Tani">Rezervo Qëndrimin Tënd Tani</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Chatbot Widget -->
     <link rel="stylesheet" href="/css/chatbot.css">
     <script src="/js/chatbot.js"></script>

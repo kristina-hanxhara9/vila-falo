@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTestimonialSlider();
     initCalendar();
     initAOS();
-    initVirtualTourModal();
     initRoomPreselection();
     initRoomDetailModals();
 
@@ -1483,66 +1482,6 @@ calendarStyle.textContent = `
     }
 `;
 document.head.appendChild(calendarStyle);
-
-    // Virtual Tour Video Modal Functionality
-    function initVirtualTourModal() {
-        const virtualTourBtn = document.querySelector('.virtual-tour-btn');
-        const videoModal = document.getElementById('videoModal');
-        const videoModalClose = document.getElementById('videoModalClose');
-        const videoModalOverlay = document.querySelector('.video-modal-overlay');
-        const videoIframe = document.getElementById('virtualTourVideo');
-        
-        // Vila Falo Virtual Tour Video
-        // Note: autoplay requires mute=1 in most browsers; user can unmute manually
-        const videoURL = 'https://www.youtube.com/embed/G3vLz2ZGffE?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1';
-        
-        // Open modal function
-        function openVideoModal() {
-            if (videoModal && videoIframe) {
-                videoModal.style.display = 'flex';
-                setTimeout(() => {
-                    videoModal.classList.add('show');
-                    videoIframe.src = videoURL;
-                }, 10);
-                document.body.style.overflow = 'hidden';
-            }
-        }
-        
-        // Close modal function
-        window.closeVideoModal = function() {
-            if (videoModal && videoIframe) {
-                videoModal.classList.remove('show');
-                setTimeout(() => {
-                    videoModal.style.display = 'none';
-                    videoIframe.src = '';
-                    document.body.style.overflow = 'auto';
-                }, 300);
-            }
-        }
-        
-        // Event listeners
-        if (virtualTourBtn) {
-            virtualTourBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                openVideoModal();
-            });
-        }
-        
-        if (videoModalClose) {
-            videoModalClose.addEventListener('click', closeVideoModal);
-        }
-        
-        if (videoModalOverlay) {
-            videoModalOverlay.addEventListener('click', closeVideoModal);
-        }
-        
-        // Close with ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && videoModal && videoModal.classList.contains('show')) {
-                closeVideoModal();
-            }
-        });
-    }
 
     // ============ HOVER EFFECT INITIALIZATION ============
     function showFallbackImage(container, src, alt) {

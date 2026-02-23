@@ -63,6 +63,9 @@ section {
     --transition-slow: all 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
     --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --honey-gold: #ffb300;
+    --honey-amber: #ffa000;
+    --honey-deep: #e65100;
 }
 
 * {
@@ -77,7 +80,7 @@ html {
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     line-height: 1.6;
     color: var(--text);
     overflow-x: hidden;
@@ -120,7 +123,7 @@ section {
     background: var(--secondary);
     color: var(--white);
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-weight: 600;
     font-size: 1rem;
     cursor: pointer;
@@ -149,7 +152,7 @@ section {
 }
 
 .btn:hover {
-    background: var(--primary);
+    background: #c4924f;
     transform: translateY(-3px);
     box-shadow: var(--shadow);
 }
@@ -172,10 +175,10 @@ section {
 
 /* Hero Explore More button - glass effect for contrast on dark background */
 .hero .btn-outline {
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 2px solid rgba(255, 255, 255, 0.6) !important;
+    background: rgba(255, 255, 255, 0.25) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 2px solid rgba(255, 255, 255, 0.85) !important;
     color: var(--white) !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
@@ -968,7 +971,7 @@ body.scrolled .language-toggle:hover {
 
 /* Reduce gap between restaurant (food) and honey */
 #restaurant {
-    padding-bottom: 1.5rem;
+    padding-bottom: 4rem;
 }
 
 /* Honey Section - Bee Hives Background */
@@ -1069,11 +1072,11 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .section-title h2::after {
-    background: linear-gradient(45deg, #ffb300, #ffa000);
+    background: linear-gradient(45deg, var(--honey-gold), var(--honey-amber));
 }
 
 #honey .restaurant-content h3 {
-    color: #ffb300;
+    color: var(--honey-gold);
 }
 
 #honey .restaurant-content p,
@@ -1083,7 +1086,7 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .restaurant-content h3::after {
-    background: linear-gradient(45deg, #ffb300, #ffa000);
+    background: linear-gradient(45deg, var(--honey-gold), var(--honey-amber));
 }
 
 #honey .menu-highlights {
@@ -1098,8 +1101,8 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .menu-highlights h4 {
-    color: #ffb300;
-    background: linear-gradient(45deg, #ffb300, #ffd54f);
+    color: var(--honey-gold);
+    background: linear-gradient(45deg, var(--honey-gold), #ffd54f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1115,24 +1118,24 @@ body.scrolled .language-toggle:hover {
 
 #honey .menu-item:hover {
     background: rgba(255, 179, 0, 0.1);
-    border-left: 4px solid #ffb300;
+    border-left: 4px solid var(--honey-gold);
     transform: translateY(-5px) translateX(5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 #honey .menu-icon {
-    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    background: linear-gradient(135deg, var(--honey-gold) 0%, var(--honey-amber) 100%);
     box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
 }
 
 #honey .menu-item:hover .menu-icon {
-    background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
+    background: linear-gradient(135deg, var(--honey-amber) 0%, var(--honey-deep) 100%);
     transform: rotateY(180deg) scale(1.1);
     box-shadow: 0 6px 20px rgba(255, 179, 0, 0.4);
 }
 
 #honey .restaurant-cta .btn {
-    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    background: linear-gradient(135deg, var(--honey-gold) 0%, var(--honey-amber) 100%);
     border: none;
     color: white;
     box-shadow: 0 4px 15px rgba(255, 179, 0, 0.3);
@@ -1156,7 +1159,7 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .restaurant-cta .btn:hover {
-    background: linear-gradient(135deg, #ff8f00 0%, #e65100 100%);
+    background: linear-gradient(135deg, var(--honey-amber) 0%, var(--honey-deep) 100%);
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(255, 179, 0, 0.4);
 }
@@ -1164,15 +1167,15 @@ body.scrolled .language-toggle:hover {
 #honey .restaurant-cta .btn-outline {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
-    border: 2px solid #ffb300;
-    color: #ffb300;
+    border: 2px solid var(--honey-gold);
+    color: var(--honey-gold);
     box-shadow: none;
 }
 
 #honey .restaurant-cta .btn-outline:hover {
-    background: linear-gradient(135deg, #ffb300 0%, #ffa000 100%);
+    background: linear-gradient(135deg, var(--honey-gold) 0%, var(--honey-amber) 100%);
     color: white;
-    border-color: #ffa000;
+    border-color: var(--honey-amber);
 }
 
 #honey .main-image {
@@ -1186,7 +1189,7 @@ body.scrolled .language-toggle:hover {
 }
 
 #honey .food-image:hover, #honey .dining-image:hover {
-    border-color: #ffb300;
+    border-color: var(--honey-gold);
     box-shadow: 0 8px 25px rgba(255, 179, 0, 0.3);
 }
 
@@ -1894,8 +1897,8 @@ body.scrolled .language-toggle:hover {
                 url('/images/outside-main.jpg') center/cover no-repeat fixed;
     color: var(--white);
     position: relative;
-    padding-top: 30px;
-    padding-bottom: 85px;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 .services .section-title h2 {
@@ -3372,6 +3375,50 @@ button[type="submit"]:hover::before {
     overflow: hidden;
 }
 
+/* Compact strip when placed after hero */
+.seasons-strip {
+    padding: 3rem 0 2.5rem;
+}
+
+.seasons-strip .section-title {
+    margin-bottom: 1.5rem;
+}
+
+.seasons-strip .section-title h2 {
+    font-size: 1.6rem;
+}
+
+.seasons-strip .section-title h2::after {
+    display: none;
+}
+
+.seasons-strip .season-card {
+    padding: 1.2rem 1rem;
+}
+
+.seasons-strip .season-icon {
+    margin-bottom: 0.5rem;
+}
+
+.seasons-strip .season-icon i {
+    font-size: 1.6rem;
+}
+
+.seasons-strip .season-card h5 {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+}
+
+.seasons-strip .season-card p {
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+}
+
+.seasons-strip .season-highlight {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+}
+
 .seasons .section-title h2,
 .seasons .section-title p {
     color: #fff;
@@ -4105,35 +4152,6 @@ button[type="submit"]:disabled:hover {
     color: var(--text-light);
 }
 
-/* Virtual Tour Button */
-.virtual-tour-btn {
-    position: fixed;
-    bottom: 90px;
-    right: 20px;
-    background: var(--primary);
-    color: white;
-    padding: 10px 15px;
-    border-radius: 30px;
-    box-shadow: var(--shadow);
-    cursor: pointer;
-    z-index: 99;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    font-size: 0.9rem;
-}
-
-.virtual-tour-btn:hover {
-    background: var(--secondary);
-    transform: translateY(-3px);
-}
-
-.virtual-tour-btn i {
-    font-size: 1.1rem;
-}
-
 /* Scroll Progress */
 .scroll-progress {
     position: fixed;
@@ -4315,10 +4333,6 @@ button[type="submit"]:disabled:hover {
         top: 70px;
     }
     
-    .virtual-tour-btn {
-        bottom: 30px;
-        right: 100px;
-    }
     
     .weather-widget {
         display: none;
@@ -4375,22 +4389,10 @@ button[type="submit"]:disabled:hover {
         max-width: 100%;
     }
 
-    .back-to-top, .virtual-tour-btn {
+    .back-to-top {
         width: 40px;
         height: 40px;
         font-size: 0.9rem;
-    }
-    
-    .virtual-tour-btn span {
-        display: none;
-    }
-    
-    .virtual-tour-btn {
-        border-radius: 50%;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
 }
 
@@ -4427,7 +4429,7 @@ button[type="submit"]:disabled:hover {
 
 /* Honey Content */
 .honey-content h3 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 2.2rem;
     margin-bottom: 20px;
     font-weight: 700;
@@ -4469,7 +4471,7 @@ button[type="submit"]:disabled:hover {
 .honey-feature-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -4480,7 +4482,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-feature-item h4 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.1rem;
     margin-bottom: 5px;
     font-weight: 600;
@@ -4502,7 +4504,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-products h4 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.5rem;
     margin-bottom: 25px;
     text-align: center;
@@ -4533,7 +4535,7 @@ button[type="submit"]:disabled:hover {
 .product-icon {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -4544,7 +4546,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .product-info h5 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.2rem;
     margin-bottom: 5px;
     font-weight: 600;
@@ -4637,7 +4639,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-author-info h5 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.1rem;
     margin-bottom: 5px;
     font-weight: 600;
@@ -4655,7 +4657,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-cta h4 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.8rem;
     margin-bottom: 15px;
     font-weight: 700;
@@ -4684,13 +4686,13 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-contact-buttons .btn-primary {
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     border: none;
     color: white;
 }
 
 .honey-contact-buttons .btn-primary:hover {
-    background: linear-gradient(135deg, #ff8f00, #ff6f00);
+    background: linear-gradient(135deg, var(--honey-amber), #ff6f00);
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(255, 143, 0, 0.3);
 }
@@ -4698,7 +4700,7 @@ button[type="submit"]:disabled:hover {
 .honey-contact-buttons .btn-outline {
     background: var(--white);
     border: 2px solid #ffc107;
-    color: #ff8f00;
+    color: var(--honey-amber);
 }
 
 .honey-contact-buttons .btn-outline:hover {
@@ -4749,7 +4751,7 @@ button[type="submit"]:disabled:hover {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     color: white;
     padding: 10px 20px;
     border-radius: 25px;
@@ -4813,7 +4815,7 @@ button[type="submit"]:disabled:hover {
 
 /* Animated Beehive */
 .bees-animation {
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4875,7 +4877,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .honey-process h3 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 2rem;
     text-align: center;
     margin-bottom: 40px;
@@ -4921,7 +4923,7 @@ button[type="submit"]:disabled:hover {
 .process-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #ffc107, #ff8f00);
+    background: linear-gradient(135deg, #ffc107, var(--honey-amber));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -4934,7 +4936,7 @@ button[type="submit"]:disabled:hover {
 }
 
 .process-step h4 {
-    color: #ff8f00;
+    color: var(--honey-amber);
     font-size: 1.2rem;
     margin-bottom: 15px;
     font-weight: 600;
@@ -5114,6 +5116,15 @@ button[type="submit"]:disabled:hover {
     overflow: hidden;
     box-shadow: var(--shadow-strong);
     position: relative;
+    background: url('/images/outside-main.jpg') center/cover no-repeat;
+}
+
+.honey-hover-img {
+    background-image: url('/images/mjalte.jpg');
+}
+
+.restaurant-hover-img {
+    background-image: url('/images/restaurant-love.jpg');
 }
 
 .about-hover-img canvas,
