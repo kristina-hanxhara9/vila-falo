@@ -168,6 +168,18 @@ section {
     text-align: center;
 }
 
+.reservation-note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.reservation-note i {
+    color: var(--primary);
+    margin-right: 4px;
+}
+
 .btn-outline {
     background: var(--white) !important;
     border: 2px solid var(--secondary) !important;
@@ -1164,6 +1176,20 @@ body.scrolled .language-toggle:hover {
 
 .honey-text-col {
     flex: 1;
+}
+
+.honey-bee-video {
+    margin-top: 1.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 320px;
+}
+
+.honey-bee-video video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 12px;
 }
 
 .honey-facts {

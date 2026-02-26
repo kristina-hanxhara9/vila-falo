@@ -55,14 +55,14 @@ RESORT INFORMATION:
    * Capacity: up to 5 guests
    * Price: 7,000 Lek/night (~€58)
    * Total available: 1 room only (very limited - book early!)
-   * Features: Largest room, panoramic mountain views, separate living area, premium furnishings, private bathroom, heating, Wi-Fi
+   * Features: Largest room, panoramic balcony with valley views, king bed, separate living area, premium furnishings, private bathroom, heating, Wi-Fi
 
 ---
 
 💳 PAYMENT POLICY:
-- A 50% deposit is required when booking through our official website
-- The remaining 50% is paid upon arrival at Vila Falo
-- Payment is processed securely through our website
+- No online payment required — guests pay directly at the hotel upon arrival
+- Prices are shown transparently on the website so guests know what to expect
+- Reservation is free and no deposit is needed
 - Children under 3 stay free
 
 ---
@@ -103,10 +103,10 @@ Vila Falo has its own traditional restaurant open for all guests.
 
 **Winter (December - February):**
 - Temperature: -5°C to 5°C
-- Skiing at nearby slopes
-- Snowshoeing and winter hiking
+- Enjoy the snow, fresh mountain air and stunning winter views
+- Snowshoeing and winter walks
 - Cozy fireplace evenings
-- Perfect for ski holidays
+- Perfect for a peaceful winter retreat
 
 **Spring (March - May):**
 - Temperature: 5°C to 15°C
@@ -226,7 +226,7 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
             },
             {
                 question: "Çfarë aktivitetesh keni?",
-                answer: "Në dimër: ski dhe ecje në borë. Në verë: hiking në mal, eksplorimi i fshatit dhe kishave historike. Gjithashtu kemi restorantin tonë tradicional 'Nga Kuzhina Jonë' dhe mjaltin tonë bio. Pamjet janë fantastike në çdo stinë!"
+                answer: "Në dimër: shijojeni borën, ajrin e freskët dhe pamjet e mrekullueshme. Në verë: hiking në mal, eksplorimi i fshatit dhe kishave historike. Gjithashtu kemi restorantin tonë tradicional 'Nga Kuzhina Jonë' dhe mjaltin tonë bio. Pamjet janë fantastike në çdo stinë!"
             },
             {
                 question: "Ku ndodheni saktësisht?",

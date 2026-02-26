@@ -262,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Update document language
-            document.documentElement.lang = lang === 'al' ? 'sq' : 'en';
+            const langMap = { 'al': 'sq', 'gr': 'el', 'en': 'en' };
+            document.documentElement.lang = langMap[lang] || 'en';
             
             // Update language toggle active state
             const languageOptions = document.querySelectorAll('.language-option');
@@ -355,7 +356,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentDate = new Date();
         const months = {
             'en': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            'al': ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor']
+            'al': ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'],
+            'gr': ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος']
         };
         
         function renderCalendar() {
@@ -370,7 +372,12 @@ document.addEventListener('DOMContentLoaded', function() {
             calendarGrid.innerHTML = '';
             
             // Add day headers
-            const dayHeaders = currentLang === 'al' ? ['D', 'H', 'M', 'M', 'E', 'P', 'S'] : ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            const dayHeaderMap = {
+                'al': ['D', 'H', 'M', 'M', 'E', 'P', 'S'],
+                'gr': ['Κ', 'Δ', 'Τ', 'Τ', 'Π', 'Π', 'Σ'],
+                'en': ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+            };
+            const dayHeaders = dayHeaderMap[currentLang] || dayHeaderMap['en'];
             dayHeaders.forEach(day => {
                 const dayEl = document.createElement('div');
                 dayEl.className = 'calendar-day-header';
@@ -986,13 +993,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Format prices
                 const totalPrice = bookingData.totalPrice || 0;
-                const depositAmount = bookingData.depositAmount || 0;
-                const remainingAmount = bookingData.remainingAmount || 0;
-                
+
                 const summaryHTML = `
                     <div class="booking-summary">
-                        <h4 style="color: #2c5f2d; margin-bottom: 20px;">${currentLang === 'al' ? '✅ Rezervimi i Suksesshëm!' : '✅ Booking Successful!'}</h4>
-                        
+                        <h4 style="color: #2c5f2d; margin-bottom: 20px;">${currentLang === 'al' ? '✅ Rezervimi i Suksesshëm!' : '✅ Reservation Successful!'}</h4>
+
                         <div class="summary-details">
                             <p><strong>${currentLang === 'al' ? 'Dhoma:' : 'Room:'}</strong> ${bookingData.roomType}</p>
                             <p><strong>${currentLang === 'al' ? 'Check-in:' : 'Check-in:'}</strong> ${checkinDate}</p>
@@ -1003,29 +1008,27 @@ document.addEventListener('DOMContentLoaded', function() {
                             ${bookingData.phone ? `<p><strong>${currentLang === 'al' ? 'Telefon:' : 'Phone:'}</strong> ${bookingData.phone}</p>` : ''}
                             ${bookingData.specialRequests ? `<p><strong>${currentLang === 'al' ? 'Kërkesa:' : 'Requests:'}</strong> ${bookingData.specialRequests}</p>` : ''}
                         </div>
-                        
+
                         <div class="booking-price" style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #2c5f2d;">
-                            <h5 style="margin-bottom: 15px; color: #2c5f2d;">${currentLang === 'al' ? '💰 Çmimi' : '💰 Price'}</h5>
+                            <h5 style="margin-bottom: 15px; color: #2c5f2d;">${currentLang === 'al' ? '💰 Çmimi i Përafërt' : '💰 Estimated Price'}</h5>
                             <p style="font-size: 24px; font-weight: bold; color: #2c5f2d; margin: 10px 0;">
                                 ${currentLang === 'al' ? 'Totali:' : 'Total:'} <span style="color: #e67e22;">${totalPrice.toLocaleString()} Lek</span>
                             </p>
-                            <p style="font-size: 16px; margin: 5px 0;">
-                                <strong>${currentLang === 'al' ? 'Depozita (50%):' : 'Deposit (50%):'}</strong> ${depositAmount.toLocaleString()} Lek
-                            </p>
-                            <p style="font-size: 16px; margin: 5px 0;">
-                                <strong>${currentLang === 'al' ? 'Në arritje (50%):' : 'On arrival (50%):'}</strong> ${remainingAmount.toLocaleString()} Lek
+                            <p style="font-size: 14px; color: #666; margin-top: 10px;">
+                                <i class="fas fa-info-circle" style="color: #2c5f2d; margin-right: 5px;"></i>
+                                ${currentLang === 'al' ? 'Paguani në arritje — nuk kërkohet pagesë online.' : 'Pay at arrival — no online payment required.'}
                             </p>
                         </div>
-                        
+
                         <div class="booking-id" style="background: #e8f5e9; padding: 15px; border-radius: 8px; text-align: center;">
-                            <p><strong>${currentLang === 'al' ? 'ID e Rezervimit:' : 'Booking Reference:'}</strong></p>
+                            <p><strong>${currentLang === 'al' ? 'ID e Rezervimit:' : 'Reservation Reference:'}</strong></p>
                             <p style="font-size: 20px; font-weight: bold; color: #2c5f2d; letter-spacing: 2px;">${bookingData.reference || bookingData._id || 'N/A'}</p>
                         </div>
-                        
-                        <div class="booking-instructions" style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px;">
+
+                        <div class="booking-instructions" style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;">
                             <p style="margin: 0; font-size: 14px;">
-                                <strong>📧 ${currentLang === 'al' ? 'Konfirmimi i derguar!' : 'Confirmation sent!'}</strong><br>
-                                ${currentLang === 'al' ? 'Ju kemi dërguar një email me detajet e rezervimit dhe udhëzimet e pagesës.' : 'We have sent you an email with booking details and payment instructions.'}
+                                <strong>📧 ${currentLang === 'al' ? 'Konfirmimi i dërguar!' : 'Confirmation sent!'}</strong><br>
+                                ${currentLang === 'al' ? 'Ju kemi dërguar një email me detajet e rezervimit. Paguani drejtpërdrejt në hotel kur të arrini.' : 'We have sent you an email with your reservation details. Pay directly at the hotel when you arrive.'}
                             </p>
                         </div>
                     </div>
