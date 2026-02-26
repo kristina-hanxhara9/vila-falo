@@ -1179,10 +1179,10 @@ body.scrolled .language-toggle:hover {
 }
 
 .honey-bee-video {
-    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     border-radius: 12px;
     overflow: hidden;
-    max-width: 320px;
+    max-width: 420px;
 }
 
 .honey-bee-video video {
