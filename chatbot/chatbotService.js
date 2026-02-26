@@ -60,9 +60,9 @@ RESORT INFORMATION:
 ---
 
 💳 PAYMENT POLICY:
-- A 50% deposit is required when booking through our official website
-- The remaining 50% is paid upon arrival at Vila Falo
-- Payment is processed securely through our website
+- No online payment required — guests pay directly at the hotel upon arrival
+- Prices are shown transparently on the website so guests know what to expect
+- Reservation is free and no deposit is needed
 - Children under 3 stay free
 
 ---

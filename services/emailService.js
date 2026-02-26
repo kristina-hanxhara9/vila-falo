@@ -74,8 +74,8 @@ class EmailService {
       ? 'Please make sure these details are correct.'
       : 'Ju lutemi sigurohuni që këto të dhëna janë të sakta.';
     const paymentNote = lang === 'en'
-      ? 'Deposit required (50%) and remaining on arrival.'
-      : 'Depozita kërkohet (50%) dhe pjesa tjetër në mbërritje.';
+      ? 'No online payment required — you pay directly at the hotel when you arrive.'
+      : 'Nuk kërkohet pagesë online — paguani drejtpërdrejt në hotel kur të arrini.';
     const contact = lang === 'en' ? 'For any questions, contact us:' : 'Për çdo pyetje, na kontaktoni:';
     
     const mailOptions = {
@@ -96,9 +96,8 @@ class EmailService {
             <p><strong>${lang === 'en' ? 'Rooms' : 'Numri i Dhomave'}:</strong> ${booking.roomsBooked}</p>
             <p><strong>${lang === 'en' ? 'Guests' : 'Numri i Mysafirëve'}:</strong> ${booking.numberOfGuests}</p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
-            <p><strong>${lang === 'en' ? 'Total Price' : 'Çmimi Total'}:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
-            <p><strong>${lang === 'en' ? 'Deposit (50%)' : 'Depozitë (50%)'}:</strong> ${booking.depositAmount.toLocaleString()} ALL</p>
-            <p><strong>${lang === 'en' ? 'Remaining (50%)' : 'Mbetet për tu Paguar (50%)'}:</strong> ${booking.remainingAmount.toLocaleString()} ALL</p>
+            <p><strong>${lang === 'en' ? 'Estimated Total' : 'Çmimi i Përafërt'}:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
+            <p style="color: #2c5f2d; font-size: 13px;"><em>${lang === 'en' ? 'Pay at arrival — no online payment required.' : 'Paguani në arritje — nuk kërkohet pagesë online.'}</em></p>
           </div>
           
           <p style="color: #666;">${instructions}</p>

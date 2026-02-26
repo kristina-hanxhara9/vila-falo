@@ -100,34 +100,31 @@ window.BookingFormHandler = {
     }
 
     // Build price display HTML
+    const lang = document.documentElement.lang || localStorage.getItem('vilafalo-lang') || 'al';
     const html = `
       <div class="price-breakdown" style="padding: 15px; background: #f9f9f9; border-radius: 6px; margin-top: 15px; border-left: 4px solid #2c5f2d;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>Nights:</span>
+          <span>${lang === 'al' ? 'Net:' : 'Nights:'}</span>
           <strong>${pricing.nights}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>Price per night:</span>
+          <span>${lang === 'al' ? 'Çmimi për natë:' : 'Price per night:'}</span>
           <strong>${window.PriceCalculator.formatPrice(pricing.pricePerNight)}</strong>
         </div>
         ${pricing.numberOfRooms > 1 ? `
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span>Number of rooms:</span>
+            <span>${lang === 'al' ? 'Numri i dhomave:' : 'Number of rooms:'}</span>
             <strong>${pricing.numberOfRooms}</strong>
           </div>
         ` : ''}
         <hr style="margin: 10px 0; border: none; border-top: 1px solid #ddd;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <span style="font-weight: bold;">Total Price:</span>
+          <span style="font-weight: bold;">${lang === 'al' ? 'Totali:' : 'Total:'}</span>
           <strong style="font-size: 1.2em; color: #2c5f2d;">${window.PriceCalculator.formatPrice(pricing.totalPrice)}</strong>
         </div>
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9em;">
-          <span>Deposit (50%):</span>
-          <span>${window.PriceCalculator.formatPrice(pricing.depositAmount)}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-size: 0.9em;">
-          <span>On arrival (50%):</span>
-          <span>${window.PriceCalculator.formatPrice(pricing.remainingAmount)}</span>
+        <div style="text-align: center; font-size: 0.85em; color: #666; margin-top: 8px;">
+          <i class="fas fa-info-circle" style="color: #2c5f2d; margin-right: 4px;"></i>
+          ${lang === 'al' ? 'Paguani në arritje — nuk kërkohet pagesë online.' : 'Pay at arrival — no online payment required.'}
         </div>
       </div>
     `;
@@ -252,19 +249,12 @@ window.BookingFormHandler = {
   handleSuccess: function(result) {
     var booking = result.data || result.booking;
     // Show success message
-    this.showSuccess('✅ Booking created successfully! Your Booking ID: ' + (booking ? booking._id : (result.reference || 'N/A')));
+    this.showSuccess('✅ Reservation created successfully! Reference: ' + (booking ? booking._id : (result.reference || 'N/A')));
 
-    // If payment URL is available, redirect to payment
-    if (result.paymentUrl) {
-      setTimeout(() => {
-        window.location.href = result.paymentUrl;
-      }, 2000);
-    } else {
-      // Show booking confirmation modal
-      if (booking) this.showConfirmationModal(booking);
-      // Reset form
-      document.querySelector('form')?.reset();
-    }
+    // Show booking confirmation modal
+    if (booking) this.showConfirmationModal(booking);
+    // Reset form
+    document.querySelector('form')?.reset();
   },
 
   /**
