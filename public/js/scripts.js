@@ -262,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Update document language
-            document.documentElement.lang = lang === 'al' ? 'sq' : 'en';
+            const langMap = { 'al': 'sq', 'gr': 'el', 'en': 'en' };
+            document.documentElement.lang = langMap[lang] || 'en';
             
             // Update language toggle active state
             const languageOptions = document.querySelectorAll('.language-option');
@@ -355,7 +356,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentDate = new Date();
         const months = {
             'en': ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            'al': ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor']
+            'al': ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'],
+            'gr': ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος', 'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος']
         };
         
         function renderCalendar() {
@@ -370,7 +372,12 @@ document.addEventListener('DOMContentLoaded', function() {
             calendarGrid.innerHTML = '';
             
             // Add day headers
-            const dayHeaders = currentLang === 'al' ? ['D', 'H', 'M', 'M', 'E', 'P', 'S'] : ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            const dayHeaderMap = {
+                'al': ['D', 'H', 'M', 'M', 'E', 'P', 'S'],
+                'gr': ['Κ', 'Δ', 'Τ', 'Τ', 'Π', 'Π', 'Σ'],
+                'en': ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+            };
+            const dayHeaders = dayHeaderMap[currentLang] || dayHeaderMap['en'];
             dayHeaders.forEach(day => {
                 const dayEl = document.createElement('div');
                 dayEl.className = 'calendar-day-header';
