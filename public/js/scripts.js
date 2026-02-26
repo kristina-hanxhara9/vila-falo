@@ -1973,37 +1973,18 @@ document.head.appendChild(calendarStyle);
             });
         }
 
-        // --- Review cards: carousel sweep in ---
-        var reviewTrack = document.querySelector('.reviews-carousel-track');
-        if (reviewTrack) {
-            gsap.fromTo(reviewTrack,
-                { x: 120, opacity: 0 },
+        // --- Reviews section: simple fade in (no transforms on track/cards — conflicts with carousel) ---
+        var reviewsSection = document.querySelector('.reviews-section');
+        if (reviewsSection) {
+            gsap.fromTo(reviewsSection,
+                { opacity: 0 },
                 {
-                    x: 0, opacity: 1,
-                    duration: 1.2,
-                    ease: 'power4.out',
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power2.out',
                     scrollTrigger: {
                         trigger: '.reviews-section',
                         start: 'top 80%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Individual review cards: staggered depth ---
-        var reviewCards = document.querySelectorAll('.review-card');
-        if (reviewCards.length) {
-            gsap.fromTo(reviewCards,
-                { y: 40, opacity: 0, rotationY: 8 },
-                {
-                    y: 0, opacity: 1, rotationY: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.reviews-section',
-                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
