@@ -347,18 +347,19 @@ window.BookingFormHandler = {
     const modalContent = modal.querySelector('.modal-content') || modal;
     const html = `
       <div class="booking-confirmation" style="text-align: center; padding: 30px;">
-        <h2 style="color: #2c5f2d; margin-bottom: 20px;">✅ Booking Confirmed!</h2>
-        <p style="font-size: 1.1em; margin-bottom: 15px;">Thank you for your booking!</p>
+        <h2 style="color: #2c5f2d; margin-bottom: 20px;">✅ Rezervimi u Konfirmua!</h2>
+        <p style="font-size: 1.1em; margin-bottom: 15px;">Faleminderit për rezervimin tuaj!</p>
         <div style="background: #f9f9f9; padding: 20px; border-radius: 6px; margin: 20px 0; text-align: left;">
-          <p><strong>Booking ID:</strong> ${booking._id}</p>
-          <p><strong>Guest:</strong> ${booking.guestName}</p>
+          <p><strong>Nr. Rezervimi:</strong> ${booking._id}</p>
+          <p><strong>Mysafiri:</strong> ${booking.guestName}</p>
           <p><strong>Check-in:</strong> ${new Date(booking.checkInDate).toLocaleDateString()}</p>
           <p><strong>Check-out:</strong> ${new Date(booking.checkOutDate).toLocaleDateString()}</p>
-          <p><strong>Total:</strong> ${window.PriceCalculator.formatPrice(booking.totalPrice)}</p>
+          <p><strong>Totali për tu paguar në arritje (cash):</strong> ${window.PriceCalculator.formatPrice(booking.totalPrice)}</p>
         </div>
-        <p style="color: #666; margin: 20px 0;">A confirmation email has been sent to <strong>${booking.email}</strong></p>
+        <p style="color: #666; margin: 20px 0;">Nuk kërkohet pagesë online — paguani drejtpërdrejt kur të arrini.</p>
+        <p style="color: #666; margin: 10px 0;">Një email konfirmimi u dërgua te <strong>${booking.email}</strong></p>
         <button onclick="location.reload()" style="background: #2c5f2d; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 1em;">
-          Close
+          Mbyll
         </button>
       </div>
     `;

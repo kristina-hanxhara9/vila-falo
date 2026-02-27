@@ -404,51 +404,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 dayEl.textContent = day;
                 
                 const dayDate = new Date(year, month, day);
-                
-                // Check if date is in blocked range (Dec 30, 2025 - Jan 4, 2026)
-                const blockedStart = new Date(2025, 11, 30); // December 30, 2025
-                const blockedEnd = new Date(2026, 0, 4); // January 4, 2026
-                const isBlocked = dayDate >= blockedStart && dayDate <= blockedEnd;
-                
+
                 // Mark past days as unavailable
                 if (dayDate < today) {
                     dayEl.classList.add('past');
-                } else if (isBlocked) {
-                    // Mark blocked dates as booked
-                    dayEl.classList.add('booked');
                 } else {
-                    // Mark most future days as available (random for demo)
-                    if (Math.random() > 0.3) {
-                        dayEl.classList.add('available');
-                        dayEl.addEventListener('click', function() {
-                            // Remove previous selection
-                            calendarGrid.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-                            // Add selection to clicked day
-                            this.classList.add('selected');
+                    // All future days are available
+                    dayEl.classList.add('available');
+                    dayEl.addEventListener('click', function() {
+                        // Remove previous selection
+                        calendarGrid.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
+                        // Add selection to clicked day
+                        this.classList.add('selected');
 
-                            // Auto-fill check-in date
-                            const checkInInput = document.getElementById('checkInDate');
-                            if (checkInInput) {
-                                const selectedDate = new Date(year, month, day);
-                                checkInInput.value = selectedDate.toISOString().split('T')[0];
+                        // Auto-fill check-in date
+                        const checkInInput = document.getElementById('checkInDate');
+                        if (checkInInput) {
+                            const selectedDate = new Date(year, month, day);
+                            checkInInput.value = selectedDate.toISOString().split('T')[0];
 
-                                // Auto-set check-out to +1 day
-                                const checkOutInput = document.getElementById('checkOutDate');
-                                if (checkOutInput) {
-                                    const nextDay = new Date(year, month, day + 1);
-                                    checkOutInput.value = nextDay.toISOString().split('T')[0];
-                                }
-
-                                // Scroll booking form into view
-                                const bookingForm = document.querySelector('.booking-form');
-                                if (bookingForm) {
-                                    bookingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }
+                            // Auto-set check-out to +1 day
+                            const checkOutInput = document.getElementById('checkOutDate');
+                            if (checkOutInput) {
+                                const nextDay = new Date(year, month, day + 1);
+                                checkOutInput.value = nextDay.toISOString().split('T')[0];
                             }
-                        });
-                    } else {
-                        dayEl.classList.add('booked');
-                    }
+
+                            // Scroll booking form into view
+                            const bookingForm = document.querySelector('.booking-form');
+                            if (bookingForm) {
+                                bookingForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }
+                    });
                 }
                 
                 calendarGrid.appendChild(dayEl);
@@ -1973,37 +1961,18 @@ document.head.appendChild(calendarStyle);
             });
         }
 
-        // --- Review cards: carousel sweep in ---
-        var reviewTrack = document.querySelector('.reviews-carousel-track');
-        if (reviewTrack) {
-            gsap.fromTo(reviewTrack,
-                { x: 120, opacity: 0 },
+        // --- Reviews section: simple fade in (no transforms on track/cards — conflicts with carousel) ---
+        var reviewsSection = document.querySelector('.reviews-section');
+        if (reviewsSection) {
+            gsap.fromTo(reviewsSection,
+                { opacity: 0 },
                 {
-                    x: 0, opacity: 1,
-                    duration: 1.2,
-                    ease: 'power4.out',
+                    opacity: 1,
+                    duration: 1,
+                    ease: 'power2.out',
                     scrollTrigger: {
                         trigger: '.reviews-section',
                         start: 'top 80%',
-                        toggleActions: 'play none none none'
-                    }
-                }
-            );
-        }
-
-        // --- Individual review cards: staggered depth ---
-        var reviewCards = document.querySelectorAll('.review-card');
-        if (reviewCards.length) {
-            gsap.fromTo(reviewCards,
-                { y: 40, opacity: 0, rotationY: 8 },
-                {
-                    y: 0, opacity: 1, rotationY: 0,
-                    duration: 0.8,
-                    stagger: 0.15,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: '.reviews-section',
-                        start: 'top 78%',
                         toggleActions: 'play none none none'
                     }
                 }
@@ -2492,20 +2461,19 @@ document.head.appendChild(calendarStyle);
             if (currentTranslate < -totalOriginalWidth) {
                 currentTranslate += totalOriginalWidth;
                 prevTranslate = currentTranslate;
-                track.classList.add('is-dragging');
+                // Disable transition instantly for seamless wrap
+                track.style.transition = 'none';
                 setPosition();
-                // Remove transition override on next frame
-                requestAnimationFrame(function() {
-                    track.classList.remove('is-dragging');
-                });
+                // Force reflow, then restore transition
+                track.offsetHeight;
+                track.style.transition = '';
             } else if (currentTranslate > 0) {
                 currentTranslate -= totalOriginalWidth;
                 prevTranslate = currentTranslate;
-                track.classList.add('is-dragging');
+                track.style.transition = 'none';
                 setPosition();
-                requestAnimationFrame(function() {
-                    track.classList.remove('is-dragging');
-                });
+                track.offsetHeight;
+                track.style.transition = '';
             }
         }
 
@@ -2579,24 +2547,50 @@ document.head.appendChild(calendarStyle);
             startAutoPlay();
         });
 
-        // Auto-play: auto scroll right
-        function autoScroll() {
-            if (isDragging) return;
-            currentTranslate -= 1;
+        // Auto-play: smooth scroll using requestAnimationFrame
+        var isAutoPlaying = false;
+        var isVisible = false;
+        var lastTime = 0;
+        var speed = 0.5; // pixels per frame at 60fps
+
+        function autoScroll(timestamp) {
+            if (!isAutoPlaying || isDragging || !isVisible) {
+                lastTime = 0;
+                if (isAutoPlaying) requestAnimationFrame(autoScroll);
+                return;
+            }
+            if (!lastTime) lastTime = timestamp;
+            var delta = timestamp - lastTime;
+            lastTime = timestamp;
+            // Move based on time delta for consistent speed
+            currentTranslate -= speed * (delta / 16.67);
             wrapPosition();
             setPosition();
+            if (isAutoPlaying) requestAnimationFrame(autoScroll);
         }
 
         function startAutoPlay() {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(autoScroll, 30);
+            if (isAutoPlaying) return;
+            isAutoPlaying = true;
+            lastTime = 0;
+            requestAnimationFrame(autoScroll);
         }
 
         function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-            }
+            isAutoPlaying = false;
+            lastTime = 0;
+        }
+
+        // Only animate when section is visible
+        if ('IntersectionObserver' in window) {
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    isVisible = entry.isIntersecting;
+                });
+            }, { threshold: 0.1 });
+            observer.observe(carousel);
+        } else {
+            isVisible = true;
         }
 
         // Start auto-play after a brief delay

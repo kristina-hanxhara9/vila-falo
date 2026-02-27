@@ -96,8 +96,8 @@ class EmailService {
             <p><strong>${lang === 'en' ? 'Rooms' : 'Numri i Dhomave'}:</strong> ${booking.roomsBooked}</p>
             <p><strong>${lang === 'en' ? 'Guests' : 'Numri i Mysafirëve'}:</strong> ${booking.numberOfGuests}</p>
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
-            <p><strong>${lang === 'en' ? 'Estimated Total' : 'Çmimi i Përafërt'}:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
-            <p style="color: #2c5f2d; font-size: 13px;"><em>${lang === 'en' ? 'Pay at arrival — no online payment required.' : 'Paguani në arritje — nuk kërkohet pagesë online.'}</em></p>
+            <p style="font-size: 16px; font-weight: bold; color: #2c5f2d;"><strong>${lang === 'en' ? 'Total to pay at arrival (cash)' : 'Totali për tu paguar në arritje (cash)'}:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
+            <p style="color: #2c5f2d; font-size: 13px;"><em>${lang === 'en' ? 'No online payment required — you pay cash directly at the hotel when you arrive.' : 'Nuk kërkohet pagesë online — paguani cash drejtpërdrejt në hotel kur të arrini.'}</em></p>
           </div>
           
           <p style="color: #666;">${instructions}</p>
@@ -107,7 +107,7 @@ class EmailService {
             <p style="color: #666; font-size: 14px;">
               ${contact}<br>
               Email: ${this.adminEmail}<br>
-              Tel: ${process.env.VILLA_PHONE || '+355 68 336 9436'}
+              Tel: ${process.env.VILLA_PHONE || '+355 69 448 1367'}
             </p>
           </div>
         </div>
@@ -149,10 +149,8 @@ class EmailService {
             <p><strong>Language:</strong> ${language}</p>
             ${booking.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.specialRequests}</p>` : ''}
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
-            <p><strong>Total Price:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
-            <p><strong>Deposit (50%):</strong> ${booking.depositAmount.toLocaleString()} ALL</p>
-            <p><strong>Remaining (50%):</strong> ${booking.remainingAmount.toLocaleString()} ALL</p>
-            <p><strong>Payment Status:</strong> ${booking.paymentStatus}</p>
+            <p><strong>Estimated Total:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
+            <p><strong>Payment:</strong> Cash at arrival</p>
             <p><strong>Booking Status:</strong> ${booking.status}</p>
             <p><strong>Source:</strong> ${booking.source}</p>
           </div>
@@ -226,7 +224,7 @@ class EmailService {
           
           <p>Kontakt:<br>
           Email: ${this.adminEmail}<br>
-          Tel: ${process.env.VILLA_PHONE || '+355 68 336 9436'}</p>
+          Tel: ${process.env.VILLA_PHONE || '+355 69 448 1367'}</p>
         </div>
       `
     };

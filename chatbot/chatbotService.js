@@ -14,7 +14,7 @@ class ChatbotService {
         console.log('✅ Initializing Gemini AI with key:', process.env.GEMINI_API_KEY.substring(0, 8) + '...');
         
         this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-1.5-flash-latest' });
+        this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
         
         // [!!!] The system prompt has been updated with stricter rules.
         this.context = `
@@ -155,7 +155,7 @@ This is the ONLY way for users to book. When a customer asks to book, check date
 
 "Për të rezervuar ose për të kontrolluar datat e lira, ju lutem përdorni një nga këto mënyra zyrtare:"
 1. **Website:** https://web-production-d6beb.up.railway.app/#booking (Best and most secure way - book directly online!)
-2. **Phone:** +355 68 336 9436
+2. **Phone:** +355 69 448 1367
 3. **Email:** vilafalo@gmail.com
 4. **Social Media:** Facebook / Instagram (@vila_falo)
 
@@ -194,7 +194,7 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
         } catch (error) {
             console.error('❌ Error generating response from Gemini API:', error);
             
-            let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë ose na kontaktoni direkt në +355 68 336 9436.';
+            let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë ose na kontaktoni direkt në +355 69 448 1367.';
             
             if (error.message && error.message.includes('API key not valid')) {
                 errorMessage = 'Problem me API key. Ju lutem kontaktoni administratorin.';
@@ -218,7 +218,7 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
             },
             {
                 question: "Si mund të rezervoj?",
-                answer: "Mund të rezervoni direkt nga website ynë (mënyra më e mirë dhe më e sigurt), na telefononi në +355 68 336 9436, ose na shkruani në vilafalo@gmail.com."
+                answer: "Mund të rezervoni direkt nga website ynë (mënyra më e mirë dhe më e sigurt), na telefononi në +355 69 448 1367, ose na shkruani në vilafalo@gmail.com."
             },
             {
                 question: "Çfarë përfshin mëngjesi?",
