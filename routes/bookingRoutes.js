@@ -389,7 +389,7 @@ router.post('/', async (req, res) => {
     
     // Emit Socket.io event
     if (global.io) {
-      global.io.emit('newBooking', {
+      global.io.to('admin').emit('newBooking', {
         booking: booking,
         message: 'New booking created'
       });
@@ -510,7 +510,7 @@ router.put('/:id', async (req, res) => {
     }
     
     if (global.io) {
-      global.io.emit('bookingUpdated', {
+      global.io.to('admin').emit('bookingUpdated', {
         booking: booking,
         message: 'Booking updated'
       });

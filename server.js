@@ -8,6 +8,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 const validateServerConfiguration = require('./validate-config');
 
 const app = express();
@@ -26,10 +27,23 @@ const io = socketIo(server, {
 // Make io available globally
 global.io = io;
 
-// Socket.io connection handling
+// Socket.io connection handling with admin authentication
+const jwt = require('jsonwebtoken');
 io.on('connection', (socket) => {
     console.log('👤 New client connected:', socket.id);
-    
+
+    // Authenticate admin via token
+    socket.on('admin:auth', (token) => {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            socket.join('admin');
+            socket.emit('admin:authenticated', { success: true });
+            console.log('🔑 Admin socket authenticated:', socket.id);
+        } catch (err) {
+            socket.emit('admin:authenticated', { success: false });
+        }
+    });
+
     socket.on('disconnect', () => {
         console.log('👋 Client disconnected:', socket.id);
     });
@@ -74,6 +88,27 @@ app.use(express.urlencoded({
         }
     }
 }));
+
+// Rate limiting
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // 10 attempts per window
+    message: { success: false, message: 'Too many login attempts. Please try again in 15 minutes.' }
+});
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100, // 100 requests per 15 min
+    message: { success: false, message: 'Too many requests. Please try again later.' }
+});
+const emailLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10, // 10 emails per hour
+    message: { success: false, message: 'Email rate limit reached. Please try again later.' }
+});
+app.use('/admin/login', loginLimiter);
+app.use('/api/email', emailLimiter);
+app.use('/api/booking', apiLimiter);
+app.use('/api/chatbot', apiLimiter);
 
 // Request logging middleware for debugging (only in development)
 if (process.env.NODE_ENV === 'development') {
@@ -266,10 +301,8 @@ app.get('*', (req, res) => {
     if (!req.path.startsWith('/api')) {
         res.sendFile(path.join(__dirname, 'public', 'index.html'));
     } else {
-        res.status(404).json({ 
-            error: 'API endpoint not found',
-            path: req.path,
-            method: req.method
+        res.status(404).json({
+            error: 'API endpoint not found'
         });
     }
 });

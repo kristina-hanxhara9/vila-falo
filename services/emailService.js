@@ -39,6 +39,11 @@ class EmailService {
     return booking && booking.language === 'en' ? 'en' : 'al';
   }
 
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
   async sendEmail(mailOptions) {
     if (!this.enabled || !this.transporter) {
       console.warn('⚠️ Email service disabled, skipping email send');
@@ -147,7 +152,7 @@ class EmailService {
             <p><strong>Rooms:</strong> ${booking.roomsBooked}</p>
             <p><strong>Guests:</strong> ${booking.numberOfGuests}</p>
             <p><strong>Language:</strong> ${language}</p>
-            ${booking.specialRequests ? `<p><strong>Special Requests:</strong> ${booking.specialRequests}</p>` : ''}
+            ${booking.specialRequests ? `<p><strong>Special Requests:</strong> ${this.escapeHtml(booking.specialRequests)}</p>` : ''}
             <hr style="border: none; border-top: 1px solid #ddd; margin: 15px 0;">
             <p><strong>Estimated Total:</strong> ${booking.totalPrice.toLocaleString()} ALL</p>
             <p><strong>Payment:</strong> Cash at arrival</p>

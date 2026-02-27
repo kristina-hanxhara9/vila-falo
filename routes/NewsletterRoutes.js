@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Newsletter = require('../models/Newsletter');
 const emailService = require('../services/emailService');
+const authenticate = require('../middleware/authenticate');
 
 // POST subscribe to newsletter
 router.post('/subscribe', async (req, res) => {
@@ -68,8 +69,8 @@ router.post('/subscribe', async (req, res) => {
     }
 });
 
-// GET all newsletter subscriptions (admin only)
-router.get('/', async (req, res) => {
+// GET all newsletter subscriptions (admin only - requires auth)
+router.get('/', authenticate, async (req, res) => {
     try {
         const subscriptions = await Newsletter.find().sort({ subscribedAt: -1 });
         res.json({ 

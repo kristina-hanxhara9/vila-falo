@@ -31,7 +31,7 @@ const adminLogin = async (req, res) => {
                     if (isMatch) {
                         const token = jwt.sign(
                             { id: user._id, username: user.name, role: 'admin' },
-                            process.env.JWT_SECRET || 'your_jwt_secret',
+                            process.env.JWT_SECRET,
                             { expiresIn: '1d' }
                         );
 
@@ -66,7 +66,7 @@ const adminLogin = async (req, res) => {
         if ((username === adminUser || username === adminEmail || username === 'Admin') && password === adminPass) {
             const token = jwt.sign(
                 { id: '1', username: adminUser, role: 'admin' },
-                process.env.JWT_SECRET || 'your_jwt_secret',
+                process.env.JWT_SECRET,
                 { expiresIn: '1d' }
             );
 

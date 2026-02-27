@@ -2056,8 +2056,13 @@
             transports: ['websocket', 'polling']
         }) : null;
 
-        // Connection status
+        // Connection status — authenticate admin socket
         if (socket) socket.on('connect', () => {
+            // Send JWT token to join admin room
+            const token = document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith('jwt='));
+            if (token) {
+                socket.emit('admin:auth', token.split('=')[1]);
+            }
             console.log('✅ Connected to real-time updates');
             showToast('✅ Real-time updates aktiv', false);
         });

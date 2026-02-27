@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const emailService = require('../services/emailService');
 const Booking = require('../models/Booking');
+const authenticate = require('../middleware/authenticate');
+
+// All email routes require admin authentication
+router.use(authenticate);
 
 // Test email configuration
 router.get('/test', async (req, res) => {

@@ -176,7 +176,7 @@ router.get('/check', (req, res) => {
             return res.json({ isAuthenticated: false });
         }
         
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         
         res.json({
             isAuthenticated: true,
@@ -211,7 +211,7 @@ router.get('/dashboard', (req, res, next) => {
             return res.redirect('/admin/login');
         }
         
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         console.log('Dashboard auth successful for user:', decoded.username);
         
         req.user = decoded;
@@ -231,7 +231,7 @@ router.get('/', (req, res, next) => {
             return res.redirect('/admin/login');
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (error) {
@@ -248,7 +248,7 @@ router.get('/calendar', (req, res, next) => {
             return res.redirect('/admin/login');
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your_jwt_secret');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded;
         next();
     } catch (error) {

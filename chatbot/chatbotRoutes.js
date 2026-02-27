@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ChatbotService = require('./chatbotService');
+const authenticate = require('../middleware/authenticate');
 
 const chatbotService = new ChatbotService();
 
@@ -117,7 +118,7 @@ router.get('/availability', (req, res) => {
     });
 });
 
-router.post('/debug', (req, res) => {
+router.post('/debug', authenticate, (req, res) => {
     const { sessionId } = req.body || {};
     const history = conversationSessions.get(sessionId) || [];
     
@@ -139,7 +140,7 @@ router.post('/quick-booking', (req, res) => {
     });
 });
 
-router.get('/stats', (req, res) => {
+router.get('/stats', authenticate, (req, res) => {
     res.json({
         success: true,
         data: {
