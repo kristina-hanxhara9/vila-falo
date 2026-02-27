@@ -2346,6 +2346,7 @@ body.scrolled .language-toggle:hover {
 .reviews-share-btn:hover {
     background: #a8652d;
     transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(192, 122, 58, 0.35);
     color: #fff;
 }
 
@@ -2385,11 +2386,13 @@ body.scrolled .language-toggle:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .review-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(42, 109, 78, 0.35);
+    background: #2f7a56;
 }
 
 .review-stars {
@@ -2401,6 +2404,12 @@ body.scrolled .language-toggle:hover {
 .review-stars i {
     color: #c9b896;
     font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.review-card:hover .review-stars i {
+    color: #e0c878;
+    transform: scale(1.15);
 }
 
 .review-source {
@@ -2411,6 +2420,11 @@ body.scrolled .language-toggle:hover {
     letter-spacing: 1px;
     margin-bottom: auto;
     padding-bottom: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.review-card:hover .review-source {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .review-text {
@@ -2421,6 +2435,11 @@ body.scrolled .language-toggle:hover {
     margin-bottom: 2rem;
     overflow-wrap: break-word;
     word-break: break-word;
+    transition: color 0.3s ease;
+}
+
+.review-card:hover .review-text {
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .review-author {
@@ -2431,6 +2450,12 @@ body.scrolled .language-toggle:hover {
     text-transform: uppercase;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.review-card:hover .review-author {
+    color: #a8c08e;
+    border-top-color: rgba(255, 255, 255, 0.18);
 }
 
 /* Responsive reviews */
