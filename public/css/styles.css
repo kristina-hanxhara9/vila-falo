@@ -1180,16 +1180,27 @@ body.scrolled .language-toggle:hover {
 
 .honey-bee-video {
     margin-bottom: 1.5rem;
-    border-radius: 12px;
+    width: 380px;
+    height: 380px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     overflow: hidden;
-    max-width: 450px;
+    background: rgba(255, 179, 0, 0.3);
+    padding: 6px;
 }
 
 .honey-bee-video video {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
-    border-radius: 12px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+@media (max-width: 768px) {
+    .honey-bee-video {
+        width: 260px;
+        height: 260px;
+    }
 }
 
 .honey-facts {
