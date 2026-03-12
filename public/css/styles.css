@@ -1210,6 +1210,7 @@ body.scrolled .language-toggle:hover {
     height: 600px;
     object-fit: cover;
     display: block;
+    border-radius: 16px;
 }
 
 @media (max-width: 992px) {

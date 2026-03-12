@@ -157,25 +157,25 @@
 }
 
 .btn.book-room-btn {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    background: var(--secondary);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.25);
+    border: none;
 }
 
 .btn.book-room-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--secondary);
+    filter: brightness(0.88);
     transform: translateY(-2px);
 }
 
 .btn-outline.room-details-btn {
     background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .btn-outline.room-details-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
     transform: translateY(-2px);
 }
