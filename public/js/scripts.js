@@ -1943,41 +1943,7 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Honey section: smooth dual reveal ---
-        var honeyContent = document.querySelector('#honey .restaurant-content');
-        if (honeyContent) {
-            gsap.fromTo(honeyContent,
-                { x: -70, opacity: 0, filter: 'blur(5px)' },
-                {
-                    x: 0, opacity: 1, filter: 'blur(0px)',
-                    duration: 1.2,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '#honey .restaurant-container',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
-
-        var honeyRight = document.querySelector('.honey-right-col');
-        if (honeyRight) {
-            gsap.fromTo(honeyRight,
-                { x: 70, opacity: 0, scale: 0.95, filter: 'blur(5px)' },
-                {
-                    x: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
-                    duration: 1.2,
-                    delay: 0.15,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '#honey .restaurant-container',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        // --- Honey section: handled by IntersectionObserver below ---
 
         // --- Food fan cards: dramatic fan open ---
         var foodCards = document.querySelectorAll('.food-fan-card');
@@ -2019,133 +1985,55 @@ document.head.appendChild(calendarStyle);
             );
         }
 
-        // --- Booking section: smooth dual entrance ---
-        var bookingInfo = document.querySelector('.booking-info');
-        if (bookingInfo) {
-            gsap.fromTo(bookingInfo,
-                { x: -60, opacity: 0, filter: 'blur(4px)' },
-                {
-                    x: 0, opacity: 1, filter: 'blur(0px)',
-                    duration: 1,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '.booking-container',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        // --- Last sections: scroll reveal using IntersectionObserver ---
+        // (Using native observer instead of GSAP ScrollTrigger for reliability)
+        var revealSections = [
+            { sel: '#honey .restaurant-content', from: 'left' },
+            { sel: '.honey-right-col', from: 'right', delay: 150 },
+            { sel: '.booking-info', from: 'left' },
+            { sel: '.booking-form', from: 'bottom', delay: 150 },
+            { sel: '.map-frame', from: 'bottom', scale: true },
+            { sel: '.location-info', from: 'left' },
+        ];
 
-        var bookingForm = document.querySelector('.booking-form');
-        if (bookingForm) {
-            gsap.fromTo(bookingForm,
-                { y: 60, opacity: 0, scale: 0.95, filter: 'blur(4px)' },
-                {
-                    y: 0, opacity: 1, scale: 1, filter: 'blur(0px)',
-                    duration: 1,
-                    delay: 0.15,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '.booking-container',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        // Also reveal individual contact items with stagger
+        document.querySelectorAll('.contact-item').forEach(function(el, i) {
+            revealSections.push({ el: el, from: 'left', delay: i * 120 });
+        });
 
-        // --- Booking form fields: cascade reveal ---
-        var formGroups = document.querySelectorAll('.booking-form .form-group');
-        if (formGroups.length) {
-            gsap.fromTo(formGroups,
-                { y: 20, opacity: 0 },
-                {
-                    y: 0, opacity: 1,
-                    duration: 0.35,
-                    stagger: 0.05,
-                    ease: 'power2.out',
-                    scrollTrigger: {
-                        trigger: '.booking-form',
-                        start: 'top 82%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        var style = document.createElement('style');
+        style.textContent = [
+            '.scroll-reveal { opacity: 0; transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease; filter: blur(4px); }',
+            '.scroll-reveal.from-left { transform: translateX(-60px); }',
+            '.scroll-reveal.from-right { transform: translateX(60px); }',
+            '.scroll-reveal.from-bottom { transform: translateY(50px); }',
+            '.scroll-reveal.from-bottom.with-scale { transform: translateY(50px) scale(0.85); }',
+            '.scroll-reveal.revealed { opacity: 1; transform: none; filter: blur(0); }'
+        ].join('\n');
+        document.head.appendChild(style);
 
-        // --- Location section: map cinematic zoom ---
-        var mapFrame = document.querySelector('.map-frame');
-        if (mapFrame) {
-            gsap.fromTo(mapFrame,
-                { scale: 0.85, opacity: 0, borderRadius: '30px', filter: 'blur(6px)' },
-                {
-                    scale: 1, opacity: 1, borderRadius: '12px', filter: 'blur(0px)',
-                    duration: 1.2,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: mapFrame,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        revealSections.forEach(function(cfg) {
+            var el = cfg.el || document.querySelector(cfg.sel);
+            if (!el) return;
+            el.classList.add('scroll-reveal', 'from-' + cfg.from);
+            if (cfg.scale) el.classList.add('with-scale');
+            if (cfg.delay) el.style.transitionDelay = cfg.delay + 'ms';
+        });
 
-        // --- Location info: smooth content reveal ---
-        var locationInfo = document.querySelector('.location-info');
-        if (locationInfo) {
-            gsap.fromTo(locationInfo,
-                { x: -60, opacity: 0, filter: 'blur(4px)' },
-                {
-                    x: 0, opacity: 1, filter: 'blur(0px)',
-                    duration: 1,
-                    ease: 'power4.out',
-                    scrollTrigger: {
-                        trigger: '.location-container',
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse'
-                    }
+        var revealObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                } else if (entry.boundingClientRect.top > 0) {
+                    // Only un-reveal if scrolling back up past it
+                    entry.target.classList.remove('revealed');
                 }
-            );
-        }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
 
-        // --- Contact items: bounce in with icon spin ---
-        var contactItems = document.querySelectorAll('.contact-item');
-        if (contactItems.length) {
-            gsap.fromTo(contactItems,
-                { x: -40, opacity: 0 },
-                {
-                    x: 0, opacity: 1,
-                    duration: 0.6,
-                    stagger: 0.12,
-                    ease: 'back.out(1.4)',
-                    scrollTrigger: {
-                        trigger: contactItems[0].parentElement,
-                        start: 'top 88%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
-
-        var contactIcons = document.querySelectorAll('.contact-icon');
-        if (contactIcons.length) {
-            gsap.fromTo(contactIcons,
-                { scale: 0, rotation: -180 },
-                {
-                    scale: 1, rotation: 0,
-                    duration: 0.6,
-                    stagger: 0.12,
-                    ease: 'back.out(2)',
-                    scrollTrigger: {
-                        trigger: contactIcons[0].closest('.contact-info'),
-                        start: 'top 88%',
-                        toggleActions: 'play none none reverse'
-                    }
-                }
-            );
-        }
+        document.querySelectorAll('.scroll-reveal').forEach(function(el) {
+            revealObserver.observe(el);
+        });
 
         // --- Season cards: wave pop with depth ---
         var seasonCards = document.querySelectorAll('.season-card');
