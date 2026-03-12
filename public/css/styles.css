@@ -1209,6 +1209,8 @@ body.scrolled .language-toggle:hover {
 
 .about-primland-right {
     flex: 1.1;
+    overflow: hidden;
+    border-radius: 16px;
 }
 
 .about-primland-right img {
