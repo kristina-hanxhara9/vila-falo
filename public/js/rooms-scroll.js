@@ -139,7 +139,7 @@
         },
         ease: 'power3.out',
         stagger: {
-          each: 0.02,
+          each: 0.015,
           from: 'start',
         },
       }
@@ -153,7 +153,7 @@
     return gsap.to(el, {
       clipPath: 'inset(0% 0% 0% 0%)',
       y: 0,
-      duration: 1.5,
+      duration: 0.8,
       ease: 'expo.out',
     });
   }
@@ -162,7 +162,7 @@
     return gsap.to(el, {
       clipPath: 'inset(0% 0% 100% 0%)',
       y: -30,
-      duration: 1.2,
+      duration: 0.6,
       ease: 'power2.inOut',
     });
   }
@@ -185,28 +185,30 @@
         trigger: '.rooms-stage',
         start: 'top top',
         end: 'bottom bottom',
-        scrub: 2.5,
+        scrub: 1,
         invalidateOnRefresh: true,
       },
     });
 
     // For each subsequent room: open blinds to reveal image + swap text
     for (var i = 1; i < blindsSets.length; i++) {
-      // Fade out current text first
+      // Fade out current text
       if (texts[i - 1]) {
         master.add(textOut(texts[i - 1]));
       }
       // Open blinds to reveal next image
-      master.add(openBlinds(blindsSets[i]), '-=0.5');
+      master.add(openBlinds(blindsSets[i]));
       // Fade in next text
       if (texts[i]) {
-        master.add(textIn(texts[i]), '-=0.8');
+        master.add(textIn(texts[i]));
       }
+      // Brief hold before next transition
+      master.add(gsap.to({}, { duration: 0.3 }));
     }
 
     // Hold last text visible briefly, then fade out before end
     if (texts[texts.length - 1]) {
-      master.add(textOut(texts[texts.length - 1]), '+=1');
+      master.add(textOut(texts[texts.length - 1]), '+=0.5');
     }
   }
 

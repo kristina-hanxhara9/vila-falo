@@ -6,7 +6,7 @@
 /* ============ STAGE (scroll trigger area) ============ */
 .rooms-stage {
     position: relative;
-    height: 500vh;
+    height: 400vh;
 }
 
 /* ============ HEADER (above sticky viewport) ============ */
@@ -161,7 +161,7 @@
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
     .rooms-stage {
-        height: 350vh;
+        height: 300vh;
     }
 
     .rooms-stage-header {
