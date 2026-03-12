@@ -2018,8 +2018,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2037,8 +2036,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2096,8 +2094,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '.booking-container',
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2115,8 +2112,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '.booking-container',
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2135,8 +2131,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '.booking-form',
                         start: 'top 82%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2154,8 +2149,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: mapFrame,
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2173,8 +2167,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: '.location-container',
                         start: 'top 85%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2193,8 +2186,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: contactItems[0].parentElement,
                         start: 'top 88%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );
@@ -2212,8 +2204,7 @@ document.head.appendChild(calendarStyle);
                     scrollTrigger: {
                         trigger: contactIcons[0].closest('.contact-info'),
                         start: 'top 88%',
-                        end: 'top 20%',
-                        toggleActions: 'play reverse play reverse'
+                        toggleActions: 'play none none reverse'
                     }
                 }
             );

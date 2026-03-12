@@ -1134,24 +1134,24 @@ body.scrolled .language-toggle:hover {
 /* Two videos side by side */
 .food-videos-duo {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: flex-start;
-    gap: 2rem;
-    padding: 0 3%;
+    gap: 3rem;
+    padding: 0 5%;
 }
 
 .food-videos-duo .food-scatter-video {
-    width: 32%;
-    max-width: 380px;
+    width: 30%;
+    max-width: 360px;
 }
 
 .food-videos-duo .food-scatter-video:first-child {
-    margin-left: 2%;
+    margin-top: 5rem;
 }
 
 .food-videos-duo .food-scatter-video--right {
-    margin-top: 4rem;
-    margin-right: 2%;
+    margin-top: 0;
+    margin-right: 3%;
 }
 
 @media (max-width: 768px) {
