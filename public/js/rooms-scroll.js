@@ -66,22 +66,13 @@
   }
 
   /* =========================
-  Pre-reveal first room (no black screen)
+  Open blinds fully (no animation, for initial state)
   ========================= */
-  function preRevealFirstRoom() {
-    var firstLayer = document.querySelector('.rooms-layer');
-    if (!firstLayer) return;
-
-    // Set the first mask rect to white so the first room image is visible immediately
-    var maskRect = firstLayer.querySelector('mask rect');
-    if (maskRect) maskRect.setAttribute('fill', 'white');
-
-    // Show the first room text immediately
-    var firstText = document.querySelector('.rooms-txt');
-    if (firstText) {
-      firstText.style.clipPath = 'inset(0% 0% 0% 0%)';
-      firstText.style.transform = 'translateY(0)';
-    }
+  function setBlindsOpen(blinds) {
+    blinds.forEach(function (b) {
+      gsap.set(b.top, { attr: { y: b.y - b.h, height: b.h + 0.01 } });
+      gsap.set(b.bottom, { attr: { y: b.y, height: b.h + 0.01 } });
+    });
   }
 
   /* =========================
@@ -117,6 +108,17 @@
         if (blinds) blindsSets.push(blinds);
       }
     });
+
+    // Pre-open first room's blinds so no black screen
+    if (blindsSets.length > 0) {
+      setBlindsOpen(blindsSets[0]);
+    }
+
+    // Pre-show first text
+    var firstText = document.querySelector('.rooms-txt');
+    if (firstText) {
+      gsap.set(firstText, { clipPath: 'inset(0% 0% 0% 0%)', y: 0 });
+    }
 
     buildMasterTimeline();
   }
@@ -166,6 +168,29 @@
   }
 
   /* =========================
+  Close blinds (reverse of open — for first room when scrolling forward)
+  ========================= */
+  function closeBlinds(blinds) {
+    return gsap.timeline().to(
+      blinds.flatMap(function (b) { return [b.top, b.bottom]; }),
+      {
+        attr: {
+          y: function (i) {
+            var b = blinds[Math.floor(i / 2)];
+            return b.y; // collapse to center
+          },
+          height: 0
+        },
+        ease: 'power3.in',
+        stagger: {
+          each: 0.02,
+          from: 'end'
+        }
+      }
+    );
+  }
+
+  /* =========================
   Master Timeline
   ========================= */
   function buildMasterTimeline() {
@@ -185,17 +210,17 @@
     });
 
     blindsSets.forEach(function (blinds, i) {
-      // First room is pre-revealed, so skip its blinds open animation
       if (i === 0) {
-        // Just animate text out for room 1
+        // Room 1 starts fully visible (blinds open, text shown via gsap.set)
+        // Animate text out, then close blinds before room 2 appears
         if (texts[i]) {
           master.add(textOut(texts[i]), '+=0.8');
         }
       } else {
+        // Rooms 2+ open with blinds animation
         master.add(openBlinds(blinds));
         if (texts[i]) {
           master.add(textIn(texts[i]), '-=0.3');
-          // Don't animate out the last text — let it stay visible
           if (i < blindsSets.length - 1) {
             master.add(textOut(texts[i]), '+=0.8');
           }
@@ -233,9 +258,6 @@
   function init() {
     var stage = document.querySelector('.rooms-stage');
     if (!stage) return;
-
-    // Pre-reveal first room so there's no black screen
-    preRevealFirstRoom();
 
     updateLayout();
     initProgressBar();

@@ -2017,8 +2017,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2035,8 +2036,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '#honey .restaurant-container',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2093,8 +2095,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.booking-container',
-                        start: 'top 80%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2111,8 +2114,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.booking-container',
-                        start: 'top 80%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2130,8 +2134,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power2.out',
                     scrollTrigger: {
                         trigger: '.booking-form',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
+                        start: 'top 82%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2148,8 +2153,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: mapFrame,
-                        start: 'top 82%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2166,8 +2172,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'power4.out',
                     scrollTrigger: {
                         trigger: '.location-container',
-                        start: 'top 78%',
-                        toggleActions: 'play none none none'
+                        start: 'top 85%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2185,8 +2192,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'back.out(1.4)',
                     scrollTrigger: {
                         trigger: contactItems[0].parentElement,
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+                        start: 'top 88%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
@@ -2203,8 +2211,9 @@ document.head.appendChild(calendarStyle);
                     ease: 'back.out(2)',
                     scrollTrigger: {
                         trigger: contactIcons[0].closest('.contact-info'),
-                        start: 'top 85%',
-                        toggleActions: 'play none none none'
+                        start: 'top 88%',
+                        end: 'top 20%',
+                        toggleActions: 'play reverse play reverse'
                     }
                 }
             );
