@@ -5017,6 +5017,22 @@ button[type="submit"]:hover::before {
     font-size: 0.9rem;
 }
 
+.footer-credit {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-credit a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-credit a:hover {
+    color: #fff;
+}
+
 .newsletter-form {
     display: flex;
     gap: 0.5rem;
