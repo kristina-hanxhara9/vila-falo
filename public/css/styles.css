@@ -2828,7 +2828,7 @@ body.scrolled .language-toggle:hover {
 
 /* Booking Section */
 .booking {
-    background: var(--white);
+    background: url('/images/back-yellow.png') center/cover no-repeat;
     position: relative;
     overflow: hidden;
 }
