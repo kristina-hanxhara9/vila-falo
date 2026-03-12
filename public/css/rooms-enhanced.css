@@ -168,17 +168,86 @@
 }
 
 @media (max-width: 768px) {
+    /* Remove black background on mobile */
+    .rooms-section {
+        background: transparent;
+    }
+
     .rooms-header {
         padding: 20px 16px 10px;
     }
 
+    /* Disable the scroll stage on mobile — show rooms as stacked cards */
+    .rooms-stage {
+        height: auto;
+    }
+
+    .rooms-layers {
+        position: relative;
+        width: 100%;
+        height: auto;
+        overflow: visible;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    /* Show room images as full-width cards instead of SVG blinds */
+    .rooms-layer {
+        position: relative;
+        width: 100%;
+        height: 60vw;
+        min-height: 220px;
+        max-height: 350px;
+    }
+
+    .rooms-layer image {
+        filter: brightness(0.75);
+    }
+
+    /* Override SVG masks on mobile — show images fully */
+    .rooms-layer mask rect {
+        fill: white !important;
+    }
+
+    /* Unwrap texts container so children participate in flex ordering */
+    .rooms-texts {
+        display: contents;
+        padding: 0;
+    }
+
+    /* Interleave images and texts: image1, text1, image2, text2, image3, text3 */
+    .rooms-layer:nth-of-type(1) { order: 1; }
+    .rooms-txt:nth-child(1) { order: 2; }
+    .rooms-layer:nth-of-type(2) { order: 3; }
+    .rooms-txt:nth-child(2) { order: 4; }
+    .rooms-layer:nth-of-type(3) { order: 5; }
+    .rooms-txt:nth-child(3) { order: 6; }
+    .rooms-progress-bar { order: 99; }
+
+    .rooms-txt {
+        position: relative;
+        clip-path: none !important;
+        transform: none !important;
+        padding: 1.5rem 1rem;
+        background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
+        margin-top: -100px;
+        z-index: 2;
+    }
+
     .rooms-txt h2 {
-        font-size: clamp(2rem, 8vw, 4rem);
+        font-size: clamp(1.6rem, 6vw, 2.5rem);
+        margin-top: 0;
     }
 
     .rooms-txt .room-price-pill {
         font-size: 0.8rem;
         padding: 6px 16px;
+        margin-top: 0;
+    }
+
+    .rooms-txt .room-btns {
+        margin-top: 12px;
     }
 
     .rooms-txt .room-btns a {
@@ -186,8 +255,9 @@
         font-size: 0.85rem;
     }
 
+    /* Hide progress bar on mobile */
     .rooms-progress-bar {
-        padding: 2rem;
+        display: none;
     }
 }
 
@@ -196,8 +266,13 @@
         padding: 12px 12px 8px;
     }
 
+    .rooms-layer {
+        height: 55vw;
+        min-height: 200px;
+    }
+
     .rooms-txt h2 {
-        font-size: clamp(1.5rem, 7vw, 2.5rem);
+        font-size: clamp(1.3rem, 5.5vw, 2rem);
     }
 
     .rooms-txt .room-btns {
@@ -210,8 +285,8 @@
         border-radius: 10px;
     }
 
-    .rooms-progress-bar {
-        padding: 1.5rem;
-        gap: 0.5rem;
+    .rooms-txt {
+        padding: 1rem 0.75rem;
+        margin-top: -80px;
     }
 }

@@ -200,9 +200,41 @@
   /* =========================
   Run
   ========================= */
+  function isMobile() {
+    return window.innerWidth <= 768;
+  }
+
+  function showAllRoomsMobile() {
+    // On mobile, reveal all SVG masks fully and show all text
+    var layers = document.querySelectorAll('.rooms-layer');
+    layers.forEach(function(svg) {
+      var maskRect = svg.querySelector('mask rect');
+      if (maskRect) maskRect.setAttribute('fill', 'white');
+      var blindsGroup = svg.querySelector('g[id^="room-blinds"]');
+      if (blindsGroup) blindsGroup.innerHTML = '';
+    });
+    var texts = document.querySelectorAll('.rooms-txt');
+    texts.forEach(function(txt) {
+      txt.style.clipPath = 'none';
+      txt.style.transform = 'none';
+    });
+    // Kill any existing ScrollTrigger for rooms
+    if (master) { master.kill(); master = null; }
+    ScrollTrigger.getAll().forEach(function(st) {
+      if (st.trigger && st.trigger.classList && st.trigger.classList.contains('rooms-stage')) {
+        st.kill();
+      }
+    });
+  }
+
   function init() {
     var stage = document.querySelector('.rooms-stage');
     if (!stage) return;
+
+    if (isMobile()) {
+      showAllRoomsMobile();
+      return;
+    }
 
     updateLayout();
     initProgressBar();
@@ -210,7 +242,13 @@
     var resizeTimer;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(updateLayout, 250);
+      resizeTimer = setTimeout(function() {
+        if (isMobile()) {
+          showAllRoomsMobile();
+        } else {
+          updateLayout();
+        }
+      }, 250);
     });
   }
 

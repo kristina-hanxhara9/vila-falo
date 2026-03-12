@@ -1126,11 +1126,43 @@
             minDate: new Date(Date.now() + 86400000)
         }));
 
-        // Make entire date wrapper clickable (fixes calendar icon tap on mobile)
+        // Make entire date wrapper and calendar icons clickable
         var barCheckInWrapper = document.querySelector('#barCheckIn').closest('.date-input-wrapper--bar');
         var barCheckOutWrapper = document.querySelector('#barCheckOut').closest('.date-input-wrapper--bar');
-        if (barCheckInWrapper) barCheckInWrapper.addEventListener('click', function() { barIn.open(); });
-        if (barCheckOutWrapper) barCheckOutWrapper.addEventListener('click', function() { barOut.open(); });
+        if (barCheckInWrapper) barCheckInWrapper.addEventListener('click', function(e) { e.stopPropagation(); barIn.open(); });
+        if (barCheckOutWrapper) barCheckOutWrapper.addEventListener('click', function(e) { e.stopPropagation(); barOut.open(); });
+
+        // Make booking form date icons and wrappers clickable too
+        var formCheckInWrapper = document.querySelector('#checkInDate').closest('.date-input-wrapper');
+        var formCheckOutWrapper = document.querySelector('#checkOutDate').closest('.date-input-wrapper');
+        if (formCheckInWrapper) {
+            formCheckInWrapper.style.cursor = 'pointer';
+            formCheckInWrapper.addEventListener('click', function(e) {
+                if (e.target.classList.contains('date-input-icon') || e.target.closest('.date-input-icon')) {
+                    e.stopPropagation();
+                    checkIn.open();
+                }
+            });
+            var checkInIcon = formCheckInWrapper.querySelector('.date-input-icon');
+            if (checkInIcon) checkInIcon.addEventListener('click', function(e) { e.stopPropagation(); checkIn.open(); });
+        }
+        if (formCheckOutWrapper) {
+            formCheckOutWrapper.style.cursor = 'pointer';
+            formCheckOutWrapper.addEventListener('click', function(e) {
+                if (e.target.classList.contains('date-input-icon') || e.target.closest('.date-input-icon')) {
+                    e.stopPropagation();
+                    checkOut.open();
+                }
+            });
+            var checkOutIcon = formCheckOutWrapper.querySelector('.date-input-icon');
+            if (checkOutIcon) checkOutIcon.addEventListener('click', function(e) { e.stopPropagation(); checkOut.open(); });
+        }
+
+        // Also make bar icons explicitly clickable
+        var barInIcon = barCheckInWrapper ? barCheckInWrapper.querySelector('.date-input-icon') : null;
+        var barOutIcon = barCheckOutWrapper ? barCheckOutWrapper.querySelector('.date-input-icon') : null;
+        if (barInIcon) barInIcon.addEventListener('click', function(e) { e.stopPropagation(); barIn.open(); });
+        if (barOutIcon) barOutIcon.addEventListener('click', function(e) { e.stopPropagation(); barOut.open(); });
     })();
     </script>
 
