@@ -266,7 +266,7 @@
     }
 
     .header.scrolled .hamburger .bar {
-        background: var(--text, #333);
+        background: var(--white, #fff);
     }
 
     .hamburger.active .bar:nth-child(1) {
@@ -284,17 +284,18 @@
     .mobile-nav {
         display: block;
         position: fixed;
-        top: 70px;
+        top: 60px;
         left: -100%;
         width: 100%;
-        height: calc(100vh - 70px);
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(10px);
+        height: calc(100vh - 60px);
+        background: rgba(10, 20, 15, 0.92);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
         padding-top: 2rem;
-        transition: left 0.3s ease;
+        transition: left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         z-index: 1000;
         overflow-y: auto;
     }
@@ -305,18 +306,29 @@
 
     .mobile-nav .nav-link {
         display: block;
-        padding: 0.8rem 2rem;
-        font-size: 1.2rem;
+        padding: 1rem 2rem;
+        font-size: 1.15rem;
         width: 100%;
         text-align: center;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         transition: all 0.3s ease;
         line-height: 1.4;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.5px;
     }
 
-    .mobile-nav .nav-link:hover {
-        background: var(--primary);
-        color: white;
+    .mobile-nav .nav-link:hover,
+    .mobile-nav .nav-link.active {
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--secondary);
+    }
+
+    .mobile-nav .nav-cta {
+        margin: 1rem 2rem;
+        width: auto;
+        border-radius: 10px;
+        text-align: center;
+        border-bottom: none;
     }
 
     /* Fix background-attachment: fixed for iOS */
@@ -377,8 +389,13 @@
     /* Header Mobile */
     .header {
         padding: 0.5rem 0;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+        background: transparent;
+    }
+
+    .header.scrolled {
+        background: rgba(10, 20, 15, 0.65);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
     }
     
     .nav-container {
