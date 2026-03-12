@@ -1,7 +1,7 @@
 /*
  * Rooms Section — SVG Horizontal Blinds Mask Scroll Transition
  * Room 1 is always visible (no mask). Rooms 2+ use SVG blinds masks.
- * Fully reversible scrub timeline.
+ * All animations use fromTo() for fully reversible scrub timeline.
  */
 
 (function () {
@@ -14,6 +14,7 @@
   var svgNS = 'http://www.w3.org/2000/svg';
   var blindsSets = [];
   var master;
+  var progressST;
 
   /* Create blind rects inside a mask group */
   function createBlinds(groupId) {
@@ -77,7 +78,6 @@
         img.setAttribute('height', vbHeight);
       }
 
-      // Only create blinds for layers that have a blinds group (rooms 2+)
       var blindsGroup = svg.querySelector('g[id^="room-blinds"]');
       if (blindsGroup) {
         var blinds = createBlinds(blindsGroup.id);
@@ -88,10 +88,17 @@
     buildMasterTimeline();
   }
 
-  /* Blinds open animation */
+  /* Blinds open animation — uses fromTo for explicit start/end */
   function openBlinds(blinds) {
-    return gsap.timeline().to(
-      blinds.flatMap(function (b) { return [b.top, b.bottom]; }),
+    var targets = blinds.flatMap(function (b) { return [b.top, b.bottom]; });
+    return gsap.timeline().fromTo(
+      targets,
+      {
+        attr: {
+          y: function (i) { return blinds[Math.floor(i / 2)].y; },
+          height: 0
+        }
+      },
       {
         attr: {
           y: function (i) {
@@ -109,29 +116,49 @@
   }
 
   function textIn(el) {
-    return gsap.to(el, {
-      clipPath: 'inset(0% 0% 0% 0%)', y: 0,
-      duration: 1.5, ease: 'expo.out'
-    });
+    return gsap.fromTo(el,
+      { clipPath: 'inset(100% 0 0 0)', y: 40 },
+      { clipPath: 'inset(0% 0% 0% 0%)', y: 0, duration: 1.5, ease: 'expo.out' }
+    );
   }
 
   function textOut(el) {
-    return gsap.to(el, {
-      clipPath: 'inset(0% 0% 100% 0%)', y: -30,
-      duration: 1.2, ease: 'power2.inOut'
-    });
+    return gsap.fromTo(el,
+      { clipPath: 'inset(0% 0% 0% 0%)', y: 0 },
+      { clipPath: 'inset(0% 0% 100% 0%)', y: -30, duration: 1.2, ease: 'power2.inOut' }
+    );
   }
 
-  /* Build scrub timeline — everything is in the timeline so it's fully reversible */
+  /* Build scrub timeline — all fromTo for fully reversible scrub */
   function buildMasterTimeline() {
-    if (master) master.kill();
+    if (master) {
+      master.scrollTrigger && master.scrollTrigger.kill();
+      master.kill();
+    }
+    if (progressST) {
+      progressST.kill();
+    }
 
     var texts = gsap.utils.toArray('.rooms-txt');
 
-    // Set room 1 text to visible immediately (it's the starting state)
-    if (texts[0]) {
-      gsap.set(texts[0], { clipPath: 'inset(0% 0% 0% 0%)', y: 0 });
-    }
+    // Reset all texts to CSS defaults before building timeline
+    texts.forEach(function (t, i) {
+      if (i === 0) {
+        gsap.set(t, { clipPath: 'inset(0% 0% 0% 0%)', y: 0, clearProps: false });
+      } else {
+        gsap.set(t, { clipPath: 'inset(100% 0 0 0)', y: 40, clearProps: false });
+      }
+    });
+
+    // Reset all blind rects to closed
+    blindsSets.forEach(function (blinds) {
+      blinds.forEach(function (b) {
+        b.top.setAttribute('height', 0);
+        b.top.setAttribute('y', b.y);
+        b.bottom.setAttribute('height', 0);
+        b.bottom.setAttribute('y', b.y);
+      });
+    });
 
     master = gsap.timeline({
       scrollTrigger: {
@@ -144,29 +171,32 @@
       }
     });
 
-    // Room 1 text out (room 1 image has no mask, always visible underneath)
+    // Room 1 text out — fromTo so it's fully reversible
     if (texts[0]) {
       master.add(textOut(texts[0]), '+=0.5');
     }
 
-    // Rooms 2+ : open blinds (reveals image over room 1), show text, hide text
+    // Rooms 2+ : open blinds, show text, hide text
     blindsSets.forEach(function (blinds, i) {
-      var textIndex = i + 1; // blindsSets[0] = room 2, texts[1] = room 2 text
+      var textIndex = i + 1;
       master.add(openBlinds(blinds));
       if (texts[textIndex]) {
         master.add(textIn(texts[textIndex]), '-=0.3');
-        // Don't hide the last room's text
         if (i < blindsSets.length - 1) {
           master.add(textOut(texts[textIndex]), '+=0.8');
         }
       }
     });
+
+    initProgressBar();
   }
 
   /* Progress bar */
   function initProgressBar() {
     var progressFills = gsap.utils.toArray('.rooms-progress-fill');
-    ScrollTrigger.create({
+    if (!progressFills.length) return;
+
+    progressST = ScrollTrigger.create({
       trigger: '.rooms-stage',
       start: 'top top',
       end: 'bottom bottom',
@@ -187,7 +217,6 @@
     if (!stage) return;
 
     updateLayout();
-    initProgressBar();
 
     var resizeTimer;
     window.addEventListener('resize', function () {
