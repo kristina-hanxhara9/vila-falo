@@ -177,76 +177,17 @@
 }
 
 @media (max-width: 768px) {
-    /* Remove black background on mobile */
-    .rooms-section {
-        background: transparent;
-    }
-
     .rooms-header {
         padding: 20px 16px 10px;
     }
 
-    /* Disable the scroll stage on mobile — show rooms as stacked cards */
-    .rooms-stage {
-        height: auto;
-    }
-
-    .rooms-layers {
-        position: relative;
-        width: 100%;
-        height: auto;
-        overflow: visible;
-    }
-
-    /* Mobile card wrapper created by JS */
-    .rooms-mobile-card {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-        border-radius: 12px;
-        margin-bottom: 1rem;
-    }
-
-    /* Show room images as full-width cards */
-    .rooms-mobile-card .rooms-layer {
-        position: relative;
-        width: 100%;
-        height: 60vw;
-        min-height: 220px;
-        max-height: 350px;
-    }
-
-    .rooms-mobile-card .rooms-layer image {
-        filter: brightness(0.7);
-    }
-
-    /* Text overlay at bottom of each card */
-    .rooms-mobile-card .rooms-txt {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        clip-path: none !important;
-        transform: none !important;
-        padding: 1.5rem 1rem;
-        background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
-        z-index: 2;
-    }
-
     .rooms-txt h2 {
-        font-size: clamp(1.6rem, 6vw, 2.5rem);
-        margin-top: 0.5rem;
+        font-size: clamp(2rem, 8vw, 4rem);
     }
 
     .rooms-txt .room-price-pill {
         font-size: 0.8rem;
         padding: 6px 16px;
-        margin-top: 0;
-    }
-
-    .rooms-txt .room-btns {
-        margin-top: 12px;
     }
 
     .rooms-txt .room-btns a {
@@ -254,9 +195,8 @@
         font-size: 0.85rem;
     }
 
-    /* Hide progress bar on mobile */
     .rooms-progress-bar {
-        display: none;
+        padding: 2rem;
     }
 }
 
@@ -265,13 +205,8 @@
         padding: 12px 12px 8px;
     }
 
-    .rooms-mobile-card .rooms-layer {
-        height: 55vw;
-        min-height: 200px;
-    }
-
     .rooms-txt h2 {
-        font-size: clamp(1.3rem, 5.5vw, 2rem);
+        font-size: clamp(1.5rem, 7vw, 2.5rem);
     }
 
     .rooms-txt .room-btns {
@@ -284,7 +219,8 @@
         border-radius: 10px;
     }
 
-    .rooms-mobile-card .rooms-txt {
-        padding: 1rem 0.75rem;
+    .rooms-progress-bar {
+        padding: 1.5rem;
+        gap: 0.5rem;
     }
 }

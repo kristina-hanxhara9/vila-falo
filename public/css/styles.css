@@ -1134,18 +1134,20 @@ body.scrolled .language-toggle:hover {
 /* Two videos side by side */
 .food-videos-duo {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: flex-start;
     gap: 2rem;
+    padding-right: 3%;
 }
 
 .food-videos-duo .food-scatter-video {
-    width: 38%;
-    max-width: 400px;
+    width: 32%;
+    max-width: 380px;
 }
 
 .food-videos-duo .food-scatter-video--right {
-    margin-top: 3rem;
+    margin-top: 4rem;
+    margin-right: 2%;
 }
 
 @media (max-width: 768px) {
