@@ -452,7 +452,7 @@
         <!-- Food Video -->
         <div class="food-gallery-scatter" data-aos="fade-up">
             <div class="food-scatter-photo food-scatter-video">
-                <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1239477224910504%2F&show_text=false&width=265&t=0" width="265" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
+                <iframe src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1239477224910504%2F&show_text=false&width=400&t=0" width="400" height="476" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowFullScreen="true"></iframe>
             </div>
         </div>
     </section>
@@ -1125,6 +1125,12 @@
         var barOut = flatpickr('#barCheckOut', Object.assign({}, barConfig, {
             minDate: new Date(Date.now() + 86400000)
         }));
+
+        // Make entire date wrapper clickable (fixes calendar icon tap on mobile)
+        var barCheckInWrapper = document.querySelector('#barCheckIn').closest('.date-input-wrapper--bar');
+        var barCheckOutWrapper = document.querySelector('#barCheckOut').closest('.date-input-wrapper--bar');
+        if (barCheckInWrapper) barCheckInWrapper.addEventListener('click', function() { barIn.open(); });
+        if (barCheckOutWrapper) barCheckOutWrapper.addEventListener('click', function() { barOut.open(); });
     })();
     </script>
 

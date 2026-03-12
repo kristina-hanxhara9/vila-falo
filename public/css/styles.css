@@ -1117,9 +1117,9 @@ body.scrolled .language-toggle:hover {
 
 /* Food Video (Facebook reel) */
 .food-scatter-video {
-    width: 25%;
-    max-width: 265px;
-    aspect-ratio: 265 / 476;
+    width: 38%;
+    max-width: 400px;
+    aspect-ratio: 9 / 16;
 }
 
 .food-scatter-video iframe {

@@ -169,7 +169,7 @@
 
 @media (max-width: 768px) {
     .rooms-header {
-        padding: 60px 16px 30px;
+        padding: 20px 16px 10px;
     }
 
     .rooms-txt h2 {
@@ -192,6 +192,10 @@
 }
 
 @media (max-width: 480px) {
+    .rooms-header {
+        padding: 12px 12px 8px;
+    }
+
     .rooms-txt h2 {
         font-size: clamp(1.5rem, 7vw, 2.5rem);
     }
