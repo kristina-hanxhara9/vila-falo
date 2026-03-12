@@ -1005,78 +1005,9 @@ body.scrolled .language-toggle:hover {
     color: #1a4a35;
 }
 
-/* Restaurant section — green underlay + image overlap layout */
+/* Restaurant section — same style as about section */
 #restaurant.about-primland {
-    background: url('/images/back-yellow.png') center/cover no-repeat;
-    color: #1a4a35;
-    overflow: visible;
-}
-
-#restaurant .about-primland-content {
-    position: relative;
-}
-
-/* Green underlay panel — offset to the right */
-#restaurant .about-primland-content::before {
-    content: '';
-    position: absolute;
-    top: -60px;
-    right: -2rem;
-    bottom: -60px;
-    width: 75%;
-    background: #3a5a40;
-    z-index: 0;
-}
-
-/* Text column sits ON the green panel */
-#restaurant .about-primland-left {
-    position: relative;
-    z-index: 2;
-    order: 2;
-    padding: 3rem 3rem 3rem 4rem;
-}
-
-/* Override text colors to white on green panel */
-#restaurant.about-primland .about-primland-label,
-#restaurant.about-primland .about-primland-tagline,
-#restaurant.about-primland .about-primland-section-label,
-#restaurant.about-primland .about-primland-subtitle,
-#restaurant.about-primland p {
-    color: #fff;
-}
-
-#restaurant.about-primland .about-primland-link {
-    color: #fff;
-    border-color: #fff;
-}
-
-#restaurant.about-primland .about-primland-link:hover {
-    background: #fff;
-    color: #3a5a40;
-}
-
-/* Image sits beside the green panel */
-#restaurant .about-primland-right {
-    position: relative;
-    z-index: 1;
-    order: 1;
-    margin-right: 0;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
-/* Restaurant header sits above the green panel */
-#restaurant .about-primland-header {
-    position: relative;
-    z-index: 2;
-}
-
-#restaurant.about-primland .about-primland-header .about-primland-label {
-    color: #3a5a40;
-}
-
-#restaurant.about-primland .about-primland-header .about-primland-tagline {
-    color: #1a4a35;
+    background: #f5f0e8;
 }
 
 /* Food Photo — Single Image Right-Aligned */
@@ -1289,13 +1220,14 @@ body.scrolled .language-toggle:hover {
 
 /* Chef's Special - Primland Style */
 .chefs-special-primland {
-    background: rgba(255, 255, 255, 0.08);
-    color: #fff;
+    background: #fff;
+    color: var(--dark);
     border-radius: 12px;
     padding: 1.5rem;
     margin-top: 2rem;
     position: relative;
     overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
 .chefs-special-badge {
@@ -1316,7 +1248,7 @@ body.scrolled .language-toggle:hover {
     font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-light);
 }
 
 .chefs-special-dish {
@@ -1331,7 +1263,7 @@ body.scrolled .language-toggle:hover {
     border-radius: 10px;
     overflow: hidden;
     flex-shrink: 0;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 .chefs-special-img img {
@@ -1349,7 +1281,7 @@ body.scrolled .language-toggle:hover {
 .chefs-special-info p {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85) !important;
+    color: var(--text-light) !important;
     margin-bottom: 0.5rem;
 }
 
