@@ -310,72 +310,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // GSAP scroll animations for lower sections
-        // Delay to ensure GSAP is fully loaded
-        setTimeout(function () {
-            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-            gsap.registerPlugin(ScrollTrigger);
-
-            // Honey section — staggered fade up
-            var honeySection = document.querySelector('#honey');
-            if (honeySection) {
-                var honeyEls = honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta-btn, .honey-content-right');
-                honeyEls.forEach(function (el, i) {
-                    gsap.from(el, {
-                        scrollTrigger: {
-                            trigger: honeySection,
-                            start: 'top 80%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        y: 50,
-                        opacity: 0,
-                        duration: 0.8,
-                        delay: i * 0.15,
-                        ease: 'power2.out'
-                    });
-                });
-            }
-
-            // Location section — card slides up
-            var locationSection = document.querySelector('#location');
-            if (locationSection) {
-                var locationCard = locationSection.querySelector('.location-overlay-card');
-                if (locationCard) {
-                    gsap.from(locationCard, {
-                        scrollTrigger: {
-                            trigger: locationSection,
-                            start: 'top 75%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        y: 60,
-                        opacity: 0,
-                        scale: 0.96,
-                        duration: 0.9,
-                        ease: 'power2.out'
-                    });
-                }
-            }
-
-            // Footer — staggered reveal of columns
-            var footer = document.querySelector('.footer');
-            if (footer) {
-                var footerCols = footer.querySelectorAll('.footer-col');
-                footerCols.forEach(function (col, i) {
-                    gsap.from(col, {
-                        scrollTrigger: {
-                            trigger: footer,
-                            start: 'top 85%',
-                            toggleActions: 'play none none reverse'
-                        },
-                        y: 40,
-                        opacity: 0,
-                        duration: 0.7,
-                        delay: i * 0.12,
-                        ease: 'power2.out'
-                    });
-                });
-            }
-        }, 100);
+        // Note: GSAP scroll animations for honey, booking, location sections
+        // are handled in the main GSAP block below (around line 2000+)
     }
 
     function initSnowEffect() {
@@ -1384,9 +1320,10 @@ style.textContent = `
     }
     
     .header.scrolled {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
     }
     
     .back-to-top.visible {
