@@ -1089,44 +1089,62 @@ body.scrolled .language-toggle:hover {
     color: #1a4a35;
 }
 
-/* Food Photo Gallery */
-.food-gallery {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    padding: 2rem 5%;
+/* Food Photo Gallery — Asymmetric Scatter Layout */
+.food-gallery-scatter {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 3rem 5% 2rem;
     position: relative;
     z-index: 2;
+    gap: 3rem;
 }
 
-.food-gallery-item {
+.food-scatter-left {
+    flex: 0 0 40%;
     border-radius: 12px;
     overflow: hidden;
-    aspect-ratio: 4/3;
+    margin-top: 0;
 }
 
-.food-gallery-item img {
+.food-scatter-right {
+    flex: 0 0 45%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: -40px;
+}
+
+.food-gallery-scatter img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
     transition: transform 0.4s ease;
 }
 
-.food-gallery-item:hover img {
-    transform: scale(1.05);
+.food-gallery-scatter img:hover {
+    transform: scale(1.03);
 }
 
 @media (max-width: 768px) {
-    .food-gallery {
-        grid-template-columns: repeat(2, 1fr);
-        padding: 1.5rem 4%;
+    .food-gallery-scatter {
+        flex-direction: column;
+        padding: 2rem 4%;
+        gap: 1.5rem;
     }
-}
 
-@media (max-width: 480px) {
-    .food-gallery {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
+    .food-scatter-left,
+    .food-scatter-right {
+        flex: 0 0 auto;
+        width: 80%;
+        margin-top: 0;
+    }
+
+    .food-scatter-left {
+        align-self: flex-start;
+    }
+
+    .food-scatter-right {
+        align-self: flex-end;
     }
 }
 

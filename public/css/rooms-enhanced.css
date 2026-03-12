@@ -1,67 +1,79 @@
 /*
- * Rooms Section — Horizontal Blind Scroll Transition
- * SVG mask-based blind reveal effect with GSAP ScrollTrigger
+ * Rooms Section — Scroll-Triggered Overlay Panels
+ * GSAP ScrollTrigger pin + scrub with translateY overlay
  */
 
-/* ============ STAGE (scroll trigger area) ============ */
-.rooms-stage {
+/* ============ SECTION ============ */
+.rooms-section {
     position: relative;
-    height: 400vh;
+    overflow: hidden;
 }
 
-/* ============ HEADER (above sticky viewport) ============ */
-.rooms-stage-header {
+/* ============ HEADER ============ */
+.rooms-header {
     position: relative;
     z-index: 5;
     padding: 80px 20px 40px;
     text-align: center;
 }
 
-/* ============ STICKY LAYERS CONTAINER ============ */
-.rooms-layers {
-    position: sticky;
-    top: 0;
+/* ============ PINNED CONTAINER ============ */
+.rooms-pinned {
+    position: relative;
     width: 100%;
     height: 100vh;
     overflow: hidden;
 }
 
-/* ============ SVG LAYERS (stacked) ============ */
-.rooms-layer {
+/* ============ ROOM PANELS (stacked) ============ */
+.room-panel {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
 }
 
-.rooms-layer image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.75);
+/* All panels except first start off-screen below */
+.room-panel:not(:first-child) {
+    transform: translateY(100%);
 }
 
-/* ============ TEXT OVERLAYS ============ */
-.rooms-texts {
+/* Darken overlay gradient for text readability */
+.room-panel::after {
+    content: '';
     position: absolute;
     inset: 0;
-    padding: 3vw;
-    z-index: 10;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.1) 50%,
+        transparent 100%
+    );
     pointer-events: none;
 }
 
-.rooms-txt {
+/* ============ TEXT OVERLAY ============ */
+.room-panel-overlay {
     position: absolute;
-    bottom: 15%;
+    bottom: 12%;
     left: 5%;
     max-width: 600px;
     color: #fff;
-    clip-path: inset(100% 0 0 0);
+    z-index: 5;
+    opacity: 0;
     transform: translateY(40px);
-    pointer-events: auto;
 }
 
-.rooms-txt h2 {
+/* First panel overlay visible by default */
+.room-panel:first-child .room-panel-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.room-panel-overlay h2 {
     font-size: clamp(2.4rem, 5vw, 5.5rem);
     font-family: 'Playfair Display', serif;
     font-weight: 600;
@@ -71,8 +83,8 @@
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* ============ PRICE PILL (in text overlay) ============ */
-.rooms-txt .room-price-pill {
+/* ============ PRICE PILL ============ */
+.room-panel-overlay .room-price-pill {
     display: inline-block;
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
@@ -88,13 +100,13 @@
 }
 
 /* ============ ROOM BUTTONS ============ */
-.rooms-txt .room-btns {
+.room-panel-overlay .room-btns {
     display: flex;
     gap: 12px;
     margin-top: 1.5rem;
 }
 
-.rooms-txt .room-btns a {
+.room-panel-overlay .room-btns a {
     padding: 0.75rem 1.8rem;
     text-align: center;
     border-radius: 12px;
@@ -105,25 +117,25 @@
     text-decoration: none;
 }
 
-.rooms-txt .btn.book-room-btn {
+.room-panel-overlay .btn.book-room-btn {
     background: var(--secondary) !important;
     color: white !important;
     border: none !important;
 }
 
-.rooms-txt .btn.book-room-btn:hover {
+.room-panel-overlay .btn.book-room-btn:hover {
     background: var(--secondary) !important;
     filter: brightness(0.88);
     transform: translateY(-2px);
 }
 
-.rooms-txt .btn-outline.room-details-btn {
+.room-panel-overlay .btn-outline.room-details-btn {
     background: transparent !important;
     border: 1px solid rgba(255, 255, 255, 0.7) !important;
     color: rgba(255, 255, 255, 0.9) !important;
 }
 
-.rooms-txt .btn-outline.room-details-btn:hover {
+.room-panel-overlay .btn-outline.room-details-btn:hover {
     background: rgba(255, 255, 255, 0.15) !important;
     color: #fff !important;
     transform: translateY(-2px);
@@ -160,30 +172,26 @@
 
 /* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
-    .rooms-stage {
-        height: 300vh;
-    }
-
-    .rooms-stage-header {
+    .rooms-header {
         padding: 60px 16px 30px;
     }
 
-    .rooms-txt {
-        bottom: 18%;
+    .room-panel-overlay {
+        bottom: 15%;
         left: 4%;
         max-width: 90%;
     }
 
-    .rooms-txt h2 {
+    .room-panel-overlay h2 {
         font-size: clamp(1.8rem, 8vw, 3rem);
     }
 
-    .rooms-txt .room-price-pill {
+    .room-panel-overlay .room-price-pill {
         font-size: 0.8rem;
         padding: 6px 16px;
     }
 
-    .rooms-txt .room-btns a {
+    .room-panel-overlay .room-btns a {
         padding: 0.65rem 1.2rem;
         font-size: 0.85rem;
     }
@@ -194,20 +202,20 @@
 }
 
 @media (max-width: 480px) {
-    .rooms-txt {
-        bottom: 22%;
+    .room-panel-overlay {
+        bottom: 18%;
         left: 3%;
     }
 
-    .rooms-txt h2 {
+    .room-panel-overlay h2 {
         font-size: clamp(1.5rem, 7vw, 2.2rem);
     }
 
-    .rooms-txt .room-btns {
+    .room-panel-overlay .room-btns {
         gap: 8px;
     }
 
-    .rooms-txt .room-btns a {
+    .room-panel-overlay .room-btns a {
         padding: 0.6rem 1rem;
         font-size: 0.8rem;
         border-radius: 10px;

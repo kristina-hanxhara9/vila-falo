@@ -327,10 +327,9 @@
         </div>
     </section>
 
-    <!-- Rooms Section — Horizontal Blind Scroll Transition -->
-    <section id="rooms" class="rooms rooms-stage">
-        <!-- Section title (above the sticky viewport) -->
-        <div class="rooms-stage-header">
+    <!-- Rooms Section — Scroll-Triggered Overlay Panels -->
+    <section id="rooms" class="rooms-section">
+        <div class="rooms-header">
             <div class="section-title">
                 <span class="section-label" data-en="ACCOMMODATIONS" data-al="AKOMODIMI" data-gr="ΔΙΑΜΟΝΗ">AKOMODIMI</span>
                 <h2 data-en="Where you'll sleep" data-al="Ku do të flini" data-gr="Πού θα κοιμηθείτε">Ku do të flini</h2>
@@ -338,39 +337,10 @@
             </div>
         </div>
 
-        <!-- Sticky scroll container -->
-        <div class="rooms-layers">
-            <!-- SVG Layer 1: Standard Mountain Room -->
-            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-                <mask id="room-mask-1">
-                    <rect width="100" height="100" fill="black"/>
-                    <g id="room-blinds-1"></g>
-                </mask>
-                <image href="/images/nice-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-1)"/>
-            </svg>
-
-            <!-- SVG Layer 2: Deluxe Family Suite -->
-            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-                <mask id="room-mask-2">
-                    <rect width="100" height="100" fill="black"/>
-                    <g id="room-blinds-2"></g>
-                </mask>
-                <image href="/images/family-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-2)"/>
-            </svg>
-
-            <!-- SVG Layer 3: Premium Panorama Suite -->
-            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
-                <mask id="room-mask-3">
-                    <rect width="100" height="100" fill="black"/>
-                    <g id="room-blinds-3"></g>
-                </mask>
-                <image href="/images/double-bed-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-3)"/>
-            </svg>
-
-            <!-- Text Overlays -->
-            <div class="rooms-texts">
-                <!-- Room 1 text -->
-                <div class="rooms-txt" id="room-txt-1">
+        <div class="rooms-pinned">
+            <!-- Room 1: Standard Mountain Room -->
+            <div class="room-panel" style="background-image:url(/images/nice-room.jpg)">
+                <div class="room-panel-overlay">
                     <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)" data-gr="Από 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
                     <h2 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο με θέα στο βουνό">Dhomë Standard Malore</h2>
                     <div class="room-btns">
@@ -378,9 +348,11 @@
                         <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Room 2 text -->
-                <div class="rooms-txt" id="room-txt-2">
+            <!-- Room 2: Deluxe Family Suite -->
+            <div class="room-panel" style="background-image:url(/images/family-room.jpg)">
+                <div class="room-panel-overlay">
                     <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)" data-gr="Από 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
                     <h2 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</h2>
                     <div class="room-btns">
@@ -388,9 +360,11 @@
                         <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Room 3 text -->
-                <div class="rooms-txt" id="room-txt-3">
+            <!-- Room 3: Premium Panorama Suite -->
+            <div class="room-panel" style="background-image:url(/images/double-bed-room.jpg)">
+                <div class="room-panel-overlay">
                     <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)" data-gr="Από 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
                     <h2 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</h2>
                     <div class="room-btns">
@@ -450,13 +424,14 @@
                 <img src="/images/restaurant.jpg" alt="Vila Falo Restaurant" loading="lazy">
             </div>
         </div>
-        <!-- Food Photo Gallery -->
-        <div class="food-gallery" data-aos="fade-up">
-            <div class="food-gallery-item"><img src="/images/restaurant-love.jpg" alt="Restaurant ambiance" loading="lazy"></div>
-            <div class="food-gallery-item"><img src="/images/mish-patate.jpg" alt="Mish me patate" loading="lazy"></div>
-            <div class="food-gallery-item"><img src="/images/kos-mjalte.jpg" alt="Kos me mjaltë" loading="lazy"></div>
-            <div class="food-gallery-item"><img src="/images/petulla.jpg" alt="Petulla" loading="lazy"></div>
-            <div class="food-gallery-item"><img src="/images/qingj.jpg" alt="Qingji" loading="lazy"></div>
+        <!-- Food Photo Gallery — asymmetric 2-photo layout -->
+        <div class="food-gallery-scatter">
+            <div class="food-scatter-left" data-aos="fade-up">
+                <img src="/images/restaurant-love.jpg" alt="Restaurant ambiance" loading="lazy">
+            </div>
+            <div class="food-scatter-right" data-aos="fade-up" data-aos-delay="150">
+                <img src="/images/mish-patate.jpg" alt="Mish me patate" loading="lazy">
+            </div>
         </div>
     </section>
 
