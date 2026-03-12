@@ -850,14 +850,20 @@
                                 <label for="checkInDate" data-en="Check-in Date" data-al="Data e Check-in" data-gr="Ημερομηνία check-in">
                                     <i class="fas fa-calendar-check" style="margin-right: 8px; color: #2c5f2d;"></i>Check-in Date
                                 </label>
-                                <input type="date" id="checkInDate" name="checkInDate" required>
+                                <div class="date-input-wrapper">
+                                    <i class="fas fa-calendar-alt date-input-icon"></i>
+                                    <input type="date" id="checkInDate" name="checkInDate" required>
+                                </div>
                                 <div class="error-message" data-en="Please select a check-in date" data-al="Ju lutemi zgjidhni një datë check-in" data-gr="Παρακαλώ επιλέξτε ημερομηνία check-in">Please select a check-in date</div>
                             </div>
                             <div class="form-group">
                                 <label for="checkOutDate" data-en="Check-out Date" data-al="Data e Check-out" data-gr="Ημερομηνία check-out">
                                     <i class="fas fa-calendar-times" style="margin-right: 8px; color: #2c5f2d;"></i>Check-out Date
                                 </label>
-                                <input type="date" id="checkOutDate" name="checkOutDate" required>
+                                <div class="date-input-wrapper">
+                                    <i class="fas fa-calendar-alt date-input-icon"></i>
+                                    <input type="date" id="checkOutDate" name="checkOutDate" required>
+                                </div>
                                 <div class="error-message" data-en="Please select a check-out date" data-al="Ju lutemi zgjidhni një datë check-out" data-gr="Παρακαλώ επιλέξτε ημερομηνία check-out">Please select a check-out date</div>
                             </div>
                         </div>
@@ -1136,9 +1142,17 @@
             animate: true,
             theme: 'light',
             onReady: function(selectedDates, dateStr, instance) {
-                instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 14px;border:1.5px solid rgba(42,109,78,0.12);border-radius:10px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
+                instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 14px 10px 38px;border:1.5px solid rgba(42,109,78,0.12);border-radius:10px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
+                instance.altInput.placeholder = instance.altInput.closest('#bookingBar') ? 'Zgjidh datën' : 'Zgjidh datën...';
             }
         };
+
+        var barConfig = Object.assign({}, fpConfig, {
+            onReady: function(selectedDates, dateStr, instance) {
+                instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:40px;font-size:0.88rem;padding:8px 10px 8px 34px;border:1.5px solid rgba(42,109,78,0.2);border-radius:8px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
+                instance.altInput.placeholder = 'Zgjidh';
+            }
+        });
 
         var checkIn = flatpickr('#checkInDate', Object.assign({}, fpConfig, {
             onChange: function(selectedDates) {
@@ -1156,10 +1170,35 @@
         }));
 
         // Booking bar pickers
-        flatpickr('#barCheckIn', Object.assign({}, fpConfig));
-        flatpickr('#barCheckOut', Object.assign({}, fpConfig, {
+        var barIn = flatpickr('#barCheckIn', Object.assign({}, barConfig, {
+            onChange: function(selectedDates) {
+                if (selectedDates[0] && barOut) {
+                    barOut.set('minDate', new Date(selectedDates[0].getTime() + 86400000));
+                    if (!barOut.selectedDates.length) barOut.open();
+                }
+            }
+        }));
+        var barOut = flatpickr('#barCheckOut', Object.assign({}, barConfig, {
             minDate: new Date(Date.now() + 86400000)
         }));
+    })();
+    </script>
+
+    <!-- Bar Guest Stepper -->
+    <script>
+    (function() {
+        var input = document.getElementById('barGuests');
+        var minus = document.getElementById('barGuestsMinus');
+        var plus = document.getElementById('barGuestsPlus');
+        if (!input || !minus || !plus) return;
+        minus.addEventListener('click', function() {
+            var v = parseInt(input.value) || 2;
+            if (v > 1) input.value = v - 1;
+        });
+        plus.addEventListener('click', function() {
+            var v = parseInt(input.value) || 2;
+            if (v < 10) input.value = v + 1;
+        });
     })();
     </script>
 
@@ -1363,23 +1402,27 @@
         <div class="booking-bar-inner">
             <div class="bar-field">
                 <label data-en="Check-in" data-al="Check-in" data-gr="Check-in">Check-in</label>
-                <input type="date" id="barCheckIn">
+                <div class="date-input-wrapper date-input-wrapper--bar">
+                    <i class="fas fa-calendar-alt date-input-icon"></i>
+                    <input type="date" id="barCheckIn">
+                </div>
             </div>
             <div class="bar-field">
                 <label data-en="Check-out" data-al="Check-out" data-gr="Check-out">Check-out</label>
-                <input type="date" id="barCheckOut">
+                <div class="date-input-wrapper date-input-wrapper--bar">
+                    <i class="fas fa-calendar-alt date-input-icon"></i>
+                    <input type="date" id="barCheckOut">
+                </div>
             </div>
-            <div class="bar-field">
-                <label data-en="Guests" data-al="Vizitorë" data-gr="Επισκέπτες">Guests</label>
-                <select id="barGuests">
-                    <option value="1">1</option>
-                    <option value="2" selected>2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5+</option>
-                </select>
+            <div class="bar-field bar-field--guests">
+                <label data-en="Guests" data-al="Vizitorë" data-gr="Επισκέπτες">Vizitorë</label>
+                <div class="bar-stepper">
+                    <button type="button" class="bar-stepper-btn bar-stepper-minus" id="barGuestsMinus">−</button>
+                    <input type="number" id="barGuests" value="2" min="1" max="10" readonly>
+                    <button type="button" class="bar-stepper-btn bar-stepper-plus" id="barGuestsPlus">+</button>
+                </div>
             </div>
-            <button class="btn bar-cta" id="barCheckAvail" data-en="Check Availability" data-al="Kontrollo Tani" data-gr="Ελέγξτε τη διαθεσιμότητα">Check Availability</button>
+            <button class="btn bar-cta" id="barCheckAvail" data-en="Check Availability" data-al="Kontrollo Tani" data-gr="Ελέγξτε τη διαθεσιμότητα">Kontrollo Tani</button>
         </div>
     </div>
 
