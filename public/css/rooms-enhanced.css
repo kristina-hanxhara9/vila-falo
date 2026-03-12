@@ -1,100 +1,70 @@
 /*
- * Rooms Section - Clean card design with photo background
- * Matches reference: white rounded cards, large rounded image, price pill
+ * Rooms Section - Service-card-v2 inspired design
+ * Glass-morphism cards on dark background, inline alignment
  */
 
 /* ============ ROOMS GRID ============ */
 .rooms-grid {
     display: flex;
     justify-content: center;
-    gap: 28px;
+    gap: 24px;
     margin-top: 2rem;
-    padding: 0 20px;
+    padding: 0 24px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: flex-start;
 }
 
 /* ============ ROOM CARD ============ */
 .room-card {
-    background: #faf7f3;
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1),
-                box-shadow 0.4s ease;
     position: relative;
-    flex: 1;
-    max-width: 500px;
     display: flex;
     flex-direction: column;
+    gap: 16px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 14px;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    background: rgba(237, 229, 222, 0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    flex: 1;
+    max-width: 340px;
 }
 
 .room-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 60px rgba(42, 109, 78, 0.18), 0 8px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* Shine sweep on hover */
-.room-img::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    z-index: 3;
-    transition: none;
-}
-
-.room-card:hover .room-img::after {
-    animation: roomShine 0.7s ease forwards;
-}
-
-@keyframes roomShine {
-    to { left: 130%; }
-}
-
-/* Content lift on hover */
-.room-card:hover .room-content h3 {
-    color: #2a6d4e;
-    transition: color 0.3s ease;
-}
-
-.room-card:hover .room-features {
-    border-color: rgba(42, 109, 78, 0.15);
-    transition: border-color 0.3s ease;
-}
-
-.room-card:hover .room-feature i {
-    transform: scale(1.15);
-    transition: transform 0.3s ease;
-}
-
-/* Price pill glow on hover */
-.room-card:hover .room-price-pill {
-    background: rgba(255, 255, 255, 0.35);
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
-    transition: all 0.3s ease;
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* ============ ROOM IMAGE ============ */
 .room-img {
     position: relative;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
-    aspect-ratio: 3 / 2;
+    aspect-ratio: 3 / 4;
 }
 
 .room-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 14px;
     display: block;
     transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .room-card:hover .room-img img {
     transform: scale(1.05);
+}
+
+/* ============ SCARCITY BADGE ============ */
+.scarcity-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 5;
 }
 
 /* ============ PRICE PILL ============ */
@@ -118,17 +88,26 @@
 
 /* ============ ROOM CONTENT ============ */
 .room-content {
-    padding: 18px 10px 10px;
+    text-align: center;
+    padding: 0 6px 8px;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
 .room-content h3 {
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
+    color: #fff;
+}
+
+.room-content p {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    flex-grow: 1;
 }
 
 /* ============ ROOM FEATURES GRID ============ */
@@ -138,8 +117,8 @@
     gap: 8px 12px;
     margin-bottom: 0.8rem;
     padding: 10px 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .room-feature {
@@ -147,22 +126,14 @@
     align-items: center;
     gap: 8px;
     font-size: 0.82rem;
-    color: #555;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .room-feature i {
-    color: #2a6d4e;
+    color: rgba(255, 255, 255, 0.85);
     font-size: 0.85rem;
     width: 16px;
     text-align: center;
-}
-
-.room-content p {
-    font-size: 0.92rem;
-    color: #777;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    flex-grow: 1;
 }
 
 /* ============ ROOM BUTTONS ============ */
@@ -184,26 +155,41 @@
 }
 
 .btn.book-room-btn {
-    background: linear-gradient(135deg, #2a6d4e 0%, #3a8e6a 100%);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     color: white;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .btn.book-room-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(42, 109, 78, 0.3);
 }
 
 .btn-outline.room-details-btn {
     background: transparent;
-    border: 2px solid #2a6d4e;
-    color: #2a6d4e;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .btn-outline.room-details-btn:hover {
-    background: #2a6d4e;
+    background: rgba(255, 255, 255, 0.1);
     color: #fff;
     transform: translateY(-2px);
+}
+
+/* ============ ROOM INCLUDES ============ */
+.room-includes {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.include-tag {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.include-tag i {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* ============ RESPONSIVE ============ */
@@ -212,14 +198,10 @@
         gap: 20px;
     }
     .room-card {
-        max-width: 400px;
-        padding: 12px;
+        max-width: 300px;
     }
     .room-content h3 {
-        font-size: 1.2rem;
-    }
-    .room-feature {
-        font-size: 0.78rem;
+        font-size: 1.05rem;
     }
 }
 
@@ -231,14 +213,11 @@
         padding: 0 16px;
     }
     .room-card {
-        max-width: 500px;
+        max-width: 340px;
         width: 100%;
     }
     .room-img {
-        aspect-ratio: 3 / 2;
-    }
-    .room-content {
-        padding: 14px 6px 6px;
+        aspect-ratio: 3 / 4;
     }
 }
 
@@ -255,33 +234,10 @@
         border-radius: 12px;
     }
     .room-content h3 {
-        font-size: 1.1rem;
-    }
-    .room-content p {
-        font-size: 0.95rem;
+        font-size: 1rem;
     }
     .room-price-pill {
         font-size: 0.78rem;
         padding: 6px 14px;
     }
-    .room-features {
-        gap: 6px 8px;
-    }
-    .room-feature {
-        font-size: 0.75rem;
-    }
-}
-
-/* ============ ROOM INCLUDES - FIX FOR LIGHT CARD BACKGROUND ============ */
-.room-includes {
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.include-tag {
-    color: #555;
-    background: rgba(42, 109, 78, 0.08);
-}
-
-.include-tag i {
-    color: #2a6d4e;
 }
