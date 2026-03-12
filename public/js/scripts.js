@@ -103,15 +103,15 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Language set to Albanian');
     }, 100);
     
-    // Ensure all sections are visible immediately
+    // Ensure non-GSAP animated elements are visible
+    // (GSAP-animated elements handle their own opacity/transform)
     setTimeout(() => {
-        const hiddenElements = document.querySelectorAll('[data-aos], .fade-in, .slide-in-left, .slide-in-right, .zoom-in');
+        const hiddenElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .zoom-in');
         hiddenElements.forEach(el => {
             el.style.opacity = '1';
             el.style.transform = 'none';
             el.style.visibility = 'visible';
         });
-        console.log('All animated elements made visible');
     }, 100);
 
     function initNavigation() {
