@@ -1193,38 +1193,32 @@
             opacity: 0.35
         }).addTo(map);
 
-        // Custom marker icons
+        // Main marker — Vila Falo (with permanent label)
         var mainIcon = L.divIcon({
             className: 'leaflet-marker-vila',
-            html: '<div class="vila-marker"><div class="vila-marker-ping"></div><div class="vila-marker-dot"></div></div>',
-            iconSize: [60, 60],
-            iconAnchor: [30, 30]
+            html: '<div class="vila-marker"><div class="vila-marker-ping"></div><div class="vila-marker-dot"></div><div class="vila-marker-label">Vila Falo</div></div>',
+            iconSize: [140, 70],
+            iconAnchor: [70, 35]
         });
 
-        var poiIcon = L.divIcon({
-            className: 'leaflet-marker-poi',
-            html: '<div class="poi-marker-dot"></div>',
-            iconSize: [14, 14],
-            iconAnchor: [7, 7]
-        });
+        L.marker([40.6335, 20.5880], { icon: mainIcon }).addTo(map);
 
-        // Main marker — Vila Falo
-        L.marker([40.6335, 20.5880], { icon: mainIcon })
-            .addTo(map)
-            .bindPopup('<div class="map-popup"><strong>Vila Falo</strong><br>Voskopojë, Korçë</div>', { className: 'premium-popup' });
-
-        // Points of interest
+        // Points of interest with permanent labels
         var pois = [
-            { lat: 40.6370, lng: 20.5920, name: 'Kisha Shën Prodhomi' },
-            { lat: 40.6310, lng: 20.5930, name: 'Kisha Shën Kollit' },
-            { lat: 40.6385, lng: 20.5840, name: 'Akademia e Voskopojës' },
-            { lat: 40.6290, lng: 20.5810, name: 'Kisha e Shën Mërisë' }
+            { lat: 40.6370, lng: 20.5920, name: 'Kisha Shën Prodhomi', icon: 'fa-church' },
+            { lat: 40.6310, lng: 20.5930, name: 'Kisha Shën Kollit', icon: 'fa-church' },
+            { lat: 40.6385, lng: 20.5840, name: 'Akademia e Voskopojës', icon: 'fa-landmark' },
+            { lat: 40.6290, lng: 20.5810, name: 'Kisha e Shën Mërisë', icon: 'fa-church' }
         ];
 
         pois.forEach(function(poi) {
-            L.marker([poi.lat, poi.lng], { icon: poiIcon })
-                .addTo(map)
-                .bindPopup('<div class="map-popup">' + poi.name + '</div>', { className: 'premium-popup' });
+            var poiIcon = L.divIcon({
+                className: 'leaflet-marker-poi',
+                html: '<div class="poi-marker"><div class="poi-marker-dot"><i class="fas ' + poi.icon + '"></i></div><div class="poi-marker-label">' + poi.name + '</div></div>',
+                iconSize: [160, 50],
+                iconAnchor: [80, 25]
+            });
+            L.marker([poi.lat, poi.lng], { icon: poiIcon }).addTo(map);
         });
 
         // Zoom control bottom-right
