@@ -319,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Honey section — staggered fade up
             var honeySection = document.querySelector('#honey');
             if (honeySection) {
-                var honeyEls = honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta-btn');
+                var honeyEls = honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta-btn, .honey-content-right');
                 honeyEls.forEach(function (el, i) {
                     gsap.from(el, {
                         scrollTrigger: {
