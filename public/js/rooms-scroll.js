@@ -1,7 +1,7 @@
 /*
  * Rooms Section — SVG Horizontal Blinds Mask Scroll Transition
- * Adapted from codrops/Scroll-Transition (Horizontal Blinds)
- * Uses GSAP + ScrollTrigger with SVG masks
+ * Exact adaptation from codrops/Scroll-Transition (Horizontal Blinds)
+ * Original: https://github.com/Hiro-kiii/Scroll-Transition
  */
 
 (function () {
@@ -10,11 +10,18 @@
   if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
 
+  /* =========================
+  Config
+  ========================= */
   var BLIND_COUNT = 30;
   var svgNS = 'http://www.w3.org/2000/svg';
-  var blindsSets = [];
-  var master = null;
 
+  var blindsSets = [];
+  var master;
+
+  /* =========================
+  Create Blinds Effect
+  ========================= */
   function createBlinds(groupId) {
     var g = document.getElementById(groupId);
     if (!g) return null;
@@ -58,6 +65,9 @@
     return blinds;
   }
 
+  /* =========================
+  Update Layout
+  ========================= */
   function updateLayout() {
     var width = window.innerWidth;
     var height = window.innerHeight;
@@ -92,6 +102,9 @@
     buildMasterTimeline();
   }
 
+  /* =========================
+  Animation
+  ========================= */
   function openBlinds(blinds) {
     return gsap.timeline().to(
       blinds.flatMap(function (b) { return [b.top, b.bottom]; }),
@@ -133,64 +146,79 @@
     });
   }
 
+  /* =========================
+  Master Timeline
+  ========================= */
   function buildMasterTimeline() {
     if (master) master.kill();
 
-    var stage = document.querySelector('.rooms-stage');
-    if (!stage) return;
-
     var texts = gsap.utils.toArray('.rooms-txt');
-    var progressFills = gsap.utils.toArray('.rooms-progress-fill');
 
     master = gsap.timeline({
       scrollTrigger: {
-        trigger: stage,
+        trigger: '.rooms-stage',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 2.5,
         anticipatePin: 1,
-        invalidateOnRefresh: true,
-        onUpdate: function (self) {
-          var progress = self.progress;
-          var totalSteps = progressFills.length;
-          progressFills.forEach(function (fill, i) {
-            var p = (progress - i / totalSteps) * totalSteps;
-            p = Math.max(0, Math.min(1, p));
-            fill.style.width = (p * 100) + '%';
-          });
+        invalidateOnRefresh: true
+      }
+    });
+
+    // Show first room text immediately
+    if (texts[0]) {
+      master.add(textIn(texts[0]));
+      master.add(function () {}, '+=0.8');
+    }
+
+    // For each blinds transition: hide current text, open blinds, show next text
+    blindsSets.forEach(function (blinds, i) {
+      if (texts[i]) {
+        master.add(textOut(texts[i]));
+      }
+      master.add(openBlinds(blinds), '-=0.8');
+      if (texts[i + 1]) {
+        master.add(textIn(texts[i + 1]), '-=0.3');
+        // Hold the last text visible, add pause for others
+        if (i < blindsSets.length - 1) {
+          master.add(function () {}, '+=0.8');
         }
       }
     });
+  }
 
-    // First text is already visible, so we add text transitions around each blinds reveal
-    blindsSets.forEach(function (blinds, i) {
-      // Text index: blinds[0] reveals layer 2 (text[1]), blinds[1] reveals layer 3 (text[2])
-      var currentText = texts[i];
-      var nextText = texts[i + 1];
+  /* =========================
+  Progress Bar
+  ========================= */
+  function initProgressBar() {
+    var progressFills = gsap.utils.toArray('.rooms-progress-fill');
 
-      // Fade out current text
-      if (currentText) {
-        master.add(textOut(currentText));
+    ScrollTrigger.create({
+      trigger: '.rooms-stage',
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.3,
+      onUpdate: function (self) {
+        var progress = self.progress;
+        var totalSteps = progressFills.length;
+        progressFills.forEach(function (fill, i) {
+          var p = (progress - i / totalSteps) * totalSteps;
+          p = Math.max(0, Math.min(1, p));
+          fill.style.width = (p * 100) + '%';
+        });
       }
-
-      // Open blinds to reveal next layer
-      master.add(openBlinds(blinds), '-=0.8');
-
-      // Fade in next text
-      if (nextText) {
-        master.add(textIn(nextText), '-=0.3');
-      }
-
-      // Hold for a moment before next transition
-      master.add(function () {}, '+=0.8');
     });
   }
 
+  /* =========================
+  Run
+  ========================= */
   function init() {
     var stage = document.querySelector('.rooms-stage');
     if (!stage) return;
 
     updateLayout();
+    initProgressBar();
 
     var resizeTimer;
     window.addEventListener('resize', function () {
