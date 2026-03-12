@@ -107,16 +107,51 @@
     }
 
     /* Sticky Booking Bar Mobile */
+    .booking-bar {
+        padding: 10px 0;
+    }
+
     .booking-bar-inner {
         flex-wrap: wrap;
+        gap: 8px;
+        padding: 0 12px;
     }
 
     .bar-field {
-        flex: 1 1 45%;
+        flex: 1 1 calc(50% - 4px);
+        min-width: 0;
+    }
+
+    .bar-field--guests {
+        flex: 0 0 auto;
+    }
+
+    .bar-field label {
+        font-size: 0.65rem;
+        margin-bottom: 2px;
     }
 
     .bar-cta {
         width: 100%;
+        padding: 10px 16px !important;
+        font-size: 0.85rem;
+        margin-top: 2px;
+    }
+
+    .bar-stepper {
+        height: 36px;
+    }
+
+    .date-input-wrapper--bar input[type="date"],
+    .date-input-wrapper--bar .flatpickr-input {
+        min-height: 36px !important;
+        font-size: 0.82rem !important;
+        padding: 6px 8px 6px 30px !important;
+    }
+
+    .date-input-wrapper--bar .date-input-icon {
+        font-size: 0.72rem;
+        left: 9px;
     }
 
     /* Hero badges stack */
