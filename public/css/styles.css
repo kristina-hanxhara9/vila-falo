@@ -1279,9 +1279,9 @@ body.scrolled .language-toggle:hover {
 }
 
 .chefs-special-img {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
+    width: 180px;
+    height: 180px;
+    border-radius: 14px;
     overflow: hidden;
     flex-shrink: 0;
     border: 2px solid rgba(0, 0, 0, 0.08);
@@ -1318,8 +1318,8 @@ body.scrolled .language-toggle:hover {
         text-align: center;
     }
     .chefs-special-img {
-        width: 80px;
-        height: 80px;
+        width: 140px;
+        height: 140px;
     }
 }
 
