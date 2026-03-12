@@ -166,47 +166,56 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
     }
 
     async generateResponse(userMessage, conversationHistory = []) {
-        try {
-            console.log('🤖 Generating response for message:', userMessage);
-            
-            let prompt = this.context + '\n\nCONVERSATION HISTORY:\n';
-            
-            const recentHistory = conversationHistory.slice(-6);
-            recentHistory.forEach(msg => {
-                const role = msg.role === 'user' ? 'Customer' : 'Vila Falo';
-                prompt += `${role}: ${msg.content}\n`;
-            });
-            
-            prompt += `Customer: ${userMessage}\nVila Falo: `;
+        let prompt = this.context + '\n\nCONVERSATION HISTORY:\n';
 
-            console.log('🧠 Sending prompt to Gemini AI...');
-            const result = await this.model.generateContent(prompt);
-            const response = await result.response;
-            const text = response.text();
-            
-            console.log('✅ Response generated successfully.');
-            
-            return {
-                success: true,
-                message: text,
-            };
+        const recentHistory = conversationHistory.slice(-6);
+        recentHistory.forEach(msg => {
+            const role = msg.role === 'user' ? 'Customer' : 'Vila Falo';
+            prompt += `${role}: ${msg.content}\n`;
+        });
 
-        } catch (error) {
-            console.error('❌ Error generating response from Gemini API:', error);
-            
-            let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë ose na kontaktoni direkt në +355 69 448 1367.';
-            
-            if (error.message && error.message.includes('API key not valid')) {
-                errorMessage = 'Problem me API key. Ju lutem kontaktoni administratorin.';
-            } else if (error.status === 429) {
-                errorMessage = 'Shumë kërkesa. Ju lutem prisni pak dhe provoni përsëri.';
+        prompt += `Customer: ${userMessage}\nVila Falo: `;
+
+        // Retry up to 3 times with exponential backoff for rate limit errors
+        const maxRetries = 3;
+        for (let attempt = 0; attempt <= maxRetries; attempt++) {
+            try {
+                console.log('🤖 Generating response (attempt ' + (attempt + 1) + '):', userMessage);
+                const result = await this.model.generateContent(prompt);
+                const response = await result.response;
+                const text = response.text();
+
+                console.log('✅ Response generated successfully.');
+                return { success: true, message: text };
+
+            } catch (error) {
+                const is429 = error.status === 429 ||
+                    (error.message && error.message.includes('429')) ||
+                    (error.message && error.message.toLowerCase().includes('resource has been exhausted'));
+
+                if (is429 && attempt < maxRetries) {
+                    const delay = Math.pow(2, attempt + 1) * 1000; // 2s, 4s, 8s
+                    console.log('⏳ Rate limited, retrying in ' + delay + 'ms...');
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    continue;
+                }
+
+                console.error('❌ Error generating response from Gemini API:', error);
+
+                let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë ose na kontaktoni direkt në +355 69 448 1367.';
+
+                if (error.message && error.message.includes('API key not valid')) {
+                    errorMessage = 'Problem me API key. Ju lutem kontaktoni administratorin.';
+                } else if (is429) {
+                    errorMessage = 'Sistemi është i ngarkuar për momentin. Ju lutem prisni disa sekonda dhe provoni përsëri.';
+                }
+
+                return {
+                    success: false,
+                    message: errorMessage,
+                    error: 'Gemini API Error',
+                };
             }
-            
-            return {
-                success: false,
-                message: errorMessage,
-                error: 'Gemini API Error',
-            };
         }
     }
 

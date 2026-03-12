@@ -7,7 +7,7 @@
     z-index: 10000;
     max-width: 380px;
     width: 380px;
-    pointer-events: none; /* Allow clicks to pass through the container */
+    pointer-events: none;
 }
 
 /* Re-enable pointer events for interactive elements */
@@ -20,12 +20,12 @@
     .vila-chatbot {
         bottom: 0;
         right: 0;
-        left: 0;
+        left: auto;
         max-width: none;
         width: auto;
-        padding: 15px;
+        padding: 10px;
     }
-    
+
     .chatbot-toggle {
         bottom: 80px;
         right: 15px;
@@ -38,22 +38,22 @@
     .vila-chatbot {
         bottom: 0;
         right: 0;
-        left: 0;
+        left: auto;
         max-width: none;
         width: auto;
-        padding: 10px;
+        padding: 8px;
     }
-    
+
     .chatbot-toggle {
         bottom: 80px;
         right: 10px;
     }
 }
 
-/* Chat Toggle Button */
+/* Chat Toggle Button — right side, inline with WhatsApp on left */
 .chatbot-toggle {
-    width: 60px;
-    height: 60px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: linear-gradient(135deg, #2a6d4e 0%, #3a8e6a 100%);
     border: none;
@@ -63,9 +63,7 @@
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    position: relative;
     overflow: hidden;
-    /* Ensure it stays in bottom right, above booking bar */
     position: fixed;
     bottom: 90px;
     right: 20px;
@@ -142,16 +140,20 @@
 
 @media (max-width: 768px) {
     .chatbot-window {
-        height: 70vh;
-        max-height: 500px;
+        width: 320px;
+        max-width: calc(100vw - 30px);
+        height: 60vh;
+        max-height: 450px;
         border-radius: 15px;
     }
 }
 
 @media (max-width: 480px) {
     .chatbot-window {
-        height: 65vh;
-        max-height: 450px;
+        width: 290px;
+        max-width: calc(100vw - 24px);
+        height: 55vh;
+        max-height: 400px;
         border-radius: 12px;
     }
 }
@@ -639,7 +641,7 @@
     .chatbot-toggle {
         width: 50px;
         height: 50px;
-        bottom: 10px;
+        bottom: 80px;
         right: 10px;
     }
     
