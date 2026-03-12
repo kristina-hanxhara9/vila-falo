@@ -339,9 +339,15 @@
 
         <div class="rooms-stage">
             <div class="rooms-layers">
-                <!-- Layer 1: Standard Room (always visible — base layer, no mask) -->
-                <svg class="rooms-layer rooms-layer--base" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <image href="/images/double-ai.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" />
+                <!-- Layer 1: Standard Room (masked — revealed via blinds) -->
+                <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <mask id="room-mask1" maskUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="100" height="100" fill="black" />
+                            <g id="room-blinds1"></g>
+                        </mask>
+                    </defs>
+                    <image href="/images/double-ai.png" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask1)" />
                 </svg>
                 <!-- Layer 2: Family Suite (masked — revealed via blinds) -->
                 <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
