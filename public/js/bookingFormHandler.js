@@ -60,7 +60,7 @@ window.BookingFormHandler = {
 
       const checkIn = form.querySelector('[name="checkInDate"]')?.value;
       const checkOut = form.querySelector('[name="checkOutDate"]')?.value;
-      const roomType = form.querySelector('[name="roomType"]')?.value;
+      const roomType = form.querySelector('[name="roomType"]:checked')?.value || form.querySelector('[name="roomType"]')?.value;
       const roomsBooked = parseInt(form.querySelector('[name="roomsBooked"]')?.value) || 1;
 
       if (!checkIn || !checkOut || !roomType) {

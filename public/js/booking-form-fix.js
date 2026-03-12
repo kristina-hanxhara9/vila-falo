@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function calculatePrice() {
         if (!summaryEl.wrapper) return;
 
-        const roomType = document.getElementById('roomType').value;
+        const roomTypeEl = document.querySelector('[name="roomType"]:checked') || document.getElementById('roomType');
+        const roomType = roomTypeEl ? roomTypeEl.value : '';
         const checkIn = document.getElementById('checkIn').value;
         const checkOut = document.getElementById('checkOut').value;
         
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add event listeners for price calculation
     if (bookingForm) {
-        document.getElementById('roomType').addEventListener('change', calculatePrice);
+        document.querySelectorAll('[name="roomType"]').forEach(function(r) { r.addEventListener('change', calculatePrice); });
         document.getElementById('checkIn').addEventListener('change', calculatePrice);
         document.getElementById('checkOut').addEventListener('change', calculatePrice);
         

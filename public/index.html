@@ -192,6 +192,7 @@
     <link rel="stylesheet" href="/css/enhancements.css">
     <link rel="stylesheet" href="/css/rooms-enhanced.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <!-- Mountain Loader -->
@@ -807,16 +808,42 @@
                     <div id="successMessage"></div>
                     <form id="bookingForm" data-form="booking" method="POST" novalidate>
                         <div class="form-group">
-                            <label for="roomType" data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës" data-gr="Επιλέξτε τύπο δωματίου">
-                                <i class="fas fa-door-open" style="margin-right: 8px; color: #2c5f2d;"></i>Select Room Type
+                            <label data-en="Select Room Type" data-al="Zgjidhni Llojin e Dhomës" data-gr="Επιλέξτε τύπο δωματίου">
+                                <i class="fas fa-door-open" style="margin-right: 8px; color: #2c5f2d;"></i>Zgjidhni Llojin e Dhomës
                             </label>
-                            <select id="roomType" name="roomType" required>
-                                <option value="" data-en="-- Select Room --" data-al="-- Zgjidhni Dhomën --" data-gr="-- Επιλέξτε δωμάτιο --">-- Select Room --</option>
-                                <option value="Standard" data-en="Standard Mountain Room - 5000 ALL (~€46)/night" data-al="Dhomë Standard Malore - 5000 ALL (~€46)/natë" data-gr="Standard δωμάτιο βουνού - 5000 ALL (~€46)/βράδυ">🏔️ Dhomë Standard Malore - 5000 ALL (~€46)/natë</option>
-                                <option value="Deluxe" data-en="Deluxe Family Suite - 6000 ALL (~€55)/night" data-al="Suitë Familjare Deluxe - 6000 ALL (~€55)/natë" data-gr="Deluxe οικογενειακή σουίτα - 6000 ALL (~€55)/βράδυ">👨‍👩‍👧‍👦 Suitë Familjare Deluxe - 6000 ALL (~€55)/natë</option>
-                                <option value="Premium" data-en="Premium Panorama Suite - 7000 ALL (~€65)/night" data-al="Suitë Premium Panoramike - 7000 ALL (~€65)/natë" data-gr="Premium πανοραμική σουίτα - 7000 ALL (~€65)/βράδυ">👑 Suitë Premium Panoramike - 7000 ALL (~€65)/natë</option>
-                            </select>
-                            <div class="error-message" data-en="Please select a room type" data-al="Ju lutemi zgjidhni një lloj dhome" data-gr="Παρακαλώ επιλέξτε έναν τύπο δωματίου">Please select a room type</div>
+                            <div class="room-type-radios">
+                                <label class="room-radio-card">
+                                    <input type="radio" name="roomType" value="Standard" required>
+                                    <div class="room-radio-content">
+                                        <span class="room-radio-icon">🏔️</span>
+                                        <div class="room-radio-text">
+                                            <strong data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο βουνού">Dhomë Standard Malore</strong>
+                                            <span>5000 ALL (~€46)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="room-radio-card">
+                                    <input type="radio" name="roomType" value="Deluxe">
+                                    <div class="room-radio-content">
+                                        <span class="room-radio-icon">👨‍👩‍👧‍👦</span>
+                                        <div class="room-radio-text">
+                                            <strong data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</strong>
+                                            <span>6000 ALL (~€55)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="room-radio-card">
+                                    <input type="radio" name="roomType" value="Premium">
+                                    <div class="room-radio-content">
+                                        <span class="room-radio-icon">👑</span>
+                                        <div class="room-radio-text">
+                                            <strong data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</strong>
+                                            <span>7000 ALL (~€65)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="error-message" data-en="Please select a room type" data-al="Ju lutemi zgjidhni një lloj dhome" data-gr="Παρακαλώ επιλέξτε έναν τύπο δωματίου">Ju lutemi zgjidhni një lloj dhome</div>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -1080,6 +1107,7 @@
     </div>   -->
 
     <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
@@ -1093,6 +1121,47 @@
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
     <script src="/js/scripts.js"></script>
+
+    <!-- Flatpickr Calendar Init -->
+    <script>
+    (function() {
+        if (typeof flatpickr === 'undefined') return;
+
+        var fpConfig = {
+            dateFormat: 'Y-m-d',
+            altInput: true,
+            altFormat: 'M j, Y',
+            minDate: 'today',
+            disableMobile: true,
+            animate: true,
+            theme: 'light',
+            onReady: function(selectedDates, dateStr, instance) {
+                instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 14px;border:1.5px solid rgba(42,109,78,0.12);border-radius:10px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
+            }
+        };
+
+        var checkIn = flatpickr('#checkInDate', Object.assign({}, fpConfig, {
+            onChange: function(selectedDates) {
+                if (selectedDates[0] && checkOut) {
+                    checkOut.set('minDate', new Date(selectedDates[0].getTime() + 86400000));
+                    if (!checkOut.selectedDates.length) {
+                        checkOut.open();
+                    }
+                }
+            }
+        }));
+
+        var checkOut = flatpickr('#checkOutDate', Object.assign({}, fpConfig, {
+            minDate: new Date(Date.now() + 86400000)
+        }));
+
+        // Booking bar pickers
+        flatpickr('#barCheckIn', Object.assign({}, fpConfig));
+        flatpickr('#barCheckOut', Object.assign({}, fpConfig, {
+            minDate: new Date(Date.now() + 86400000)
+        }));
+    })();
+    </script>
 
     <!-- Satellite Map Init -->
     <script>
