@@ -157,13 +157,13 @@
 }
 
 .btn.book-room-btn {
-    background: var(--secondary);
-    color: white;
-    border: none;
+    background: var(--secondary) !important;
+    color: white !important;
+    border: none !important;
 }
 
 .btn.book-room-btn:hover {
-    background: var(--secondary);
+    background: var(--secondary) !important;
     filter: brightness(0.88);
     transform: translateY(-2px);
 }
