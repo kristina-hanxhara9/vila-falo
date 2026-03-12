@@ -1178,6 +1178,13 @@ section,
     overflow-x: hidden;
 }
 
+/* Rooms section needs overflow visible for sticky scroll to work */
+.rooms-section,
+.rooms-section.rooms-section {
+    overflow: visible !important;
+    overflow-x: visible !important;
+}
+
 /* Ensure all grids don't overflow */
 .rooms-grid,
 .services-grid,

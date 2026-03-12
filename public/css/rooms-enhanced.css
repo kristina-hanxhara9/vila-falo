@@ -7,7 +7,7 @@
 /* ============ SECTION ============ */
 .rooms-section {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     background: #000;
 }
 
