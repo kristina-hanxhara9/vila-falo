@@ -97,7 +97,8 @@
     font-size: 0.85rem;
     opacity: 0.6;
     z-index: 2;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 /* Hide original date input (Flatpickr replaces it) */
