@@ -66,6 +66,25 @@
   }
 
   /* =========================
+  Pre-reveal first room (no black screen)
+  ========================= */
+  function preRevealFirstRoom() {
+    var firstLayer = document.querySelector('.rooms-layer');
+    if (!firstLayer) return;
+
+    // Set the first mask rect to white so the first room image is visible immediately
+    var maskRect = firstLayer.querySelector('mask rect');
+    if (maskRect) maskRect.setAttribute('fill', 'white');
+
+    // Show the first room text immediately
+    var firstText = document.querySelector('.rooms-txt');
+    if (firstText) {
+      firstText.style.clipPath = 'inset(0% 0% 0% 0%)';
+      firstText.style.transform = 'translateY(0)';
+    }
+  }
+
+  /* =========================
   Update Layout
   ========================= */
   function updateLayout() {
@@ -147,7 +166,7 @@
   }
 
   /* =========================
-  Master Timeline — exact copy of reference
+  Master Timeline
   ========================= */
   function buildMasterTimeline() {
     if (master) master.kill();
@@ -166,12 +185,20 @@
     });
 
     blindsSets.forEach(function (blinds, i) {
-      master.add(openBlinds(blinds));
-      if (texts[i]) {
-        master.add(textIn(texts[i]), '-=0.3');
-        // Don't animate out the last text — let it stay visible
-        if (i < blindsSets.length - 1) {
+      // First room is pre-revealed, so skip its blinds open animation
+      if (i === 0) {
+        // Just animate text out for room 1
+        if (texts[i]) {
           master.add(textOut(texts[i]), '+=0.8');
+        }
+      } else {
+        master.add(openBlinds(blinds));
+        if (texts[i]) {
+          master.add(textIn(texts[i]), '-=0.3');
+          // Don't animate out the last text — let it stay visible
+          if (i < blindsSets.length - 1) {
+            master.add(textOut(texts[i]), '+=0.8');
+          }
         }
       }
     });
@@ -203,63 +230,12 @@
   /* =========================
   Run
   ========================= */
-  function isMobile() {
-    return window.innerWidth <= 768;
-  }
-
-  function showAllRoomsMobile() {
-    var layersContainer = document.querySelector('.rooms-layers');
-    if (!layersContainer) return;
-
-    var layers = Array.from(document.querySelectorAll('.rooms-layer'));
-    var texts = Array.from(document.querySelectorAll('.rooms-txt'));
-
-    // Reveal all SVG masks and clear blinds
-    layers.forEach(function(svg) {
-      var maskRect = svg.querySelector('mask rect');
-      if (maskRect) maskRect.setAttribute('fill', 'white');
-      var blindsGroup = svg.querySelector('g[id^="room-blinds"]');
-      if (blindsGroup) blindsGroup.innerHTML = '';
-    });
-
-    // Show all text
-    texts.forEach(function(txt) {
-      txt.style.clipPath = 'none';
-      txt.style.transform = 'none';
-    });
-
-    // Restructure DOM: wrap each SVG + text into a card div
-    layers.forEach(function(svg, i) {
-      var card = document.createElement('div');
-      card.className = 'rooms-mobile-card';
-      layersContainer.insertBefore(card, svg);
-      card.appendChild(svg);
-      if (texts[i]) card.appendChild(texts[i]);
-    });
-
-    // Hide progress bar and empty texts container
-    var progressBar = layersContainer.querySelector('.rooms-progress-bar');
-    if (progressBar) progressBar.style.display = 'none';
-    var textsContainer = layersContainer.querySelector('.rooms-texts');
-    if (textsContainer) textsContainer.style.display = 'none';
-
-    // Kill any existing ScrollTrigger for rooms
-    if (master) { master.kill(); master = null; }
-    ScrollTrigger.getAll().forEach(function(st) {
-      if (st.trigger && st.trigger.classList && st.trigger.classList.contains('rooms-stage')) {
-        st.kill();
-      }
-    });
-  }
-
   function init() {
     var stage = document.querySelector('.rooms-stage');
     if (!stage) return;
 
-    if (isMobile()) {
-      showAllRoomsMobile();
-      return;
-    }
+    // Pre-reveal first room so there's no black screen
+    preRevealFirstRoom();
 
     updateLayout();
     initProgressBar();
@@ -267,13 +243,7 @@
     var resizeTimer;
     window.addEventListener('resize', function () {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function() {
-        if (isMobile()) {
-          showAllRoomsMobile();
-        } else {
-          updateLayout();
-        }
-      }, 250);
+      resizeTimer = setTimeout(updateLayout, 250);
     });
   }
 

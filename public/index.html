@@ -1075,9 +1075,9 @@
     <script src="/js/scripts.js"></script>
     <script src="/js/rooms-scroll.js?v=2.0"></script>
 
-    <!-- Flatpickr Calendar Init -->
+    <!-- Flatpickr Calendar Init (deferred to DOMContentLoaded) -->
     <script>
-    (function() {
+    document.addEventListener('DOMContentLoaded', function() {
         if (typeof flatpickr === 'undefined') return;
 
         var fpConfig = {
@@ -1090,7 +1090,7 @@
             theme: 'light',
             onReady: function(selectedDates, dateStr, instance) {
                 instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 14px 10px 38px;border:1.5px solid rgba(42,109,78,0.12);border-radius:10px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
-                instance.altInput.placeholder = instance.altInput.closest('#bookingBar') ? 'Zgjidh datën' : 'Zgjidh datën...';
+                instance.altInput.placeholder = 'Zgjidh datën...';
             }
         };
 
@@ -1101,6 +1101,7 @@
             }
         });
 
+        // Booking form pickers
         var checkIn = flatpickr('#checkInDate', Object.assign({}, fpConfig, {
             onChange: function(selectedDates) {
                 if (selectedDates[0] && checkOut) {
@@ -1116,57 +1117,49 @@
             minDate: new Date(Date.now() + 86400000)
         }));
 
-        // Booking bar pickers
-        var barIn = flatpickr('#barCheckIn', Object.assign({}, barConfig, {
-            onChange: function(selectedDates) {
-                if (selectedDates[0] && barOut) {
-                    barOut.set('minDate', new Date(selectedDates[0].getTime() + 86400000));
-                    if (!barOut.selectedDates.length) barOut.open();
-                }
-            }
-        }));
-        var barOut = flatpickr('#barCheckOut', Object.assign({}, barConfig, {
-            minDate: new Date(Date.now() + 86400000)
-        }));
+        // Booking bar pickers (elements exist now since DOM is ready)
+        var barInEl = document.querySelector('#barCheckIn');
+        var barOutEl = document.querySelector('#barCheckOut');
+        var barIn, barOut;
 
-        // Make entire date wrapper and calendar icons clickable
-        var barCheckInWrapper = document.querySelector('#barCheckIn').closest('.date-input-wrapper--bar');
-        var barCheckOutWrapper = document.querySelector('#barCheckOut').closest('.date-input-wrapper--bar');
-        if (barCheckInWrapper) barCheckInWrapper.addEventListener('click', function(e) { e.stopPropagation(); barIn.open(); });
-        if (barCheckOutWrapper) barCheckOutWrapper.addEventListener('click', function(e) { e.stopPropagation(); barOut.open(); });
-
-        // Make booking form date icons and wrappers clickable too
-        var formCheckInWrapper = document.querySelector('#checkInDate').closest('.date-input-wrapper');
-        var formCheckOutWrapper = document.querySelector('#checkOutDate').closest('.date-input-wrapper');
-        if (formCheckInWrapper) {
-            formCheckInWrapper.style.cursor = 'pointer';
-            formCheckInWrapper.addEventListener('click', function(e) {
-                if (e.target.classList.contains('date-input-icon') || e.target.closest('.date-input-icon')) {
-                    e.stopPropagation();
-                    checkIn.open();
+        if (barInEl) {
+            barIn = flatpickr(barInEl, Object.assign({}, barConfig, {
+                onChange: function(selectedDates) {
+                    if (selectedDates[0] && barOut) {
+                        barOut.set('minDate', new Date(selectedDates[0].getTime() + 86400000));
+                        if (!barOut.selectedDates.length) barOut.open();
+                    }
                 }
-            });
-            var checkInIcon = formCheckInWrapper.querySelector('.date-input-icon');
-            if (checkInIcon) checkInIcon.addEventListener('click', function(e) { e.stopPropagation(); checkIn.open(); });
+            }));
         }
-        if (formCheckOutWrapper) {
-            formCheckOutWrapper.style.cursor = 'pointer';
-            formCheckOutWrapper.addEventListener('click', function(e) {
-                if (e.target.classList.contains('date-input-icon') || e.target.closest('.date-input-icon')) {
-                    e.stopPropagation();
-                    checkOut.open();
-                }
-            });
-            var checkOutIcon = formCheckOutWrapper.querySelector('.date-input-icon');
-            if (checkOutIcon) checkOutIcon.addEventListener('click', function(e) { e.stopPropagation(); checkOut.open(); });
+        if (barOutEl) {
+            barOut = flatpickr(barOutEl, Object.assign({}, barConfig, {
+                minDate: new Date(Date.now() + 86400000)
+            }));
         }
 
-        // Also make bar icons explicitly clickable
-        var barInIcon = barCheckInWrapper ? barCheckInWrapper.querySelector('.date-input-icon') : null;
-        var barOutIcon = barCheckOutWrapper ? barCheckOutWrapper.querySelector('.date-input-icon') : null;
-        if (barInIcon) barInIcon.addEventListener('click', function(e) { e.stopPropagation(); barIn.open(); });
-        if (barOutIcon) barOutIcon.addEventListener('click', function(e) { e.stopPropagation(); barOut.open(); });
-    })();
+        // Helper: make icon + wrapper clickable for a flatpickr instance
+        function makeWrapperClickable(inputEl, fpInstance, wrapperClass) {
+            if (!inputEl || !fpInstance) return;
+            var wrapper = inputEl.closest(wrapperClass);
+            if (!wrapper) return;
+            wrapper.style.cursor = 'pointer';
+            var icon = wrapper.querySelector('.date-input-icon');
+            if (icon) icon.addEventListener('click', function(e) { e.stopPropagation(); fpInstance.open(); });
+            wrapper.addEventListener('click', function(e) {
+                if (e.target.classList.contains('date-input-icon') || e.target.closest('.date-input-icon')) {
+                    e.stopPropagation();
+                    fpInstance.open();
+                }
+            });
+        }
+
+        // Make all calendar icons clickable
+        makeWrapperClickable(document.querySelector('#checkInDate'), checkIn, '.date-input-wrapper');
+        makeWrapperClickable(document.querySelector('#checkOutDate'), checkOut, '.date-input-wrapper');
+        if (barInEl) makeWrapperClickable(barInEl, barIn, '.date-input-wrapper--bar');
+        if (barOutEl) makeWrapperClickable(barOutEl, barOut, '.date-input-wrapper--bar');
+    });
     </script>
 
     <!-- Bar Guest Stepper -->
