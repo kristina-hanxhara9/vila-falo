@@ -521,7 +521,7 @@ body.scrolled .language-toggle:hover {
     z-index: 1000;
     transition: var(--transition);
     padding: 1.5rem 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%);
+    background: transparent;
 }
 
 .header.scrolled {
@@ -4402,7 +4402,8 @@ button[type="submit"]:hover::before {
 
 /* Footer */
 .footer {
-    background: var(--dark);
+    background: linear-gradient(to right, rgba(30, 45, 50, 0.85), rgba(30, 45, 50, 0.75)),
+                url('/images/voksopoja-winter.jpg') center/cover no-repeat fixed;
     color: var(--white);
     padding: 4rem 0 0;
     position: relative;
