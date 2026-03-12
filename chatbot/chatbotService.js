@@ -20,7 +20,7 @@ class ChatbotService {
 
         try {
             this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-            this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+            this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
             this.initialized = true;
         } catch (err) {
             console.error('❌ Failed to initialize Gemini AI:', err.message);
@@ -209,7 +209,10 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
                     (error.message && error.message.includes('429')) ||
                     (error.message && error.message.toLowerCase().includes('resource has been exhausted'));
 
-                if (is429 && attempt < maxRetries) {
+                // Don't retry on non-retryable errors (404 = model not found, 403 = auth)
+                const isNonRetryable = error.status === 404 || error.status === 403;
+
+                if (is429 && !isNonRetryable && attempt < maxRetries) {
                     const delay = Math.pow(2, attempt + 1) * 1000; // 2s, 4s, 8s
                     console.log('⏳ Rate limited, retrying in ' + delay + 'ms...');
                     await new Promise(resolve => setTimeout(resolve, delay));
@@ -217,6 +220,12 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
                 }
 
                 console.error('❌ Error generating response from Gemini API:', error);
+
+                // On non-retryable errors, use fallback immediately
+                if (isNonRetryable) {
+                    console.warn('⚠️  Model error (status ' + error.status + '), using fallback response');
+                    return this.getFallbackResponse(userMessage);
+                }
 
                 let errorMessage = 'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri më vonë ose na kontaktoni direkt në +355 69 448 1367.';
 
