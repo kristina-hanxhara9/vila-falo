@@ -1,17 +1,16 @@
 /*
  * Rooms Section — SVG Horizontal Blinds Mask Scroll Transition
- * Adapted from codrops/Scroll-Transition (Horizontal Blinds)
- * Uses GSAP + ScrollTrigger with SVG masks
+ * Exact adaptation from codrops/Scroll-Transition (Horizontal Blinds)
+ * Original: https://github.com/Hiro-kiii/Scroll-Transition
  */
 
-/* ============ SECTION ============ */
+/* ============ SECTION WRAPPER ============ */
 .rooms-section {
     position: relative;
     overflow: visible;
     background: #000;
 }
 
-/* ============ HEADER ============ */
 .rooms-header {
     position: relative;
     z-index: 5;
@@ -19,13 +18,13 @@
     text-align: center;
 }
 
-/* ============ STAGE (scroll distance) ============ */
+/* ============ STAGE — matches reference .stage ============ */
 .rooms-stage {
     height: 500vh;
     position: relative;
 }
 
-/* ============ LAYERS (sticky viewport) ============ */
+/* ============ LAYERS — matches reference .layers ============ */
 .rooms-layers {
     position: sticky;
     top: 0;
@@ -34,7 +33,7 @@
     overflow: hidden;
 }
 
-/* ============ SVG LAYERS (stacked) ============ */
+/* ============ LAYER — matches reference .layer ============ */
 .rooms-layer {
     position: absolute;
     inset: 0;
@@ -45,51 +44,35 @@
 .rooms-layer image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
     filter: brightness(0.8);
 }
 
-/* ============ TEXT OVERLAYS ============ */
+/* ============ TEXTS — matches reference .texts ============ */
 .rooms-texts {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none;
     padding: 3vw;
 }
 
+/* ============ TXT — matches reference .txt ============ */
 .rooms-txt {
     position: absolute;
-    bottom: 12%;
-    left: 5%;
-    max-width: 600px;
+    width: 100%;
     color: #fff;
     text-transform: uppercase;
     clip-path: inset(100% 0 0 0);
     transform: translateY(40px);
-    pointer-events: auto;
-}
-
-/* First text visible by default */
-.rooms-txt--active {
-    clip-path: inset(0% 0% 0% 0%);
-    transform: translateY(0);
 }
 
 .rooms-txt h2 {
-    font-size: clamp(2.4rem, 5vw, 5.5rem);
+    margin-top: 10vh;
+    font-size: clamp(4.8rem, 6.8vw, 13.6rem);
     font-family: 'Playfair Display', serif;
+    letter-spacing: -0.025em;
+    line-height: 0.85;
     font-weight: 600;
-    line-height: 0.95;
-    margin: 0.5rem 0;
-    letter-spacing: -0.02em;
     text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
 }
 
-/* ============ PRICE PILL ============ */
+/* ============ PRICE PILL (Vila Falo specific) ============ */
 .rooms-txt .room-price-pill {
     display: inline-block;
     background: rgba(255, 255, 255, 0.15);
@@ -102,15 +85,15 @@
     padding: 8px 20px;
     border-radius: 50px;
     letter-spacing: 0.3px;
-    margin-bottom: 0.5rem;
+    margin-top: 6vw;
     text-transform: none;
 }
 
-/* ============ ROOM BUTTONS ============ */
+/* ============ ROOM BUTTONS (Vila Falo specific) ============ */
 .rooms-txt .room-btns {
     display: flex;
     gap: 12px;
-    margin-top: 1.5rem;
+    margin-top: 30px;
 }
 
 .rooms-txt .room-btns a {
@@ -149,13 +132,12 @@
     transform: translateY(-2px);
 }
 
-/* ============ PROGRESS BAR ============ */
+/* ============ PROGRESS BAR — matches reference .progress-bar ============ */
 .rooms-progress-bar {
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-    padding: 2rem 4rem;
+    padding: 4rem;
     display: flex;
     gap: 1rem;
     z-index: 20;
@@ -178,35 +160,20 @@
     background: #fff;
 }
 
-/* ============ DARK OVERLAY FOR READABILITY ============ */
-.rooms-layers::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.55) 0%,
-        rgba(0, 0, 0, 0.1) 40%,
-        transparent 100%
-    );
-    pointer-events: none;
-    z-index: 5;
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+    .rooms-txt .room-price-pill {
+        font-size: 0.85rem;
+    }
 }
 
-/* ============ RESPONSIVE ============ */
 @media (max-width: 768px) {
     .rooms-header {
         padding: 60px 16px 30px;
     }
 
-    .rooms-txt {
-        bottom: 15%;
-        left: 4%;
-        max-width: 90%;
-    }
-
     .rooms-txt h2 {
-        font-size: clamp(1.8rem, 8vw, 3rem);
+        font-size: clamp(2rem, 8vw, 4rem);
     }
 
     .rooms-txt .room-price-pill {
@@ -220,18 +187,13 @@
     }
 
     .rooms-progress-bar {
-        padding: 1.5rem 2rem;
+        padding: 2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .rooms-txt {
-        bottom: 18%;
-        left: 3%;
-    }
-
     .rooms-txt h2 {
-        font-size: clamp(1.5rem, 7vw, 2.2rem);
+        font-size: clamp(1.5rem, 7vw, 2.5rem);
     }
 
     .rooms-txt .room-btns {
@@ -245,7 +207,7 @@
     }
 
     .rooms-progress-bar {
-        padding: 1rem 1.5rem;
+        padding: 1.5rem;
         gap: 0.5rem;
     }
 }
