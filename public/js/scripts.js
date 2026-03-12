@@ -842,7 +842,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Standard Mountain Room',
                 nameAl: 'Dhom\u00eb Standard Malore',
-                image: '/images/nice-room.jpg',
+                image: '/images/double-ai.png',
                 priceAll: '5,000',
                 priceEur: '~\u20ac46',
                 guestsEn: 'Up to 2 Guests',
@@ -856,7 +856,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Deluxe Family Suite',
                 nameAl: 'Suit\u00eb Familjare Deluxe',
-                image: '/images/family-room.jpg',
+                image: '/images/family-ai-room.png',
                 priceAll: '6,000',
                 priceEur: '~\u20ac55',
                 guestsEn: 'Up to 4 Guests',
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Premium Panorama Suite',
                 nameAl: 'Suit\u00eb Premium Panoramike',
-                image: '/images/double-bed-room.jpg',
+                image: '/images/double-bed-room-ai.jpg.png',
                 priceAll: '7,000',
                 priceEur: '~\u20ac65',
                 guestsEn: 'Up to 5 Guests',
