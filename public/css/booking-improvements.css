@@ -84,11 +84,18 @@
 
 /* ============ DATE INPUTS ============ */
 #checkInDate, #checkOutDate {
-    min-height: 42px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 44px !important;
     font-size: 0.92rem !important;
     padding: 10px 14px !important;
     border: 1.5px solid rgba(42, 109, 78, 0.12) !important;
     border-radius: 10px !important;
+    background: #fff !important;
+    color: #333 !important;
+    font-family: inherit !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
 }
 
 #checkInDate:focus, #checkOutDate:focus {
@@ -100,9 +107,33 @@
 #checkInDate::-webkit-calendar-picker-indicator,
 #checkOutDate::-webkit-calendar-picker-indicator {
     cursor: pointer;
-    font-size: 16px;
-    padding: 3px;
-    opacity: 0.6;
+    font-size: 18px;
+    padding: 4px;
+    opacity: 0.5;
+    filter: invert(30%) sepia(20%) saturate(800%) hue-rotate(100deg);
+}
+
+/* Date form row alignment */
+.form-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 1rem !important;
+    align-items: start !important;
+}
+
+.form-row .form-group {
+    width: 100% !important;
+    margin-bottom: 0 !important;
+}
+
+.form-row .form-group input[type="date"] {
+    width: 100% !important;
+}
+
+@media (max-width: 480px) {
+    .form-row {
+        grid-template-columns: 1fr !important;
+    }
 }
 
 /* ============ PHONE INPUT ============ */
