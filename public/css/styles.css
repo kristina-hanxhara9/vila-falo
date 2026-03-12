@@ -1239,14 +1239,16 @@ body.scrolled .language-toggle:hover {
 
 /* Chef's Special - Primland Style */
 .chefs-special-primland {
-    background: #fff;
-    color: var(--dark);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #1a4a35;
     border-radius: 12px;
     padding: 1.5rem;
     margin-top: 2rem;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .chefs-special-badge {
@@ -1300,7 +1302,7 @@ body.scrolled .language-toggle:hover {
 .chefs-special-info p {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: var(--text-light) !important;
+    color: #1a4a35 !important;
     margin-bottom: 0.5rem;
 }
 
