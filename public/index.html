@@ -327,143 +327,84 @@
         </div>
     </section>
 
-    <!-- Rooms Section -->
-    <section id="rooms" class="rooms">
-        <div class="container">
+    <!-- Rooms Section — Horizontal Blind Scroll Transition -->
+    <section id="rooms" class="rooms rooms-stage">
+        <!-- Section title (above the sticky viewport) -->
+        <div class="rooms-stage-header">
             <div class="section-title">
                 <span class="section-label" data-en="ACCOMMODATIONS" data-al="AKOMODIMI" data-gr="ΔΙΑΜΟΝΗ">AKOMODIMI</span>
-                <h2 data-aos="fade-up" data-en="Where you'll sleep" data-al="Ku do të flini" data-gr="Πού θα κοιμηθείτε">Ku do të flini</h2>
-                <p data-aos="fade-up" data-aos-delay="200" data-en="No noise. No city smoke. Just mountain air and a soft bed." data-al="Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë." data-gr="Χωρίς θόρυβο. Χωρίς καπνό πόλης. Μόνο αέρας βουνού και ένα απαλό κρεβάτι.">Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë.</p>
+                <h2 data-en="Where you'll sleep" data-al="Ku do të flini" data-gr="Πού θα κοιμηθείτε">Ku do të flini</h2>
+                <p data-en="No noise. No city smoke. Just mountain air and a soft bed." data-al="Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë." data-gr="Χωρίς θόρυβο. Χωρίς καπνό πόλης. Μόνο αέρας βουνού και ένα απαλό κρεβάτι.">Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë.</p>
             </div>
-            <div class="rooms-grid">
-                <!-- Room 1 -->
-                <div class="room-card" data-aos="fade-up">
-                    <div class="room-img">
-                        <span class="scarcity-badge" data-en="Popular choice" data-al="Zgjedhje popullore" data-gr="Δημοφιλής επιλογή">Zgjedhje popullore</span>
-                        <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)" data-gr="Από 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
-                        <img src="/images/nice-room.jpg" alt="Standard Room - Mountain views in Voskopoje" data-gallery="romantic-room.jpg,valinetine-room.jpg">
-                    </div>
-                    <div class="room-content">
-                        <h3 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο με θέα στο βουνό">Dhomë Standard Malore</h3>
-                        <div class="room-features">
-                            <div class="room-feature">
-                                <i class="fas fa-user"></i>
-                                <span data-en="2 Guests" data-al="2 Vizitorë" data-gr="2 επισκέπτες">2 Vizitorë</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-bed"></i>
-                                <span data-en="1 Double Bed" data-al="1 Krevat Dopio" data-gr="1 διπλό κρεβάτι">1 Krevat Dopio</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-mountain"></i>
-                                <span data-en="Mountain View" data-al="Pamje Nga Mali" data-gr="Θέα στο βουνό">Pamje Nga Mali</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-wifi"></i>
-                                <span data-en="Free WiFi" data-al="WiFi Falas" data-gr="Δωρεάν WiFi">WiFi Falas</span>
-                            </div>
-                        </div>
-                        <p data-en="You'll sleep well here. Open the window in the morning and the first thing you hear is birds. Mountain view, double bed, free WiFi — everything you actually need." data-al="Do të flini mirë këtu. Hap dritaren në mëngjes dhe gjëja e parë që dëgjon janë zogjtë. Pamje mali, krevat dopio, WiFi falas — gjithçka që ju nevojitet vërtet." data-gr="Θα κοιμηθείτε καλά εδώ. Ανοίξτε το παράθυρο το πρωί και το πρώτο πράγμα που ακούτε είναι πουλιά. Θέα στο βουνό, διπλό κρεβάτι, δωρεάν WiFi — όλα όσα χρειάζεστε πραγματικά.">
-                            Do të flini mirë këtu. Hap dritaren në mëngjes dhe gjëja e parë që dëgjon janë zogjtë. Pamje mali, krevat dopio, WiFi falas — gjithçka që ju nevojitet vërtet.
-                        </p>
-                        <div class="room-includes">
-                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes" data-gr="Πρωινό">Mëngjes</span></span>
-                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
-                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
-                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas" data-gr="Δωρεάν ακύρωση">Anulim falas</span></span>
-                        </div>
-                        <div class="room-btns">
-                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                            <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
-                        </div>
+        </div>
+
+        <!-- Sticky scroll container -->
+        <div class="rooms-layers">
+            <!-- SVG Layer 1: Standard Mountain Room -->
+            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <mask id="room-mask-1">
+                    <rect width="100" height="100" fill="black"/>
+                    <g id="room-blinds-1"></g>
+                </mask>
+                <image href="/images/nice-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-1)"/>
+            </svg>
+
+            <!-- SVG Layer 2: Deluxe Family Suite -->
+            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <mask id="room-mask-2">
+                    <rect width="100" height="100" fill="black"/>
+                    <g id="room-blinds-2"></g>
+                </mask>
+                <image href="/images/family-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-2)"/>
+            </svg>
+
+            <!-- SVG Layer 3: Premium Panorama Suite -->
+            <svg class="rooms-layer" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <mask id="room-mask-3">
+                    <rect width="100" height="100" fill="black"/>
+                    <g id="room-blinds-3"></g>
+                </mask>
+                <image href="/images/double-bed-room.jpg" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask-3)"/>
+            </svg>
+
+            <!-- Text Overlays -->
+            <div class="rooms-texts">
+                <!-- Room 1 text -->
+                <div class="rooms-txt" id="room-txt-1">
+                    <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)" data-gr="Από 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
+                    <h2 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο με θέα στο βουνό">Dhomë Standard Malore</h2>
+                    <div class="room-btns">
+                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                        <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
                     </div>
                 </div>
 
-                <!-- Room 2 -->
-                <div class="room-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="room-img">
-                        <span class="scarcity-badge" data-en="Great for families" data-al="Ideale për familje" data-gr="Ιδανικό για οικογένειες">Ideale për familje</span>
-                        <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)" data-gr="Από 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
-                        <img src="/images/family-room.jpg" alt="Deluxe Family Suite - Perfect for groups in Voskopoje" data-gallery="valinetine-room.jpg,nice-room.jpg">
-                    </div>
-                    <div class="room-content">
-                        <h3 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</h3>
-                        <div class="room-features">
-                            <div class="room-feature">
-                                <i class="fas fa-users"></i>
-                                <span data-en="4 Guests" data-al="4 Vizitorë" data-gr="4 επισκέπτες">4 Vizitorë</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-bed"></i>
-                                <span data-en="2 Beds" data-al="2 Krevate" data-gr="2 κρεβάτια">2 Krevate</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-couch"></i>
-                                <span data-en="Seating Area" data-al="Zonë Ndenjeje" data-gr="Καθιστικό">Zonë Ndenjeje</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-bath"></i>
-                                <span data-en="Private Bathroom" data-al="Banjo Private" data-gr="Ιδιωτικό μπάνιο">Banjo Private</span>
-                            </div>
-                        </div>
-                        <p data-en="Enough space for everyone to spread out. Beds so the kids can crash early while you enjoy the evening. Clean, quiet, and the perfect size for a family." data-al="Hapësirë e mjaftueshme për të gjithë. Krevate që fëmijët të flenë herët ndërsa ju shijoni mbrëmjen. E pastër, e qetë, dhe madhësia perfekte për një familje." data-gr="Αρκετός χώρος για όλους να απλωθούν. Κρεβάτια ώστε τα παιδιά να κοιμηθούν νωρίς ενώ εσείς απολαμβάνετε το βράδυ. Καθαρό, ήσυχο, και το τέλειο μέγεθος για μια οικογένεια.">
-                            Hapësirë e mjaftueshme për të gjithë. Krevate që fëmijët të flenë herët ndërsa ju shijoni mbrëmjen. E pastër, e qetë, dhe madhësia perfekte për një familje.
-                        </p>
-                        <div class="room-includes">
-                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes" data-gr="Πρωινό">Mëngjes</span></span>
-                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
-                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
-                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas" data-gr="Δωρεάν ακύρωση">Anulim falas</span></span>
-                        </div>
-                        <div class="room-btns">
-                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                            <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
-                        </div>
+                <!-- Room 2 text -->
+                <div class="rooms-txt" id="room-txt-2">
+                    <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)" data-gr="Από 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
+                    <h2 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</h2>
+                    <div class="room-btns">
+                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                        <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
                     </div>
                 </div>
 
-                <!-- Room 3 -->
-                <div class="room-card" data-aos="fade-up" data-aos-delay="400">
-                    <div class="room-img">
-                        <span class="scarcity-badge urgent" data-en="Only 2 suites" data-al="Vetëm 2 suita" data-gr="Μόνο 2 σουίτες">Vetëm 2 suita</span>
-                        <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)" data-gr="Από 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
-                        <img src="/images/double-bed-room.jpg" alt="Premium Panorama Suite - Traditional accommodation in Voskopoje mountains" data-gallery="romantic-room.jpg,nice-room.jpg">
-                    </div>
-                    <div class="room-content">
-                        <h3 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</h3>
-                        <div class="room-features">
-                            <div class="room-feature">
-                                <i class="fas fa-users"></i>
-                                <span data-en="Up to 5 Guests" data-al="Deri në 5 Vizitorë" data-gr="Έως 5 επισκέπτες">Deri në 5 Vizitorë</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-bed"></i>
-                                <span data-en="King Size Bed" data-al="Krevat King Size" data-gr="King Size κρεβάτι">Krevat King Size</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-glass-cheers"></i>
-                                <span data-en="Private Balcony" data-al="Ballkon Privat" data-gr="Ιδιωτικό μπαλκόνι">Ballkon Privat</span>
-                            </div>
-                            <div class="room-feature">
-                                <i class="fas fa-fire"></i>
-                                <span data-en="Fireplace" data-al="Oxhak" data-gr="Τζάκι">Oxhak</span>
-                            </div>
-                        </div>
-                        <p data-en="Your private balcony looks out over the entire valley. A king bed, and nothing you need to do except be there. The kind of room you plan a trip around." data-al="Ballkoni juaj privat shikon mbi gjithë luginën. Një krevat king, dhe asgjë që duhet të bëni përveçse të jeni aty. Lloji i dhomës rreth së cilës planifikoni një udhëtim." data-gr="Το ιδιωτικό σας μπαλκόνι κοιτάζει ολόκληρη την κοιλάδα. Ένα king κρεβάτι, και τίποτα που χρειάζεται να κάνετε εκτός από το να είστε εκεί. Το είδος του δωματίου γύρω από το οποίο σχεδιάζετε ένα ταξίδι.">
-                            Ballkoni juaj privat shikon mbi gjithë luginën. Një krevat king, dhe asgjë që duhet të bëni përveçse të jeni aty. Lloji i dhomës rreth së cilës planifikoni një udhëtim.
-                        </p>
-                        <div class="room-includes">
-                            <span class="include-tag"><i class="fas fa-coffee"></i> <span data-en="Breakfast" data-al="Mëngjes" data-gr="Πρωινό">Mëngjes</span></span>
-                            <span class="include-tag"><i class="fas fa-wifi"></i> WiFi</span>
-                            <span class="include-tag"><i class="fas fa-parking"></i> Parking</span>
-                            <span class="include-tag"><i class="fas fa-times-circle"></i> <span data-en="Free cancellation" data-al="Anulim falas" data-gr="Δωρεάν ακύρωση">Anulim falas</span></span>
-                        </div>
-                        <div class="room-btns">
-                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                            <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
-                        </div>
+                <!-- Room 3 text -->
+                <div class="rooms-txt" id="room-txt-3">
+                    <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)" data-gr="Από 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
+                    <h2 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</h2>
+                    <div class="room-btns">
+                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                        <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
                     </div>
                 </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="rooms-progress-bar">
+                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
+                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
+                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
             </div>
         </div>
     </section>
@@ -1119,6 +1060,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <script>
         // TweenMax compatibility shim for hover-effect library
         if (typeof gsap !== 'undefined' && typeof TweenMax === 'undefined') {
@@ -1127,6 +1069,7 @@
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
     <script src="/js/scripts.js"></script>
+    <script src="/js/rooms-scroll.js?v=2.0"></script>
 
     <!-- Flatpickr Calendar Init -->
     <script>
