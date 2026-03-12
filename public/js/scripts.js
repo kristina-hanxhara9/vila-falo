@@ -1606,12 +1606,32 @@ document.head.appendChild(calendarStyle);
         var checkBtn = document.getElementById('barCheckAvail');
         if (checkBtn) {
             checkBtn.addEventListener('click', function() {
-                var ci = document.getElementById('barCheckIn').value;
-                var co = document.getElementById('barCheckOut').value;
-                var guests = document.getElementById('barGuests').value;
-                if (ci) document.getElementById('checkInDate').value = ci;
-                if (co) document.getElementById('checkOutDate').value = co;
-                if (guests) document.getElementById('adults').value = guests;
+                var barInEl = document.getElementById('barCheckIn');
+                var barOutEl = document.getElementById('barCheckOut');
+                var guestsEl = document.getElementById('barGuests');
+                var formInEl = document.getElementById('checkInDate');
+                var formOutEl = document.getElementById('checkOutDate');
+                var adultsEl = document.getElementById('adults');
+
+                // Use Flatpickr API to transfer dates properly
+                if (barInEl && barInEl._flatpickr && barInEl._flatpickr.selectedDates.length && formInEl) {
+                    if (formInEl._flatpickr) {
+                        formInEl._flatpickr.setDate(barInEl._flatpickr.selectedDates[0]);
+                    } else {
+                        formInEl.value = barInEl.value;
+                    }
+                }
+                if (barOutEl && barOutEl._flatpickr && barOutEl._flatpickr.selectedDates.length && formOutEl) {
+                    if (formOutEl._flatpickr) {
+                        formOutEl._flatpickr.setDate(barOutEl._flatpickr.selectedDates[0]);
+                    } else {
+                        formOutEl.value = barOutEl.value;
+                    }
+                }
+                if (guestsEl && adultsEl) {
+                    adultsEl.value = guestsEl.value;
+                }
+
                 document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
             });
         }

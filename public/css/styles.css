@@ -1031,7 +1031,7 @@ body.scrolled .language-toggle:hover {
     top: -60px;
     right: -2rem;
     bottom: -60px;
-    width: 62%;
+    width: 75%;
     background: #3a5a40;
     z-index: 0;
 }
@@ -1066,7 +1066,7 @@ body.scrolled .language-toggle:hover {
 /* Image overlaps LEFT onto the green panel */
 #restaurant .about-primland-right {
     position: relative;
-    z-index: 3;
+    z-index: 1;
     order: 1;
     margin-right: -8%;
     margin-top: 40px;
@@ -1193,7 +1193,7 @@ body.scrolled .language-toggle:hover {
 
 /* Chef's Special - Primland Style */
 .chefs-special-primland {
-    background: var(--primary);
+    background: rgba(255, 255, 255, 0.08);
     color: #fff;
     border-radius: 12px;
     padding: 1.5rem;
