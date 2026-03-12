@@ -2,6 +2,7 @@
  * Rooms Section — Scroll-Triggered Overlay Panels
  * Adapted from codrops/OnScrollLayoutFormations pattern
  * Uses GSAP + ScrollTrigger with pin + scrub
+ * Horizontal stripe pattern during transitions
  */
 
 (function () {
@@ -20,6 +21,15 @@
 
     if (panels.length < 2) return;
 
+    // Create stripe overlay divs for each panel
+    var stripes = [];
+    panels.forEach(function (panel) {
+      var stripe = document.createElement('div');
+      stripe.className = 'room-panel-stripes';
+      panel.appendChild(stripe);
+      stripes.push(stripe);
+    });
+
     // Number of transitions = panels - 1
     var numTransitions = panels.length - 1;
 
@@ -33,7 +43,6 @@
         scrub: true,
         invalidateOnRefresh: true,
         onUpdate: function (self) {
-          // Update progress bar
           var progress = self.progress;
           var totalSteps = progressFills.length;
           progressFills.forEach(function (fill, i) {
@@ -45,14 +54,14 @@
       }
     });
 
-    // For each transition: slide next panel up, darken previous, swap text
+    // For each transition: stripe flash + slide next panel up + swap text
     for (var i = 0; i < numTransitions; i++) {
       var nextPanel = panels[i + 1];
       var currentPanel = panels[i];
       var currentOverlay = overlays[i];
       var nextOverlay = overlays[i + 1];
+      var currentStripes = stripes[i];
 
-      // Phase label for positioning
       var phaseStart = i;
 
       // Fade out current text
@@ -62,6 +71,22 @@
         duration: 0.3,
         ease: 'power2.in'
       }, phaseStart);
+
+      // Flash horizontal stripes on current panel during transition
+      tl.fromTo(currentStripes, {
+        opacity: 0
+      }, {
+        opacity: 1,
+        duration: 0.4,
+        ease: 'power2.in'
+      }, phaseStart);
+
+      // Fade stripes out as next panel covers
+      tl.to(currentStripes, {
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.out'
+      }, phaseStart + 0.5);
 
       // Darken current panel
       tl.to(currentPanel, {

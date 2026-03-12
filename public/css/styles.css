@@ -1092,26 +1092,28 @@ body.scrolled .language-toggle:hover {
 /* Food Photo Gallery — Asymmetric Scatter Layout */
 .food-gallery-scatter {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: flex-start;
-    padding: 3rem 5% 2rem;
+    padding: 4rem 5% 3rem;
     position: relative;
     z-index: 2;
-    gap: 3rem;
+    gap: 2rem;
 }
 
 .food-scatter-left {
-    flex: 0 0 40%;
+    width: 40%;
     border-radius: 12px;
     overflow: hidden;
-    margin-top: 0;
+    margin-top: 2rem;
+    margin-left: 5%;
 }
 
 .food-scatter-right {
-    flex: 0 0 45%;
-    border-radius: 12px;
+    width: 180px;
+    border-radius: 10px;
     overflow: hidden;
-    margin-top: -40px;
+    margin-top: 1rem;
+    align-self: center;
 }
 
 .food-gallery-scatter img {
@@ -1127,24 +1129,18 @@ body.scrolled .language-toggle:hover {
 
 @media (max-width: 768px) {
     .food-gallery-scatter {
-        flex-direction: column;
         padding: 2rem 4%;
         gap: 1.5rem;
     }
 
-    .food-scatter-left,
-    .food-scatter-right {
-        flex: 0 0 auto;
-        width: 80%;
-        margin-top: 0;
-    }
-
     .food-scatter-left {
-        align-self: flex-start;
+        width: 65%;
+        margin-left: 0;
+        margin-top: 1rem;
     }
 
     .food-scatter-right {
-        align-self: flex-end;
+        width: 140px;
     }
 }
 

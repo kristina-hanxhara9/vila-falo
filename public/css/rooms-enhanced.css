@@ -141,6 +141,22 @@
     transform: translateY(-2px);
 }
 
+/* ============ HORIZONTAL STRIPE OVERLAY ============ */
+.room-panel-stripes {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 28px,
+        rgba(0, 0, 0, 0.7) 28px,
+        rgba(0, 0, 0, 0.7) 30px
+    );
+}
+
 /* ============ PROGRESS BAR ============ */
 .rooms-progress-bar {
     position: absolute;
