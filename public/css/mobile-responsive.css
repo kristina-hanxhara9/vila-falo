@@ -1099,12 +1099,13 @@
 }
 
 /* ============ GENERAL OVERFLOW PROTECTION ============ */
+/* Using overflow:clip instead of overflow-x:hidden to prevent breaking position:sticky */
 html {
-    overflow-x: hidden;
+    overflow: clip;
 }
 
 body {
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -1122,7 +1123,6 @@ iframe {
 section,
 .hero,
 .about,
-.rooms,
 .restaurant,
 .gallery,
 .services,
@@ -1131,7 +1131,7 @@ section,
 .location,
 .cta,
 .footer {
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 /* Rooms section needs overflow visible for sticky scroll to work */
