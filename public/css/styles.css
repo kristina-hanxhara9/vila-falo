@@ -3756,11 +3756,11 @@ button[type="submit"]:hover::before {
 .location {
     position: relative;
     overflow: hidden;
-    height: 550px;
+    height: 600px;
     padding: 0;
 }
 
-/* Full-section interactive map background */
+/* Full-section satellite map background */
 .location-map-bg {
     position: absolute;
     top: 0;
@@ -3770,40 +3770,168 @@ button[type="submit"]:hover::before {
     z-index: 0;
 }
 
-.location-map-bg iframe {
+#satellite-map {
     width: 100%;
     height: 100%;
-    display: block;
+}
+
+/* Hide Leaflet default UI clutter */
+#satellite-map .leaflet-control-attribution { display: none; }
+
+/* Edge gradient overlays for premium feel */
+.map-edge {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.map-edge--left {
+    top: 0;
+    left: 0;
+    width: 35%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 50%, transparent 100%);
+}
+
+.map-edge--bottom {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to top, rgba(0,0,0,0.25) 0%, transparent 100%);
+}
+
+/* Custom map markers */
+.map-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.map-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.marker-dot {
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border: 3px solid var(--primary);
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.marker-dot--sm {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+}
+
+.map-marker:hover .marker-dot {
+    transform: scale(1.3);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+/* Main marker (Vila Falo) - larger with pulse */
+.map-marker--main .marker-dot {
+    width: 20px;
+    height: 20px;
+    background: var(--secondary);
+    border: 3px solid #fff;
+}
+
+.marker-ping {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: rgba(217, 165, 102, 0.4);
+    border-radius: 50%;
+    z-index: 1;
+    animation: marker-pulse 2s ease-out infinite;
+}
+
+@keyframes marker-pulse {
+    0% { width: 20px; height: 20px; opacity: 1; }
+    100% { width: 60px; height: 60px; opacity: 0; }
+}
+
+/* Marker labels */
+.marker-label {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateX(-50%) translateY(4px);
+    pointer-events: none;
+}
+
+.map-marker--main .marker-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(42, 109, 78, 0.9);
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    font-weight: 600;
+}
+
+.map-marker:hover .marker-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* Transparent overlay card */
 .location-overlay-card {
     position: absolute;
     top: 50%;
-    left: 2rem;
+    left: 2.5rem;
     transform: translateY(-50%);
     z-index: 2;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: rgba(15, 25, 20, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-radius: 16px;
     padding: 1.5rem 1.8rem;
-    max-width: 340px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    max-width: 320px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .location-overlay-card .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    font-size: 0.65rem;
+    letter-spacing: 2.5px;
     color: var(--secondary);
     margin-bottom: 0.3rem;
     display: block;
+    text-transform: uppercase;
 }
 
 .location-overlay-card h2 {
-    font-size: 1.4rem;
-    color: var(--primary);
+    font-size: 1.3rem;
+    color: #fff;
     margin-bottom: 1rem;
 }
 
@@ -3816,65 +3944,75 @@ button[type="submit"]:hover::before {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
     padding: 0.4rem 0.5rem;
     border-radius: 8px;
     transition: var(--transition);
 }
 
 .location-overlay-card .contact-item:hover {
-    background: rgba(42, 109, 78, 0.06);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .location-overlay-card .contact-icon {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    background: rgba(42, 109, 78, 0.1);
-    color: var(--primary);
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    background: rgba(217, 165, 102, 0.2);
+    color: var(--secondary);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
 }
 
 .location-overlay-card h4 {
-    color: var(--primary);
-    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.8rem;
     margin-bottom: 0.1rem;
+    font-weight: 600;
 }
 
 .location-overlay-card p {
-    color: var(--text-light);
-    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
     line-height: 1.4;
     margin: 0;
 }
 
 .location-overlay-card p a {
-    color: var(--text-light);
+    color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
+    transition: color 0.3s;
 }
 
 .location-overlay-card p a:hover {
-    color: var(--primary);
+    color: var(--secondary);
 }
 
 .location-overlay-card .get-directions-btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     padding: 0.5rem 1.2rem;
     border-radius: 8px;
     width: 100%;
     justify-content: center;
+    background: var(--secondary);
+    color: #fff;
+    border: none;
+}
+
+.location-overlay-card .get-directions-btn:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
     .location {
-        height: 500px;
+        height: 520px;
     }
 
     .location-overlay-card {
@@ -3885,6 +4023,18 @@ button[type="submit"]:hover::before {
         transform: none;
         max-width: none;
         padding: 1.2rem;
+    }
+
+    .map-edge--left {
+        width: 100%;
+        height: 35%;
+        top: auto;
+        bottom: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+    }
+
+    .map-markers {
+        display: none;
     }
 }
 

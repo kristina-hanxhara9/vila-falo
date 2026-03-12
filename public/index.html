@@ -191,6 +191,7 @@
     <link rel="stylesheet" href="/css/price-summary.css">
     <link rel="stylesheet" href="/css/enhancements.css">
     <link rel="stylesheet" href="/css/rooms-enhanced.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <!-- Mountain Loader -->
@@ -955,18 +956,40 @@
 
     <!-- Location Section -->
     <section id="location" class="location">
-        <!-- Full-section interactive map background -->
+        <!-- Full-section satellite map background -->
         <div class="location-map-bg">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3027.8381004260104!2d20.5861416757871!3d40.633452271405616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135a76f5bdef3beb%3A0xb7cffcf578fff8c4!2sVila%20Falo!5e0!3m2!1sen!2suk!4v1747917475834!5m2!1sen!2suk"
-                width="100%"
-                height="100%"
-                style="border:0;"
-                allowfullscreen=""
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            <div id="satellite-map"></div>
         </div>
+
+        <!-- Interactive map markers -->
+        <div class="map-markers">
+            <div class="map-marker map-marker--main" style="top: 50%; left: 55%;" data-label="Vila Falo">
+                <div class="marker-ping"></div>
+                <div class="marker-dot"></div>
+                <div class="marker-label">Vila Falo</div>
+            </div>
+            <div class="map-marker" style="top: 30%; left: 70%;" data-label="Kisha Shën Prodhomi">
+                <div class="marker-dot marker-dot--sm"></div>
+                <div class="marker-label" data-en="St. Prodhomi Church" data-al="Kisha Shën Prodhomi" data-gr="Εκκλησία Αγ. Πρόδρομος">Kisha Shën Prodhomi</div>
+            </div>
+            <div class="map-marker" style="top: 65%; left: 75%;" data-label="Kisha Shën Kollit">
+                <div class="marker-dot marker-dot--sm"></div>
+                <div class="marker-label" data-en="St. Nicholas Church" data-al="Kisha Shën Kollit" data-gr="Εκκλησία Αγ. Νικολάου">Kisha Shën Kollit</div>
+            </div>
+            <div class="map-marker" style="top: 22%; left: 40%;" data-label="Akademia e Voskopojës">
+                <div class="marker-dot marker-dot--sm"></div>
+                <div class="marker-label" data-en="Voskopoja Academy" data-al="Akademia e Voskopojës" data-gr="Ακαδημία Βοσκοπόλεως">Akademia e Voskopojës</div>
+            </div>
+            <div class="map-marker" style="top: 78%; left: 35%;" data-label="Korçë">
+                <div class="marker-dot marker-dot--sm"></div>
+                <div class="marker-label">Korçë — 21 km</div>
+            </div>
+        </div>
+
+        <!-- Edge gradient overlays -->
+        <div class="map-edge map-edge--left"></div>
+        <div class="map-edge map-edge--bottom"></div>
+
         <!-- Transparent overlay card -->
         <div class="location-overlay-card" data-aos="fade-right">
             <span class="section-label" data-en="LOCATION" data-al="VENDNDODHJA" data-gr="ΤΟΠΟΘΕΣΙΑ">VENDNDODHJA</span>
@@ -978,7 +1001,7 @@
                     </div>
                     <div>
                         <h4 data-en="Address" data-al="Adresa" data-gr="Διεύθυνση">Adresa</h4>
-                        <p>Vila Falo, Voskopojë, Korçë, Albania</p>
+                        <p>Vila Falo, Voskopojë, Korçë</p>
                     </div>
                 </div>
                 <div class="contact-item">
@@ -1084,6 +1107,7 @@
     </div>   -->
 
     <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -1096,6 +1120,34 @@
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
     <script src="/js/scripts.js"></script>
+
+    <!-- Satellite Map Init -->
+    <script>
+    (function() {
+        var mapEl = document.getElementById('satellite-map');
+        if (!mapEl || typeof L === 'undefined') return;
+
+        var map = L.map('satellite-map', {
+            center: [40.6335, 20.5880],
+            zoom: 15,
+            zoomControl: false,
+            attributionControl: false,
+            scrollWheelZoom: false,
+            dragging: true
+        });
+
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Enable scroll zoom only when map is clicked
+        map.on('click', function() { map.scrollWheelZoom.enable(); });
+        map.on('mouseout', function() { map.scrollWheelZoom.disable(); });
+
+        // Add zoom control bottom-right
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+    })();
+    </script>
     
     <!-- Ultimate Fallback Script -->
     <script>
