@@ -85,7 +85,7 @@ body {
     color: var(--text);
     overflow-x: hidden;
     background-color: var(--light);
-    padding-bottom: 80px;
+    padding-bottom: 0;
 }
 
 a {
@@ -573,10 +573,12 @@ body.scrolled .language-toggle:hover {
     font-weight: 500;
     position: relative;
     transition: var(--transition);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
 }
 
 .header.scrolled .nav-link {
-    color: rgba(255, 255, 255, 0.85);
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .header.scrolled .nav-link:hover,
@@ -1015,7 +1017,7 @@ body.scrolled .language-toggle:hover {
 
 /* Restaurant section — green underlay + image overlap layout */
 #restaurant.about-primland {
-    background: #f5f0e8;
+    background: url('/images/back-yellow.png') center/cover no-repeat;
     color: #1a4a35;
     overflow: visible;
 }
@@ -1063,12 +1065,12 @@ body.scrolled .language-toggle:hover {
     color: #3a5a40;
 }
 
-/* Image overlaps LEFT onto the green panel */
+/* Image sits beside the green panel */
 #restaurant .about-primland-right {
     position: relative;
     z-index: 1;
     order: 1;
-    margin-right: -8%;
+    margin-right: 0;
     margin-top: 40px;
     margin-bottom: 40px;
 }
@@ -1085,6 +1087,47 @@ body.scrolled .language-toggle:hover {
 
 #restaurant.about-primland .about-primland-header .about-primland-tagline {
     color: #1a4a35;
+}
+
+/* Food Photo Gallery */
+.food-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 2rem 5%;
+    position: relative;
+    z-index: 2;
+}
+
+.food-gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+}
+
+.food-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.food-gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .food-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 1.5rem 4%;
+    }
+}
+
+@media (max-width: 480px) {
+    .food-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
 }
 
 /* About section keeps green-back.png styling */
