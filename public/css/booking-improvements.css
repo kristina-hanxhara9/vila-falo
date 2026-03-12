@@ -153,6 +153,7 @@
 /* ============ BOOKING BAR DATE WRAPPER ============ */
 .date-input-wrapper--bar {
     position: relative;
+    cursor: pointer;
 }
 
 .date-input-wrapper--bar .date-input-icon {
