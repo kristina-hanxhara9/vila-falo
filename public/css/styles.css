@@ -1089,31 +1089,19 @@ body.scrolled .language-toggle:hover {
     color: #1a4a35;
 }
 
-/* Food Photo Gallery — Asymmetric Scatter Layout */
+/* Food Photo — Single Image Right-Aligned */
 .food-gallery-scatter {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 4rem 5% 3rem;
+    justify-content: flex-end;
+    padding: 3rem 5% 2rem;
     position: relative;
     z-index: 2;
-    gap: 2rem;
 }
 
-.food-scatter-left {
-    width: 40%;
+.food-scatter-photo {
+    width: 42%;
     border-radius: 12px;
     overflow: hidden;
-    margin-top: 2rem;
-    margin-left: 5%;
-}
-
-.food-scatter-right {
-    width: 180px;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-top: 1rem;
-    align-self: center;
 }
 
 .food-gallery-scatter img {
@@ -1130,17 +1118,10 @@ body.scrolled .language-toggle:hover {
 @media (max-width: 768px) {
     .food-gallery-scatter {
         padding: 2rem 4%;
-        gap: 1.5rem;
     }
 
-    .food-scatter-left {
-        width: 65%;
-        margin-left: 0;
-        margin-top: 1rem;
-    }
-
-    .food-scatter-right {
-        width: 140px;
+    .food-scatter-photo {
+        width: 60%;
     }
 }
 

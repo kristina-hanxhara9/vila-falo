@@ -242,7 +242,8 @@
     }
 
     .bar-cta {
-        width: 100% !important;
+        width: auto !important;
+        flex-shrink: 0 !important;
         padding: 10px 16px !important;
         font-size: 0.85rem !important;
     }
@@ -253,13 +254,37 @@
 }
 
 @media (max-width: 480px) {
-    .bar-field {
-        flex: 1 1 100% !important;
+    .booking-bar-inner {
+        flex-wrap: wrap !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        padding: 8px 10px !important;
     }
 
-    .booking-bar-inner {
-        flex-direction: column !important;
-        gap: 6px !important;
+    .bar-field {
+        flex: 1 1 calc(33% - 4px) !important;
+        min-width: 0;
+    }
+
+    .bar-field label {
+        font-size: 0.6rem !important;
+    }
+
+    .bar-field input,
+    .bar-field select {
+        padding: 6px 8px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .bar-field--guests {
+        flex: 0 0 auto !important;
+    }
+
+    .bar-cta {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        padding: 8px 14px !important;
+        font-size: 0.75rem !important;
     }
 }
 
