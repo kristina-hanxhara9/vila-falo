@@ -1002,6 +1002,37 @@ body.scrolled .language-toggle:hover {
     padding: 6rem 0;
 }
 
+#about.about-primland,
+#restaurant.about-primland {
+    background: url('/images/green-back.png') center/cover no-repeat;
+    color: #fff;
+}
+
+#about.about-primland .about-primland-tagline,
+#restaurant.about-primland .about-primland-tagline,
+#about.about-primland .about-primland-label,
+#restaurant.about-primland .about-primland-label,
+#about.about-primland .about-primland-section-label,
+#restaurant.about-primland .about-primland-section-label,
+#about.about-primland .about-primland-subtitle,
+#restaurant.about-primland .about-primland-subtitle,
+#about.about-primland p,
+#restaurant.about-primland p {
+    color: #fff;
+}
+
+#about.about-primland .about-primland-link,
+#restaurant.about-primland .about-primland-link {
+    color: #fff;
+    border-color: #fff;
+}
+
+#about.about-primland .about-primland-link:hover,
+#restaurant.about-primland .about-primland-link:hover {
+    background: #fff;
+    color: var(--primary);
+}
+
 .about-primland-header {
     text-align: center;
     max-width: 900px;
@@ -3724,11 +3755,16 @@ button[type="submit"]:hover::before {
     background: url('/images/mali-bg.png') center/cover no-repeat;
     position: relative;
     overflow: hidden;
+    padding: 3.5rem 0;
+}
+
+.location .section-title {
+    margin-bottom: 1.5rem;
 }
 
 .location-container {
     display: flex;
-    gap: 3rem;
+    gap: 2rem;
     overflow: hidden;
 }
 
@@ -3737,7 +3773,7 @@ button[type="submit"]:hover::before {
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(8px);
     border-radius: 16px;
-    padding: 2rem;
+    padding: 1.5rem;
 }
 
 .location-info h3 {
@@ -3788,7 +3824,7 @@ button[type="submit"]:hover::before {
     overflow: hidden;
     box-shadow: var(--shadow);
     position: relative;
-    height: 400px;
+    height: 320px;
     transition: var(--transition);
 }
 
