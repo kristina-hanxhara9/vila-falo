@@ -1713,6 +1713,23 @@ document.head.appendChild(calendarStyle);
                 }, 400);
             });
         }
+
+        // Bar stepper +/- buttons
+        var barMinus = document.getElementById('barGuestsMinus');
+        var barPlus = document.getElementById('barGuestsPlus');
+        var barGuestsInput = document.getElementById('barGuests');
+        if (barMinus && barPlus && barGuestsInput) {
+            barMinus.addEventListener('click', function(e) {
+                e.preventDefault();
+                var val = parseInt(barGuestsInput.value) || 2;
+                if (val > 1) barGuestsInput.value = val - 1;
+            });
+            barPlus.addEventListener('click', function(e) {
+                e.preventDefault();
+                var val = parseInt(barGuestsInput.value) || 2;
+                if (val < 10) barGuestsInput.value = val + 1;
+            });
+        }
     }
 
     // ============ ROOM LIGHTBOX ============

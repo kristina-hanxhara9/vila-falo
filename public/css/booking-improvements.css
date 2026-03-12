@@ -227,64 +227,101 @@
 /* ============ BOOKING BAR MOBILE ============ */
 @media (max-width: 768px) {
     .booking-bar-inner {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        padding: 12px !important;
+        flex-wrap: nowrap !important;
+        flex-direction: row !important;
+        gap: 6px !important;
+        padding: 10px 12px !important;
+        align-items: flex-end !important;
     }
 
     .bar-field {
-        flex: 1 1 calc(50% - 4px) !important;
-        min-width: 0;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
     }
 
     .bar-field--guests {
         flex: 0 0 auto !important;
-    }
-
-    .bar-cta {
-        width: auto !important;
-        flex-shrink: 0 !important;
-        padding: 10px 16px !important;
-        font-size: 0.85rem !important;
-    }
-
-    .bar-field label {
-        font-size: 0.65rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .booking-bar-inner {
-        flex-wrap: wrap !important;
-        flex-direction: row !important;
-        gap: 6px !important;
-        padding: 8px 10px !important;
-    }
-
-    .bar-field {
-        flex: 1 1 calc(33% - 4px) !important;
-        min-width: 0;
     }
 
     .bar-field label {
         font-size: 0.6rem !important;
+        margin-bottom: 3px !important;
     }
 
     .bar-field input,
     .bar-field select {
-        padding: 6px 8px !important;
-        font-size: 0.8rem !important;
+        min-height: 44px !important;
+        font-size: 0.82rem !important;
     }
 
-    .bar-field--guests {
-        flex: 0 0 auto !important;
+    .bar-stepper {
+        height: 44px !important;
+    }
+
+    .bar-stepper-btn {
+        width: 40px !important;
+        min-width: 40px !important;
+        min-height: 44px !important;
+        font-size: 1.2rem !important;
+        -webkit-tap-highlight-color: rgba(42, 109, 78, 0.15);
+        touch-action: manipulation;
+    }
+
+    .bar-stepper input[type="number"] {
+        width: 32px !important;
+        font-size: 0.95rem !important;
+        min-height: 44px !important;
     }
 
     .bar-cta {
         flex: 0 0 auto !important;
         width: auto !important;
-        padding: 8px 14px !important;
-        font-size: 0.75rem !important;
+        padding: 10px 14px !important;
+        font-size: 0.78rem !important;
+        min-height: 44px !important;
+        white-space: nowrap !important;
+        touch-action: manipulation;
+    }
+
+    .date-input-wrapper--bar input[type="date"],
+    .date-input-wrapper--bar .flatpickr-input {
+        min-height: 44px !important;
+        font-size: 0.82rem !important;
+        padding: 6px 8px 6px 28px !important;
+    }
+
+    .date-input-wrapper--bar .date-input-icon {
+        font-size: 0.7rem !important;
+        left: 8px !important;
+    }
+}
+
+@media (max-width: 420px) {
+    .booking-bar-inner {
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        padding: 8px 10px !important;
+    }
+
+    /* Top row: check-in + check-out side by side */
+    .bar-field:not(.bar-field--guests) {
+        flex: 1 1 calc(50% - 3px) !important;
+        min-width: 0 !important;
+    }
+
+    /* Bottom row: guests + CTA side by side */
+    .bar-field--guests {
+        flex: 0 0 auto !important;
+    }
+
+    .bar-cta {
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        text-align: center !important;
+    }
+
+    .bar-field label {
+        font-size: 0.55rem !important;
     }
 }
 
