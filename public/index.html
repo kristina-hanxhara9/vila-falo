@@ -327,7 +327,7 @@
         </div>
     </section>
 
-    <!-- Rooms Section — Scroll-Triggered Overlay Panels -->
+    <!-- Rooms Section — SVG Horizontal Blinds Mask Scroll Transition -->
     <section id="rooms" class="rooms-section">
         <div class="rooms-header">
             <div class="section-title">
@@ -337,48 +337,67 @@
             </div>
         </div>
 
-        <div class="rooms-pinned">
-            <!-- Room 1: Standard Mountain Room -->
-            <div class="room-panel" style="background-image:url(/images/nice-room.jpg)">
-                <div class="room-panel-overlay">
-                    <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)" data-gr="Από 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
-                    <h2 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο με θέα στο βουνό">Dhomë Standard Malore</h2>
-                    <div class="room-btns">
-                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                        <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
+        <div class="rooms-stage">
+            <div class="rooms-layers">
+                <!-- Layer 1: Standard Room (base — always visible) -->
+                <svg class="rooms-layer" preserveAspectRatio="none">
+                    <image href="/images/nice-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" />
+                </svg>
+                <!-- Layer 2: Family Suite (masked — revealed via blinds) -->
+                <svg class="rooms-layer" preserveAspectRatio="none">
+                    <defs>
+                        <mask id="room-mask1" maskUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="100" height="100" fill="black" />
+                            <g id="room-blinds1"></g>
+                        </mask>
+                    </defs>
+                    <image href="/images/family-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask1)" />
+                </svg>
+                <!-- Layer 3: Premium Suite (masked — revealed via blinds) -->
+                <svg class="rooms-layer" preserveAspectRatio="none">
+                    <defs>
+                        <mask id="room-mask2" maskUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="100" height="100" fill="black" />
+                            <g id="room-blinds2"></g>
+                        </mask>
+                    </defs>
+                    <image href="/images/double-bed-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask2)" />
+                </svg>
+
+                <!-- Progress bar -->
+                <div class="rooms-progress-bar">
+                    <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
+                    <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
+                    <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
+                </div>
+
+                <!-- Text overlays -->
+                <div class="rooms-texts">
+                    <div class="rooms-txt rooms-txt--active">
+                        <span class="room-price-pill" data-en="From 5000 Lek (~€46)" data-al="Nga 5000 Lek (~€46)" data-gr="Από 5000 Lek (~€46)">Nga 5000 Lek (~€46)</span>
+                        <h2 data-en="Standard Mountain Room" data-al="Dhomë Standard Malore" data-gr="Standard δωμάτιο με θέα στο βουνό">Dhomë Standard Malore</h2>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Standard Mountain Room" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
+                        </div>
+                    </div>
+                    <div class="rooms-txt">
+                        <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)" data-gr="Από 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
+                        <h2 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</h2>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
+                        </div>
+                    </div>
+                    <div class="rooms-txt">
+                        <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)" data-gr="Από 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
+                        <h2 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</h2>
+                        <div class="room-btns">
+                            <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
+                            <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Room 2: Deluxe Family Suite -->
-            <div class="room-panel" style="background-image:url(/images/family-room.jpg)">
-                <div class="room-panel-overlay">
-                    <span class="room-price-pill" data-en="From 6000 Lek (~€55)" data-al="Nga 6000 Lek (~€55)" data-gr="Από 6000 Lek (~€55)">Nga 6000 Lek (~€55)</span>
-                    <h2 data-en="Deluxe Family Suite" data-al="Suitë Familjare Deluxe" data-gr="Deluxe οικογενειακή σουίτα">Suitë Familjare Deluxe</h2>
-                    <div class="room-btns">
-                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                        <a href="#booking" class="btn book-room-btn" data-room="Deluxe Family Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Room 3: Premium Panorama Suite -->
-            <div class="room-panel" style="background-image:url(/images/double-bed-room.jpg)">
-                <div class="room-panel-overlay">
-                    <span class="room-price-pill" data-en="From 7000 Lek (~€65)" data-al="Nga 7000 Lek (~€65)" data-gr="Από 7000 Lek (~€65)">Nga 7000 Lek (~€65)</span>
-                    <h2 data-en="Premium Panorama Suite" data-al="Suitë Premium Panoramike" data-gr="Premium πανοραμική σουίτα">Suitë Premium Panoramike</h2>
-                    <div class="room-btns">
-                        <a href="#" class="btn-outline room-details-btn" data-en="Details" data-al="Detaje" data-gr="Λεπτομέρειες">Detaje</a>
-                        <a href="#booking" class="btn book-room-btn" data-room="Premium Panorama Suite" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Progress bar -->
-            <div class="rooms-progress-bar">
-                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
-                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
-                <div class="rooms-progress-segment"><div class="rooms-progress-fill"></div></div>
             </div>
         </div>
     </section>
@@ -737,7 +756,7 @@
                                     <input type="radio" name="roomType" value="Standard" required>
                                     <div class="room-radio-content">
                                         <div class="room-radio-text">
-                                            <strong data-en="Standard Room" data-al="Dhomë Standarte" data-gr="Standard δωμάτιο">Dhomë Standarte</strong>
+                                            <strong data-en="Standard Room" data-al="Dhomë Standarte" data-gr="Standard δωμάτιο">Dhomë<br>Standarte</strong>
                                             <span>5000 ALL (~€46)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
                                         </div>
                                     </div>
@@ -746,7 +765,7 @@
                                     <input type="radio" name="roomType" value="Deluxe">
                                     <div class="room-radio-content">
                                         <div class="room-radio-text">
-                                            <strong data-en="Family Suite" data-al="Suite Familjare" data-gr="Οικογενειακή σουίτα">Suite Familjare</strong>
+                                            <strong data-en="Family Suite" data-al="Suite Familjare" data-gr="Οικογενειακή σουίτα">Suite<br>Familjare</strong>
                                             <span>6000 ALL (~€55)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
                                         </div>
                                     </div>
@@ -755,7 +774,7 @@
                                     <input type="radio" name="roomType" value="Premium">
                                     <div class="room-radio-content">
                                         <div class="room-radio-text">
-                                            <strong data-en="Premium Suite" data-al="Suite Premium" data-gr="Premium σουίτα">Suite Premium</strong>
+                                            <strong data-en="Premium Suite" data-al="Suite Premium" data-gr="Premium σουίτα">Suite<br>Premium</strong>
                                             <span>7000 ALL (~€65)<small data-en="/night" data-al="/natë" data-gr="/βράδυ">/natë</small></span>
                                         </div>
                                     </div>
