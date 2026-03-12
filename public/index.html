@@ -956,69 +956,37 @@
 
     <!-- Location Section -->
     <section id="location" class="location">
-        <!-- Full-section satellite map background -->
+        <!-- Full-section satellite map -->
         <div class="location-map-bg">
             <div id="satellite-map"></div>
         </div>
 
-        <!-- Interactive map markers -->
-        <div class="map-markers">
-            <div class="map-marker map-marker--main" style="top: 50%; left: 55%;" data-label="Vila Falo">
-                <div class="marker-ping"></div>
-                <div class="marker-dot"></div>
-                <div class="marker-label">Vila Falo</div>
-            </div>
-            <div class="map-marker" style="top: 30%; left: 70%;" data-label="Kisha Shën Prodhomi">
-                <div class="marker-dot marker-dot--sm"></div>
-                <div class="marker-label" data-en="St. Prodhomi Church" data-al="Kisha Shën Prodhomi" data-gr="Εκκλησία Αγ. Πρόδρομος">Kisha Shën Prodhomi</div>
-            </div>
-            <div class="map-marker" style="top: 65%; left: 75%;" data-label="Kisha Shën Kollit">
-                <div class="marker-dot marker-dot--sm"></div>
-                <div class="marker-label" data-en="St. Nicholas Church" data-al="Kisha Shën Kollit" data-gr="Εκκλησία Αγ. Νικολάου">Kisha Shën Kollit</div>
-            </div>
-            <div class="map-marker" style="top: 22%; left: 40%;" data-label="Akademia e Voskopojës">
-                <div class="marker-dot marker-dot--sm"></div>
-                <div class="marker-label" data-en="Voskopoja Academy" data-al="Akademia e Voskopojës" data-gr="Ακαδημία Βοσκοπόλεως">Akademia e Voskopojës</div>
-            </div>
-            <div class="map-marker" style="top: 78%; left: 35%;" data-label="Korçë">
-                <div class="marker-dot marker-dot--sm"></div>
-                <div class="marker-label">Korçë — 21 km</div>
-            </div>
-        </div>
-
         <!-- Edge gradient overlays -->
+        <div class="map-edge map-edge--top"></div>
         <div class="map-edge map-edge--left"></div>
         <div class="map-edge map-edge--bottom"></div>
 
-        <!-- Transparent overlay card -->
-        <div class="location-overlay-card" data-aos="fade-right">
+        <!-- Floating overlay card -->
+        <div class="location-overlay-card" data-aos="fade-up">
             <span class="section-label" data-en="LOCATION" data-al="VENDNDODHJA" data-gr="ΤΟΠΟΘΕΣΙΑ">VENDNDODHJA</span>
             <h2 data-en="How to find us" data-al="Si të na gjeni" data-gr="Πώς να μας βρείτε">Si të na gjeni</h2>
+            <p class="location-subtitle" data-en="Nestled in the mountains, 21 km from Korçë" data-al="E fshehur në male, 21 km nga Korça" data-gr="Κρυμμένη στα βουνά, 21 χλμ από το Korçë">E fshehur në male, 21 km nga Korça</p>
             <div class="contact-info">
                 <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-map-marker-alt"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
                     <div>
-                        <h4 data-en="Address" data-al="Adresa" data-gr="Διεύθυνση">Adresa</h4>
-                        <p>Vila Falo, Voskopojë, Korçë</p>
+                        <p>Voskopojë, Korçë, Albania</p>
                     </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-phone-alt"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
                     <div>
-                        <h4 data-en="Phone" data-al="Telefon" data-gr="Τηλέφωνο">Telefon</h4>
                         <p><a href="tel:+355694481367">+355 69 448 1367</a></p>
                     </div>
                 </div>
                 <div class="contact-item">
-                    <div class="contact-icon">
-                        <i class="fas fa-envelope"></i>
-                    </div>
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                     <div>
-                        <h4 data-en="Email" data-al="Email" data-gr="Email">Email</h4>
                         <p><a href="mailto:vilafalo@gmail.com">vilafalo@gmail.com</a></p>
                     </div>
                 </div>
@@ -1027,6 +995,12 @@
                 <i class="fas fa-directions"></i>
                 <span data-en="Get Directions" data-al="Merr Udhëzimet" data-gr="Λάβετε οδηγίες">Merr Udhëzimet</span>
             </a>
+        </div>
+
+        <!-- Map interaction hint -->
+        <div class="map-hint" id="mapHint">
+            <i class="fas fa-hand-pointer"></i>
+            <span data-en="Click & drag to explore" data-al="Kliko & tërhiq për të eksploruar" data-gr="Κλικ & σύρετε για εξερεύνηση">Kliko & tërhiq për të eksploruar</span>
         </div>
     </section>
 
@@ -1130,22 +1104,73 @@
         var map = L.map('satellite-map', {
             center: [40.6335, 20.5880],
             zoom: 15,
+            minZoom: 12,
+            maxZoom: 18,
             zoomControl: false,
             attributionControl: false,
             scrollWheelZoom: false,
-            dragging: true
+            dragging: true,
+            zoomAnimation: true,
+            fadeAnimation: true
         });
 
+        // Esri satellite tiles
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             maxZoom: 19
         }).addTo(map);
 
-        // Enable scroll zoom only when map is clicked
+        // Semi-transparent road labels overlay
+        L.tileLayer('https://stamen-tiles.a.ssl.fastly.net/toner-labels/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            opacity: 0.35
+        }).addTo(map);
+
+        // Custom marker icons
+        var mainIcon = L.divIcon({
+            className: 'leaflet-marker-vila',
+            html: '<div class="vila-marker"><div class="vila-marker-ping"></div><div class="vila-marker-dot"></div></div>',
+            iconSize: [60, 60],
+            iconAnchor: [30, 30]
+        });
+
+        var poiIcon = L.divIcon({
+            className: 'leaflet-marker-poi',
+            html: '<div class="poi-marker-dot"></div>',
+            iconSize: [14, 14],
+            iconAnchor: [7, 7]
+        });
+
+        // Main marker — Vila Falo
+        L.marker([40.6335, 20.5880], { icon: mainIcon })
+            .addTo(map)
+            .bindPopup('<div class="map-popup"><strong>Vila Falo</strong><br>Voskopojë, Korçë</div>', { className: 'premium-popup' });
+
+        // Points of interest
+        var pois = [
+            { lat: 40.6370, lng: 20.5920, name: 'Kisha Shën Prodhomi' },
+            { lat: 40.6310, lng: 20.5930, name: 'Kisha Shën Kollit' },
+            { lat: 40.6385, lng: 20.5840, name: 'Akademia e Voskopojës' },
+            { lat: 40.6290, lng: 20.5810, name: 'Kisha e Shën Mërisë' }
+        ];
+
+        pois.forEach(function(poi) {
+            L.marker([poi.lat, poi.lng], { icon: poiIcon })
+                .addTo(map)
+                .bindPopup('<div class="map-popup">' + poi.name + '</div>', { className: 'premium-popup' });
+        });
+
+        // Zoom control bottom-right
+        L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+        // Scroll zoom on click only
         map.on('click', function() { map.scrollWheelZoom.enable(); });
         map.on('mouseout', function() { map.scrollWheelZoom.disable(); });
 
-        // Add zoom control bottom-right
-        L.control.zoom({ position: 'bottomright' }).addTo(map);
+        // Hide hint after first interaction
+        map.on('movestart', function() {
+            var hint = document.getElementById('mapHint');
+            if (hint) hint.style.opacity = '0';
+        });
     })();
     </script>
     
