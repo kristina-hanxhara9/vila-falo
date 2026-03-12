@@ -1008,33 +1008,100 @@ body.scrolled .language-toggle:hover {
     padding: 6rem 0;
 }
 
-#about.about-primland,
-#restaurant.about-primland {
+#about.about-primland {
     background: url('/images/green-back.png') center/cover no-repeat;
     color: #1a4a35;
 }
 
-#about.about-primland .about-primland-tagline,
-#restaurant.about-primland .about-primland-tagline,
-#about.about-primland .about-primland-label,
+/* Restaurant section — green underlay + image overlap layout */
+#restaurant.about-primland {
+    background: #f5f0e8;
+    color: #1a4a35;
+    overflow: visible;
+}
+
+#restaurant .about-primland-content {
+    position: relative;
+}
+
+/* Green underlay panel — offset to the right */
+#restaurant .about-primland-content::before {
+    content: '';
+    position: absolute;
+    top: -60px;
+    right: -2rem;
+    bottom: -60px;
+    width: 62%;
+    background: #3a5a40;
+    z-index: 0;
+}
+
+/* Text column sits ON the green panel */
+#restaurant .about-primland-left {
+    position: relative;
+    z-index: 2;
+    order: 2;
+    padding: 3rem 3rem 3rem 4rem;
+}
+
+/* Override text colors to white on green panel */
 #restaurant.about-primland .about-primland-label,
-#about.about-primland .about-primland-section-label,
+#restaurant.about-primland .about-primland-tagline,
 #restaurant.about-primland .about-primland-section-label,
-#about.about-primland .about-primland-subtitle,
 #restaurant.about-primland .about-primland-subtitle,
-#about.about-primland p,
 #restaurant.about-primland p {
+    color: #fff;
+}
+
+#restaurant.about-primland .about-primland-link {
+    color: #fff;
+    border-color: #fff;
+}
+
+#restaurant.about-primland .about-primland-link:hover {
+    background: #fff;
+    color: #3a5a40;
+}
+
+/* Image overlaps LEFT onto the green panel */
+#restaurant .about-primland-right {
+    position: relative;
+    z-index: 3;
+    order: 1;
+    margin-right: -8%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+/* Restaurant header sits above the green panel */
+#restaurant .about-primland-header {
+    position: relative;
+    z-index: 2;
+}
+
+#restaurant.about-primland .about-primland-header .about-primland-label {
+    color: #3a5a40;
+}
+
+#restaurant.about-primland .about-primland-header .about-primland-tagline {
     color: #1a4a35;
 }
 
-#about.about-primland .about-primland-link,
-#restaurant.about-primland .about-primland-link {
+/* About section keeps green-back.png styling */
+#about.about-primland .about-primland-tagline,
+#about.about-primland .about-primland-label,
+#about.about-primland .about-primland-section-label,
+#about.about-primland .about-primland-subtitle,
+#about.about-primland p {
+    color: #1a4a35;
+}
+
+#about.about-primland .about-primland-link {
     color: #1a4a35;
     border-color: #1a4a35;
 }
 
-#about.about-primland .about-primland-link:hover,
-#restaurant.about-primland .about-primland-link:hover {
+#about.about-primland .about-primland-link:hover {
     background: #1a4a35;
     color: #fff;
 }
@@ -1247,6 +1314,27 @@ body.scrolled .language-toggle:hover {
         flex-direction: column;
         text-align: center;
     }
+
+    /* Restaurant mobile: stack, green panel behind text */
+    #restaurant .about-primland-content::before {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 60%;
+    }
+    #restaurant .about-primland-left {
+        order: 2;
+        padding: 2rem 1.5rem;
+        margin-right: 0;
+    }
+    #restaurant .about-primland-right {
+        order: 1;
+        margin-right: 0;
+        margin-top: 0;
+        margin-bottom: -30px;
+    }
 }
 
 @media (max-width: 576px) {
@@ -1276,6 +1364,14 @@ body.scrolled .language-toggle:hover {
     .about-primland-right img {
         height: 260px;
         border-radius: 10px;
+    }
+
+    /* Restaurant mobile small */
+    #restaurant .about-primland-content::before {
+        height: 55%;
+    }
+    #restaurant .about-primland-left {
+        padding: 1.5rem 1rem;
     }
 }
 

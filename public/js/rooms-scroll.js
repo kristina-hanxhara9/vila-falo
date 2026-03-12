@@ -1,58 +1,44 @@
 /*
  * Rooms Section — Horizontal Blind Scroll Transition
  * Adapted from Hiro-kiii/Scroll-Transition (script.js only)
- * Uses GSAP + ScrollTrigger + Lenis
+ * Uses GSAP + ScrollTrigger (no Lenis)
  */
 
 (function () {
   'use strict';
 
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
   gsap.registerPlugin(ScrollTrigger);
-
-  /* =========================
-     Initialize Lenis (smooth scroll)
-  ========================= */
-  const isTouch = window.matchMedia('(pointer: coarse)').matches;
-  const lenis = new Lenis({
-    lerp: 0.15,
-    smoothWheel: true,
-    smoothTouch: !isTouch,
-  });
-
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => {
-    lenis.raf(time * 1000);
-  });
 
   /* =========================
      Constants
   ========================= */
-  const BLIND_COUNT = 30;
-  const svgNS = 'http://www.w3.org/2000/svg';
+  var BLIND_COUNT = 30;
+  var svgNS = 'http://www.w3.org/2000/svg';
 
-  let blindsSets = [];
-  let master;
+  var blindsSets = [];
+  var master;
 
   /* =========================
      Create Blinds
   ========================= */
   function createBlinds(groupId) {
-    const g = document.getElementById(groupId);
+    var g = document.getElementById(groupId);
     if (!g) return null;
     g.innerHTML = '';
 
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-    const vbHeight = (height / width) * 100;
-    const h = vbHeight / BLIND_COUNT;
-    const blinds = [];
-    let currentY = 0;
+    var width = window.innerWidth;
+    var height = window.innerHeight;
+    var vbHeight = (height / width) * 100;
+    var h = vbHeight / BLIND_COUNT;
+    var blinds = [];
+    var currentY = 0;
 
-    for (let i = 0; i < BLIND_COUNT; i++) {
-      const centerY = vbHeight - (currentY + h / 2);
+    for (var i = 0; i < BLIND_COUNT; i++) {
+      var centerY = vbHeight - (currentY + h / 2);
 
-      const rectTop = document.createElementNS(svgNS, 'rect');
-      const rectBottom = document.createElementNS(svgNS, 'rect');
+      var rectTop = document.createElementNS(svgNS, 'rect');
+      var rectBottom = document.createElementNS(svgNS, 'rect');
 
       [rectTop, rectBottom].forEach(function (r) {
         r.setAttribute('x', 0);
@@ -77,6 +63,18 @@
       currentY += h;
     }
     return blinds;
+  }
+
+  /* =========================
+     Pre-open blinds (make image visible immediately)
+  ========================= */
+  function preOpenBlinds(blinds) {
+    blinds.forEach(function (b) {
+      b.top.setAttribute('y', b.y - b.h);
+      b.top.setAttribute('height', b.h + 0.01);
+      b.bottom.setAttribute('y', b.y);
+      b.bottom.setAttribute('height', b.h + 0.01);
+    });
   }
 
   /* =========================
@@ -109,7 +107,13 @@
       var blindGroup = svg.querySelector('g[id^="room-blinds"]');
       if (blindGroup) {
         var blinds = createBlinds(blindGroup.id);
-        if (blinds) blindsSets.push(blinds);
+        if (blinds) {
+          blindsSets.push(blinds);
+          // Pre-open the first layer's blinds so room 1 is visible
+          if (i === 0) {
+            preOpenBlinds(blinds);
+          }
+        }
       }
     });
 
@@ -171,34 +175,36 @@
 
     var texts = gsap.utils.toArray('.rooms-txt');
 
+    // Set first text visible immediately
+    if (texts[0]) {
+      gsap.set(texts[0], { clipPath: 'inset(0% 0% 0% 0%)', y: 0 });
+    }
+
     master = gsap.timeline({
       scrollTrigger: {
         trigger: '.rooms-stage',
         start: 'top top',
         end: 'bottom bottom',
         scrub: 2.5,
-        anticipatePin: 1,
         invalidateOnRefresh: true,
       },
     });
 
-    // First room: just show its text
-    if (texts[0]) {
-      master.add(textIn(texts[0]));
-    }
-
     // For each subsequent room: open blinds to reveal image + swap text
     for (var i = 1; i < blindsSets.length; i++) {
-      master.add(openBlinds(blindsSets[i]));
+      // Fade out current text first
       if (texts[i - 1]) {
-        master.add(textOut(texts[i - 1]), '-=0.3');
+        master.add(textOut(texts[i - 1]));
       }
+      // Open blinds to reveal next image
+      master.add(openBlinds(blindsSets[i]), '-=0.5');
+      // Fade in next text
       if (texts[i]) {
         master.add(textIn(texts[i]), '-=0.8');
       }
     }
 
-    // Hold last text visible briefly before end
+    // Hold last text visible briefly, then fade out before end
     if (texts[texts.length - 1]) {
       master.add(textOut(texts[texts.length - 1]), '+=1');
     }
@@ -209,6 +215,7 @@
   ========================= */
   function initProgressBar() {
     var progressFills = gsap.utils.toArray('.rooms-progress-fill');
+    if (!progressFills.length) return;
 
     ScrollTrigger.create({
       trigger: '.rooms-stage',
@@ -230,15 +237,7 @@
   /* =========================
      Init
   ========================= */
-  // Wait for images to be ready before initializing
-  if (document.readyState === 'complete') {
-    init();
-  } else {
-    window.addEventListener('load', init);
-  }
-
   function init() {
-    // Only init if the rooms-stage section exists
     if (!document.querySelector('.rooms-stage')) return;
 
     updateLayout();
@@ -249,5 +248,11 @@
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(updateLayout, 250);
     });
+  }
+
+  if (document.readyState === 'complete') {
+    init();
+  } else {
+    window.addEventListener('load', init);
   }
 })();

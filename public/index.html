@@ -1060,7 +1060,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <script>
         // TweenMax compatibility shim for hover-effect library
         if (typeof gsap !== 'undefined' && typeof TweenMax === 'undefined') {
@@ -1149,7 +1148,7 @@
     <script>
     (function() {
         var mapEl = document.getElementById('satellite-map');
-        if (!mapEl || typeof L === 'undefined') return;
+        if (!mapEl || typeof L === 'undefined' || typeof L.map !== 'function') return;
 
         var map = L.map('satellite-map', {
             center: [40.6335, 20.5880],
