@@ -1101,7 +1101,7 @@
 /* ============ GENERAL OVERFLOW PROTECTION ============ */
 /* Using overflow:clip instead of overflow-x:hidden to prevent breaking position:sticky */
 html {
-    overflow: clip;
+    overflow-x: clip;
 }
 
 body {
