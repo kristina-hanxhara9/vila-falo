@@ -311,26 +311,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // GSAP scroll animations for lower sections
-        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        // Delay to ensure GSAP is fully loaded
+        setTimeout(function () {
+            if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
             gsap.registerPlugin(ScrollTrigger);
 
-            // Honey section — fade up on scroll
+            // Honey section — staggered fade up
             var honeySection = document.querySelector('#honey');
             if (honeySection) {
-                gsap.from(honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta'), {
-                    scrollTrigger: {
-                        trigger: honeySection,
-                        start: 'top 80%',
-                        end: 'top 30%',
-                        scrub: 1
-                    },
-                    y: 60,
-                    opacity: 0,
-                    stagger: 0.15
+                var honeyEls = honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta-btn');
+                honeyEls.forEach(function (el, i) {
+                    gsap.from(el, {
+                        scrollTrigger: {
+                            trigger: honeySection,
+                            start: 'top 80%',
+                            toggleActions: 'play none none reverse'
+                        },
+                        y: 50,
+                        opacity: 0,
+                        duration: 0.8,
+                        delay: i * 0.15,
+                        ease: 'power2.out'
+                    });
                 });
             }
 
-            // Location section — card slides up, map reveals
+            // Location section — card slides up
             var locationSection = document.querySelector('#location');
             if (locationSection) {
                 var locationCard = locationSection.querySelector('.location-overlay-card');
@@ -338,13 +344,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     gsap.from(locationCard, {
                         scrollTrigger: {
                             trigger: locationSection,
-                            start: 'top 70%',
-                            end: 'top 20%',
-                            scrub: 1
+                            start: 'top 75%',
+                            toggleActions: 'play none none reverse'
                         },
-                        y: 80,
+                        y: 60,
                         opacity: 0,
-                        scale: 0.95
+                        scale: 0.96,
+                        duration: 0.9,
+                        ease: 'power2.out'
                     });
                 }
             }
@@ -353,21 +360,22 @@ document.addEventListener('DOMContentLoaded', function() {
             var footer = document.querySelector('.footer');
             if (footer) {
                 var footerCols = footer.querySelectorAll('.footer-col');
-                if (footerCols.length) {
-                    gsap.from(footerCols, {
+                footerCols.forEach(function (col, i) {
+                    gsap.from(col, {
                         scrollTrigger: {
                             trigger: footer,
                             start: 'top 85%',
-                            end: 'top 40%',
-                            scrub: 1
+                            toggleActions: 'play none none reverse'
                         },
-                        y: 50,
+                        y: 40,
                         opacity: 0,
-                        stagger: 0.1
+                        duration: 0.7,
+                        delay: i * 0.12,
+                        ease: 'power2.out'
                     });
-                }
+                });
             }
-        }
+        }, 100);
     }
 
     function initSnowEffect() {
