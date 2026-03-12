@@ -169,7 +169,10 @@
       master.add(openBlinds(blinds));
       if (texts[i]) {
         master.add(textIn(texts[i]), '-=0.3');
-        master.add(textOut(texts[i]), '+=0.8');
+        // Don't animate out the last text — let it stay visible
+        if (i < blindsSets.length - 1) {
+          master.add(textOut(texts[i]), '+=0.8');
+        }
       }
     });
   }
@@ -205,19 +208,41 @@
   }
 
   function showAllRoomsMobile() {
-    // On mobile, reveal all SVG masks fully and show all text
-    var layers = document.querySelectorAll('.rooms-layer');
+    var layersContainer = document.querySelector('.rooms-layers');
+    if (!layersContainer) return;
+
+    var layers = Array.from(document.querySelectorAll('.rooms-layer'));
+    var texts = Array.from(document.querySelectorAll('.rooms-txt'));
+
+    // Reveal all SVG masks and clear blinds
     layers.forEach(function(svg) {
       var maskRect = svg.querySelector('mask rect');
       if (maskRect) maskRect.setAttribute('fill', 'white');
       var blindsGroup = svg.querySelector('g[id^="room-blinds"]');
       if (blindsGroup) blindsGroup.innerHTML = '';
     });
-    var texts = document.querySelectorAll('.rooms-txt');
+
+    // Show all text
     texts.forEach(function(txt) {
       txt.style.clipPath = 'none';
       txt.style.transform = 'none';
     });
+
+    // Restructure DOM: wrap each SVG + text into a card div
+    layers.forEach(function(svg, i) {
+      var card = document.createElement('div');
+      card.className = 'rooms-mobile-card';
+      layersContainer.insertBefore(card, svg);
+      card.appendChild(svg);
+      if (texts[i]) card.appendChild(texts[i]);
+    });
+
+    // Hide progress bar and empty texts container
+    var progressBar = layersContainer.querySelector('.rooms-progress-bar');
+    if (progressBar) progressBar.style.display = 'none';
+    var textsContainer = layersContainer.querySelector('.rooms-texts');
+    if (textsContainer) textsContainer.style.display = 'none';
+
     // Kill any existing ScrollTrigger for rooms
     if (master) { master.kill(); master = null; }
     ScrollTrigger.getAll().forEach(function(st) {

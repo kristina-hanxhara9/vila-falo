@@ -1129,10 +1129,42 @@ body.scrolled .language-toggle:hover {
     border-radius: 12px;
 }
 
+/* Two videos side by side */
+.food-videos-duo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.food-videos-duo .food-scatter-video {
+    width: 38%;
+    max-width: 400px;
+}
+
+.food-videos-duo .food-scatter-video--right {
+    margin-top: 3rem;
+}
+
 @media (max-width: 768px) {
     .food-scatter-video {
         width: 55%;
         max-width: none;
+    }
+
+    .food-videos-duo {
+        flex-direction: row;
+        gap: 0.75rem;
+        padding: 2rem 4%;
+    }
+
+    .food-videos-duo .food-scatter-video {
+        width: 48%;
+        max-width: none;
+    }
+
+    .food-videos-duo .food-scatter-video--right {
+        margin-top: 2rem;
     }
 }
 
