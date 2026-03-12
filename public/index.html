@@ -339,11 +339,7 @@
 
         <div class="rooms-stage">
             <div class="rooms-layers">
-                <!-- Layer 1: Standard Room (base — always visible) -->
-                <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-                    <image href="/images/nice-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" />
-                </svg>
-                <!-- Layer 2: Family Suite (masked — revealed via blinds) -->
+                <!-- Layer 1: Standard Room (masked — revealed via blinds) -->
                 <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <defs>
                         <mask id="room-mask1" maskUnits="userSpaceOnUse">
@@ -351,9 +347,9 @@
                             <g id="room-blinds1"></g>
                         </mask>
                     </defs>
-                    <image href="/images/family-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask1)" />
+                    <image href="/images/nice-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask1)" />
                 </svg>
-                <!-- Layer 3: Premium Suite (masked — revealed via blinds) -->
+                <!-- Layer 2: Family Suite (masked — revealed via blinds) -->
                 <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
                     <defs>
                         <mask id="room-mask2" maskUnits="userSpaceOnUse">
@@ -361,7 +357,17 @@
                             <g id="room-blinds2"></g>
                         </mask>
                     </defs>
-                    <image href="/images/double-bed-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask2)" />
+                    <image href="/images/family-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask2)" />
+                </svg>
+                <!-- Layer 3: Premium Suite (masked — revealed via blinds) -->
+                <svg class="rooms-layer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <defs>
+                        <mask id="room-mask3" maskUnits="userSpaceOnUse">
+                            <rect x="0" y="0" width="100" height="100" fill="black" />
+                            <g id="room-blinds3"></g>
+                        </mask>
+                    </defs>
+                    <image href="/images/double-bed-room.jpg" x="0" y="0" width="100" height="100" preserveAspectRatio="xMidYMid slice" mask="url(#room-mask3)" />
                 </svg>
 
                 <!-- Progress bar -->

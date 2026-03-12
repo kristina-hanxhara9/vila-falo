@@ -1,7 +1,7 @@
 /*
  * Rooms Section — SVG Horizontal Blinds Mask Scroll Transition
- * Exact adaptation from codrops/Scroll-Transition (Horizontal Blinds)
- * Original: https://github.com/Hiro-kiii/Scroll-Transition
+ * Exact 1:1 copy of https://github.com/Hiro-kiii/Scroll-Transition
+ * Only class names changed: .stage→.rooms-stage, .layer→.rooms-layer, etc.
  */
 
 (function () {
@@ -147,7 +147,7 @@
   }
 
   /* =========================
-  Master Timeline
+  Master Timeline — exact copy of reference
   ========================= */
   function buildMasterTimeline() {
     if (master) master.kill();
@@ -165,24 +165,11 @@
       }
     });
 
-    // Show first room text immediately
-    if (texts[0]) {
-      master.add(textIn(texts[0]));
-      master.add(function () {}, '+=0.8');
-    }
-
-    // For each blinds transition: hide current text, open blinds, show next text
     blindsSets.forEach(function (blinds, i) {
+      master.add(openBlinds(blinds));
       if (texts[i]) {
-        master.add(textOut(texts[i]));
-      }
-      master.add(openBlinds(blinds), '-=0.8');
-      if (texts[i + 1]) {
-        master.add(textIn(texts[i + 1]), '-=0.3');
-        // Hold the last text visible, add pause for others
-        if (i < blindsSets.length - 1) {
-          master.add(function () {}, '+=0.8');
-        }
+        master.add(textIn(texts[i]), '-=0.3');
+        master.add(textOut(texts[i]), '+=0.8');
       }
     });
   }
