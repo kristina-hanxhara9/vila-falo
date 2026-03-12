@@ -1,23 +1,11 @@
-/* Fixed styles for proper functionality - IMMEDIATE CONTENT VISIBILITY */
-
-/* Critical: Ensure all content is visible by default */
+/* Base visibility — no !important so GSAP/AOS can animate */
 body {
-    opacity: 1 !important;
-    visibility: visible !important;
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Ensure sections are visible as fallback */
 section {
-    opacity: 1 !important;
-    visibility: visible !important;
-    display: block !important;
-}
-
-/* AOS elements visible as fallback */
-[data-aos] {
-    opacity: 1 !important;
-    transform: none !important;
-    visibility: visible !important;
+    display: block;
 }
 
 /* Loader will be hidden by JavaScript */
