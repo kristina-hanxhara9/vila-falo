@@ -1007,7 +1007,26 @@ body.scrolled .language-toggle:hover {
 
 /* Restaurant section — same style as about section */
 #restaurant.about-primland {
-    background: #f5f0e8;
+    background: url('/images/green-back.png') center/cover no-repeat;
+    color: #1a4a35;
+}
+
+#restaurant.about-primland .about-primland-tagline,
+#restaurant.about-primland .about-primland-label,
+#restaurant.about-primland .about-primland-section-label,
+#restaurant.about-primland .about-primland-subtitle,
+#restaurant.about-primland p {
+    color: #1a4a35;
+}
+
+#restaurant.about-primland .about-primland-link {
+    color: #1a4a35;
+    border-color: #1a4a35;
+}
+
+#restaurant.about-primland .about-primland-link:hover {
+    background: #1a4a35;
+    color: #fff;
 }
 
 /* Food Photo — Single Image Right-Aligned */
