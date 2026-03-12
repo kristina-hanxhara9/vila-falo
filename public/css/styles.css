@@ -3756,122 +3756,136 @@ button[type="submit"]:hover::before {
 .location {
     position: relative;
     overflow: hidden;
-    padding: 3.5rem 0;
+    height: 550px;
+    padding: 0;
 }
 
-.location::before {
-    content: '';
+/* Full-section interactive map background */
+.location-map-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('/images/voskopoja-engraving.png') center/cover no-repeat;
-    filter: blur(4px);
-    transform: scale(1.05);
     z-index: 0;
 }
 
-.location::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+.location-map-bg iframe {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.3);
-    z-index: 0;
+    display: block;
 }
 
-.location > * {
-    position: relative;
-    z-index: 1;
-}
-
-.location .section-title {
-    margin-bottom: 1.5rem;
-}
-
-.location-container {
-    display: flex;
-    gap: 2rem;
-    overflow: hidden;
-}
-
-.location-info {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(8px);
+/* Transparent overlay card */
+.location-overlay-card {
+    position: absolute;
+    top: 50%;
+    left: 2rem;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 16px;
-    padding: 1.5rem;
+    padding: 1.5rem 1.8rem;
+    max-width: 340px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.location-info h3 {
-    font-size: 1.8rem;
+.location-overlay-card .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--secondary);
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.location-overlay-card h2 {
+    font-size: 1.4rem;
     color: var(--primary);
-    margin-bottom: 1.5rem;
-    position: relative;
-    display: inline-block;
+    margin-bottom: 1rem;
 }
 
-.location-info h3::after {
-    content: '';
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background: var(--secondary);
+.location-overlay-card .contact-info {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.location-overlay-card .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.6rem;
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
     transition: var(--transition);
 }
 
-.location-info:hover h3::after {
-    width: 100%;
+.location-overlay-card .contact-item:hover {
+    background: rgba(42, 109, 78, 0.06);
 }
 
-.location-info p {
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-    color: var(--text);
-}
-
-.location-info h4 {
-    color: var(--primary);
-}
-
-.location-info .contact-item p {
-    color: var(--text-light);
-}
-
-.location-info .contact-icon {
+.location-overlay-card .contact-icon {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
     background: rgba(42, 109, 78, 0.1);
     color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
 }
 
-.location-map {
-    flex: 1;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    position: relative;
-    height: 320px;
-    transition: var(--transition);
+.location-overlay-card h4 {
+    color: var(--primary);
+    font-size: 0.85rem;
+    margin-bottom: 0.1rem;
 }
 
-.location-map:hover {
-    transform: scale(1.02);
-    box-shadow: var(--shadow-strong);
+.location-overlay-card p {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
 }
 
-.location-map img {
+.location-overlay-card p a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.location-overlay-card p a:hover {
+    color: var(--primary);
+}
+
+.location-overlay-card .get-directions-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: var(--transition);
+    justify-content: center;
 }
 
-.location-map:hover img {
-    transform: scale(1.05);
+@media (max-width: 768px) {
+    .location {
+        height: 500px;
+    }
+
+    .location-overlay-card {
+        left: 1rem;
+        right: 1rem;
+        top: auto;
+        bottom: 1rem;
+        transform: none;
+        max-width: none;
+        padding: 1.2rem;
+    }
 }
 
 .location-pin {
