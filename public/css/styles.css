@@ -1128,29 +1128,62 @@ body.scrolled .language-toggle:hover {
     position: relative;
 }
 
+.section-label {
+    display: block;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
 .section-title h2 {
-    font-size: 2.5rem;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    font-style: italic;
     color: var(--dark);
     margin-bottom: 1rem;
     position: relative;
     display: inline-block;
+    line-height: 1.4;
 }
 
 .section-title h2::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 3px;
-    background: var(--secondary);
+    display: none;
 }
 
 .section-title p {
     color: var(--text-light);
     max-width: 700px;
     margin: 0 auto;
+    line-height: 1.8;
+}
+
+/* White text variants for dark background sections */
+.rooms .section-label,
+.services .section-label,
+.seasons .section-label {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.rooms .section-title h2,
+.services .section-title h2,
+.seasons .section-title h2 {
+    color: #fff;
+}
+
+.rooms .section-title p,
+.services .section-title p,
+.seasons .section-title p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#honey .section-title h2,
+#honey .section-title p,
+#honey .section-label {
+    color: #fff;
 }
 
 .about-content {
@@ -1320,9 +1353,34 @@ body.scrolled .language-toggle:hover {
     z-index: 1;
 }
 
-.honey-facts-centered {
-    max-width: 700px;
-    margin: 0 auto 2rem;
+.honey-content-layout {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+.honey-content-left {
+    flex: 1;
+}
+
+.honey-content-right {
+    flex: 1;
+}
+
+.honey-content-right img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    .honey-content-layout {
+        flex-direction: column;
+    }
+    .honey-content-right img {
+        height: 300px;
+    }
 }
 
 .honey-layout {
@@ -3877,8 +3935,7 @@ button[type="submit"]:hover::before {
 
 /* Seasons Section */
 .seasons {
-    background: linear-gradient(to right, rgba(30, 45, 50, 0.9), rgba(30, 45, 50, 0.8)),
-                url('/images/outside-snow.jpg') center/cover no-repeat fixed;
+    background: url('/images/green-back.png') center/cover no-repeat;
     color: var(--white);
     position: relative;
     overflow: hidden;
