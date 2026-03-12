@@ -472,8 +472,14 @@
 /* ============ ROOM TYPE RADIO CARDS ============ */
 .room-type-radios {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 8px;
+}
+
+.room-type-radios .room-radio-card {
+    flex: 1;
+    min-width: 0;
 }
 
 .room-radio-card {
