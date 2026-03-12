@@ -1439,11 +1439,8 @@ body.scrolled .language-toggle:hover {
 
 /* Rooms Section */
 .rooms {
-    background: linear-gradient(to right, rgba(30, 45, 50, 0.85), rgba(30, 45, 50, 0.75)),
-                url('/images/outside-main.jpg') center/cover no-repeat fixed;
     position: relative;
     overflow: hidden;
-    padding: 3rem 0;
 }
 
 .rooms .section-title h2,
