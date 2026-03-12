@@ -570,12 +570,19 @@
     color: #888;
 }
 
+@media (max-width: 768px) {
+    .room-radio-text strong {
+        word-spacing: 100vw;
+    }
+}
+
 @media (max-width: 480px) {
     .room-radio-content {
         padding: 10px 12px;
     }
     .room-radio-text strong {
         font-size: 0.82rem;
+        word-spacing: 100vw;
     }
     .room-radio-icon {
         font-size: 1.2rem;
