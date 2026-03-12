@@ -2,19 +2,29 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 class ChatbotService {
     constructor() {
+        this.initialized = false;
+        this.genAI = null;
+        this.model = null;
+
         // Initialize Gemini API
         if (!process.env.GEMINI_API_KEY) {
-            throw new Error('GEMINI_API_KEY not found in environment variables. Please add your API key to .env file');
+            console.error('❌ GEMINI_API_KEY not found in environment variables. Chatbot will use fallback responses.');
+            return;
         }
-        
+
         if (!process.env.GEMINI_API_KEY.startsWith('AIza')) {
             console.warn('⚠️  Warning: GEMINI_API_KEY should start with "AIza". Please verify your API key.');
         }
-        
+
         console.log('✅ Initializing Gemini AI with key:', process.env.GEMINI_API_KEY.substring(0, 8) + '...');
-        
-        this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-        this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+
+        try {
+            this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+            this.model = this.genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+            this.initialized = true;
+        } catch (err) {
+            console.error('❌ Failed to initialize Gemini AI:', err.message);
+        }
         
         // [!!!] The system prompt has been updated with stricter rules.
         this.context = `
@@ -166,6 +176,12 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
     }
 
     async generateResponse(userMessage, conversationHistory = []) {
+        // If Gemini is not initialized, use fallback responses from popular questions
+        if (!this.initialized || !this.model) {
+            console.warn('⚠️  Gemini not initialized, using fallback response');
+            return this.getFallbackResponse(userMessage);
+        }
+
         let prompt = this.context + '\n\nCONVERSATION HISTORY:\n';
 
         const recentHistory = conversationHistory.slice(-6);
@@ -217,6 +233,33 @@ Your role is to be a helpful, warm, and knowledgeable guide to Vila Falo and Vos
                 };
             }
         }
+    }
+
+    getFallbackResponse(userMessage) {
+        const msg = userMessage.toLowerCase();
+        const questions = this.getPopularQuestions();
+
+        // Try to match user message to a popular question topic
+        if (msg.includes('çmim') || msg.includes('kusht') || msg.includes('pric') || msg.includes('lek')) {
+            return { success: true, message: questions[0].answer };
+        }
+        if (msg.includes('rezerv') || msg.includes('book')) {
+            return { success: true, message: questions[1].answer };
+        }
+        if (msg.includes('mëngjes') || msg.includes('breakfast')) {
+            return { success: true, message: questions[2].answer };
+        }
+        if (msg.includes('aktivitet') || msg.includes('activ') || msg.includes('bëj')) {
+            return { success: true, message: questions[3].answer };
+        }
+        if (msg.includes('ku') || msg.includes('vendndodh') || msg.includes('locat') || msg.includes('adres')) {
+            return { success: true, message: questions[4].answer };
+        }
+
+        return {
+            success: true,
+            message: 'Faleminderit për mesazhin! Për momentin nuk mund t\'ju përgjigjem në mënyrë të detajuar. Ju lutem na kontaktoni direkt:\n\n📞 **Telefon:** +355 69 448 1367\n📧 **Email:** vilafalo@gmail.com\n🌐 **Website:** Përdorni formularin e rezervimit në faqen tonë.\n\nDo të jemi të lumtur t\'ju ndihmojmë!'
+        };
     }
 
     getPopularQuestions() {
