@@ -298,8 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Placeholder functions to prevent errors
     function initScrollEffects() {
-        console.log('Scroll effects initialized');
-        // Add scroll-based animations here if needed
+        // Header scroll class
         window.addEventListener('scroll', function() {
             const header = document.querySelector('.header');
             if (header) {
@@ -310,6 +309,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         });
+
+        // GSAP scroll animations for lower sections
+        if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Honey section — fade up on scroll
+            var honeySection = document.querySelector('#honey');
+            if (honeySection) {
+                gsap.from(honeySection.querySelectorAll('.section-title, .honey-facts, .honey-cta'), {
+                    scrollTrigger: {
+                        trigger: honeySection,
+                        start: 'top 80%',
+                        end: 'top 30%',
+                        scrub: 1
+                    },
+                    y: 60,
+                    opacity: 0,
+                    stagger: 0.15
+                });
+            }
+
+            // Location section — card slides up, map reveals
+            var locationSection = document.querySelector('#location');
+            if (locationSection) {
+                var locationCard = locationSection.querySelector('.location-overlay-card');
+                if (locationCard) {
+                    gsap.from(locationCard, {
+                        scrollTrigger: {
+                            trigger: locationSection,
+                            start: 'top 70%',
+                            end: 'top 20%',
+                            scrub: 1
+                        },
+                        y: 80,
+                        opacity: 0,
+                        scale: 0.95
+                    });
+                }
+            }
+
+            // Footer — staggered reveal of columns
+            var footer = document.querySelector('.footer');
+            if (footer) {
+                var footerCols = footer.querySelectorAll('.footer-col');
+                if (footerCols.length) {
+                    gsap.from(footerCols, {
+                        scrollTrigger: {
+                            trigger: footer,
+                            start: 'top 85%',
+                            end: 'top 40%',
+                            scrub: 1
+                        },
+                        y: 50,
+                        opacity: 0,
+                        stagger: 0.1
+                    });
+                }
+            }
+        }
     }
 
     function initSnowEffect() {
