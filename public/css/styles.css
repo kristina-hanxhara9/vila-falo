@@ -1005,7 +1005,7 @@ body.scrolled .language-toggle:hover {
 #about.about-primland,
 #restaurant.about-primland {
     background: url('/images/green-back.png') center/cover no-repeat;
-    color: #fff;
+    color: #1a4a35;
 }
 
 #about.about-primland .about-primland-tagline,
@@ -1018,19 +1018,19 @@ body.scrolled .language-toggle:hover {
 #restaurant.about-primland .about-primland-subtitle,
 #about.about-primland p,
 #restaurant.about-primland p {
-    color: #fff;
+    color: #1a4a35;
 }
 
 #about.about-primland .about-primland-link,
 #restaurant.about-primland .about-primland-link {
-    color: #fff;
-    border-color: #fff;
+    color: #1a4a35;
+    border-color: #1a4a35;
 }
 
 #about.about-primland .about-primland-link:hover,
 #restaurant.about-primland .about-primland-link:hover {
-    background: #fff;
-    color: var(--primary);
+    background: #1a4a35;
+    color: #fff;
 }
 
 .about-primland-header {
@@ -1180,7 +1180,7 @@ body.scrolled .language-toggle:hover {
 .chefs-special-info p {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.85) !important;
     margin-bottom: 0.5rem;
 }
 
@@ -1400,6 +1400,7 @@ body.scrolled .language-toggle:hover {
                 url('/images/outside-main.jpg') center/cover no-repeat fixed;
     position: relative;
     overflow: hidden;
+    padding: 3rem 0;
 }
 
 .rooms .section-title h2,

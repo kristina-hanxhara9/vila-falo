@@ -8,9 +8,9 @@
     display: flex;
     justify-content: center;
     gap: 24px;
-    margin-top: 2rem;
-    padding: 0 24px;
-    max-width: 1400px;
+    margin-top: 1rem;
+    padding: 0 12px;
+    max-width: 1600px;
     margin-left: auto;
     margin-right: auto;
     align-items: flex-start;
@@ -30,7 +30,7 @@
     background: rgba(237, 229, 222, 0.05);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
     flex: 1;
-    max-width: 420px;
+    max-width: 520px;
 }
 
 .room-card:hover {
@@ -140,6 +140,8 @@
 .room-btns {
     display: flex;
     gap: 0.8rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
 }
 
 .room-btns a {
@@ -198,7 +200,7 @@
         gap: 20px;
     }
     .room-card {
-        max-width: 380px;
+        max-width: 480px;
     }
     .room-content h3 {
         font-size: 1.05rem;
@@ -213,7 +215,7 @@
         padding: 0 16px;
     }
     .room-card {
-        max-width: 420px;
+        max-width: 520px;
         width: 100%;
     }
     .room-img {
