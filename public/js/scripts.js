@@ -2540,3 +2540,47 @@ document.head.appendChild(calendarStyle);
 
     // Add smooth scroll behavior
     document.documentElement.style.scrollBehavior = 'smooth';
+
+    // Mobile video autoplay fix — use IntersectionObserver to play/pause
+    // Mobile browsers often block autoplay; triggering play() when visible works around this
+    (function initMobileVideoPlayback() {
+        var videos = document.querySelectorAll('video[autoplay]');
+        if (!videos.length) return;
+
+        // Ensure all autoplay videos have required mobile attributes
+        videos.forEach(function (video) {
+            video.setAttribute('playsinline', '');
+            video.setAttribute('muted', '');
+            video.muted = true;
+        });
+
+        if ('IntersectionObserver' in window) {
+            var videoObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    var video = entry.target;
+                    if (entry.isIntersecting) {
+                        video.play().catch(function () {});
+                    } else {
+                        video.pause();
+                    }
+                });
+            }, { threshold: 0.25 });
+
+            videos.forEach(function (video) {
+                videoObserver.observe(video);
+            });
+        }
+
+        // Also attempt play on first user interaction (tap/scroll) for stricter browsers
+        var firstInteraction = function () {
+            videos.forEach(function (video) {
+                if (video.paused) {
+                    video.play().catch(function () {});
+                }
+            });
+            document.removeEventListener('touchstart', firstInteraction);
+            document.removeEventListener('scroll', firstInteraction);
+        };
+        document.addEventListener('touchstart', firstInteraction, { once: true });
+        document.addEventListener('scroll', firstInteraction, { once: true });
+    })();

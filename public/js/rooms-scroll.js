@@ -14,6 +14,7 @@
   var svgNS = 'http://www.w3.org/2000/svg';
   var blindsSets = [];
   var master;
+  var progressST;
 
   /* Create blind rects inside a mask group */
   function createBlinds(groupId) {
@@ -89,8 +90,18 @@
 
   /* Blinds open animation */
   function openBlinds(blinds) {
+    var allRects = blinds.flatMap(function (b) { return [b.top, b.bottom]; });
+
+    // Set explicit starting state so scrub can always reverse cleanly
+    gsap.set(allRects, {
+      attr: {
+        y: function (i) { return blinds[Math.floor(i / 2)].y; },
+        height: 0
+      }
+    });
+
     return gsap.timeline().to(
-      blinds.flatMap(function (b) { return [b.top, b.bottom]; }),
+      allRects,
       {
         attr: {
           y: function (i) {
@@ -108,6 +119,9 @@
   }
 
   function textIn(el) {
+    // Set explicit starting state for reliable reverse
+    gsap.set(el, { clipPath: 'inset(100% 0 0 0)', y: 30 });
+
     return gsap.to(el, {
       clipPath: 'inset(0% 0% 0% 0%)', y: 0,
       duration: 1.5, ease: 'expo.out'
@@ -121,11 +135,20 @@
     });
   }
 
-  /* Build scrub timeline — matches reference exactly */
+  /* Build scrub timeline */
   function buildMasterTimeline() {
-    if (master) master.kill();
+    // Kill previous timeline and its ScrollTrigger cleanly
+    if (master) {
+      if (master.scrollTrigger) master.scrollTrigger.kill();
+      master.kill();
+    }
 
     var texts = gsap.utils.toArray('.rooms-txt');
+
+    // Reset text elements to initial hidden state
+    texts.forEach(function (el) {
+      gsap.set(el, { clipPath: 'inset(100% 0 0 0)', y: 30 });
+    });
 
     master = gsap.timeline({
       scrollTrigger: {
@@ -133,7 +156,6 @@
         start: 'top top',
         end: 'bottom bottom',
         scrub: 2.5,
-        anticipatePin: 1,
         invalidateOnRefresh: true
       }
     });
@@ -151,7 +173,8 @@
   /* Progress bar */
   function initProgressBar() {
     var progressFills = gsap.utils.toArray('.rooms-progress-fill');
-    ScrollTrigger.create({
+    if (progressST) progressST.kill();
+    progressST = ScrollTrigger.create({
       trigger: '.rooms-stage',
       start: 'top top',
       end: 'bottom bottom',
