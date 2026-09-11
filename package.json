@@ -6,19 +6,7 @@
     "scripts": {
         "start": "NODE_ENV=production node server.js",
         "dev": "NODE_ENV=development nodemon server.js",
-        "health": "node health-check.js",
-        "diagnose": "node diagnose-mongodb.js",
-        "setup": "node auto-setup.js && npm install && node health-check.js",
-        "deploy": "chmod +x deploy-production-complete.sh && ./deploy-production-complete.sh",
-        "deploy-quick": "npm run health && git add . && git commit -m 'Quick deploy' && git push heroku main",
-        "deploy-env": "chmod +x setup-heroku-env-production.sh && ./setup-heroku-env-production.sh",
-        "test-booking": "node test-booking-flow.js",
-        "test-quick": "node quick-test.js",
-        "validate": "node validate-config.js",
-        "generate-jwt": "node generate-jwt-secret.js",
-        "test-server": "node test-server.js",
-        "test-gemini": "node test-gemini-api.js",
-        "smart-start": "node smart-start.js"
+        "validate": "node validate-config.js"
     },
     "keywords": [
         "booking",

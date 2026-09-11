@@ -9,23 +9,12 @@ A beautiful, responsive booking website for Vila Falo mountain resort in Voskopo
 
 ## 🚀 Quick Start (3 Minutes)
 
-### Windows Users
 ```bash
-# Double-click or run in Command Prompt
-start.bat
-```
+# Install dependencies
+npm install
 
-### Mac/Linux Users
-```bash
-# Make executable and run
-chmod +x start.sh
-./start.sh
-```
-
-### Manual Start
-```bash
-# Install dependencies and run health check
-npm run setup
+# Copy the example env file and fill in your values
+cp .env.example .env
 
 # Start development server
 npm run dev
@@ -79,15 +68,9 @@ cd vila-falo
 # Extract and navigate to the folder
 ```
 
-### 2. Quick Setup
+### 2. Setup
 ```bash
-# Automated setup (recommended)
-npm run setup
-```
-
-### 3. Manual Setup
-```bash
-# Install dependencies  
+# Install dependencies
 npm install
 
 # Copy environment template
@@ -98,31 +81,20 @@ cp .env.example .env
 # - JWT_SECRET: Generate with: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 # - ADMIN_USERNAME & ADMIN_PASSWORD: Your admin credentials
 
-# Run health check
-npm run health
+# Optional: validate your configuration
+npm run validate
 
 # Start the application
 npm run dev  # Development mode
 npm start    # Production mode
 ```
 
-## 🌐 Deployment to Heroku
+## 🌐 Deployment
 
-### One-Click Deploy
-```bash
-npm run deploy
-```
-
-### Detailed Deployment
-See [HEROKU-DEPLOY.md](HEROKU-DEPLOY.md) for complete step-by-step instructions.
-
-**Quick Deploy Steps:**
-1. Create Heroku account
-2. Install Heroku CLI  
-3. Set environment variables
-4. Deploy with one command
-
-Your app will be live in minutes at: `https://your-app-name.herokuapp.com`
+This is a single Node/Express app that serves both the static site and the API from
+one process, so it only needs one host. Any Node-friendly host works (Render, Railway,
+Fly.io, etc.) — point it at this repo, set the environment variables from `.env.example`,
+and use `npm start` as the start command.
 
 ## 📱 Admin Panel Features
 
@@ -232,9 +204,7 @@ GET    /health               # Application health check
 ```bash
 npm start          # Production mode
 npm run dev        # Development with auto-restart
-npm run health     # Run health diagnostics
-npm run setup      # Install + health check
-npm run deploy     # Deploy to Heroku
+npm run validate   # Validate server configuration / env vars
 ```
 
 ### Project Structure
@@ -243,8 +213,6 @@ vila-falo/
 ├── 📄 server.js              # Main application server
 ├── 🔧 package.json           # Dependencies and scripts
 ├── ⚙️ .env.example           # Environment template
-├── 📋 health-check.js        # System diagnostics
-├── 🚀 start.sh/.bat          # Quick start scripts
 ├── 📁 public/                # Client-side files
 │   ├── 🏠 index.html         # Main booking website
 │   ├── 👨‍💼 admin-panel.html   # Admin dashboard
@@ -268,8 +236,8 @@ vila-falo/
 
 ### Application Won't Start
 ```bash
-# Run diagnostics
-npm run health
+# Check your configuration/env vars
+npm run validate
 
 # Common fixes:
 # 1. Check MongoDB connection string in .env
@@ -352,8 +320,8 @@ heroku logs --tail
 
 ### Getting Help
 - **📖 Documentation**: Check README and guides
-- **🔍 Health Check**: Run `npm run health`
-- **📋 Logs**: Check console and Heroku logs
+- **🔍 Config Check**: Run `npm run validate`
+- **📋 Logs**: Check your host's application logs
 - **💬 Issues**: Create GitHub issues for bugs
 
 ### Contributing
