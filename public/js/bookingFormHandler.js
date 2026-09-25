@@ -24,7 +24,11 @@ window.BookingFormHandler = {
 
     // Add event listeners for real-time price calculation
     form.addEventListener('change', this.handleFormChange.bind(this));
-    form.addEventListener('submit', this.handleFormSubmit.bind(this));
+
+    // NOTE: Form submission is owned by initBookingForm() in scripts.js.
+    // Do NOT also bind submit here — binding it in both files made every
+    // reservation POST to /api/booking twice (two DB records + two emails).
+    // form.addEventListener('submit', this.handleFormSubmit.bind(this));
 
     // Update price on initial load
     this.updatePrice();

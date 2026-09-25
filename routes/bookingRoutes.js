@@ -313,8 +313,9 @@ router.post('/', async (req, res) => {
     
     // Check availability
     console.log('🔍 Checking availability...');
+    const roomsBooked = parseInt(data.roomsBooked) || 1;
     const availability = await checkRoomAvailability(data.checkInDate, data.checkOutDate, data.roomType);
-    
+
     if (!availability.available) {
       console.log('❌ No rooms available');
       return res.status(400).json({
@@ -323,12 +324,21 @@ router.post('/', async (req, res) => {
         availableRooms: 0
       });
     }
-    
+
+    // Validate roomsBooked doesn't exceed available rooms
+    if (roomsBooked > availability.availableRooms) {
+      console.log(`❌ Requested ${roomsBooked} rooms but only ${availability.availableRooms} available`);
+      return res.status(400).json({
+        success: false,
+        message: `Only ${availability.availableRooms} ${roomConfig.name} room(s) available for these dates. You requested ${roomsBooked}.`,
+        availableRooms: availability.availableRooms
+      });
+    }
+
     console.log('✅ Room available');
-    
+
     // Calculate pricing
     const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-    const roomsBooked = parseInt(data.roomsBooked) || 1;
     const totalPrice = nights * roomConfig.price * roomsBooked;
     const depositAmount = Math.round(totalPrice * 0.5);
     const remainingAmount = totalPrice - depositAmount;

@@ -625,71 +625,49 @@ document.addEventListener('DOMContentLoaded', function() {
             if (validateBookingForm()) {
                 console.log('Form validation passed');
                 
-                // Show loading state
-                const submitBtn = bookingForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = currentLang === 'al' ? 'Duke dërguar...' : 'Submitting...';
-                submitBtn.disabled = true;
-                
-                try {
-                    // Collect form data and map to backend format
-                    const formData = new FormData(bookingForm);
-                    const adults = parseInt(formData.get('adults')) || 1;
-                    const children = parseInt(formData.get('children')) || 0;
+                // ---- Send the reservation request via WhatsApp (no backend needed) ----
+                const formData = new FormData(bookingForm);
+                const adults = parseInt(formData.get('adults')) || 1;
+                const children = parseInt(formData.get('children')) || 0;
+                const roomType = formData.get('roomType') || '';
+                const checkIn = formData.get('checkInDate') || '';
+                const checkOut = formData.get('checkOutDate') || '';
+                const guestName = formData.get('guestName') || '';
+                const email = formData.get('email') || '';
+                const phone = formData.get('phone') || '';
+                const requests = formData.get('specialRequests') || '';
+                const en = currentLang === 'en';
 
-                    const bookingData = {
-                        roomType: formData.get('roomType'),
-                        checkInDate: formData.get('checkInDate'),
-                        checkOutDate: formData.get('checkOutDate'),
-                        guestName: formData.get('guestName'),
-                        email: formData.get('email'),
-                        phone: formData.get('phone'),
-                        numberOfGuests: adults + children,
-                        adults: adults,
-                        children: children,
-                        specialRequests: formData.get('specialRequests') || '',
-                        addons: formData.getAll('addons') || [],
-                        language: currentLang === 'en' ? 'en' : 'al'
-                    };
-                    
-                    console.log('Sending booking data:', bookingData);
-                    
-                    // Send booking request
-                    const response = await fetch('/api/booking', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(bookingData)
-                    });
-                    
-                    const result = await response.json();
-                    console.log('Booking response:', result);
-                    
-                    if (response.ok && result.success) {
-                        // Success - show confirmation modal
-                        showBookingConfirmation(result.data);
-                        bookingForm.reset();
-                    } else {
-                        // Error - show error message
-                        const errorMessage = result.message || (currentLang === 'al' ? 
-                            'Ka ndodhur një gabim. Ju lutemi provoni përsëri.' : 
-                            'An error occurred. Please try again.');
-                        alert(errorMessage);
-                        console.error('Booking error:', result);
-                    }
-                    
-                } catch (error) {
-                    console.error('Network error:', error);
-                    const errorMessage = currentLang === 'al' ? 
-                        'Gabim në lidhje. Ju lutemi kontrolloni internetin dhe provoni përsëri.' : 
-                        'Connection error. Please check your internet and try again.';
-                    alert(errorMessage);
-                } finally {
-                    // Reset button state
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
+                const lines = [
+                    en ? 'Hello Vila Falo! I would like to book:' : 'Përshëndetje Vila Falo! Dua të bëj një rezervim:',
+                    (en ? 'Room: ' : 'Dhoma: ') + roomType,
+                    'Check-in: ' + checkIn,
+                    'Check-out: ' + checkOut,
+                    (en ? 'Guests: ' : 'Vizitorë: ') + adults + (en ? ' adults' : ' të rritur') + (children ? ', ' + children + (en ? ' children' : ' fëmijë') : ''),
+                    (en ? 'Name: ' : 'Emri: ') + guestName,
+                    'Email: ' + email,
+                    (en ? 'Phone: ' : 'Telefoni: ') + phone
+                ];
+                if (requests) lines.push((en ? 'Notes: ' : 'Kërkesa: ') + requests);
+
+                const waUrl = 'https://wa.me/355694481367?text=' + encodeURIComponent(lines.join('\n'));
+                // Open WhatsApp via a real anchor click — window.open() gets popup-blocked,
+                // an anchor click inside the user gesture does not.
+                const waLink = document.createElement('a');
+                waLink.href = waUrl;
+                waLink.target = '_blank';
+                waLink.rel = 'noopener';
+                document.body.appendChild(waLink);
+                waLink.click();
+                waLink.remove();
+
+                const submitBtn = bookingForm.querySelector('button[type="submit"]');
+                if (submitBtn) {
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = en ? 'Opening WhatsApp…' : 'Po hapet WhatsApp…';
+                    setTimeout(function () { submitBtn.textContent = originalText; }, 4000);
                 }
+                bookingForm.reset();
             } else {
                 console.log('Form validation failed');
             }
@@ -786,19 +764,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Date validation
-        const checkinInput = document.getElementById('checkIn');
-        const checkoutInput = document.getElementById('checkOut');
-        
-        if (checkinInput && checkoutInput) {
+        // NOTE: inputs are #checkInDate / #checkOutDate (previously looked up as
+        // #checkIn / #checkOut, which don't exist — so this whole block never ran).
+        const checkinInput = document.getElementById('checkInDate');
+        const checkoutInput = document.getElementById('checkOutDate');
+
+        if (checkinInput && checkoutInput && checkinInput.value && checkoutInput.value) {
             const checkinDate = new Date(checkinInput.value);
             const checkoutDate = new Date(checkoutInput.value);
             const today = new Date();
-            
-            if (checkinDate <= today) {
+            today.setHours(0, 0, 0, 0); // compare by day so same-day check-in is allowed
+
+            if (checkinDate < today) {
                 checkinInput.classList.add('error');
                 isValid = false;
             }
-            
+
             if (checkoutDate <= checkinDate) {
                 checkoutInput.classList.add('error');
                 isValid = false;
@@ -822,10 +803,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 var roomValue = roomNameToValue[roomName];
 
                 if (roomValue) {
-                    var roomSelect = document.getElementById('roomType');
-                    if (roomSelect) {
-                        roomSelect.value = roomValue;
-                        roomSelect.dispatchEvent(new Event('change'));
+                    // Room type is a set of radio buttons (name="roomType"), not a <select>.
+                    var roomRadio = document.querySelector('input[name="roomType"][value="' + roomValue + '"]');
+                    if (roomRadio) {
+                        roomRadio.checked = true;
+                        roomRadio.dispatchEvent(new Event('change', { bubbles: true }));
                     }
                 }
 
@@ -1320,10 +1302,10 @@ style.textContent = `
     }
     
     .header.scrolled {
-        background: rgba(0, 0, 0, 0.92);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        background: rgba(42, 109, 78, 0.94);
+        backdrop-filter: blur(12px) saturate(1.1);
+        -webkit-backdrop-filter: blur(12px) saturate(1.1);
+        box-shadow: 0 2px 24px rgba(20, 40, 30, 0.22);
     }
     
     .back-to-top.visible {
@@ -1586,8 +1568,12 @@ document.head.appendChild(calendarStyle);
             entries.forEach(function(entry) {
                 if (!entry.isIntersecting) {
                     bar.classList.add('visible');
+                    // record the bar's real height so floating buttons lift clear of it
+                    document.body.style.setProperty('--bar-h', bar.offsetHeight + 'px');
+                    document.body.classList.add('bar-visible');
                 } else {
                     bar.classList.remove('visible');
+                    document.body.classList.remove('bar-visible');
                 }
             });
         }, { threshold: 0 });
@@ -1599,6 +1585,7 @@ document.head.appendChild(calendarStyle);
                 entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
                         bar.classList.remove('visible');
+                        document.body.classList.remove('bar-visible');
                     }
                 });
             }, { threshold: 0.2 });

@@ -404,7 +404,7 @@
 
         .stats-card.card-standard::before { background: var(--dopio-color); }
         .stats-card.card-deluxe::before { background: var(--triple-color); }
-        .stats-card.card-suite::before { background: var(--suite-color); }
+        .stats-card.card-suite::before, .stats-card.card-premium::before { background: var(--suite-color); }
 
         .stats-title {
             font-size: var(--font-size-xs);
@@ -444,7 +444,7 @@
 
         .progress-dopio { background-color: var(--dopio-color); }
         .progress-triple { background-color: var(--triple-color); }
-        .progress-suite { background-color: var(--suite-color); }
+        .progress-suite, .progress-premium { background-color: var(--suite-color); }
 
         .stats-capacity {
             font-size: var(--font-size-xs);
@@ -501,7 +501,7 @@
             border-left-color: var(--triple-color);
         }
 
-        .room-card-suite {
+        .room-card-suite, .room-card-premium, .room-card-Premium {
             border-left-color: var(--suite-color);
         }
 
@@ -658,7 +658,7 @@
             border-left: 4px solid var(--triple-color);
         }
 
-        .border-suite {
+        .border-suite, .border-premium {
             border-left: 4px solid var(--suite-color);
         }
 
@@ -1130,11 +1130,11 @@
                 <div class="room-column">
                     <div class="stats-card card-standard">
                         <div class="stats-title">Standard</div>
-                        <div class="stats-value">0 <span class="stats-fraction">/ 5</span></div>
+                        <div class="stats-value">0 <span class="stats-fraction">/ 7</span></div>
                         <div class="progress-bar">
                             <div class="progress-value progress-dopio" style="width: 0%"></div>
                         </div>
-                        <div class="stats-capacity">2-3 persona/dhome</div>
+                        <div class="stats-capacity">1-2 persona/dhomë</div>
                     </div>
                     <div class="room-cards" id="standard-rooms">
                         <!-- Will be populated by JS -->
@@ -1149,24 +1149,24 @@
                         <div class="progress-bar">
                             <div class="progress-value progress-triple" style="width: 0%"></div>
                         </div>
-                        <div class="stats-capacity">3-4 persona/dhome</div>
+                        <div class="stats-capacity">1-4 persona/dhomë</div>
                     </div>
                     <div class="room-cards" id="deluxe-rooms">
                         <!-- Will be populated by JS -->
                     </div>
                 </div>
 
-                <!-- Suite Column -->
+                <!-- Premium Column -->
                 <div class="room-column">
-                    <div class="stats-card card-suite">
-                        <div class="stats-title">Suite</div>
-                        <div class="stats-value">0 <span class="stats-fraction">/ 3</span></div>
+                    <div class="stats-card card-premium">
+                        <div class="stats-title">Premium</div>
+                        <div class="stats-value">0 <span class="stats-fraction">/ 1</span></div>
                         <div class="progress-bar">
-                            <div class="progress-value progress-suite" style="width: 0%"></div>
+                            <div class="progress-value progress-premium" style="width: 0%"></div>
                         </div>
-                        <div class="stats-capacity">4-5 persona/dhome</div>
+                        <div class="stats-capacity">1-5 persona/dhomë</div>
                     </div>
-                    <div class="room-cards" id="suite-rooms">
+                    <div class="room-cards" id="premium-rooms">
                         <!-- Will be populated by JS -->
                     </div>
                 </div>
@@ -1225,9 +1225,9 @@
                         <label class="form-label" for="room-type">Lloji i Dhomës:</label>
                         <select class="form-control" id="room-type" required>
                             <option value="">Zgjidhni llojin e dhomës</option>
-                            <option value="Standard">Dhomë Standard</option>
-                            <option value="Deluxe">Dhomë Deluxe</option>
-                            <option value="Suite">Suite</option>
+                            <option value="Standard">Dhomë Standard (max 2)</option>
+                            <option value="Deluxe">Dhomë Deluxe (max 4)</option>
+                            <option value="Premium">Premium Panorama (max 5)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1238,6 +1238,7 @@
                             <option value="2">2 Persona</option>
                             <option value="3">3 Persona</option>
                             <option value="4">4 Persona</option>
+                            <option value="5">5 Persona</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1291,9 +1292,9 @@
     <script>
         // Room configuration for Vila Falo
         const roomData = {
-            'Standard': [1, 2, 3, 4, 5],
-            'Deluxe': [6, 7, 8, 9],
-            'Suite': [10, 11, 12]
+            'Standard': [1, 2, 3, 4, 5, 6, 7],
+            'Deluxe': [8, 9, 10, 11],
+            'Premium': [12]
         };
 
         // Global variables
@@ -1335,7 +1336,7 @@
         const viewContainers = document.querySelectorAll('.view-container');
         const standardRoomsContainer = document.getElementById('standard-rooms');
         const deluxeRoomsContainer = document.getElementById('deluxe-rooms');
-        const suiteRoomsContainer = document.getElementById('suite-rooms');
+        const premiumRoomsContainer = document.getElementById('premium-rooms');
         const dailyBookingsContainer = document.getElementById('daily-bookings');
         const upcomingBookingsContainer = document.getElementById('upcoming-bookings');
         const toastNotification = document.getElementById('toast-notification');
@@ -1518,7 +1519,7 @@
             const stats = {
                 'Standard': { booked: 0, total: roomData.Standard.length },
                 'Deluxe': { booked: 0, total: roomData.Deluxe.length },
-                'Suite': { booked: 0, total: roomData.Suite.length }
+                'Premium': { booked: 0, total: roomData.Premium.length }
             };
 
             let todayCheckIns = 0;
@@ -1563,7 +1564,7 @@
 
             // Update stats cards
             const statsCards = document.querySelectorAll('.stats-card');
-            const roomTypes = ['Standard', 'Deluxe', 'Suite'];
+            const roomTypes = ['Standard', 'Deluxe', 'Premium'];
 
             statsCards.forEach((card, index) => {
                 const roomType = roomTypes[index];
@@ -1580,11 +1581,11 @@
         function updateRoomListView() {
             const standardHTML = generateRoomCardsByType('Standard');
             const deluxeHTML = generateRoomCardsByType('Deluxe');
-            const suiteHTML = generateRoomCardsByType('Suite');
-            
+            const premiumHTML = generateRoomCardsByType('Premium');
+
             standardRoomsContainer.innerHTML = standardHTML;
             deluxeRoomsContainer.innerHTML = deluxeHTML;
-            suiteRoomsContainer.innerHTML = suiteHTML;
+            premiumRoomsContainer.innerHTML = premiumHTML;
             
             // Add event listeners to room cards
             document.querySelectorAll('.room-card').forEach(card => {
