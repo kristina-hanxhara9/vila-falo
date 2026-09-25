@@ -3,7 +3,13 @@ const router = express.Router();
 const ChatbotService = require('./chatbotService');
 const authenticate = require('../middleware/authenticate');
 
-const chatbotService = new ChatbotService();
+let chatbotService;
+try {
+    chatbotService = new ChatbotService();
+} catch (err) {
+    console.error('Failed to create ChatbotService:', err.message);
+    chatbotService = new ChatbotService(); // Won't throw anymore with graceful init
+}
 
 // Store conversation sessions in memory
 const conversationSessions = new Map();

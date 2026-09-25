@@ -237,24 +237,30 @@ class VilaFaloChatbot {
 
             if (data.success) {
                 this.sessionId = data.sessionId;
-                
+
                 // Remove typing indicator
                 this.hideTypingIndicator();
-                
+
                 // Add bot response
                 this.addMessage(data.message, 'bot', {
                     hasAvailabilityCheck: data.hasAvailabilityCheck,
                     availabilityData: data.availabilityData
                 });
             } else {
-                throw new Error(data.message || 'Ka ndodhur një gabim');
+                // Show the server's error message directly (it's already in Albanian)
+                this.hideTypingIndicator();
+                this.addMessage(
+                    data.message || 'Ka ndodhur një gabim. Ju lutem provoni përsëri.',
+                    'bot',
+                    { isError: true }
+                );
             }
 
         } catch (error) {
             console.error('Chatbot error:', error);
             this.hideTypingIndicator();
             this.addMessage(
-                'Na vjen keq, kam probleme teknike. Ju lutem provoni përsëri ose na kontaktoni në vilafalo@gmail.com',
+                'Nuk mund të lidhem me serverin. Ju lutem kontrolloni internetin ose na kontaktoni në +355 69 448 1367.',
                 'bot',
                 { isError: true }
             );
