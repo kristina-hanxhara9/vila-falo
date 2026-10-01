@@ -288,7 +288,7 @@
     <link rel="stylesheet" href="/css/price-summary.css?v=2.0">
     <link rel="stylesheet" href="/css/enhancements.css?v=2.0">
     <link rel="stylesheet" href="/css/rooms-enhanced.css?v=2.0">
-    <link rel="stylesheet" href="/css/design-fixes.css?v=2.4">
+    <link rel="stylesheet" href="/css/design-fixes.css?v=2.5">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -326,15 +326,14 @@
                     <li><a href="#home" class="nav-link active" data-en="Home" data-al="Kryefaqja" data-gr="Αρχική">Kryefaqja</a></li>
                     <li><a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat" data-gr="Δωμάτια">Dhomat</a></li>
                     <li><a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti" data-gr="Εστιατόριο">Restoranti</a></li>
+                    <li><a href="#honey" class="nav-link" data-en="Honey" data-al="Mjalti" data-gr="Μέλι">Mjalti</a></li>
                     <li><a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria" data-gr="Γκαλερί">Galeria</a></li>
                     <li><a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja" data-gr="Τοποθεσία">Vendndodhja</a></li>
                     <li><a href="#booking" class="nav-link nav-cta" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a></li>
                     <li class="nav-lang">
-                        <span class="language-option" data-lang="en">EN</span>
-                        <span class="nav-lang-sep">|</span>
-                        <span class="language-option" data-lang="gr">GR</span>
-                        <span class="nav-lang-sep">|</span>
-                        <span class="language-option active" data-lang="al">AL</span>
+                        <span class="language-option" data-lang="en" title="English"><img src="/images/flags/gb.svg" alt="English"></span>
+                        <span class="language-option" data-lang="gr" title="Ελληνικά"><img src="/images/flags/gr.svg" alt="Ελληνικά"></span>
+                        <span class="language-option active" data-lang="al" title="Shqip"><img src="/images/flags/al.svg" alt="Shqip"></span>
                     </li>
                 </ul>
             </nav>
@@ -350,16 +349,16 @@
             <a href="#home" class="nav-link" data-en="Home" data-al="Kryefaqja" data-gr="Αρχική">Kryefaqja</a>
             <a href="#rooms" class="nav-link" data-en="Rooms" data-al="Dhomat" data-gr="Δωμάτια">Dhomat</a>
             <a href="#restaurant" class="nav-link" data-en="Restaurant" data-al="Restoranti" data-gr="Εστιατόριο">Restoranti</a>
+            <a href="#honey" class="nav-link" data-en="Honey" data-al="Mjalti" data-gr="Μέλι">Mjalti</a>
             <a href="#gallery" class="nav-link" data-en="Gallery" data-al="Galeria" data-gr="Γκαλερί">Galeria</a>
             <a href="#location" class="nav-link" data-en="Location" data-al="Vendndodhja" data-gr="Τοποθεσία">Vendndodhja</a>
             <a href="#booking" class="nav-link nav-cta" data-en="Reserve" data-al="Rezervo" data-gr="Κράτηση">Rezervo</a>
             <!-- Language Toggle -->
             <div class="language-toggle">
-                <i class="fas fa-globe"></i>
                 <div class="language-options">
-                    <div class="language-option" data-lang="en">EN</div>
-                    <div class="language-option" data-lang="gr">GR</div>
-                    <div class="language-option active" data-lang="al">AL</div>
+                    <div class="language-option" data-lang="en" title="English"><img src="/images/flags/gb.svg" alt="English"></div>
+                    <div class="language-option" data-lang="gr" title="Ελληνικά"><img src="/images/flags/gr.svg" alt="Ελληνικά"></div>
+                    <div class="language-option active" data-lang="al" title="Shqip"><img src="/images/flags/al.svg" alt="Shqip"></div>
                 </div>
             </div>
         </div>
@@ -947,14 +946,14 @@
                             <label for="guestName" data-en="Full Name" data-al="Emri i Plotë" data-gr="Πλήρες όνομα">
                                 <i class="fas fa-user" style="margin-right: 8px; color: #2c5f2d;"></i>Full Name
                             </label>
-                            <input type="text" id="guestName" name="guestName" placeholder="Your name" required>
+                            <input type="text" id="guestName" name="guestName" placeholder="Emri juaj" data-placeholder-en="Your name" data-placeholder-al="Emri juaj" data-placeholder-gr="Το όνομά σας" required>
                             <div class="error-message" data-en="Please enter your name" data-al="Ju lutemi shkruani emrin tuaj" data-gr="Παρακαλώ εισάγετε το όνομά σας">Please enter your name</div>
                         </div>
                         <div class="form-group">
                             <label for="email" data-en="Email Address" data-al="Adresa e Emailit" data-gr="Διεύθυνση email">
                                 <i class="fas fa-envelope" style="margin-right: 8px; color: #2c5f2d;"></i>Email Address
                             </label>
-                            <input type="email" id="email" name="email" placeholder="Your email" required>
+                            <input type="email" id="email" name="email" placeholder="Email-i juaj" data-placeholder-en="Your email" data-placeholder-al="Email-i juaj" data-placeholder-gr="Το email σας" required>
                             <div class="error-message" data-en="Please enter a valid email address" data-al="Ju lutemi shkruani një adresë emaili të vlefshme" data-gr="Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email">Please enter a valid email address</div>
                         </div>
                         </div>
@@ -967,7 +966,7 @@
                             <label for="specialRequests" data-en="Special Requests (Optional)" data-al="Kërkesa të Veçanta (Opsionale)" data-gr="Ειδικά αιτήματα (προαιρετικό)">
                                 <i class="fas fa-sticky-note" style="margin-right: 8px; color: #2c5f2d;"></i>Special Requests (Optional)
                             </label>
-                            <textarea id="specialRequests" name="specialRequests" rows="2" placeholder="Any special requests?"></textarea>
+                            <textarea id="specialRequests" name="specialRequests" rows="2" placeholder="Ndonjë kërkesë e veçantë?" data-placeholder-en="Any special requests?" data-placeholder-al="Ndonjë kërkesë e veçantë?" data-placeholder-gr="Κάποιο ειδικό αίτημα;"></textarea>
                         </div>
 
 
@@ -1168,12 +1167,24 @@
         }
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
-    <script src="/js/scripts.js?v=2.8"></script>
+    <script src="/js/scripts.js?v=2.10"></script>
 
     <!-- Flatpickr Calendar Init (deferred to DOMContentLoaded) -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (typeof flatpickr === 'undefined') return;
+
+        // Date-picker placeholder follows the active language (al / gr / en)
+        function pickerLang() {
+            var a = document.querySelector('.language-option.active');
+            return (a && a.getAttribute('data-lang')) || 'al';
+        }
+        function pickerPH(short) {
+            var l = pickerLang();
+            if (l === 'en') return short ? 'Select' : 'Select date...';
+            if (l === 'gr') return short ? 'Επιλέξτε' : 'Επιλέξτε ημερομηνία...';
+            return short ? 'Zgjidh' : 'Zgjidh datën...';
+        }
 
         var fpConfig = {
             dateFormat: 'Y-m-d',
@@ -1186,7 +1197,7 @@
             theme: 'light',
             onReady: function(selectedDates, dateStr, instance) {
                 instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 14px 10px 38px;border:1.5px solid rgba(42,109,78,0.12);border-radius:10px;background:#fff;color:#333;font-family:inherit;cursor:pointer;';
-                instance.altInput.placeholder = 'Zgjidh datën...';
+                instance.altInput.placeholder = pickerPH(false);
             }
         };
 
@@ -1195,7 +1206,7 @@
             position: 'above',      // and open upward so it's visible
             onReady: function(selectedDates, dateStr, instance) {
                 instance.altInput.style.cssText = 'width:100%;box-sizing:border-box;min-height:44px;font-size:0.92rem;padding:10px 12px 10px 34px;border:1.5px solid rgba(42,109,78,0.2);border-radius:8px;background:#fff;color:#333;font-family:inherit;cursor:pointer;touch-action:manipulation;-webkit-appearance:none;';
-                instance.altInput.placeholder = 'Zgjidh';
+                instance.altInput.placeholder = pickerPH(true);
             }
         });
 
@@ -1235,6 +1246,18 @@
                 minDate: new Date(Date.now() + 86400000)
             }));
         }
+
+        // Keep the date-picker placeholders in sync when the language changes
+        document.querySelectorAll('.language-option').forEach(function(opt) {
+            opt.addEventListener('click', function() {
+                setTimeout(function() {
+                    if (checkIn && checkIn.altInput) checkIn.altInput.placeholder = pickerPH(false);
+                    if (checkOut && checkOut.altInput) checkOut.altInput.placeholder = pickerPH(false);
+                    if (barIn && barIn.altInput) barIn.altInput.placeholder = pickerPH(true);
+                    if (barOut && barOut.altInput) barOut.altInput.placeholder = pickerPH(true);
+                }, 30);
+            });
+        });
 
         // Helper: make icon + wrapper clickable for a flatpickr instance
         function makeWrapperClickable(inputEl, fpInstance, wrapperClass) {
@@ -1460,7 +1483,7 @@
     <!-- Centralized Booking Configuration and Handlers -->
     <script src="/config/rooms.js"></script>
     <script src="/js/priceCalculator.js"></script>
-    <script src="/js/bookingFormHandler.js"></script>
+    <script src="/js/bookingFormHandler.js?v=1.1"></script>
 
     <!-- Initialize booking form handler -->
     <script>

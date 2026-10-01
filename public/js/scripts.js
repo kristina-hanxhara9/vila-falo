@@ -636,34 +636,42 @@ document.addEventListener('DOMContentLoaded', function() {
                 const guestName = formData.get('guestName') || '';
                 const email = formData.get('email') || '';
                 const requests = formData.get('specialRequests') || '';
-                const en = currentLang === 'en';
+                // Read the language actually shown to the user (the active flag) so the
+                // message always matches the page — the currentLang global can lag behind.
+                var activeLangOpt = document.querySelector('.language-option.active');
+                var lang = (activeLangOpt && activeLangOpt.getAttribute('data-lang'))
+                    || (typeof currentLang !== 'undefined' && currentLang) || 'al';
+                var tr = function (al, gr, en) { return lang === 'en' ? en : (lang === 'gr' ? gr : al); };
 
                 // Use the real room names, not the internal values (Deluxe -> Suitë Familjare)
                 const roomNames = {
-                    Standard: en ? 'Standard Room' : 'Dhomë Standarte',
-                    Deluxe: en ? 'Family Suite' : 'Suitë Familjare',
-                    Premium: en ? 'Premium Suite' : 'Suitë Premium'
+                    Standard: tr('Dhomë Standarte', 'Στάνταρ Δωμάτιο', 'Standard Room'),
+                    Deluxe: tr('Suitë Familjare', 'Οικογενειακή Σουίτα', 'Family Suite'),
+                    Premium: tr('Suitë Premium', 'Σουίτα Premium', 'Premium Suite')
                 };
                 const roomName = roomNames[roomType] || roomType;
 
-                // Estimated total — matches the per-night prices shown on the room cards
+                // Prices — match the per-night prices shown on the room cards
                 const roomPrices = { Standard: 5000, Deluxe: 6000, Premium: 7000 };
                 const roomEur = { Standard: 46, Deluxe: 55, Premium: 65 };
+                const perNight = roomPrices[roomType] || 0;
+                const perNightEur = roomEur[roomType] || 0;
                 const nights = (checkIn && checkOut) ? Math.max(0, Math.round((new Date(checkOut) - new Date(checkIn)) / 86400000)) : 0;
-                const total = nights * (roomPrices[roomType] || 0);
-                const totalEur = nights * (roomEur[roomType] || 0);
+                const total = nights * perNight;
+                const totalEur = nights * perNightEur;
 
                 const lines = [
-                    en ? 'Hello Vila Falo! I would like to book:' : 'Përshëndetje Vila Falo! Dua të bëj një rezervim:',
-                    (en ? 'Room: ' : 'Dhoma: ') + roomName,
-                    'Check-in: ' + checkIn,
-                    'Check-out: ' + checkOut + (nights ? ' (' + nights + (en ? ' night(s))' : ' netë)') : ''),
-                    (en ? 'Guests: ' : 'Vizitorë: ') + adults + (en ? ' adults' : ' të rritur') + (children ? ', ' + children + (en ? ' children' : ' fëmijë') : ''),
-                    (en ? 'Name: ' : 'Emri: ') + guestName,
+                    tr('Përshëndetje Vila Falo! Dua të bëj një rezervim:', 'Γεια σας Vila Falo! Θα ήθελα να κάνω μια κράτηση:', 'Hello Vila Falo! I would like to book:'),
+                    tr('Dhoma: ', 'Δωμάτιο: ', 'Room: ') + roomName,
+                    tr('Mbërritja: ', 'Άφιξη: ', 'Check-in: ') + checkIn,
+                    tr('Largimi: ', 'Αναχώρηση: ', 'Check-out: ') + checkOut + (nights ? ' (' + nights + ' ' + tr('netë', 'διανυκτερεύσεις', 'night(s)') + ')' : ''),
+                    tr('Vizitorë: ', 'Επισκέπτες: ', 'Guests: ') + adults + tr(' të rritur', ' ενήλικες', ' adults') + (children ? ', ' + children + tr(' fëmijë', ' παιδιά', ' children') : ''),
+                    tr('Emri: ', 'Όνομα: ', 'Name: ') + guestName,
                     'Email: ' + email
                 ];
-                if (total > 0) lines.push((en ? 'Estimated total: ' : 'Totali i përafërt: ') + total.toLocaleString() + ' Lek (~€' + totalEur + ') — ' + (en ? 'pay on arrival' : 'paguhet në arritje'));
-                if (requests) lines.push((en ? 'Notes: ' : 'Kërkesa: ') + requests);
+                if (perNight > 0) lines.push(tr('Çmimi për natë: ', 'Τιμή ανά διανυκτέρευση: ', 'Price per night: ') + perNight.toLocaleString() + ' Lek (~€' + perNightEur + ')');
+                if (total > 0) lines.push(tr('Totali i përafërt: ', 'Εκτιμώμενο σύνολο: ', 'Estimated total: ') + total.toLocaleString() + ' Lek (~€' + totalEur + ') — ' + tr('paguhet në arritje', 'πληρώνεται κατά την άφιξη', 'pay on arrival'));
+                if (requests) lines.push(tr('Kërkesa: ', 'Σημειώσεις: ', 'Notes: ') + requests);
 
                 const waUrl = 'https://wa.me/355694481367?text=' + encodeURIComponent(lines.join('\n'));
                 // Open WhatsApp via a real anchor click — window.open() gets popup-blocked,
@@ -679,7 +687,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const submitBtn = bookingForm.querySelector('button[type="submit"]');
                 if (submitBtn) {
                     const originalText = submitBtn.textContent;
-                    submitBtn.textContent = en ? 'Opening WhatsApp…' : 'Po hapet WhatsApp…';
+                    submitBtn.textContent = tr('Po hapet WhatsApp…', 'Άνοιγμα WhatsApp…', 'Opening WhatsApp…');
                     setTimeout(function () { submitBtn.textContent = originalText; }, 4000);
                 }
                 bookingForm.reset();
@@ -751,39 +759,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateBookingForm() {
         const form = document.getElementById('bookingForm');
-        const en = (typeof currentLang !== 'undefined' && currentLang === 'en');
+        // Use the language actually shown (active flag), not the lagging currentLang global.
+        var activeOpt = document.querySelector('.language-option.active');
+        var lang = (activeOpt && activeOpt.getAttribute('data-lang'))
+            || (typeof currentLang !== 'undefined' && currentLang) || 'al';
+        var tr = function (al, gr, en) { return lang === 'en' ? en : (lang === 'gr' ? gr : al); };
         const errors = [];
 
         // Room type
         if (!form.querySelector('input[name="roomType"]:checked')) {
-            errors.push(en ? 'Choose a room type' : 'Zgjidhni llojin e dhomës');
+            errors.push(tr('Zgjidhni llojin e dhomës', 'Επιλέξτε τύπο δωματίου', 'Choose a room type'));
         }
         // Check-in / check-out (flatpickr-managed, so read the inputs' values)
         const ci = document.getElementById('checkInDate');
         const co = document.getElementById('checkOutDate');
         const ciVal = ci ? ci.value : '';
         const coVal = co ? co.value : '';
-        if (!ciVal) errors.push(en ? 'Pick a check-in date' : 'Vendosni datën e mbërritjes (check-in)');
-        if (!coVal) errors.push(en ? 'Pick a check-out date' : 'Vendosni datën e ikjes (check-out)');
+        if (!ciVal) errors.push(tr('Vendosni datën e mbërritjes (check-in)', 'Επιλέξτε ημερομηνία άφιξης (check-in)', 'Pick a check-in date'));
+        if (!coVal) errors.push(tr('Vendosni datën e ikjes (check-out)', 'Επιλέξτε ημερομηνία αναχώρησης (check-out)', 'Pick a check-out date'));
         if (ciVal && coVal) {
             const inD = new Date(ciVal), outD = new Date(coVal), today = new Date();
             today.setHours(0, 0, 0, 0);
-            if (inD < today) errors.push(en ? 'Check-in cannot be in the past' : 'Data e mbërritjes nuk mund të jetë në të kaluarën');
-            else if (outD <= inD) errors.push(en ? 'Check-out must be after check-in' : 'Data e ikjes duhet të jetë pas mbërritjes');
+            if (inD < today) errors.push(tr('Data e mbërritjes nuk mund të jetë në të kaluarën', 'Η ημερομηνία άφιξης δεν μπορεί να είναι στο παρελθόν', 'Check-in cannot be in the past'));
+            else if (outD <= inD) errors.push(tr('Data e ikjes duhet të jetë pas mbërritjes', 'Η αναχώρηση πρέπει να είναι μετά την άφιξη', 'Check-out must be after check-in'));
         }
         // Name
         const name = document.getElementById('guestName');
-        if (!name || !name.value.trim()) errors.push(en ? 'Enter your name' : 'Vendosni emrin tuaj');
+        if (!name || !name.value.trim()) errors.push(tr('Vendosni emrin tuaj', 'Εισάγετε το όνομά σας', 'Enter your name'));
         // Email
         const email = document.getElementById('email');
-        if (!email || !email.value.trim()) errors.push(en ? 'Enter your email' : 'Vendosni email-in tuaj');
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) errors.push(en ? 'Enter a valid email' : 'Vendosni një email të vlefshëm');
+        if (!email || !email.value.trim()) errors.push(tr('Vendosni email-in tuaj', 'Εισάγετε το email σας', 'Enter your email'));
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) errors.push(tr('Vendosni një email të vlefshëm', 'Εισάγετε έγκυρο email', 'Enter a valid email'));
 
-        showBookingErrors(errors, en);
+        showBookingErrors(errors, lang);
         return errors.length === 0;
     }
 
-    function showBookingErrors(errors, en) {
+    function showBookingErrors(errors, lang) {
         const form = document.getElementById('bookingForm');
         if (!form) return;
         let box = document.getElementById('bookingErrors');
@@ -798,7 +810,8 @@ document.addEventListener('DOMContentLoaded', function() {
             box.innerHTML = '';
             return;
         }
-        box.innerHTML = '<strong>' + (en ? 'Please complete:' : 'Ju lutemi plotësoni:') + '</strong><ul>' +
+        var heading = lang === 'en' ? 'Please complete:' : (lang === 'gr' ? 'Παρακαλώ συμπληρώστε:' : 'Ju lutemi plotësoni:');
+        box.innerHTML = '<strong>' + heading + '</strong><ul>' +
             errors.map(function (e) { return '<li>' + e + '</li>'; }).join('') + '</ul>';
         box.style.display = 'block';
         box.scrollIntoView({ behavior: 'smooth', block: 'center' });

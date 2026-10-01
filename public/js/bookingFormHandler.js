@@ -103,32 +103,37 @@ window.BookingFormHandler = {
       return;
     }
 
-    // Build price display HTML
-    const lang = document.documentElement.lang || localStorage.getItem('vilafalo-lang') || 'al';
+    // Build price display HTML.
+    // Read the ACTUAL active language from the switcher (en/gr/al). The site sets
+    // <html lang> to 'sq'/'el', so document.documentElement.lang must NOT be used
+    // here — it made the box always fall back to English.
+    const activeOpt = document.querySelector('.language-option.active');
+    const lang = (activeOpt && activeOpt.getAttribute('data-lang')) || 'al';
+    const t = function (al, gr, en) { return lang === 'en' ? en : (lang === 'gr' ? gr : al); };
     const html = `
       <div class="price-breakdown" style="padding: 15px; background: #f9f9f9; border-radius: 6px; margin-top: 15px; border-left: 4px solid #2c5f2d;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>${lang === 'al' ? 'Net:' : 'Nights:'}</span>
+          <span>${t('Netë:', 'Διανυκτερεύσεις:', 'Nights:')}</span>
           <strong>${pricing.nights}</strong>
         </div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-          <span>${lang === 'al' ? 'Çmimi për natë:' : 'Price per night:'}</span>
+          <span>${t('Çmimi për natë:', 'Τιμή ανά διανυκτέρευση:', 'Price per night:')}</span>
           <strong>${window.PriceCalculator.formatPrice(pricing.pricePerNight)}</strong>
         </div>
         ${pricing.numberOfRooms > 1 ? `
           <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span>${lang === 'al' ? 'Numri i dhomave:' : 'Number of rooms:'}</span>
+            <span>${t('Numri i dhomave:', 'Αριθμός δωματίων:', 'Number of rooms:')}</span>
             <strong>${pricing.numberOfRooms}</strong>
           </div>
         ` : ''}
         <hr style="margin: 10px 0; border: none; border-top: 1px solid #ddd;">
         <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-          <span style="font-weight: bold;">${lang === 'al' ? 'Totali:' : 'Total:'}</span>
+          <span style="font-weight: bold;">${t('Totali:', 'Σύνολο:', 'Total:')}</span>
           <strong style="font-size: 1.2em; color: #2c5f2d;">${window.PriceCalculator.formatPrice(pricing.totalPrice)}</strong>
         </div>
         <div style="text-align: center; font-size: 0.85em; color: #666; margin-top: 8px;">
           <i class="fas fa-info-circle" style="color: #2c5f2d; margin-right: 4px;"></i>
-          ${lang === 'al' ? 'Paguani në arritje — nuk kërkohet pagesë online.' : 'Pay at arrival — no online payment required.'}
+          ${t('Paguani në arritje — nuk kërkohet pagesë online.', 'Πληρωμή κατά την άφιξη — δεν απαιτείται online πληρωμή.', 'Pay at arrival — no online payment required.')}
         </div>
       </div>
     `;

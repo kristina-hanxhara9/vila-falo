@@ -673,3 +673,43 @@ span.flatpickr-weekday { color: var(--secondary, #d9a566) !important; background
     .honey-buy { gap: 14px; }
     .honey-buy .honey-cta-btn { width: 100%; justify-content: center; }
 }
+
+/* ---------------------------------------------------------------
+   15) LANGUAGE SWITCHER as flags (desktop nav + mobile menu).
+   Replaces the EN | GR | AL text with country flags.
+   --------------------------------------------------------------- */
+.nav-lang { gap: 10px !important; }
+.language-options { display: flex; align-items: center; gap: 10px; }
+.language-option {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 3px !important;
+    border-radius: 6px;
+    background: none !important;
+    border: none !important;
+    opacity: 0.5;
+    filter: saturate(0.85);
+    transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+.language-option img {
+    display: block;
+    width: 28px;
+    height: 20px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.language-option:hover { opacity: 0.9; transform: translateY(-1px); }
+.language-option.active {
+    opacity: 1;
+    filter: none;
+    box-shadow: 0 0 0 2px var(--secondary, #c9a227);
+}
+/* a touch bigger + easier to tap in the mobile menu */
+@media (max-width: 768px) {
+    .language-options { gap: 14px; }
+    .language-option { padding: 4px !important; }
+    .language-option img { width: 34px; height: 24px; }
+}
