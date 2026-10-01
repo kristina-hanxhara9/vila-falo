@@ -688,8 +688,8 @@ span.flatpickr-weekday { color: var(--secondary, #d9a566) !important; background
     border-radius: 6px;
     background: none !important;
     border: none !important;
-    opacity: 0.5;
-    filter: saturate(0.85);
+    opacity: 0.9;            /* all flags clearly visible; active stands out via the ring */
+    filter: none;
     transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
     cursor: pointer;
 }
@@ -699,17 +699,39 @@ span.flatpickr-weekday { color: var(--secondary, #d9a566) !important; background
     height: 20px;
     object-fit: cover;
     border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    /* thin outline so every flag is crisp on any background */
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
 }
-.language-option:hover { opacity: 0.9; transform: translateY(-1px); }
+.language-option:hover { opacity: 1; transform: translateY(-1px); }
 .language-option.active {
     opacity: 1;
-    filter: none;
     box-shadow: 0 0 0 2px var(--secondary, #c9a227);
 }
-/* a touch bigger + easier to tap in the mobile menu */
+/* bigger + easier to tap + always visible in the mobile menu */
 @media (max-width: 768px) {
-    .language-options { gap: 14px; }
-    .language-option { padding: 4px !important; }
-    .language-option img { width: 34px; height: 24px; }
+    .language-options { gap: 16px; }
+    .language-option { padding: 4px !important; opacity: 1; }
+    .language-option img { width: 36px; height: 26px; }
+}
+
+/* ---------------------------------------------------------------
+   16) Stop iOS from zooming ("the page comes forward") when a booking
+   field is tapped. Mobile Safari auto-zooms on focus of any input
+   whose font-size is < 16px. The visible date field is flatpickr's
+   altInput (a text input it inserts), so fixing #checkInDate/#checkOutDate
+   alone did nothing — they're hidden. Force every booking field to 16px.
+   --------------------------------------------------------------- */
+@media (max-width: 768px) {
+    #bookingForm input,
+    #bookingForm textarea,
+    #bookingForm select,
+    #bookingForm input.form-control,
+    #bookingForm input.flatpickr-input,
+    #bookingBar input,
+    #bookingBar input.form-control,
+    .booking-form input,
+    .booking-bar input,
+    .flatpickr-calendar input {
+        font-size: 16px !important;
+    }
 }

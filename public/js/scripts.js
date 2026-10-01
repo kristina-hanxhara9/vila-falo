@@ -642,6 +642,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 var lang = (activeLangOpt && activeLangOpt.getAttribute('data-lang'))
                     || (typeof currentLang !== 'undefined' && currentLang) || 'al';
                 var tr = function (al, gr, en) { return lang === 'en' ? en : (lang === 'gr' ? gr : al); };
+                // Dates in the message as day/month/year (not the raw YYYY-MM-DD)
+                var fmtDate = function (s) {
+                    if (!s) return s;
+                    var p = String(s).split('-');
+                    return p.length === 3 ? (p[2] + '/' + p[1] + '/' + p[0]) : s;
+                };
 
                 // Use the real room names, not the internal values (Deluxe -> Suitë Familjare)
                 const roomNames = {
@@ -663,8 +669,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const lines = [
                     tr('Përshëndetje Vila Falo! Dua të bëj një rezervim:', 'Γεια σας Vila Falo! Θα ήθελα να κάνω μια κράτηση:', 'Hello Vila Falo! I would like to book:'),
                     tr('Dhoma: ', 'Δωμάτιο: ', 'Room: ') + roomName,
-                    tr('Mbërritja: ', 'Άφιξη: ', 'Check-in: ') + checkIn,
-                    tr('Largimi: ', 'Αναχώρηση: ', 'Check-out: ') + checkOut + (nights ? ' (' + nights + ' ' + tr('netë', 'διανυκτερεύσεις', 'night(s)') + ')' : ''),
+                    tr('Mbërritja: ', 'Άφιξη: ', 'Check-in: ') + fmtDate(checkIn),
+                    tr('Largimi: ', 'Αναχώρηση: ', 'Check-out: ') + fmtDate(checkOut) + (nights ? ' (' + nights + ' ' + tr('netë', 'διανυκτερεύσεις', 'night(s)') + ')' : ''),
                     tr('Vizitorë: ', 'Επισκέπτες: ', 'Guests: ') + adults + tr(' të rritur', ' ενήλικες', ' adults') + (children ? ', ' + children + tr(' fëmijë', ' παιδιά', ' children') : ''),
                     tr('Emri: ', 'Όνομα: ', 'Name: ') + guestName,
                     'Email: ' + email
