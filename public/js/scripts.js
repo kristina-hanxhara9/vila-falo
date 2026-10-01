@@ -645,15 +645,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 const roomName = roomNames[roomType] || roomType;
 
+                // Estimated total — matches the per-night prices shown on the room cards
+                const roomPrices = { Standard: 5000, Deluxe: 6000, Premium: 7000 };
+                const roomEur = { Standard: 46, Deluxe: 55, Premium: 65 };
+                const nights = (checkIn && checkOut) ? Math.max(0, Math.round((new Date(checkOut) - new Date(checkIn)) / 86400000)) : 0;
+                const total = nights * (roomPrices[roomType] || 0);
+                const totalEur = nights * (roomEur[roomType] || 0);
+
                 const lines = [
                     en ? 'Hello Vila Falo! I would like to book:' : 'Përshëndetje Vila Falo! Dua të bëj një rezervim:',
                     (en ? 'Room: ' : 'Dhoma: ') + roomName,
                     'Check-in: ' + checkIn,
-                    'Check-out: ' + checkOut,
+                    'Check-out: ' + checkOut + (nights ? ' (' + nights + (en ? ' night(s))' : ' netë)') : ''),
                     (en ? 'Guests: ' : 'Vizitorë: ') + adults + (en ? ' adults' : ' të rritur') + (children ? ', ' + children + (en ? ' children' : ' fëmijë') : ''),
                     (en ? 'Name: ' : 'Emri: ') + guestName,
                     'Email: ' + email
                 ];
+                if (total > 0) lines.push((en ? 'Estimated total: ' : 'Totali i përafërt: ') + total.toLocaleString() + ' Lek (~€' + totalEur + ') — ' + (en ? 'pay on arrival' : 'paguhet në arritje'));
                 if (requests) lines.push((en ? 'Notes: ' : 'Kërkesa: ') + requests);
 
                 const waUrl = 'https://wa.me/355694481367?text=' + encodeURIComponent(lines.join('\n'));

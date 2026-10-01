@@ -288,7 +288,7 @@
     <link rel="stylesheet" href="/css/price-summary.css?v=2.0">
     <link rel="stylesheet" href="/css/enhancements.css?v=2.0">
     <link rel="stylesheet" href="/css/rooms-enhanced.css?v=2.0">
-    <link rel="stylesheet" href="/css/design-fixes.css?v=2.0">
+    <link rel="stylesheet" href="/css/design-fixes.css?v=2.1">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -923,6 +923,7 @@
                         </div>
                         <input type="hidden" id="roomsBooked" name="roomsBooked" value="1">
                         <input type="hidden" id="numberOfGuests" name="numberOfGuests" value="2">
+                        <div class="form-row">
                         <div class="form-group">
                             <label for="guestName" data-en="Full Name" data-al="Emri i Plotë" data-gr="Πλήρες όνομα">
                                 <i class="fas fa-user" style="margin-right: 8px; color: #2c5f2d;"></i>Full Name
@@ -936,6 +937,7 @@
                             </label>
                             <input type="email" id="email" name="email" placeholder="Your email" required>
                             <div class="error-message" data-en="Please enter a valid email address" data-al="Ju lutemi shkruani një adresë emaili të vlefshme" data-gr="Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email">Please enter a valid email address</div>
+                        </div>
                         </div>
                         <div class="form-group breakfast-included-note">
                             <input type="hidden" name="breakfastIncluded" value="on">
@@ -1152,7 +1154,7 @@
         }
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
-    <script src="/js/scripts.js?v=2.4"></script>
+    <script src="/js/scripts.js?v=2.5"></script>
 
     <!-- Flatpickr Calendar Init (deferred to DOMContentLoaded) -->
     <script>

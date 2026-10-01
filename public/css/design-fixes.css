@@ -489,3 +489,16 @@ span.flatpickr-weekday { color: var(--secondary, #d9a566) !important; background
 .flatpickr-day.inRange { background: rgba(217, 165, 102, 0.15) !important; box-shadow: none !important; }
 .flatpickr-day.today { border-color: var(--secondary, #d9a566) !important; }
 .flatpickr-day.today:hover { background: rgba(217, 165, 102, 0.22) !important; color: #1e2d32 !important; }
+
+/* ---------------------------------------------------------------
+   13) BOOKING form — wider (so it's shorter) on desktop.
+   Name + email now sit side by side (wrapped in .form-row), and the
+   form column takes ~2/3 of the width instead of half.
+   --------------------------------------------------------------- */
+@media (min-width: 993px) {
+    .booking-container { gap: 2.5rem; align-items: flex-start; }
+    .booking-info { flex: 1; }
+    .booking-form { flex: 2.2; }
+    /* keep the field rows tidy in the wider form */
+    .booking-form .form-row { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+}
