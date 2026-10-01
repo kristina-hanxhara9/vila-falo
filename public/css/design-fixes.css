@@ -237,6 +237,37 @@ body.bar-visible .whatsapp-float {
     .room-card-actions .btn-outline { font-size: 0.92rem; padding: 12px; }
 }
 
+/* Room carousel arrows — swipe AND tap. Hidden until the carousel is active (phones). */
+.rooms-nav-row { display: none; }
+@media (max-width: 640px) {
+    .rooms-nav-row {
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        margin-top: 18px;
+        padding: 0 20px;
+    }
+    .rooms-nav {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 1.5px solid #2a6d4e;
+        background: #fff;
+        color: #2a6d4e;
+        font-size: 1.7rem;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(30, 45, 50, 0.16);
+        transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .rooms-nav:hover { background: #2a6d4e; color: #fff; }
+    .rooms-nav:active { transform: scale(0.9); }
+}
+
 /* Booking validation box — prominent, on the dark form */
 #bookingErrors {
     display: none;
@@ -451,10 +482,12 @@ label[for="phone"]::after {
 .booking-form .room-radio-text strong { color: #fff; }
 .booking-form .room-radio-text span { color: var(--secondary, #d9a566); font-weight: 600; }
 .booking-form .room-radio-text small { color: rgba(255, 255, 255, 0.6); }
+/* the SELECTED room is highlighted in prominent GREEN (not gold) */
 .booking-form .room-radio-card input:checked + .room-radio-content {
-    border-color: var(--secondary, #d9a566) !important;
-    background: rgba(217, 165, 102, 0.26) !important;
-    box-shadow: 0 0 0 3px rgba(217, 165, 102, 0.30) !important;
+    border-color: #4caf72 !important;
+    background: rgba(76, 175, 114, 0.32) !important;
+    box-shadow: 0 0 0 3px rgba(76, 175, 114, 0.55), 0 6px 18px rgba(42, 109, 78, 0.35) !important;
+    transform: translateY(-2px);
 }
 
 /* steppers (adults / children) */

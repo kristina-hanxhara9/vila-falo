@@ -288,7 +288,7 @@
     <link rel="stylesheet" href="/css/price-summary.css?v=2.0">
     <link rel="stylesheet" href="/css/enhancements.css?v=2.0">
     <link rel="stylesheet" href="/css/rooms-enhanced.css?v=2.0">
-    <link rel="stylesheet" href="/css/design-fixes.css?v=2.2">
+    <link rel="stylesheet" href="/css/design-fixes.css?v=2.3">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -447,6 +447,7 @@
                 <p data-en="No noise. No city smoke. Just mountain air and a soft bed." data-al="Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë." data-gr="Χωρίς θόρυβο. Χωρίς καπνό πόλης. Μόνο αέρας βουνού και ένα απαλό κρεβάτι.">Pa zhurmë. Pa tym qyteti. Vetëm ajër mali dhe një krevat i butë.</p>
             </div>
         </div>
+        <div class="rooms-carousel">
         <div class="room-cards">
             <article class="room-card" data-aos="fade-up">
                 <div class="room-card-media">
@@ -506,6 +507,26 @@
                 </div>
             </article>
         </div>
+            <div class="rooms-nav-row">
+                <button type="button" class="rooms-nav rooms-nav-prev" aria-label="Previous room">&#8249;</button>
+                <button type="button" class="rooms-nav rooms-nav-next" aria-label="Next room">&#8250;</button>
+            </div>
+        </div>
+        <script>
+        (function(){
+            var cards = document.querySelector('#rooms .room-cards');
+            var prev = document.querySelector('#rooms .rooms-nav-prev');
+            var next = document.querySelector('#rooms .rooms-nav-next');
+            if (!cards || !prev || !next) return;
+            function step(dir){
+                var card = cards.querySelector('.room-card');
+                var amt = card ? card.getBoundingClientRect().width + 16 : cards.clientWidth * 0.86;
+                cards.scrollBy({ left: dir * amt, behavior: 'smooth' });
+            }
+            prev.addEventListener('click', function(){ step(-1); });
+            next.addEventListener('click', function(){ step(1); });
+        })();
+        </script>
     </section>
 
     <!-- Restaurant Section -->
@@ -1154,7 +1175,7 @@
         }
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
-    <script src="/js/scripts.js?v=2.6"></script>
+    <script src="/js/scripts.js?v=2.7"></script>
 
     <!-- Flatpickr Calendar Init (deferred to DOMContentLoaded) -->
     <script>

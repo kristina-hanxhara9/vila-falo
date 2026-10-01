@@ -827,7 +827,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 var bookingSection = document.getElementById('booking');
                 if (bookingSection) {
-                    bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // 'instant' forces an immediate jump even though the page CSS
+                    // sets scroll-behavior: smooth ('auto' would inherit that and animate).
+                    bookingSection.scrollIntoView({ behavior: 'instant', block: 'start' });
                 }
             });
         });
