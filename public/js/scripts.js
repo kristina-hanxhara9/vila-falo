@@ -634,7 +634,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const checkOut = formData.get('checkOutDate') || '';
                 const guestName = formData.get('guestName') || '';
                 const email = formData.get('email') || '';
-                const phone = formData.get('phone') || '';
                 const requests = formData.get('specialRequests') || '';
                 const en = currentLang === 'en';
 
@@ -653,8 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Check-out: ' + checkOut,
                     (en ? 'Guests: ' : 'Vizitorë: ') + adults + (en ? ' adults' : ' të rritur') + (children ? ', ' + children + (en ? ' children' : ' fëmijë') : ''),
                     (en ? 'Name: ' : 'Emri: ') + guestName,
-                    'Email: ' + email,
-                    (en ? 'Phone: ' : 'Telefoni: ') + phone
+                    'Email: ' + email
                 ];
                 if (requests) lines.push((en ? 'Notes: ' : 'Kërkesa: ') + requests);
 
@@ -792,6 +790,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 checkoutInput.classList.add('error');
                 isValid = false;
             }
+        }
+
+        // A room type MUST be selected (a radio's value is never empty, so the
+        // generic required-loop above can't catch an unselected group)
+        var roomSelected = form.querySelector('input[name="roomType"]:checked');
+        var roomGroup = form.querySelector('.room-type-radios');
+        var roomErr = roomGroup ? roomGroup.closest('.form-group').querySelector('.error-message') : null;
+        if (!roomSelected) {
+            if (roomErr) roomErr.style.display = 'block';
+            if (roomGroup) roomGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            isValid = false;
+        } else if (roomErr) {
+            roomErr.style.display = 'none';
         }
 
         return isValid;
