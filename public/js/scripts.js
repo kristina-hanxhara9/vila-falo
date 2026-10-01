@@ -750,70 +750,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function validateBookingForm() {
         const form = document.getElementById('bookingForm');
-        const inputs = form.querySelectorAll('input[required], select[required]');
-        let isValid = true;
+        const en = (typeof currentLang !== 'undefined' && currentLang === 'en');
+        const errors = [];
 
-        inputs.forEach(input => {
-            const errorMsg = input.parentNode.querySelector('.error-message');
-            if (!input.value.trim()) {
-                input.classList.add('error');
-                if (errorMsg) errorMsg.style.display = 'block';
-                isValid = false;
-            } else {
-                input.classList.remove('error');
-                if (errorMsg) errorMsg.style.display = 'none';
-            }
-        });
-
-        // Email validation
-        const emailInput = document.getElementById('email');
-        if (emailInput && emailInput.value) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(emailInput.value)) {
-                emailInput.classList.add('error');
-                const errorMsg = emailInput.parentNode.querySelector('.error-message');
-                if (errorMsg) errorMsg.style.display = 'block';
-                isValid = false;
-            }
+        // Room type
+        if (!form.querySelector('input[name="roomType"]:checked')) {
+            errors.push(en ? 'Choose a room type' : 'Zgjidhni llojin e dhomës');
         }
-
-        // Date validation
-        // NOTE: inputs are #checkInDate / #checkOutDate (previously looked up as
-        // #checkIn / #checkOut, which don't exist — so this whole block never ran).
-        const checkinInput = document.getElementById('checkInDate');
-        const checkoutInput = document.getElementById('checkOutDate');
-
-        if (checkinInput && checkoutInput && checkinInput.value && checkoutInput.value) {
-            const checkinDate = new Date(checkinInput.value);
-            const checkoutDate = new Date(checkoutInput.value);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0); // compare by day so same-day check-in is allowed
-
-            if (checkinDate < today) {
-                checkinInput.classList.add('error');
-                isValid = false;
-            }
-
-            if (checkoutDate <= checkinDate) {
-                checkoutInput.classList.add('error');
-                isValid = false;
-            }
+        // Check-in / check-out (flatpickr-managed, so read the inputs' values)
+        const ci = document.getElementById('checkInDate');
+        const co = document.getElementById('checkOutDate');
+        const ciVal = ci ? ci.value : '';
+        const coVal = co ? co.value : '';
+        if (!ciVal) errors.push(en ? 'Pick a check-in date' : 'Vendosni datën e mbërritjes (check-in)');
+        if (!coVal) errors.push(en ? 'Pick a check-out date' : 'Vendosni datën e ikjes (check-out)');
+        if (ciVal && coVal) {
+            const inD = new Date(ciVal), outD = new Date(coVal), today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (inD < today) errors.push(en ? 'Check-in cannot be in the past' : 'Data e mbërritjes nuk mund të jetë në të kaluarën');
+            else if (outD <= inD) errors.push(en ? 'Check-out must be after check-in' : 'Data e ikjes duhet të jetë pas mbërritjes');
         }
+        // Name
+        const name = document.getElementById('guestName');
+        if (!name || !name.value.trim()) errors.push(en ? 'Enter your name' : 'Vendosni emrin tuaj');
+        // Email
+        const email = document.getElementById('email');
+        if (!email || !email.value.trim()) errors.push(en ? 'Enter your email' : 'Vendosni email-in tuaj');
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) errors.push(en ? 'Enter a valid email' : 'Vendosni një email të vlefshëm');
 
-        // A room type MUST be selected (a radio's value is never empty, so the
-        // generic required-loop above can't catch an unselected group)
-        var roomSelected = form.querySelector('input[name="roomType"]:checked');
-        var roomGroup = form.querySelector('.room-type-radios');
-        var roomErr = roomGroup ? roomGroup.closest('.form-group').querySelector('.error-message') : null;
-        if (!roomSelected) {
-            if (roomErr) roomErr.style.display = 'block';
-            if (roomGroup) roomGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            isValid = false;
-        } else if (roomErr) {
-            roomErr.style.display = 'none';
+        showBookingErrors(errors, en);
+        return errors.length === 0;
+    }
+
+    function showBookingErrors(errors, en) {
+        const form = document.getElementById('bookingForm');
+        if (!form) return;
+        let box = document.getElementById('bookingErrors');
+        if (!box) {
+            box = document.createElement('div');
+            box.id = 'bookingErrors';
+            box.setAttribute('role', 'alert');
+            form.insertBefore(box, form.firstChild);
         }
-
-        return isValid;
+        if (!errors || !errors.length) {
+            box.style.display = 'none';
+            box.innerHTML = '';
+            return;
+        }
+        box.innerHTML = '<strong>' + (en ? 'Please complete:' : 'Ju lutemi plotësoni:') + '</strong><ul>' +
+            errors.map(function (e) { return '<li>' + e + '</li>'; }).join('') + '</ul>';
+        box.style.display = 'block';
+        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     function initRoomPreselection() {

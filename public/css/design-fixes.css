@@ -197,26 +197,61 @@ body.bar-visible .whatsapp-float {
 }
 .room-card-actions .btn:hover { background: #22583f; }
 
-/* Always keep 3 room cards on one line (desktop, tablet and phone) */
-.room-cards { grid-template-columns: repeat(3, 1fr) !important; }
-@media (max-width: 920px) {
-    .room-cards { gap: 14px; max-width: 100%; }
-    .rooms-section-v2 { padding: 56px 14px 68px; }
+/* Tablet: keep 3 across, a little tighter */
+@media (min-width: 641px) and (max-width: 920px) {
+    .room-cards { gap: 16px; max-width: 100%; }
+    .rooms-section-v2 { padding: 56px 16px 68px; }
 }
-/* compact the cards so 3 still fit on a phone */
-@media (max-width: 720px) {
-    .room-cards { gap: 8px; }
-    .room-card { border-radius: 14px; }
-    .room-card-body { padding: 12px 10px 14px; }
-    .room-card-body h3 { font-size: 0.92rem; margin-bottom: 10px; line-height: 1.2; }
-    .room-card-price { font-size: 0.62rem; padding: 4px 8px; top: 8px; right: 8px; }
-    .room-card-features { grid-template-columns: 1fr; gap: 6px; margin-bottom: 12px; }
-    .room-card-features li { font-size: 0.72rem; gap: 6px; }
-    .room-card-features i { font-size: 0.8rem; width: 14px; }
-    .room-card-actions { flex-direction: column; gap: 6px; }
+/* Phones: big, swipeable room cards — they are the star of the show.
+   One large card at a time, swipe sideways, the next one peeks to invite it. */
+@media (max-width: 640px) {
+    .rooms-section-v2 { padding: 48px 0 56px; }
+    .rooms-section-v2 .rooms-header { padding: 0 20px; margin-bottom: 1.6rem; }
+    .room-cards {
+        display: flex !important;
+        grid-template-columns: none !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        padding: 4px 20px 20px;
+        max-width: 100%;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .room-cards::-webkit-scrollbar { display: none; }
+    .room-card {
+        flex: 0 0 86%;
+        max-width: 370px;
+        scroll-snap-align: center;
+        border-radius: 18px;
+    }
+    .room-card-media { aspect-ratio: 16 / 11; }
+    .room-card-body { padding: 20px 20px 22px; }
+    .room-card-body h3 { font-size: 1.3rem; margin-bottom: 16px; line-height: 1.2; }
+    .room-card-price { font-size: 0.85rem; padding: 7px 14px; top: 12px; right: 12px; }
+    .room-card-features { grid-template-columns: 1fr 1fr; gap: 11px 14px; margin-bottom: 20px; }
+    .room-card-features li { font-size: 0.86rem; gap: 8px; }
+    .room-card-features i { font-size: 1rem; width: 18px; }
+    .room-card-actions { flex-direction: row; gap: 10px; }
     .room-card-actions .btn,
-    .room-card-actions .btn-outline { font-size: 0.74rem; padding: 8px 6px; border-radius: 8px; }
+    .room-card-actions .btn-outline { font-size: 0.92rem; padding: 12px; }
 }
+
+/* Booking validation box — prominent, on the dark form */
+#bookingErrors {
+    display: none;
+    background: rgba(192, 57, 43, 0.22);
+    border: 1px solid rgba(231, 76, 60, 0.65);
+    color: #ffe2dd;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 0 0 20px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+#bookingErrors strong { color: #fff; display: block; margin-bottom: 4px; }
+#bookingErrors ul { margin: 0; padding-left: 20px; list-style: disc; }
+#bookingErrors li { margin: 3px 0; }
 
 /* ---------------------------------------------------------------
    4) BOOKING — "why book direct" perks (replaced the calendar)
