@@ -638,9 +638,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const requests = formData.get('specialRequests') || '';
                 const en = currentLang === 'en';
 
+                // Use the real room names, not the internal values (Deluxe -> Suitë Familjare)
+                const roomNames = {
+                    Standard: en ? 'Standard Room' : 'Dhomë Standarte',
+                    Deluxe: en ? 'Family Suite' : 'Suitë Familjare',
+                    Premium: en ? 'Premium Suite' : 'Suitë Premium'
+                };
+                const roomName = roomNames[roomType] || roomType;
+
                 const lines = [
                     en ? 'Hello Vila Falo! I would like to book:' : 'Përshëndetje Vila Falo! Dua të bëj një rezervim:',
-                    (en ? 'Room: ' : 'Dhoma: ') + roomType,
+                    (en ? 'Room: ' : 'Dhoma: ') + roomName,
                     'Check-in: ' + checkIn,
                     'Check-out: ' + checkOut,
                     (en ? 'Guests: ' : 'Vizitorë: ') + adults + (en ? ' adults' : ' të rritur') + (children ? ', ' + children + (en ? ' children' : ' fëmijë') : ''),
@@ -824,7 +832,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Standard Mountain Room',
                 nameAl: 'Dhom\u00eb Standard Malore',
-                image: '/images/double-ai.png',
+                image: '/images/double-ai.jpg',
                 priceAll: '5,000',
                 priceEur: '~\u20ac46',
                 guestsEn: 'Up to 2 Guests',
@@ -838,7 +846,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Deluxe Family Suite',
                 nameAl: 'Suit\u00eb Familjare Deluxe',
-                image: '/images/family-ai-room.png',
+                image: '/images/family-ai-room.jpg',
                 priceAll: '6,000',
                 priceEur: '~\u20ac55',
                 guestsEn: 'Up to 4 Guests',
@@ -852,7 +860,7 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 nameEn: 'Premium Panorama Suite',
                 nameAl: 'Suit\u00eb Premium Panoramike',
-                image: '/images/double-bed-room-ai.jpg.png',
+                image: '/images/double-bed-room-ai.jpg',
                 priceAll: '7,000',
                 priceEur: '~\u20ac65',
                 guestsEn: 'Up to 5 Guests',
