@@ -288,7 +288,7 @@
     <link rel="stylesheet" href="/css/price-summary.css?v=2.0">
     <link rel="stylesheet" href="/css/enhancements.css?v=2.0">
     <link rel="stylesheet" href="/css/rooms-enhanced.css?v=2.0">
-    <link rel="stylesheet" href="/css/design-fixes.css?v=2.3">
+    <link rel="stylesheet" href="/css/design-fixes.css?v=2.4">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
@@ -507,10 +507,8 @@
                 </div>
             </article>
         </div>
-            <div class="rooms-nav-row">
-                <button type="button" class="rooms-nav rooms-nav-prev" aria-label="Previous room">&#8249;</button>
-                <button type="button" class="rooms-nav rooms-nav-next" aria-label="Next room">&#8250;</button>
-            </div>
+            <button type="button" class="rooms-nav rooms-nav-prev" aria-label="Previous room">&#8249;</button>
+            <button type="button" class="rooms-nav rooms-nav-next" aria-label="Next room">&#8250;</button>
         </div>
         <script>
         (function(){
@@ -985,7 +983,7 @@
         </div>
     </section>
 
-    <!-- Mountain Honey Section — Post-booking upsell -->
+    <!-- Our Honey Section — from our own bees -->
     <section id="honey" class="restaurant honey-video-section">
         <!-- Video Background -->
         <video class="honey-video-bg" autoplay muted loop playsinline>
@@ -993,40 +991,35 @@
         </video>
         <div class="honey-video-overlay"></div>
         <div class="container" style="position: relative; z-index: 2;">
-            <div class="section-title">
-                <span class="section-label" data-en="MOUNTAIN HONEY" data-al="MJALTI I MALIT" data-gr="ΜΕΛΙ ΒΟΥΝΟΥ">MJALTI I MALIT</span>
-                <h2 data-en="The honey you'll want to buy before you leave" data-al="Mjalti që do doni të blini para se të largoheni nga këtu" data-gr="Το μέλι που θα θέλετε να αγοράσετε πριν φύγετε">Mjalti që do doni të blini para se të largoheni nga këtu</h2>
-                <p data-en="Wildflower, 1000 metres altitude, no factory, no blending." data-al="Lule të egra, 1000 metra lartësi, pa fabrikë pa përzierje." data-gr="Αγριολούλουδο, 1000 μέτρα υψόμετρο, χωρίς εργοστάσιο, χωρίς ανάμειξη.">Lule të egra, 1000 metra lartësi, pa fabrikë pa përzierje.</p>
-            </div>
-            <div class="honey-content-layout">
-                <div class="honey-content-left">
-                    <div class="honey-facts">
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-mountain"></i>
-                            </div>
-                            <p data-en="200 hives at 1,000+ metres — wildflower meadows, zero pesticides." data-al="200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide." data-gr="200 κυψέλες σε 1.000+ μέτρα — λιβάδια με αγριολούλουδα, μηδενικά φυτοφάρμακα.">200 koshere në mbi 1,000 metra — livadhe me lule të egra, zero pesticide.</p>
-                        </div>
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-utensils"></i>
-                            </div>
-                            <p data-en="You'll taste it at breakfast. Most guests buy a jar before they leave." data-al="Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para se të largohen." data-gr="Θα το δοκιμάσετε στο πρωινό. Οι περισσότεροι επισκέπτες αγοράζουν ένα βάζο πριν φύγουν.">Do ta shijoni në mëngjes. Shumica e mysafirëve blejnë një kavanoz para se të largohen.</p>
-                        </div>
-                        <div class="honey-fact">
-                            <div class="honey-fact-icon">
-                                <i class="fas fa-hand-holding-heart"></i>
-                            </div>
-                            <p data-en="1 kg jar — €20. Some visitors come to the park and pull it from the hive themselves." data-al="Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja." data-gr="Βάζο 1 kg — €20. Μερικοί επισκέπτες έρχονται στο πάρκο και το τραβούν από την κυψέλη οι ίδιοι.">Kavanoz 1kg — €20. Disa vizitorë vijnë në park dhe e nxjerrin vetë nga kosherja.</p>
-                        </div>
+            <div class="honey-card">
+                <div class="honey-card-text">
+                    <span class="honey-eyebrow" data-en="OUR HONEY" data-al="MJALTI YNË" data-gr="ΤΟ ΜΕΛΙ ΜΑΣ">MJALTI YNË</span>
+                    <h2 class="honey-card-title" data-en="Honey from our own bees" data-al="Mjaltë nga bletët tona" data-gr="Μέλι από τις δικές μας μέλισσες">Mjaltë nga bletët tona</h2>
+                    <p class="honey-card-sub" data-en="Raw and unblended — straight from our 200 hives in the Voskopojë meadows." data-al="I papërzier, direkt nga 200 kosheret tona në livadhet e Voskopojës." data-gr="Ωμό και ανόθευτο — κατευθείαν από τις 200 κυψέλες μας στα λιβάδια της Βοσκοπόλης.">I papërzier, direkt nga 200 kosheret tona në livadhet e Voskopojës.</p>
+                    <ul class="honey-facts">
+                        <li class="honey-fact">
+                            <div class="honey-fact-icon"><i class="fas fa-mountain"></i></div>
+                            <p data-en="200 hives above 1,000 m — wildflower meadows, zero pesticides." data-al="200 koshere mbi 1,000 m — livadhe me lule të egra, zero pesticide." data-gr="200 κυψέλες πάνω από 1.000 μ — λιβάδια με αγριολούλουδα, μηδενικά φυτοφάρμακα.">200 koshere mbi 1,000 m — livadhe me lule të egra, zero pesticide.</p>
+                        </li>
+                        <li class="honey-fact">
+                            <div class="honey-fact-icon"><i class="fas fa-mug-hot"></i></div>
+                            <p data-en="Taste it at breakfast — most guests take a jar home." data-al="Shijojeni në mëngjes — shumica e mysafirëve marrin një kavanoz me vete." data-gr="Δοκιμάστε το στο πρωινό — οι περισσότεροι παίρνουν ένα βάζο στο σπίτι.">Shijojeni në mëngjes — shumica e mysafirëve marrin një kavanoz me vete.</p>
+                        </li>
+                        <li class="honey-fact">
+                            <div class="honey-fact-icon"><i class="fas fa-hand-holding-heart"></i></div>
+                            <p data-en="Visit the bee park and pull a jar straight from the hive." data-al="Vizitoni parkun e bletëve dhe merreni vetë nga kosherja." data-gr="Επισκεφθείτε το μελισσοκομείο και πάρτε το βάζο κατευθείαν από την κυψέλη.">Vizitoni parkun e bletëve dhe merreni vetë nga kosherja.</p>
+                        </li>
+                    </ul>
+                    <div class="honey-buy">
+                        <span class="honey-price" data-en="1 kg jar · €20" data-al="Kavanoz 1 kg · €20" data-gr="Βάζο 1 kg · €20">Kavanoz 1 kg · €20</span>
+                        <a href="https://wa.me/355694481367?text=P%C3%ABrsh%C3%ABndetje%2C%20d%C3%ABshiroj%20t%C3%AB%20porosis%201%20kavanoz%20mjalt%C3%AB%20bio%20%E2%80%94%201kg%20%2F%20%E2%82%AC20" class="btn honey-cta-btn" target="_blank" rel="noopener noreferrer">
+                            <i class="fab fa-whatsapp"></i>
+                            <span data-en="Order a jar" data-al="Porosit një kavanoz" data-gr="Παραγγείλτε ένα βάζο">Porosit një kavanoz</span>
+                        </a>
                     </div>
-                    <a href="https://wa.me/355694481367?text=P%C3%ABrsh%C3%ABndetje%2C%20d%C3%ABshiroj%20t%C3%AB%20porosis%201%20kavanoz%20mjalt%C3%AB%20bio%20%E2%80%94%201kg%20%2F%20%E2%82%AC20" class="btn honey-cta-btn" target="_blank" rel="noopener noreferrer">
-                        <i class="fab fa-whatsapp"></i>
-                        <span data-en="Order a jar" data-al="Porosit një kavanoz" data-gr="Παραγγείλτε ένα βάζο">Porosit një kavanoz</span>
-                    </a>
                 </div>
-                <div class="honey-content-right">
-                    <img src="/images/mjalte-bio.jpg" alt="Vila Falo Bio Honey" loading="lazy">
+                <div class="honey-card-media">
+                    <img src="/images/mjalte-bio.jpg" alt="Mjaltë Vila Falo" loading="lazy">
                 </div>
             </div>
         </div>
@@ -1175,7 +1168,7 @@
         }
     </script>
     <script src="https://unpkg.com/hover-effect@1.1.0/dist/hover-effect.umd.js"></script>
-    <script src="/js/scripts.js?v=2.7"></script>
+    <script src="/js/scripts.js?v=2.8"></script>
 
     <!-- Flatpickr Calendar Init (deferred to DOMContentLoaded) -->
     <script>

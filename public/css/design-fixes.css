@@ -237,35 +237,36 @@ body.bar-visible .whatsapp-float {
     .room-card-actions .btn-outline { font-size: 0.92rem; padding: 12px; }
 }
 
-/* Room carousel arrows — swipe AND tap. Hidden until the carousel is active (phones). */
-.rooms-nav-row { display: none; }
+/* Room carousel arrows — swipe AND tap. On the sides, over the photo. Phones only. */
+.rooms-carousel { position: relative; }
+.rooms-nav { display: none; }
 @media (max-width: 640px) {
-    .rooms-nav-row {
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        margin-top: 18px;
-        padding: 0 20px;
-    }
     .rooms-nav {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1.5px solid #2a6d4e;
-        background: #fff;
-        color: #2a6d4e;
-        font-size: 1.7rem;
-        line-height: 1;
         display: flex;
         align-items: center;
         justify-content: center;
+        position: absolute;
+        /* vertically centred on the card photo (media is 16/11 of the card width) */
+        top: calc(4px + min((100vw - 40px) * 0.86, 370px) * 11 / 32);
+        transform: translateY(-50%);
+        z-index: 6;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.94);
+        color: #2a6d4e;
+        font-size: 1.6rem;
+        line-height: 1;
+        padding: 0 0 3px;
         cursor: pointer;
-        box-shadow: 0 4px 14px rgba(30, 45, 50, 0.16);
-        transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+        box-shadow: 0 3px 12px rgba(20, 40, 30, 0.38);
+        transition: transform 0.15s ease, background 0.2s ease;
         -webkit-tap-highlight-color: transparent;
     }
-    .rooms-nav:hover { background: #2a6d4e; color: #fff; }
-    .rooms-nav:active { transform: scale(0.9); }
+    .rooms-nav-prev { left: 8px; }
+    .rooms-nav-next { right: 8px; }
+    .rooms-nav:active { transform: translateY(-50%) scale(0.88); background: #fff; }
 }
 
 /* Booking validation box — prominent, on the dark form */
@@ -569,4 +570,106 @@ span.flatpickr-weekday { color: var(--secondary, #d9a566) !important; background
     .booking-form { flex: 2.2; }
     /* keep the field rows tidy in the wider form */
     .booking-form .form-row { grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+}
+
+/* ---------------------------------------------------------------
+   14) OUR HONEY — recreated as a frosted-glass card over the video.
+   Renamed from "Mjalti i Malit" to "Mjalti ynë / from our bees".
+   --------------------------------------------------------------- */
+.honey-card {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    align-items: stretch;
+    max-width: 1060px;
+    margin: 0 auto;
+    background: rgba(28, 20, 10, 0.44);
+    border: 1px solid rgba(255, 210, 120, 0.30);
+    border-radius: 22px;
+    overflow: hidden;
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.honey-card-text {
+    padding: 46px 46px 42px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.honey-eyebrow {
+    display: block;
+    color: #ffcf7a;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+.honey-card-title {
+    color: #fff;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+    line-height: 1.12;
+    margin: 0 0 14px;
+}
+.honey-card-title::after { display: none; } /* kill the generic underline */
+.honey-card-sub {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 1.02rem;
+    line-height: 1.6;
+    margin: 0 0 26px;
+    max-width: 46ch;
+}
+.honey-card .honey-facts {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px;
+    gap: 16px;
+    width: 100%;
+}
+.honey-card .honey-fact { margin: 0; }
+.honey-card .honey-fact p { font-size: 1rem; }
+.honey-buy {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+.honey-price {
+    display: inline-flex;
+    align-items: center;
+    color: #3a2a0c;
+    background: linear-gradient(135deg, #ffd27a 0%, #f4b942 100%);
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 11px 20px;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(244, 185, 66, 0.35);
+    white-space: nowrap;
+}
+.honey-card-media {
+    position: relative;
+    min-height: 100%;
+}
+.honey-card-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+/* Stack on tablet/phone: photo on top, text below */
+@media (max-width: 860px) {
+    .honey-card { grid-template-columns: 1fr; max-width: 560px; }
+    .honey-card-media { order: -1; min-height: 240px; }
+    .honey-card-media img { position: relative; height: 240px; }
+    .honey-card-text { padding: 30px 24px 32px; }
+}
+@media (max-width: 480px) {
+    .honey-card-text { padding: 26px 20px 28px; }
+    .honey-buy { gap: 14px; }
+    .honey-buy .honey-cta-btn { width: 100%; justify-content: center; }
 }

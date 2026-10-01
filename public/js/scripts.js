@@ -147,8 +147,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const targetSection = document.querySelector(targetId);
                 
                 if (targetSection) {
+                    // Reserve/booking links jump instantly; other nav links scroll smoothly.
                     targetSection.scrollIntoView({
-                        behavior: 'smooth',
+                        behavior: targetId === '#booking' ? 'instant' : 'smooth',
                         block: 'start'
                     });
                 }
@@ -965,7 +966,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 roomSelect.dispatchEvent(new Event('change'));
             }
             closeRoomModal();
-            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('booking').scrollIntoView({ behavior: 'instant', block: 'start' });
         });
     }
 
@@ -1173,7 +1174,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (bookNowBtn) {
         bookNowBtn.addEventListener('click', function() {
             document.getElementById('booking').scrollIntoView({
-                behavior: 'smooth'
+                behavior: 'instant',
+                block: 'start'
             });
         });
     }
