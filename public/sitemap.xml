@@ -47,4 +47,28 @@
         <priority>0.8</priority>
     </url>
 
+    <!-- Destination page: Traditional food in Voskopojë -->
+    <url>
+        <loc>https://www.vilafalo.com/traditional-food-voskopoje.html</loc>
+        <lastmod>2026-10-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://www.vilafalo.com/images/lakror-ai.jpg</image:loc>
+            <image:title>Lakror and traditional Albanian food at Vila Falo, Voskopojë</image:title>
+        </image:image>
+    </url>
+
+    <!-- Destination page: Family hotel in Voskopojë -->
+    <url>
+        <loc>https://www.vilafalo.com/family-hotel-voskopoje.html</loc>
+        <lastmod>2026-10-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://www.vilafalo.com/images/family-ai-room.jpg</image:loc>
+            <image:title>Family suites at Vila Falo, Voskopojë</image:title>
+        </image:image>
+    </url>
+
 </urlset>
