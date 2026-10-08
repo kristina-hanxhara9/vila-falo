@@ -25,6 +25,47 @@ Crawl-delay: 0.5
 User-agent: Bingbot
 Crawl-delay: 1
 
+# AI assistants & answer engines — explicitly welcome (used for ChatGPT,
+# Perplexity, Claude, Google AI Overviews / Gemini, Bing Copilot, Apple).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 # Point search engines to sitemap
 Sitemap: https://www.vilafalo.com/sitemap.xml
 

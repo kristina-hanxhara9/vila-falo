@@ -49,6 +49,7 @@
     {
       "@context": "https://schema.org",
       "@type": "Hotel",
+      "@id": "https://www.vilafalo.com/#lodging",
       "name": "Vila Falo",
       "description": "Vila Falo is a spotlessly clean, family-run mountain guesthouse and traditional restaurant in Voskopojë, 21 km from Korçë in southeast Albania. Guests return again and again for the cleanliness (pastërti), the warm family hospitality (mikpritje) and the calm, welcoming atmosphere. It is genuinely family- and child-friendly: spacious family suites, a pleasant courtyard/garden (oborr) where children can play safely, and an elevator/lift (ashensor) so every floor is easy to reach for grandparents, young children and guests with luggage or a stroller. Rooms are clean and spacious with private bathrooms, heating and mountain views; every stay includes free private parking, free WiFi and a home-cooked breakfast with the family's own mountain honey. The kitchen serves authentic Albanian food — lakror, grilled lamb, local cheese and homemade raki. Set at 1,000+ metres among pine forests and mountain trails — green walks and cool, clean air in summer, snow in winter — near the historic 18th-century Orthodox churches of Voskopojë, with the owner's bee park of 200 hives to visit. Open year-round and easy to reach from Greece and North Macedonia; pay on arrival, no deposit, no online payment required. A clean, comfortable, welcoming choice for families, couples and longer mountain stays in Korçë and Voskopojë.",
       "url": "https://www.vilafalo.com",
@@ -93,6 +94,22 @@
         "name": "Room Booking",
         "priceCurrency": "ALL",
         "priceRange": "5000-7000"
+      },
+      "numberOfRooms": 12,
+      "availableLanguage": ["Albanian", "English", "Greek"],
+      "sameAs": [
+        "https://www.facebook.com/profile.php?id=100033020574680",
+        "https://www.instagram.com/vila_falo/",
+        "https://share.google/LfZzBzCEZTAxplZ9O"
+      ],
+      "potentialAction": {
+        "@type": "ReserveAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.vilafalo.com/#booking",
+          "actionPlatform": ["http://schema.org/DesktopWebPlatform", "http://schema.org/MobileWebPlatform"]
+        },
+        "result": {"@type": "LodgingReservation", "name": "Room reservation at Vila Falo"}
       }
     }
     </script>
@@ -155,11 +172,23 @@
     {
       "@context": "https://schema.org",
       "@type": "Restaurant",
+      "@id": "https://www.vilafalo.com/#restaurant",
       "name": "Vila Falo Restaurant",
       "image": "https://www.vilafalo.com/images/restaurant.jpg",
       "url": "https://www.vilafalo.com",
       "telephone": "+355-69-448-1367",
       "servesCuisine": "Traditional Albanian",
+      "hasMenu": "https://www.vilafalo.com/menu.html",
+      "acceptsReservations": "https://www.vilafalo.com/#booking",
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "08:00",
+          "closes": "23:00"
+        }
+      ],
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Voskopoje Village",
